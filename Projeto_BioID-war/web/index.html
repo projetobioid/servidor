@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<!--
+login
+-->
+<html  lang="pt-br">
+    
+    <head>
+        <meta charset="UTF-8"/>
+        
+        <title> ~~ Login BioID ~~</title>
+        <link rel="stylesheet" href="_css/estiloLogin.css"/>   
+        <script src="_scripts/teste.js"></script>
+         
+        <!--script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script-->
+        <script type="text/javascript" src="_scripts/jquery.js"></script>
+        
+        <!-- chamando script carregar pagina-->
+        <script type="text/javascript">
+            window.onload = function(){
+                //funcao tamanho da janela para carregar os componentes
+                tamanhoJanela();
+            };      
+                      
+        </script> 
+        
+    </head>
+    
+    <body>
+        <div id="interface">
+            <!-- cabecalho -->
+            <header id="cabecalho">
+                <figure>
+                    <img class="logo" src="_imagens/LogoMarca/logo-pcs.png" width="1076" height="571" alt="logo-pcs" />
+                </figure>
+            </header>
+
+            <!-- corpo -->
+            <article id="corpo">
+                
+                <form id="formulario" onkeypress="return rastrearEnter(event)">
+                    <fieldset id="campos"><legend><label for="tUsuario">LOGIN:</label></legend>
+                    <p><label for="tUsuario">Usuário:</label><br>
+                        <input  type="text" id="tUsuario" name="cUsuario" class="tField" />
+
+                    <p><label for="tSenha">Senha:</label><br>
+                        <input type="password" id="tSenha" name="cSenha" class="tField" />
+                        
+                        
+                        <br>
+
+                    <!--<input id="botao" type="button" value="Entrar" onClick="location.href='http://localhost:8080/Projeto_BioID-war/home.html'" />-->
+                    <input id="botao" type="button" value="Entrar" onClick="verificacao();" />
+                </fieldset>
+                </form>
+                
+                
+                
+            </article>
+        
+            <h3 onclick="suporte();">@suporte</h3>
+        
+            <h1>janela <span class="tamanhoJanela"></span></h1>
+        </div>
+    </body>
+</html>
+
+
+
+
+
