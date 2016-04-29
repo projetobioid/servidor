@@ -72,12 +72,19 @@ $(document).ready(function(){
 
 }
 
+//////////////////////////////////////////////////////////////////////////////////
+/////////////////////
+////////////////////
+////////////////////
+////////////////////
+//////////////
+//
+//
 //verifica o tamanho da janela
 function tamanhoJanela(){
     //variaveis recebendo o tamanho da janela
     var largura =  window.innerWidth;
     var altura = window.innerHeight;
-    
     //chama a funcao que carrega o tamanho da imagem
     carregaLogo(largura, altura);    
 }
@@ -85,31 +92,49 @@ function tamanhoJanela(){
 //verifica se tem mudancas no tamanho da janela
 window.addEventListener('resize', function(){
     //chama a funcao de verificacao do tamanho da janela
-    tamanhoJanela();    
+    tamanhoJanela();
 });
 
 //carega a imagem do tamanho especifico
 function carregaLogo(largura, altura){
     //atualiza o gradiente
     //$("div#interface").css("height", altura);
-    
     //testes para o carregamento da imagem de acordo com o tamanha da janela
     //tamanho smartPhones
-    if(altura < 500){
+    if(altura > 100 && altura < 250){
         $("img.logo").attr("src", "_imagens/LogoMarca/logo-pequena.png");
-        $("img.logo").attr("width","90");
-        $("img.logo").attr("height","87");
+        //$("img.logo").attr("width","90");
+        //$("img.logo").attr("height","87");
+        
+        
+        $("img.logo").attr("width",altura/2);
+        $("img.logo").attr("height",altura/2);
+    
+        
     //tamanho pcs
-    }else if(altura < 650){
+    }else if(altura > 250 && altura < 650){
         $("img.logo").attr("src", "_imagens/LogoMarca/logo-media.png");
-        $("img.logo").attr("width","247");
-        $("img.logo").attr("height","236");
+        //$("img.logo").attr("width","247");
+        //$("img.logo").attr("height","236");
+        
+        
+        $("img.logo").attr("width",altura/2);
+        $("img.logo").attr("height",altura/2);
     //tamanho telas grandes
-    }else{
+    }else if( altura > 650){
         $("img.logo").attr("src", "_imagens/LogoMarca/logo-grande.png");
-        $("img.logo").attr("width","400");
-        $("img.logo").attr("height","388");
+        //$("img.logo").attr("width","400");
+        //$("img.logo").attr("height","388");
+        if(altura < 800){
+            $("img.logo").attr("width",altura/2);
+            $("img.logo").attr("height",altura/2);
+        }else{
+            $("img.logo").attr("width","400");
+            $("img.logo").attr("height","400");
+        }
     }
       
     document.querySelector('.tamanhoJanela').innerHTML = largura + 'x' + altura;
+       
 }
+
