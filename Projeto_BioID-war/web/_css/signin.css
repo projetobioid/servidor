@@ -1,25 +1,30 @@
 body {
   padding-top: 40px;
   padding-bottom: 40px;
-  background-image:url("../_imagens/icone.png"); 
-  background-color: #b8d2b8;
-  background-repeat: repeat;
-  
+  background: linear-gradient(to bottom, transparent, rgba(0,0,0,.8));
 }
 
-#interface{
-    background-image: linear-gradient(to bottom, transparent, rgba(0,0,0,.8));
-    position: absolute;
-    height: 100%;
-    width: 100%;
-    
+html{
+   background-image:url("../_imagens/icone.png"); 
+  background-color: #b8d2b8;
+  background-repeat: repeat;   
+}
+#logo{
+    background: linear-gradient(to bottom, transparent, rgba(184,210,184,.9));
+    margin: 0;
+     padding: 20px;
+}
+#corpo{
+    background: linear-gradient(to top, transparent, rgba(184,210,184,.9));
+    margin: 0;
+    padding: 20px;
 }
 
 .form-signin {
   max-width: 330px;
   padding: 15px;
   margin: 0 auto;
-  background: linear-gradient(to bottom, transparent, rgba(0,0,0,.8));
+
 }
 .form-signin .form-signin-heading,
 .form-signin .checkbox {
@@ -27,6 +32,7 @@ body {
 }
 .form-signin .checkbox {
   font-weight: normal;
+  color: #fff;
 }
 .form-signin .form-control {
   position: relative;
