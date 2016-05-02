@@ -1,70 +1,52 @@
 <!DOCTYPE html>
-<!--
-login
--->
-<html  lang="pt-br">
-    
-    <head>
-        <meta charset="UTF-8"/>
-        
-        <title> ~~ Login BioID ~~</title>
-        <link rel="stylesheet" href="_css/estiloLogin.css"/>   
-        <!--script src="_scripts/teste.js"></script-->
-        <script src="_scripts/redimencionamento.js"></script>
-        
-        <script type="text/javascript" src="_scripts/jquery.js"></script>
-        
-        <!-- chamando script carregar pagina-->
-        <script type="text/javascript">
-            window.onload = function(){
-                //funcao tamanho da janela para carregar os componentes
-                tamanhoJanela();
-            };      
+<html lang="pt-br">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="daniel">
+    <link rel="icon" href="_imagens/favicon.ico">
+
+    <title>~~ Login ~~</title>
+
+    <link href="_css/bootstrap.min.css" rel="stylesheet">
+    <link href="_css/ie10-viewport-bug-workaround.css" rel="stylesheet">
+    <link href="_css/signin.css" rel="stylesheet">
+
+    <script src="_scripts/ie-emulation-modes-warning.js"></script>
+
+  </head>
+
+  <body>
       
-        </script> 
+      <div class="container"> 
+        <form class="form-signin">
+            <img src="_imagens/logo-grande.png" class="img-responsive" width="400" height="388" alt="logo-grande"/> 
 
-    </head>
-    
-    <body>
-        <div id="interface">
-            
-            <!-- cabecalho-->
-            <header id="cabecalho">
 
-                <img class="logo" src="_imagens/LogoMarca/logo-grande.png" width="400" height="400" alt="logo-pcs" />
-            
-            </header>
-
-           
-            <article id="corpo">
-                
-                <!--form id="formulario" onkeypress="return rastrearEnter(event)"-->
-                <form id="formulario">
-                    <fieldset id="campos"><legend><label for="tUsuario">LOGIN:</label></legend>
-                    <p><label for="tUsuario">Usuário:</label><br>
-                        <input  type="text" id="tUsuario" name="cUsuario" class="tField"/>
-
-                    <p><label for="tSenha">Senha:</label><br>
-                        <input type="password" id="tSenha" name="cSenha" class="tField" />
-                        
-                        
-                        <br>
-
-                   
-                    <input id="botao" type="button" value="Entrar" onClick="verificacao();" />
-                </fieldset>
-                </form>
-                
-                
-            </article>
+      
+        <h2 class="form-signin-heading text-center" >Login</h2>
         
-            <!--h3 onclick="suporte();">@suporte  --- janela <span class="tamanhoJanela"></span></h3-->
-            
+        <label for="usuario" class="sr-only">usuario</label>
+        <input type="text" name="usuario" class="form-control" placeholder="Digitar o usuário..." required autofocus>
+        
+        <label for="senha" class="sr-only">senha</label>
+        <input type="password" name="senha" class="form-control" placeholder="Digitar a senha..." required>
+        
+        <div class="checkbox">
+          <label>
+            <input type="checkbox" value="lembarMe"> Lembrar Senha
+          </label>
         </div>
-    </body>
+        <button class="btn btn-lg btn-warning btn-block" type="submit">Entrar</button>
+      </form>
+
+    </div> <!-- /container -->
+
+
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="_scripts/ie10-viewport-bug-workaround.js"></script>
+    
+  </body>
 </html>
-
-
-
-
-
