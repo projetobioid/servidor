@@ -9,9 +9,9 @@ login
         
         <title> ~~ Login BioID ~~</title>
         <link rel="stylesheet" href="_css/estiloLogin.css"/>   
-        <script src="_scripts/teste.js"></script>
-         
-        <!--script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script-->
+        <!--script src="_scripts/teste.js"></script-->
+        <script src="_scripts/redimencionamento.js"></script>
+        
         <script type="text/javascript" src="_scripts/jquery.js"></script>
         
         <!-- chamando script carregar pagina-->
@@ -27,20 +27,22 @@ login
     
     <body>
         <div id="interface">
-            <!-- cabecalho -->
+            
+            <!-- cabecalho-->
             <header id="cabecalho">
 
-                    <img class="logo" src="_imagens/LogoMarca/logo-pcs.png" width="1076" height="571" alt="logo-pcs" />
-
+                <img class="logo" src="_imagens/LogoMarca/logo-grande.png" width="400" height="400" alt="logo-pcs" />
+            
             </header>
 
            
-            <!--article id="corpo">
+            <article id="corpo">
                 
-                <form id="formulario" onkeypress="return rastrearEnter(event)">
+                <!--form id="formulario" onkeypress="return rastrearEnter(event)"-->
+                <form id="formulario">
                     <fieldset id="campos"><legend><label for="tUsuario">LOGIN:</label></legend>
                     <p><label for="tUsuario">Usuário:</label><br>
-                        <input  type="text" id="tUsuario" name="cUsuario" class="tField" />
+                        <input  type="text" id="tUsuario" name="cUsuario" class="tField"/>
 
                     <p><label for="tSenha">Senha:</label><br>
                         <input type="password" id="tSenha" name="cSenha" class="tField" />
@@ -54,12 +56,10 @@ login
                 </form>
                 
                 
-                
             </article>
         
-            <h3 onclick="suporte();">@suporte</h3-->
-        
-            <h1>janela <span class="tamanhoJanela"></span></h1>
+            <!--h3 onclick="suporte();">@suporte  --- janela <span class="tamanhoJanela"></span></h3-->
+            
         </div>
     </body>
 </html>

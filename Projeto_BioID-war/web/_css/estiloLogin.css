@@ -12,68 +12,78 @@ and open the template in the editor.
 
 
 
+/* reset de margens */
+* {
+    margin: 0;
+    padding:0;
 
-
-
-/*
-
-
-div#imagen {
-background-image: url(../_imagens/logo.png);
-background-size:100% 100%;
--webkit-background-size: 100% 100%;
--o-background-size: 100% 100%;
--khtml-background-size: 100% 100%;
--moz-background-size: 100% 100%;
-max-width: 600px;
-max-height: 300px;
-min-width: 200px;
-min-height: 188px;
 }
 
-header#cabecalho{
-    position: absolute;
-    background: linear-gradient(to bottom, transparent, rgba(184,210,184,.8));
-    
-    width: 50%;
-    height: 30%;
-}//////////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////////
-
-*/
-div#interface{ 
-    position: absolute;
-    background: linear-gradient(to bottom, transparent, rgba(0,0,0,.8));
-    height: 100%;
+/* para garantir que estes elementos ocuparão toda a tela */
+body, html {
     width: 100%;
-    margin: -10px;
-}
-
-body{
+    height: 100%;
     background-image:url("../_imagens/icone.png"); 
     background-color: #b8d2b8;
     background-repeat: repeat;
 }
 
 
-header#cabecalho{
+
+#interface {
+    width: 100px;
+    height: 100px;
+    background: linear-gradient(to bottom, transparent, rgba(0,0,0,.8));
+}
+
+ 
+
+#cabecalho{
     background: linear-gradient(to bottom, transparent, rgba(184,210,184,.8));
+    width: 80%;
+    margin: auto;
+    height: 50%;
+}
+
+
+.logo{
+    position: relative;
+    left: 0px;
+}
+
+
+
+#corpo{
+    background: linear-gradient(to top , transparent, rgba(184,210,184,.8));
+    
+    width: 80%;
+    height: 50%;
     margin: auto;
 }
-img.logo{
-    margin:auto;
+
+
+.tField {
+    border: 0px;
+    border-radius: 5px;
+    padding: 7px;
+    font-size: 16px;
+    margin-top: 10px;
 }
 
-
-
-article#corpo{
-    background: linear-gradient(to top, transparent, rgba(184,210,184,.8));
-    height: 400px;
-    width: 500px;
+#formulario{
+    width: 90%;
+    
+}
+/*
+fieldset#campos{
+    width: 400px;
     margin: auto;
-}
+    background: rgba(0,0,0,.5);
+    border-radius: 10px;
+    border-color: transparent;
+    color: #fff;
+}*/
+/*
 
 input#botao {
     padding: 10px 80px 10px 80px;
@@ -93,20 +103,9 @@ input#botao:hover{
     color: #fff;
 }
 
-form#formulario{
-    text-align: center;
-    font-size: 16px;
-    font-family: sans-serif;
-}
 
-fieldset#campos{
-    width: 400px;
-    margin: auto;
-    background: rgba(0,0,0,.5);
-    border-radius: 10px;
-    border-color: transparent;
-    color: #fff;
-}
+
+
 
 legend{
     padding-top: 20px;
@@ -123,11 +122,9 @@ input.tField:hover{
     background: #cccccc;
     
 }
-
-
+*/
 h3{
-    position: absolute;
-    margin-left: 30px;
+    
     font-family: Arial;
     font-size: 16px;
     font-style: italic;

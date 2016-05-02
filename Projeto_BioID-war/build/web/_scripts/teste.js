@@ -85,14 +85,8 @@ $(document).ready(function(){
 //////////////
 //
 //
-//verifica o tamanho da janela
-function tamanhoJanela(){
-    //variaveis recebendo o tamanho da janela
-    var largura =  window.innerWidth;
-    var altura = window.innerHeight;
-    //chama a funcao que carrega o tamanho da imagem
-    carregaLogo(largura, altura);    
-}
+
+
 
 //verifica se tem mudancas no tamanho da janela
 window.addEventListener('resize', function(){
@@ -100,8 +94,27 @@ window.addEventListener('resize', function(){
     tamanhoJanela();
 });
 
+//verifica o tamanho da janela
+function tamanhoJanela(){
+    //variaveis recebendo o tamanho da janela
+    var largura =  window.innerWidth;
+    var altura = window.innerHeight;
+    //chama a funcao que redimenciona o background 
+    redimencionaBackground(largura, altura);
+    //chama a funcao que carrega o tamanho da imagem
+    redimencionaLogo(largura, altura);    
+    //chama a funcao de redimenciona o header
+    
+}
+
+//redimenciona o background de acordo com o tamanho da janela
+ function redimencionaBackground(largura, altura){
+     $("div#interface").attr("width", largura);
+     $("div#interface").attr("height", altura);
+ }
+
 //carega a imagem do tamanho especifico
-function carregaLogo(largura, altura){
+function redimencionaLogo(largura, altura){
     
     //testes para o carregamento da imagem de acordo com o tamanha da janela
     //tamanho smartPhones
@@ -111,19 +124,16 @@ function carregaLogo(largura, altura){
             $("img.logo").attr("src", "_imagens/LogoMarca/logo-pequena.png");
             $("img.logo").attr("width",altura/2);
             $("img.logo").attr("height",altura/2);
-            redimencionarHeader(altura);
         }else{
             $("img.logo").attr("src", "_imagens/LogoMarca/logo-pequena.png");
             $("img.logo").attr("width",45);
             $("img.logo").attr("height",45);
-            redimencionarHeader(50);
         }
     //tamanho pcs
     }else if(altura > 250 && altura < 650){
         $("img.logo").attr("src", "_imagens/LogoMarca/logo-media.png");
         $("img.logo").attr("width",altura/2);
         $("img.logo").attr("height",altura/2);
-        redimencionarHeader(altura);
         
     //tamanho telas grandes
     }else if( altura > 650){
@@ -131,11 +141,9 @@ function carregaLogo(largura, altura){
         if(altura < 800){
             $("img.logo").attr("width",altura/2);
             $("img.logo").attr("height",altura/2);
-            redimencionarHeader(altura);
         }else{
             $("img.logo").attr("width","400");
             $("img.logo").attr("height","400");
-            redimencionarHeader(500);
         }
     }
       
@@ -144,7 +152,7 @@ function carregaLogo(largura, altura){
     
 }
 
-function redimencionarHeader( altura){
+function redimencionaHeader( altura){
 
 
     $("header#cabecalho").css("width", altura);
