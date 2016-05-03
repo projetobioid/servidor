@@ -119,5 +119,34 @@ public class DAOUsuarios extends DAOBase {
         return ja;
     }
 
+    @Override
+    public TOBase getLogin(Connection c, TOBase t) throws Exception {
+        //string com o comando sql para editar o banco de dados
+        String sql = "select id, usuario, senha, email from usuarios where usuario = ? and senha = ?";
+        
+        ResultSet rs = null;
+        
+        try{
+            //variavel sendo convertida para toUsuarios
+            TOUsuarios to = (TOUsuarios)t;
+            //variavel com lista dos parametros
+            List<Object> u = new ArrayList<Object>();
+            
+            u.add(to.getUsuario());
+            u.add(to.getSenha());
+            
+            rs = Data.executeQuery(c, sql, u);
+            
+            
+            if(rs.next()){
+                return new TOUsuarios(rs);
+            }else{
+                return null;
+            }
+        }finally{
+            rs.close();
+        }
+    }
+
     
 }

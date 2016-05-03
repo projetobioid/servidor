@@ -155,4 +155,37 @@ public class ServicosUsuarios {
         
     }
     
+    //login
+    @POST
+    @Path("login")
+    public String login(@FormParam("usuario") String usuario,
+                        @FormParam("senha") String senha) throws Exception{
+        
+        //objeto de retorno da requisicao
+        JSONObject j = new JSONObject();
+        try{
+            TOUsuarios to = new TOUsuarios();
+            to.setUsuario(usuario);
+            to.setSenha(senha);
+            
+            to = (TOUsuarios) BOFactory.getLogin(new DAOUsuarios(), to);
+            
+            if(to == null){
+                j.put("sucesso", false);
+                j.put("messangem", "Usuário não encontrado");
+            }else{
+                j.put("sucesso", true);
+                
+                j.put("usuario", to.getUsuario());
+                j.put("email", to.getEmail());
+                
+            }
+        }catch (Exception e){
+            j.put("sucesso", false);
+            j.put("messangem", e.getMessage());
+        }
+        
+        return j.toString();
+    }
+    
 }

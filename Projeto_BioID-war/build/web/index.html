@@ -15,39 +15,54 @@
         <link href="_css/signin.css" rel="stylesheet">
 
         <script src="_scripts/ie-emulation-modes-warning.js"></script>
-
+        <!--script de validacao-->
+        <script src="_scripts/validacao.js"></script>
+        <script src="_scripts/jquery.js"></script>
+        
+        
     </head>
 
     <body>
-      
         <div class="container"> 
-            <form class="form-signin">
+            <div id="cabecalho">
+                
+            </div>
+            <form class="form-signin" name="formulario" method="POST" onsubmit="return validacaoLogin(formulario);">
                 <div id="logo">
-                <img src="_imagens/logo-grande.png" class="img-responsive" width="400" height="388" alt="logo-grande"/> 
+                    <img src="_imagens/logo-grande.png" class="img-responsive" width="400" height="388" alt="logo-grande"/> 
                 </div>
                 <div id="corpo">
-                <h2 class="form-signin-heading text-center" >Login</h2>
+                    <h2 class="form-signin-heading text-center" >Login</h2>
+                    <label for="usuario" class="sr-only">usuario</label>
+                    <input type="text" name="usuario" class="form-control" placeholder="Digitar o usuário..." required autofocus>
+                    <br/>
+                    <label for="senha" class="sr-only">senha</label>
+                        <input type="password" name="senha" class="form-control" placeholder="Digitar a senha..." required>
 
-                <label for="usuario" class="sr-only">usuario</label>
-                <input type="text" name="usuario" class="form-control" placeholder="Digitar o usuário..." required autofocus>
-                <br/>
-                <label for="senha" class="sr-only">senha</label>
-                <input type="password" name="senha" class="form-control" placeholder="Digitar a senha..." required>
-
-                <div class="checkbox">
-                    <label>
-                        <input type="checkbox" value="lembarMe"> Lembrar Senha
-                    </label>
-                </div>
-                <button class="btn btn-lg btn-warning btn-block" type="submit">Entrar</button>
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" value="lembarMe"> Lembrar Senha
+                            </label>
+                        </div>
+                        <button class="btn btn-lg btn-warning btn-block" type="submit">Entrar</button>
+                    
                 </div>
             </form>
+        
+            
+            <div>
+                <!--a href="http://www.fundetec.org.br/" target="_blank"><img class="linkSite" src="_imagens/logo.png" width="60" height="50" alt="logo"/></a-->
+                <img onclick="suporte();" id="suporte" src="_imagens/suporte_tecnico.png" width="80" height="50" alt="settings"/>
+                <!--a href="https://www.embrapa.br/" target="_blank"><img class="linkSite" src="_imagens/layout_set_logo.png" width="80" height="50" alt="layout_set_logo"/></a-->
+                
 
+            </div> 
+            
         </div> <!-- /container -->
 
 
         <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
         <script src="_scripts/ie10-viewport-bug-workaround.js"></script>
-    
+
     </body>
 </html>

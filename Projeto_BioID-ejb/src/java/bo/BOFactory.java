@@ -72,5 +72,17 @@ public class BOFactory {
             c.close();
         }
     }
+       
+    public static TOBase getLogin(DAOBase d, TOBase t) throws Exception{
+        Connection c = null;
+        
+        try{
+            c =  Data.openConnection();
+            
+            return d.getLogin(c, t);
+        }finally{
+            c.close();
+        }
+    }
     
 }

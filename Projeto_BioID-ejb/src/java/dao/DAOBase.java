@@ -29,4 +29,8 @@ public class DAOBase {
     public JSONArray listar(Connection c) throws  Exception {
         return null;
     }
+    
+    public TOBase getLogin(Connection c, TOBase t) throws  Exception{
+        return null;
+    }
 }
