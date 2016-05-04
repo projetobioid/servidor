@@ -14,12 +14,7 @@
         <link href="_css/ie10-viewport-bug-workaround.css" rel="stylesheet">
         <link href="_css/signin.css" rel="stylesheet">
 
-        <script src="_scripts/ie-emulation-modes-warning.js"></script>
-        <!--script de validacao-->
-        <script src="_scripts/validacao.js"></script>
-        <script src="_scripts/jquery.js"></script>
-        
-        
+
     </head>
 
     <body>
@@ -27,24 +22,24 @@
             <div id="cabecalho">
                 
             </div>
-            <form class="form-signin" name="formulario" method="POST" onsubmit="return validacaoLogin(formulario);">
+            <form class="form-signin" name="formulario" method="POST">
                 <div id="logo">
                     <img src="_imagens/logo-grande.png" class="img-responsive" width="400" height="388" alt="logo-grande"/> 
                 </div>
                 <div id="corpo">
                     <h2 class="form-signin-heading text-center" >Login</h2>
                     <label for="usuario" class="sr-only">usuario</label>
-                    <input type="text" name="usuario" class="form-control" placeholder="Digitar o usuário..." required autofocus>
+                    <input type="text" id="usuario" name="usuario" class="form-control" placeholder="Digitar o usuário..." required autofocus>
                     <br/>
                     <label for="senha" class="sr-only">senha</label>
-                        <input type="password" name="senha" class="form-control" placeholder="Digitar a senha..." required>
+                    <input type="password" id="senha" name="senha" class="form-control" placeholder="Digitar a senha..." required>
 
-                        <div class="checkbox">
-                            <label>
-                                <input type="checkbox" value="lembarMe"> Lembrar Senha
-                            </label>
-                        </div>
-                        <button class="btn btn-lg btn-warning btn-block" type="submit">Entrar</button>
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" value="lembarMe"> Lembrar Senha
+                        </label>
+                    </div>
+                    <button type="button" id="botaoLogin" class="btn btn-lg btn-warning btn-block">Entrar</button>
                     
                 </div>
             </form>
@@ -63,6 +58,9 @@
 
         <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
         <script src="_scripts/ie10-viewport-bug-workaround.js"></script>
+        <script src="_scripts/ie-emulation-modes-warning.js"></script>
+        <script src="_scripts/jquery.js"></script>
+        <script src="_scripts/validacao.js"></script>
 
     </body>
 </html>
