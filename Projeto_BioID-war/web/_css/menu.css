@@ -8,22 +8,11 @@ and open the template in the editor.
     Author     : daniel
 */
 
-header{
-    background: rgba(0,0,0,0.4);
-}
 
 body{
-    background: #b8d2b8;
+    padding-top: 120px; 
 }
 
-figure {
-    width: 230px;
-    height: 230px;
-    background: #b8d2b8;
-    border-radius: 50%;
-}
-
-img{
-    margin-top: 15px;
-    margin-left: 15px;
+.navbar-fixed-top{
+    padding-top: 30px;
 }
