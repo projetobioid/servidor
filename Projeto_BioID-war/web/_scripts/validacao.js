@@ -56,14 +56,14 @@ function validacaoLogin(){
 }
 
 
-$("#botaoLogin").click(function(){
-    validacaoLogin();
-});
-
 $("input").keypress(function(e){
-    if(e.which === 13){
+    if(e.which === 13 && $("#usuario").val()!== "" && $("#senha").val()!== ""){
         validacaoLogin();
     }
 });
 
 
+$("#formulario").submit(function() {
+  validacaoLogin();
+  return false;
+});

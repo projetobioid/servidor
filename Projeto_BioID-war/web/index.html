@@ -13,6 +13,8 @@
         <link href="_css/bootstrap.min.css" rel="stylesheet">
         <link href="_css/ie10-viewport-bug-workaround.css" rel="stylesheet">
         <link href="_css/signin.css" rel="stylesheet">
+        
+        <script src="_scripts/ie-emulation-modes-warning.js"></script>
 
 
     </head>
@@ -22,7 +24,7 @@
             <div id="cabecalho">
                 
             </div>
-            <form class="form-signin">
+            <form class="form-signin" method="POST" id="formulario">
                 <div id="logo">
                     <img src="_imagens/logo-grande.png" class="img-responsive" width="400" height="388" alt="logo-grande"/> 
                 </div>
@@ -39,7 +41,8 @@
                             <input type="checkbox" value="lembarMe"> Lembrar Senha
                         </label>
                     </div>
-                    <button type="button" id="botaoLogin" class="btn btn-lg btn-warning btn-block">Entrar</button>
+                    <button type="submit" id="botaoLogin" class="btn btn-lg btn-warning btn-block">Entrar</button>
+
                     
                 </div>
             </form>
@@ -58,9 +61,10 @@
 
         <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
         <script src="_scripts/ie10-viewport-bug-workaround.js"></script>
-        <script src="_scripts/ie-emulation-modes-warning.js"></script>
         <script src="_scripts/jquery.js"></script>
         <script src="_scripts/validacao.js"></script>
 
+
+        
     </body>
 </html>
