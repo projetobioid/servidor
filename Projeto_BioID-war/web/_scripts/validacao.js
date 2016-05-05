@@ -14,9 +14,10 @@ function validacaoLogin(){
         if(dados.sucesso){
             $("#msgLogado").show();
             //abrir home
-            $("html").animate({ opacity: 0, backgroundColor: '#000' }, function() {
+            $("html").fadeOut("show",function(){
                 window.location = "home.html";
             });
+            
         //informa se o usuario ou senha esta incorreta
         }else{
             $("#erroLogin").show();
