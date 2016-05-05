@@ -13,6 +13,7 @@
         <link href="_css/bootstrap.min.css" rel="stylesheet">
         <link href="_css/ie10-viewport-bug-workaround.css" rel="stylesheet">
         <link href="_css/signin.css" rel="stylesheet">
+        <link href="_css/sticky-footer-navbar.css" rel="stylesheet">
         
         <script src="_scripts/ie-emulation-modes-warning.js"></script>
 
@@ -28,7 +29,10 @@
                     <img src="_imagens/logo-grande.png" class="img-responsive" width="400" height="388" alt="logo-grande" id="logo"/> 
                 <!--/div>
                 <div id="corpo"-->
-                    <h2 class="form-signin-heading text-center" >Login</h2>
+                    <!--h2 class="form-signin-heading text-center" >Login</h2-->
+                    <br><br><br>
+                <fieldset class="scheduler-border">
+                <legend class="scheduler-border">Login: </legend>
                     <label for="usuario" class="sr-only">usuario</label>
                     <input type="text" id="usuario" name="usuario" class="form-control" placeholder="Digitar o usuário..." required autofocus>
                     <br/>
@@ -41,7 +45,7 @@
                         </label>
                     </div>
                     <button type="submit" id="botaoLogin" class="btn btn-lg btn-warning btn-block">Entrar</button>
-
+                </fieldset>
                     
                 </div>
             </form>

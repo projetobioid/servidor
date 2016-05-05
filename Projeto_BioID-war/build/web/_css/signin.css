@@ -14,14 +14,14 @@ body {
 
 
 #corpo{
-    background: linear-gradient(to bottom, transparent, rgba(184,210,184,.9));
+    background: rgba(255,255,255,.7);
     margin: 0;
     padding: 20px;
     border-radius: 10px;
 }
 
 #logo{
-    padding-top: 100px;
+    padding-top: 50px;
 }
 
 .form-signin {
@@ -36,7 +36,7 @@ body {
 }
 .form-signin .checkbox {
   font-weight: normal;
-  color: #fff;
+  color: #000;
 }
 .form-signin .form-control {
   position: relative;
@@ -61,12 +61,18 @@ body {
   border-top-right-radius: 0;
 }
 
-
-#suporte{
-    background: rgba(218,165,32,.9);
-    border-radius: 10px;
+fieldset.scheduler-border {
+    border: 1px groove #000 !important;
+    padding: 0 1.4em 1.4em 1.4em !important;
+    margin: 0 0 1.5em 0 !important;
+    -webkit-box-shadow:  0px 0px 0px 0px #000;
+            box-shadow:  0px 0px 0px 0px #000;
+    border-radius: 5px;
 }
 
-#suporte:hover{
-    background: rgba(255,215,0,.9);
+legend.scheduler-border {
+    border:none;
+    width: 60px;
+
 }
+

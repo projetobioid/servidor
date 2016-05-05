@@ -14,7 +14,7 @@ body {
   width: 100%;
   /* Set the fixed height of the footer here */
   height: 60px;
-  background-color: #000;
+  background-color: rgba(0,0,0,.8);
 }
 
 
@@ -36,4 +36,22 @@ body > .container {
 
 code {
   font-size: 80%;
+}
+
+#suporte{
+    background: rgba(218,165,32,.9);
+    border-radius: 10px;
+    position: relative;
+    margin: 5px;
+}
+
+#suporte:hover{
+    background: rgba(184,210,184,.8);
+    
+}
+
+.footer:hover{
+    background: rgba(0,0,0,.3);
+    height:65px;
+    
 }
