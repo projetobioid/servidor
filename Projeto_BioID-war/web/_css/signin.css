@@ -75,4 +75,7 @@ legend.scheduler-border {
     width: 60px;
 
 }
+input:hover{
+    background: #dddddd;
+}
 
