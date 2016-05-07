@@ -1,0 +1,42 @@
+
+#agricultoresCentro {
+    color: #333333;
+    font-size: 130px;
+}
+
+#produtosCentro {
+    color: #333333;
+    font-size: 130px;
+}
+
+#relatoriosCentro {
+    color: #333333;
+    font-size: 130px;
+}
+
+.lRelatorios{
+    color: #0000ff;
+}
+
+.lRelatorios:hover {
+    color: #999999;
+    text-decoration: none;
+}
+
+.lProdutos{
+    color: #009900;
+}
+
+.lProdutos:hover {
+    color: #999999;
+    text-decoration: none;
+}
+
+.lAgricultores{
+    color: #ff3333 
+}
+
+.lAgricultores:hover{
+    color: #999999;
+    text-decoration: none;
+}

@@ -1,0 +1,13 @@
+.menu{
+    text-align: center;
+    background: #000;
+    position: absolute;
+    width:200px;
+    left: 50%;
+    margin-left: -100px;
+    border-radius: 5px;
+}
+
+#home{
+    font-size: 30px;
+}

@@ -21,7 +21,7 @@ body {
 }
 
 #logo{
-    padding-top: 50px;
+    padding-top: 10px;
 }
 
 .form-signin {
@@ -73,7 +73,7 @@ fieldset.scheduler-border {
 legend.scheduler-border {
     border:none;
     width: 60px;
-
+    margin-top: -30px;
 }
 input:hover{
     background: #dddddd;

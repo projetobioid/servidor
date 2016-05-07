@@ -1,8 +1,9 @@
 //funcao para o suporte
-function suporte(){
-    //alert("suporte@funtedec.org.br");
+$("#suporte").click( function(){
     $("#msgSuporte").show();
-}
+});
+   //alert("suporte@funtedec.org.br");
+
 
 
 function validacaoLogin(){
