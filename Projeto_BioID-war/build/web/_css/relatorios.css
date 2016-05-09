@@ -2,3 +2,43 @@
     margin: 0;
     padding: 0;
 }
+
+/*tabela todos*/
+.lRelatoriosTodas{
+    color: #404dd5;
+    text-decoration: none;
+}
+.lRelatoriosTodas:hover{
+    color: #999999;
+    text-decoration: none;
+}
+
+/*tabela editar*/
+.lRelatoriosMudas{
+    color: #e67710;
+    text-decoration: none;
+}
+.lRelatoriosMudas:hover{
+    color: #999999;
+    text-decoration: none;
+}
+
+/*tabela novo*/
+.lRelatoriosRamas{
+    color:  #237701;
+    text-decoration: none;
+}
+.lRelatoriosRamas:hover{
+    color: #999999;
+    text-decoration: none;
+}
+
+/*tabela excluir*/
+.lRelatoriosSementes{
+    color:  #f0241a;
+    text-decoration: none;
+}
+.lRelatoriosSementes:hover{
+    color: #999999;
+    text-decoration: none;
+}

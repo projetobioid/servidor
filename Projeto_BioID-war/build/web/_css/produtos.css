@@ -2,3 +2,43 @@
     margin: 0;
     padding: 0;
 }
+
+/*tabela listar*/
+.lProdutosListar{
+    color: #404dd5;
+    text-decoration: none;
+}
+.lProdutosListar:hover{
+    color: #999999;
+    text-decoration: none;
+}
+
+/*tabela editar*/
+.lProdutosEditar{
+    color: #e67710;
+    text-decoration: none;
+}
+.lProdutosEditar:hover{
+    color: #999999;
+    text-decoration: none;
+}
+
+/*tabela novo*/
+.lProdutosNovo{
+    color:  #237701;
+    text-decoration: none;
+}
+.lProdutosNovo:hover{
+    color: #999999;
+    text-decoration: none;
+}
+
+/*tabela excluir*/
+.lProdutosExcluir{
+    color:  #f0241a;
+    text-decoration: none;
+}
+.lProdutosExcluir:hover{
+    color: #999999;
+    text-decoration: none;
+}
