@@ -2,12 +2,30 @@
     text-align: center;
     background: #b8d2b8;
     position: absolute;
-    width:300px;
+    width:220px;
     left: 50%;
-    margin-left: -150px;
+    margin-left: -110px;
     border-radius: 5px;
 }
 
 #home{
     font-size: 23px;
+}
+
+#logoNome{
+    font-size: 16px;
+    color: #fff;
+    margin-top: 11px;
+    position: absolute;
+    left: 0%;
+    margin-left: 5px;
+}
+#logoSessao{
+    font-size: 16px;
+    color: #fff;
+    margin-top: 11px;
+    position: absolute;
+    left: 100%;
+    margin-left: -88px;
+    width: 86px;
 }
