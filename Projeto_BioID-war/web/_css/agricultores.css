@@ -3,42 +3,38 @@
     padding: 0;
 }
 
+a:link{
+    text-decoration: none;
+}
+
 /*tabela listar*/
 .lAgricultoresListar{
     color: #404dd5;
-    text-decoration: none;
 }
 .lAgricultoresListar:hover{
     color: #999999;
-    text-decoration: none;
 }
 
 /*tabela editar*/
 .lAgricultoresEditar{
     color: #e67710;
-    text-decoration: none;
 }
 .lAgricultoresEditar:hover{
     color: #999999;
-    text-decoration: none;
 }
 
 /*tabela novo*/
 .lAgricultoresNovo{
     color:  #237701;
-    text-decoration: none;
 }
 .lAgricultoresNovo:hover{
     color: #999999;
-    text-decoration: none;
 }
 
 /*tabela excluir*/
 .lAgricultoresExcluir{
     color:  #f0241a;
-    text-decoration: none;
 }
 .lAgricultoresExcluir:hover{
     color: #999999;
-    text-decoration: none;
 }

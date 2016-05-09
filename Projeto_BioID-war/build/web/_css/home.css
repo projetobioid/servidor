@@ -3,6 +3,9 @@
     padding: 0;
 }
 
+a:link{
+    text-decoration: none;
+}
 
 #agricultoresCentro {
     color: #333333;
@@ -25,7 +28,6 @@
 
 .lRelatorios:hover {
     color: #999999;
-    text-decoration: none;
 }
 
 .lProdutos{
@@ -34,7 +36,6 @@
 
 .lProdutos:hover {
     color: #999999;
-    text-decoration: none;
 }
 
 .lAgricultores{
@@ -43,5 +44,4 @@
 
 .lAgricultores:hover{
     color: #999999;
-    text-decoration: none;
 }
