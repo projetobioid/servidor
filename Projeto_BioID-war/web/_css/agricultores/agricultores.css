@@ -7,34 +7,58 @@ a:link{
     text-decoration: none;
 }
 
-/*tabela listar*/
-.lAgricultoresListar{
-    color: #404dd5;
-}
-.lAgricultoresListar:hover{
-    color: #999999;
-}
-
-/*tabela editar*/
-.lAgricultoresEditar{
-    color: #e67710;
-}
-.lAgricultoresEditar:hover{
-    color: #999999;
-}
-
-/*tabela novo*/
-.lAgricultoresNovo{
-    color:  #237701;
-}
-.lAgricultoresNovo:hover{
-    color: #999999;
+.circulo{
+    width: 150px;
+    height: 150px;
+    -moz-border-radius: 50%; 
+    -webkit-border-radius: 50%;
+    border-radius: 50%;
+    text-align:center;
+    padding-top: 35px;
+    position: relative;
+    left: 50%;
+    margin-left: -75px;
+    margin-bottom: 20px;
+    margin-top: 20px;
+    
+    border-width: 2px;
+    border-style: solid;
+    border-color: #8f8f99;
 }
 
-/*tabela excluir*/
-.lAgricultoresExcluir{
-    color:  #f0241a;
+
+#relatorios{
+    background: radial-gradient(#b8d2b8, rgba(0, 0, 90, 0.9));
 }
-.lAgricultoresExcluir:hover{
-    color: #999999;
+
+#produtos{
+    background: radial-gradient(#b8d2b8, rgba(23, 119, 105, 0.9));
+}
+
+#agricultores{
+    background: radial-gradient(#b8d2b8, rgba(221, 81, 116, 0.9));
+}
+
+h2{
+    text-align: center;
+    text-shadow: 2px 2px #C3CFC4;
+    
+}
+
+.circulo .fa{
+    color: #000;
+    text-shadow: 2px 2px #fff;
+    font-size: 30px;
+}
+
+#agricultores .fa{
+    color: #ff4040;
+}
+
+#produtos .fa{
+    color: #06ff00;
+}
+
+#relatorios .fa{
+    color: #6975f8;
 }
