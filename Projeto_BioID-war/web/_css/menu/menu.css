@@ -29,3 +29,9 @@
     margin-left: -88px;
     width: 86px;
 }
+
+.menu:hover{
+    border-width: 2px;
+    border-style: solid;
+    border-color: #8f8f99;
+}
