@@ -45,3 +45,76 @@ a:link{
 .lAgricultores:hover{
     color: #999999;
 }
+
+
+
+
+
+
+
+
+
+.circulo{
+    width: 250px;
+    height: 250px;
+    -moz-border-radius: 50%; 
+    -webkit-border-radius: 50%;
+    border-radius: 50%;
+    
+    text-align:center;
+    padding-top: 80px;
+    position: relative;
+    left: 50%;
+    margin-left: -125px;
+    margin-bottom: 20px;
+    margin-top: 20px;
+    background: radial-gradient(#b8d2b8, rgba(0, 36, 4, 0.8));
+    border-width: 2px;
+    border-style: solid;
+    border-color: #8f8f99;
+}
+
+h2{
+    text-align: center;
+    text-shadow: 2px 2px #C3CFC4;
+}
+
+.circulo .fa{
+    color: #000;
+    text-shadow: 2px 2px #fff;
+}
+
+.circulso:hover{
+    background: radial-gradient(#ff3333, rgba(0, 36, 4, 0.8));
+    cursor: all-scroll;
+}
+
+/* Smartphones -----------
+@media only screen and (min-device-width : 320px) and (max-device-width : 480px) {
+    #inicio{
+        margin-top:150px;
+        background: red;
+    }
+}
+/* iPads (portrait and landscape) ----------- 
+@media only screen and (min-device-width : 768px) and (max-device-width : 1024px) {
+    #inicio{
+        margin-top:200px;
+        background: yellow;
+    }
+}
+/* Desktops and laptops -----------
+@media only screen and (min-width : 1224px) {
+    #inicio{
+        margin-top:100px;
+        background: green;
+    }
+}
+
+/* Large screens ----------- 
+@media only screen and (min-width : 1824px) {
+    #inicio{
+        margin-top:400px;
+        background: blue;
+    }
+} */
