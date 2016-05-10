@@ -2,7 +2,7 @@ function passouMouse(campo){
    $(campo).css("background", "radial-gradient(#ff3333, rgba(0, 0, 0, 0.9))");
    $(campo).css("cursor", "all-scroll");
    $(campo +" .fa").css("color", "#fff");
-   $(campo +" .fa").css("text-shadow", "2px 2px #000");
+   $(campo +" .fa").css("text-shadow", "-2px -3px #000");
    $(campo+"F").css("font-size", "40px");
    
 
@@ -11,7 +11,7 @@ function passouMouse(campo){
 function saiuMouse(campo){
    $(campo).css("background", "radial-gradient(#b8d2b8, rgba(0, 0, 0, 0.9))");
    //$(campo +" .fa").css("color", "#000");
-   $(campo +" .fa").css("text-shadow", "2px 2px #fff");
+   $(campo +" .fa").css("text-shadow", "2px 3px #000");
    $(campo+"F").css("font-size", "30px");
    
       if(campo === "#agricultores"){
