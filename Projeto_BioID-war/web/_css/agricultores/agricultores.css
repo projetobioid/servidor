@@ -14,7 +14,7 @@ a:link{
     -webkit-border-radius: 50%;
     border-radius: 50%;
     text-align:center;
-    padding-top: 35px;
+    padding-top: 40px;
     position: relative;
     left: 50%;
     margin-left: -75px;
@@ -50,24 +50,13 @@ h2{
 
 .circulo .fa-2x{
     color: #000;
-    
     font-size: 30px;
 }
 
-.fa-5x{
-    font-size: 30px;
+.circulo .fa-user{
+    font-size: 50px;
     color: #000;
 }
 
-#agricultores .fa{
-    color: #ff4040;
-}
 
-#produtos .fa{
-    color: #06ff00;
-}
-
-#relatorios .fa{
-    color: #6975f8;
-}
 

@@ -6,6 +6,9 @@
     left: 50%;
     margin-left: -100px;
     border-radius: 5px;
+    border-width: 2px;
+    border-style: solid;
+    border-color: #8f8f99; 
 }
 
 #home{
@@ -30,8 +33,3 @@
     width: 86px;
 }
 
-.menu:hover{
-    border-width: 2px;
-    border-style: solid;
-    border-color: #8f8f99;
-}
