@@ -37,7 +37,7 @@ a:link{
     border-color: #8f8f99;
 }
 
-.linha{
+#produtosL,#agricultoresL, #relatoriosL, #movimentacaoL, #outrosL{
     height: 3px;
     background: #3877d5;
     margin-top: 0;
@@ -46,6 +46,7 @@ a:link{
     margin-right: 50px;
     box-shadow: 2px 2px #C3CFC4;
 }
+
 #relatorios{
     background: radial-gradient(#fff, rgba(0, 0, 90, 0.9));
 }

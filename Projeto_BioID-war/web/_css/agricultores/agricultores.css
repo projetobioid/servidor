@@ -26,14 +26,14 @@ a:link{
     border-color: #8f8f99;
 }
 
-.linha{
+#listarL, #novoL, #editarL, #excluirL{
     height: 2px;
     background: #3877d5;
     margin-top: 0;
     margin-bottom: 40px;
     margin-left: 50px;
     margin-right: 50px;
-    box-shadow: 2px 2px #C3CFC4;
+    box-shadow: 0px 2px #C3CFC4;
 }
 
 .circulo .fa{
@@ -76,7 +76,7 @@ a:link{
 
 h2{
     text-align: center;
-    text-shadow: 2px 2px #C3CFC4;
+    text-shadow: 0px 2px #C3CFC4;
     margin-top: 0;
     color: #3877d5;
     margin-bottom: 0;

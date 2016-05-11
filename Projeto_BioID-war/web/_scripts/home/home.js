@@ -6,15 +6,16 @@ function passouMouse(campo){
     //muda cor das letras em baixo do circulo
     //$(campo +"F").css("color", "#222");
     //muda a sombra das letras em baixo do circulo
-    $(campo +"F").css("text-shadow", "-2px -2px #C3CFC4");
-   
+    $(campo +"F").css("text-shadow", "0px -2px #C3CFC4");
+    $(campo +"L").css("box-shadow", "0px -2px #C3CFC4");
 
 }
 
 function saiuMouse(campo){
     $(campo +" .fa").css("text-shadow", "2px 3px #000");
     //muda a sombra das letras em baixo do circulo
-    $(campo +"F").css("text-shadow", "2px 2px #C3CFC4");
+    $(campo +"F").css("text-shadow", "0px 2px #C3CFC4");
+    $(campo +"L").css("box-shadow", "0px 2px #C3CFC4");
     
     if(campo === "#agricultores"){
         //muda cor dos icones dentro do circulo

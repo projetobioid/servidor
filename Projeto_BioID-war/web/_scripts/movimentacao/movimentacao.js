@@ -3,14 +3,18 @@ function passouMouse(campo){
    $(campo).css("cursor", "all-scroll");
    $(campo +" .fa").css("color", "#fff");
    $(campo +" .fa").css("text-shadow", "-0.5px -1px #000");
-   
+    //sombra letras
+    $(campo +"F").css("text-shadow", "0px -2px #C3CFC4");
+    $(campo +"L").css("box-shadow", "0px -2px #C3CFC4");
 
 }
 
 function saiuMouse(campo){
     
    $(campo +" .fa").css("text-shadow", "0.5px 1px #000");
-   
+    //muda a sombra das letras em baixo do circulo
+    $(campo +"F").css("text-shadow", "0px 2px #C3CFC4");
+    $(campo +"L").css("box-shadow", "0px 2px #C3CFC4");
     if(campo === "#safraColheita"){
        $(campo +" .fa").css("color", "#C2FFC1");
        $(campo).css("background", "radial-gradient(#fff, rgba(23, 119, 105, 0.9))");
