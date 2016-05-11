@@ -34,3 +34,8 @@
     width: 86px;
 }
 
+@media only screen and (max-width: 500px) {
+    body {
+        background-color: lightblue;
+    }
+}
