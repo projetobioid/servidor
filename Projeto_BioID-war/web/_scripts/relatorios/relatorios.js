@@ -14,13 +14,13 @@ function saiuMouse(campo){
    $(campo +" .fa").css("text-shadow", "0.5px 1px #000");
    $(campo+"F").css("font-size", "30px");
    
-      if(campo === "#excluir"){
+      if(campo === "#sementes"){
         $(campo +" .fa").css("color", "#ff4040");
         $(campo).css("background", "radial-gradient(#b8d2b8, rgba(221, 81, 116, 0.9))");
-    }else if(campo === "#novo"){
+    }else if(campo === "#mudas"){
        $(campo +" .fa").css("color", "#C2FFC1");
        $(campo).css("background", "radial-gradient(#b8d2b8, rgba(23, 119, 105, 0.9))");
-    }else if(campo === "#editar"){
+    }else if(campo === "#ramas"){
        $(campo +" .fa").css("color", "#9ee4ff");
        $(campo).css("background", "radial-gradient(#b8d2b8, rgba(74, 74, 192, 0.9))");
     }else{
@@ -31,29 +31,29 @@ function saiuMouse(campo){
 
 
 //mouse em cima do produto
-$("#listar").mouseenter(function(){
-    passouMouse("#listar");
+$("#todos").mouseenter(function(){
+    passouMouse("#todos");
 }).mouseleave(function(){
-    saiuMouse("#listar");
+    saiuMouse("#todos");
 });
 
 //mouse em cima do agricultores
-$("#novo").mouseenter(function(){
-    passouMouse("#novo");
+$("#mudas").mouseenter(function(){
+    passouMouse("#mudas");
 }).mouseleave(function(){
-    saiuMouse("#novo");
+    saiuMouse("#mudas");
 });
 
 //mouse em cima do relatorios
-$("#editar").mouseenter(function(){
-    passouMouse("#editar");
+$("#ramas").mouseenter(function(){
+    passouMouse("#ramas");
 }).mouseleave(function(){
-    saiuMouse("#editar");
+    saiuMouse("#ramas");
 });
 
 //mouse em cima do relatorios
-$("#excluir").mouseenter(function(){
-    passouMouse("#excluir");
+$("#sementes").mouseenter(function(){
+    passouMouse("#sementes");
 }).mouseleave(function(){
-    saiuMouse("#excluir");
+    saiuMouse("#sementes");
 });

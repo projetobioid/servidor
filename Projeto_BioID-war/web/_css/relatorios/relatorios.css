@@ -7,34 +7,78 @@ a:link{
     text-decoration: none;
 }
 
-/*tabela todos*/
-.lRelatoriosTodas{
-    color: #404dd5;
-}
-.lRelatoriosTodas:hover{
-    color: #999999;
-}
-
-/*tabela editar*/
-.lRelatoriosMudas{
-    color: #e67710;
-}
-.lRelatoriosMudas:hover{
-    color: #999999;
-}
-
-/*tabela novo*/
-.lRelatoriosRamas{
-    color:  #237701;
-}
-.lRelatoriosRamas:hover{
-    color: #999999;
+.circulo{
+    width: 150px;
+    height: 150px;
+    -moz-border-radius: 50%; 
+    -webkit-border-radius: 50%;
+    border-radius: 50%;
+    text-align:center;
+    padding-top: 40px;
+    position: relative;
+    left: 50%;
+    margin-left: -75px;
+    margin-bottom: 20px;
+    margin-top: 20px;
+    
+    border-width: 2px;
+    border-style: solid;
+    border-color: #8f8f99;
 }
 
-/*tabela excluir*/
-.lRelatoriosSementes{
-    color:  #f0241a;
+.circulo .fa{
+    color: #fff;
+    text-shadow: 0.5px 1px #000;
 }
-.lRelatoriosSementes:hover{
-    color: #999999;
+
+
+#ramas{
+    background: radial-gradient(#b8d2b8, rgba(74, 74, 192, 0.9));
 }
+
+#mudas{
+    background: radial-gradient(#b8d2b8, rgba(23, 119, 105, 0.9));
+}
+
+#sementes{
+    background: radial-gradient(#b8d2b8, rgba(221, 81, 116, 0.9));
+}
+
+#todos{
+    background: radial-gradient(#b8d2b8, rgba(227, 208, 0, 0.9));
+}
+
+#todos .fa{
+    color: #fbfcca;
+}
+
+#ramas .fa{
+    color: #9ee4ff;
+}
+
+#sementes .fa{
+    color: #ff4040;
+}
+
+#mudas .fa{
+    color: #C2FFC1;
+}
+
+h2{
+    text-align: center;
+    text-shadow: 2px 2px #C3CFC4;
+    
+}
+
+.circulo .fa-2x{
+    color: #000;
+    font-size: 30px;
+}
+
+.circulo .fa-file-text{
+    font-size: 50px;
+    color: #000;
+}
+
+
+

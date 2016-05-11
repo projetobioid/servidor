@@ -26,8 +26,14 @@ a:link{
     border-color: #8f8f99;
 }
 
+.circulo .fa{
+    color: #fff;
+    text-shadow: 0.5px 1px #000;
+}
+
+
 #editar{
-    background: radial-gradient(#b8d2b8, rgba(0, 0, 90, 0.9));
+    background: radial-gradient(#b8d2b8, rgba(74, 74, 192, 0.9));
 }
 
 #novo{
@@ -40,6 +46,22 @@ a:link{
 
 #listar{
     background: radial-gradient(#b8d2b8, rgba(227, 208, 0, 0.9));
+}
+
+#listar .fa{
+    color: #fbfcca;
+}
+
+#editar .fa{
+    color: #9ee4ff;
+}
+
+#excluir .fa{
+    color: #ff4040;
+}
+
+#novo .fa{
+    color: #C2FFC1;
 }
 
 h2{
