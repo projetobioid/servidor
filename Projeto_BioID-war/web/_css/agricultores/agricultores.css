@@ -33,19 +33,19 @@ a:link{
 
 
 #editar{
-    background: radial-gradient(#b8d2b8, rgba(74, 74, 192, 0.9));
+    background: radial-gradient(#fff, rgba(74, 74, 192, 0.9));
 }
 
 #novo{
-    background: radial-gradient(#b8d2b8, rgba(23, 119, 105, 0.9));
+    background: radial-gradient(#fff, rgba(23, 119, 105, 0.9));
 }
 
 #excluir{
-    background: radial-gradient(#b8d2b8, rgba(221, 81, 116, 0.9));
+    background: radial-gradient(#fff, rgba(221, 81, 116, 0.9));
 }
 
 #listar{
-    background: radial-gradient(#b8d2b8, rgba(227, 208, 0, 0.9));
+    background: radial-gradient(#fff, rgba(227, 208, 0, 0.9));
 }
 
 #listar .fa{

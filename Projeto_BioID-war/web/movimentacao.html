@@ -11,12 +11,13 @@
         <title>~~ BioID ~~</title>
 
         <link href="_css/bootstrap.min.css" rel="stylesheet">
+        <link href="_css/movimentacao/movimentacao.css" rel="stylesheet">
         <link href="_css/font-awesome.css" rel="stylesheet">
-        <link href="_css/relatorios/relatorios.css" rel="stylesheet">
         <link href="_css/menu/menu.css" rel="stylesheet">
         
     </head>
     <body>
+        
         
         
         <header>
@@ -27,8 +28,9 @@
                         BioID
                     </div>
                     <div id="logoSessao">
-                        Relatórios
+                        Agricultores
                     </div>
+                    
                     <div class="menu">
                         <a  href="http://localhost:8080/Projeto_BioID-war/" class="navbar-link"><i class="fa fa-cogs fa-2x" aria-hidden="true"></i></a>
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -43,64 +45,62 @@
             </nav>
         </header>
         
-   
-       <section class="container" style="margin-top:250px;">
         
-        <div class=" col-lg-3">
-            <a href="servico/usuarios/listar">
-            <div class="circulo" id="todos">
+        
+    <section class="container" style="margin-top:250px;">
+
+        <div class=" col-lg-4">
+            <a href="">
+            <div class="circulo" id="distribuicao">
                 <div>
                     <i class="fa fa-list-ol fa-2x" aria-hidden="true"></i>
-                    <i class="fa fa-file-text fa-5x" aria-hidden="true"></i>
+                    <i class="fa fa-user fa-5x" aria-hidden="true"></i>
                     <i class="fa fa-list-ol fa-2x" aria-hidden="true"></i>
                 </div>
             </div>
-            <h2 id="listarF">Todos</h2>
+            <h2 id="listarF">Distribuição</h2>
             </a>
         </div>
 
-        <div class=" col-lg-3">
+        <div class=" col-lg-4">
             <a href="">
-            <div class="circulo" id="mudas">
+            <div class="circulo" id="safraColheita">
                 <div >
                     <i class="fa fa-user-plus fa-2x" aria-hidden="true"></i>
-                    <i class="fa fa-file-text fa-5x" aria-hidden="true"></i>
+                    <i class="fa fa-user fa-5x" aria-hidden="true"></i>
                     <i class="fa fa-user-plus fa-2x" aria-hidden="true"></i>
                 </div>
             </div>
-            <h2 id="novoF">Mudas</h2>
+            <h2 id="novoF">Safra/Colheita</h2>
             </a>
         </div>
-        <div class=" col-lg-3">
+        <div class=" col-lg-4">
             <a href="">
-            <div class="circulo" id="ramas">
+            <div class="circulo" id="destinacao">
                 <div>
                     <i class="fa fa-pencil-square-o fa-2x" aria-hidden="true"></i>
-                    <i class="fa fa-file-text fa-5x" aria-hidden="true"></i>
+                    <i class="fa fa-user fa-5x" aria-hidden="true"></i>
                     <i class="fa fa-pencil-square-o fa-2x" aria-hidden="true"></i>
                 </div>
             </div>
-            <h2 id="editarF">Ramas</h2>
+            <h2 id="editarF">Destinação</h2>
             </a>
         </div>
-        <div class=" col-lg-3">
-            <a href="">
-            <div class="circulo" id="sementes">
-                <div >
-                    <i class="fa fa-user-times fa-2x" aria-hidden="true"></i>
-                    <i class="fa fa-file-text fa-5x" aria-hidden="true"></i>
-                    <i class="fa fa-user-times fa-2x" aria-hidden="true"></i>
-                </div>
-            </div>
-            <h2 id="excluirF">Sementes</h2>
-            </a>
-        </div>
+
     </section>
         
         
         
         
+
+
+
+
+
+
+
         
+
         <!--footer class="footer">
            <div class="container">
              <p class="text-muted">Créditos</p>
@@ -110,7 +110,7 @@
         <script src="_scripts/ie10-viewport-bug-workaround.js"></script>
         <script src="_scripts/jquery.min.js"></script>
         <script src="_scripts/menu.js"></script>
-        <script src="_scripts/relatorios/relatorios.js"></script>
-
+        <script src="_scripts/movimentacao/movimentacao.js"></script>    
+        
     </body>
 </html>

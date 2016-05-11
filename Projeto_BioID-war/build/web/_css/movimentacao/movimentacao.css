@@ -32,35 +32,35 @@ a:link{
 }
 
 
-#ramas{
+#destinacao{
     background: radial-gradient(#fff, rgba(74, 74, 192, 0.9));
 }
 
-#mudas{
+#safraColheita{
     background: radial-gradient(#fff, rgba(23, 119, 105, 0.9));
 }
 
-#sementes{
+/*#excluir{
+    background: radial-gradient(#b8d2b8, rgba(221, 81, 116, 0.9));
+}*/
+
+#distribuicao{
     background: radial-gradient(#fff, rgba(221, 81, 116, 0.9));
 }
 
-#todos{
-    background: radial-gradient(#fff, rgba(227, 208, 0, 0.9));
-}
-
-#todos .fa{
-    color: #fff9d9;
-}
-
-#ramas .fa{
-    color: #9ee4ff;
-}
-
-#sementes .fa{
+#distribuicao .fa{
     color: #ff4040;
 }
 
-#mudas .fa{
+#destinacao .fa{
+    color: #9ee4ff;
+}
+
+/*#excluir .fa{
+    color: #ff4040;
+}*/
+
+#safraColheita .fa{
     color: #C2FFC1;
 }
 
@@ -75,7 +75,7 @@ h2{
     font-size: 30px;
 }
 
-.circulo .fa-file-text{
+.circulo .fa-user{
     font-size: 50px;
     color: #000;
 }

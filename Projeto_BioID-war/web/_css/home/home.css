@@ -39,15 +39,23 @@ a:link{
 
 
 #relatorios{
-    background: radial-gradient(#b8d2b8, rgba(0, 0, 90, 0.9));
+    background: radial-gradient(#fff, rgba(0, 0, 90, 0.9));
 }
 
 #produtos{
-    background: radial-gradient(#b8d2b8, rgba(15, 114, 12, 0.9));
+    background: radial-gradient(#fff, rgba(15, 114, 12, 0.9));
 }
 
 #agricultores{
-    background: radial-gradient(#b8d2b8, rgba(149, 2, 39, 0.9));
+    background: radial-gradient(#fff, rgba(149, 2, 39, 0.9));
+}
+
+#movimentacao{
+    background: radial-gradient(#fff, rgba(149, 147, 2, 0.9));
+}
+
+#outros{
+    background: radial-gradient(#fff, rgba(0, 0, 0, 0.9));
 }
 
 h2{
@@ -71,6 +79,14 @@ h2{
 
 #relatorios .fa{
     color: #6975f8;
+}
+
+#movimentacao .fa{
+    color: #ECFB02;
+}
+
+#outros .fa{
+    color: #fff;
 }
 
 /* Smartphones -----------

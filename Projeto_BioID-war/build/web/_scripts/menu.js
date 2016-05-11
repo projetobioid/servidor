@@ -1,5 +1,5 @@
 
-    $(".menu").mouseover(function(){
+    /*$(".menu").mouseover(function(){
         $(".menu").css("width", 230);
         $(".menu").css("margin-left", -115);
         $(".menu").css("background", "#222");
@@ -10,3 +10,4 @@
         $("#home").css("font-size", 23);
         $(".menu").css("background", "#fff");
     });
+*/

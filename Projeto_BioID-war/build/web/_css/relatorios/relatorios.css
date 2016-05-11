@@ -33,23 +33,23 @@ a:link{
 
 
 #ramas{
-    background: radial-gradient(#b8d2b8, rgba(74, 74, 192, 0.9));
+    background: radial-gradient(#fff, rgba(74, 74, 192, 0.9));
 }
 
 #mudas{
-    background: radial-gradient(#b8d2b8, rgba(23, 119, 105, 0.9));
+    background: radial-gradient(#fff, rgba(23, 119, 105, 0.9));
 }
 
 #sementes{
-    background: radial-gradient(#b8d2b8, rgba(221, 81, 116, 0.9));
+    background: radial-gradient(#fff, rgba(221, 81, 116, 0.9));
 }
 
 #todos{
-    background: radial-gradient(#b8d2b8, rgba(227, 208, 0, 0.9));
+    background: radial-gradient(#fff, rgba(227, 208, 0, 0.9));
 }
 
 #todos .fa{
-    color: #fbfcca;
+    color: #fff9d9;
 }
 
 #ramas .fa{
