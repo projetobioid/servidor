@@ -2,9 +2,9 @@
     text-align: center;
     background: #222;
     position: absolute;
-    width:230px;
+    width:220px;
     left: 50%;
-    margin-left: -115px;
+    margin-left: -110px;
     border-radius: 5px;
     border-width: 2px;
     border-style: solid;
@@ -13,7 +13,7 @@
 }
 
 #home{
-    font-size: 35px;
+    font-size: 30px;
 }
 
 #logoNome{
