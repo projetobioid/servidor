@@ -16,7 +16,11 @@ public class TOProdutos extends TOBase{
     private String id;
     //nome do produto
     private String nome;
+    //descricao do produto
+    private String descricao;
     //tipo do produto se é bio ou não
+    private boolean biofortificado;
+    //tipo da distribuicao do cultivar
     private String tipo;
 
     //gets e sets
@@ -45,6 +49,23 @@ public class TOProdutos extends TOBase{
         this.tipo = tipo;
     }
 
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
+
+    public boolean getBiofortificado() {
+        return biofortificado;
+    }
+
+    public void setBiofortificado(boolean biofortificado) {
+        this.biofortificado = biofortificado;
+    }
+    
+
     //construtor vazio
     public TOProdutos() {
     }
@@ -54,6 +75,8 @@ public class TOProdutos extends TOBase{
     public TOProdutos (ResultSet rs) throws Exception{
         this.id = rs.getString("id");
         this.nome = rs.getString("nome");
+        this.descricao = rs.getString("descricao");
+        this.biofortificado = rs.getBoolean("biofortificado");
         this.tipo = rs.getString("tipo");
         
     }
@@ -66,6 +89,8 @@ public class TOProdutos extends TOBase{
         //populando o objeto j
         j.put("id", id);
         j.put("nome", nome);
+        j.put("descricao", descricao);
+        j.put("biofortificado", biofortificado);
         j.put("tipo", tipo);
         
         return j;

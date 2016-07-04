@@ -60,7 +60,7 @@ public class ServicosUsuarios {
     @POST
     @Path("inserir")
     public String inserir(
-            @FormParam("id") String id,
+            @FormParam("id") long id,
             @FormParam("usuario") String usuario,
             @FormParam("senha") String senha,
             @FormParam("email") String email) throws Exception{
@@ -93,7 +93,7 @@ public class ServicosUsuarios {
     //edita um usuario no banco de dados
     @POST
     @Path("editar")
-    public String editar(@FormParam("id") String id,
+    public String editar(@FormParam("id") long id,
             @FormParam("usuario") String usuario,
             @FormParam("senha") String senha,
             @FormParam("email") String email) throws Exception{
@@ -128,7 +128,7 @@ public class ServicosUsuarios {
     //exclui usuario do banco de dados
     @POST
     @Path("excluir")
-    public String excluir(@FormParam("id") String id) throws Exception{
+    public String excluir(@FormParam("id") long id) throws Exception{
         //objeto de retorno da requisicao
         JSONObject j = new JSONObject();
         
@@ -159,7 +159,8 @@ public class ServicosUsuarios {
     @POST
     @Path("login")
     public String login(@FormParam("usuario") String usuario,
-                        @FormParam("senha") String senha) throws Exception{
+                        @FormParam("senha") String senha,
+                        @FormParam("logSession") String logSession) throws Exception{
         
         //objeto de retorno da requisicao
         JSONObject j = new JSONObject();
@@ -178,6 +179,7 @@ public class ServicosUsuarios {
                 
                 j.put("usuario", to.getUsuario());
                 j.put("email", to.getEmail());
+                j.put("tipo", to.getTipo());
                 
             }
         }catch (Exception e){

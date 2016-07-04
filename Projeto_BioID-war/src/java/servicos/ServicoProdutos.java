@@ -62,6 +62,8 @@ public class ServicoProdutos {
     public String inserir(
             @FormParam("id") String id,
             @FormParam("nome") String nome,
+            @FormParam("descricao") String descricao,
+            @FormParam("biofortificado") boolean biofortificado,
             @FormParam("tipo") String tipo) throws Exception{
         
                 
@@ -73,6 +75,8 @@ public class ServicoProdutos {
            //p.setId(Guid.getString());
             t.setId(id);
             t.setNome(nome);
+            t.setDescricao(descricao);
+            t.setBiofortificado(biofortificado);
             t.setTipo(tipo);
             
             BOFactory.inserir(new DAOProdutos(), t);
@@ -93,6 +97,8 @@ public class ServicoProdutos {
     public String editar(
             @FormParam("id") String id,
             @FormParam("nome") String nome,
+            @FormParam("descricao") String descricao,
+            @FormParam("biofortificado") boolean biofortificado,
             @FormParam("tipo") String tipo) throws Exception{
         
                 
@@ -110,6 +116,8 @@ public class ServicoProdutos {
                 j.put("mensagem", "Produto não encontrado");
             }else{
                 t.setNome(nome);
+                t.setDescricao(descricao);
+                t.setBiofortificado(biofortificado);
                 t.setTipo(tipo); 
                 
                 BOFactory.editar(new DAOProdutos(), t);

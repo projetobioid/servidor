@@ -21,7 +21,7 @@ public class DAOProdutos extends DAOBase {
 
     @Override
     public void inserir(Connection c, TOBase t) throws Exception {
-        String sql = "insert into produtos (id, nome, tipo) values (?, ?, ?)";
+        String sql = "insert into cultivar (id, nome, descricao, biofortificado, tipo) values (?, ?, ?, ?, ?)";
         
         TOProdutos to = (TOProdutos)t;
         
@@ -30,6 +30,8 @@ public class DAOProdutos extends DAOBase {
         
         p.add(to.getId());
         p.add(to.getNome());
+        p.add(to.getDescricao());
+        p.add(to.getBiofortificado());
         p.add(to.getTipo());
         
         //passa por parametros a conexao e a lista de objetos da insercao de um novo produto
@@ -38,7 +40,7 @@ public class DAOProdutos extends DAOBase {
     
     @Override
     public void editar(Connection c, TOBase t) throws Exception {
-        String sql = "update produtos set nome = ?, tipo = ? where id = ? ";
+        String sql = "update cultivar set nome = ?, descricao = ?, biofortificado = ?, tipo = ? where id = ? ";
         
         TOProdutos to = (TOProdutos)t;
         
@@ -46,6 +48,8 @@ public class DAOProdutos extends DAOBase {
         
         
         p.add(to.getNome());
+        p.add(to.getDescricao());
+        p.add(to.getBiofortificado());
         p.add(to.getTipo());
         p.add(to.getId());
        
@@ -55,7 +59,7 @@ public class DAOProdutos extends DAOBase {
     
     @Override
     public void excluir(Connection c, TOBase t) throws Exception {
-        String sql = "delete from produtos where id = ? ";
+        String sql = "delete from cultivar where id = ? ";
         
         TOProdutos to = (TOProdutos)t;
         
@@ -68,7 +72,7 @@ public class DAOProdutos extends DAOBase {
 
     @Override
     public TOBase get(Connection c, TOBase t) throws Exception {
-        String sql = "select id, nome, tipo from produtos where id = ? ";
+        String sql = "select id, nome, descricao, biofortificado, tipo from cultivar where id = ? ";
         
         ResultSet rs = null;
         
@@ -90,7 +94,7 @@ public class DAOProdutos extends DAOBase {
     public JSONArray listar(Connection c) throws Exception {
         JSONArray  ja = new JSONArray();
         
-        String sql = "select id, nome, tipo from produtos order by nome";
+        String sql = "select id, nome, descricao, biofortificado, tipo from cultivar order by nome";
         
         ResultSet rs = null;
         

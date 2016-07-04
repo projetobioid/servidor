@@ -14,20 +14,22 @@ public class TOUsuarios extends TOBase{
     
     //atributos
     //id do usuario
-    public String id;
+    public long id;
     //usuario
     public String usuario;
     //password
     public String senha;
     //email
     public String email;
+    //papel do usuario
+    public String tipo;
     
     //gets e sets
-    public String getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -55,16 +57,27 @@ public class TOUsuarios extends TOBase{
         this.email = email;
     }
 
+    public String getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
+    }
+    
+    
+
     //construtor vazio
     public TOUsuarios() {
     }
     
     //retorna consulta do banco de dados tipo resultset
     public TOUsuarios (ResultSet rs) throws Exception{
-        this.id = rs.getString("id");
+        this.id = rs.getLong("id");
         this.usuario = rs.getString("usuario");
         this.senha = rs.getString("senha");
         this.email = rs.getString("email");
+        this.tipo = rs.getString("tipo");
     }
 
 
@@ -79,6 +92,7 @@ public class TOUsuarios extends TOBase{
         j.put("usuario", usuario);
         j.put("senha", senha);
         j.put("email", email);
+        j.put("tipo", tipo);
         
         return j;
    

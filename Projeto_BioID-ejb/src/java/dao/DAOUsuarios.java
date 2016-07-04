@@ -16,11 +16,11 @@ import to.TOUsuarios;
  * @author daniel
  */
 public class DAOUsuarios extends DAOBase {
-    
+   
     @Override
     public void inserir(Connection c, TOBase t) throws Exception {
         //string com o comando sql para editar o banco de dados
-        String sql = "insert into usuarios (id, usuario, senha, email) values (?, ?, ?, ?)";
+        String sql = "insert into usuario (id, usuario, senha, email) values (?, ?, ?, ?)";
         //variavel sendo convertida para toUsuarios
         TOUsuarios to = (TOUsuarios)t;
         //variavel com lista dos parametros
@@ -39,7 +39,7 @@ public class DAOUsuarios extends DAOBase {
     @Override
     public void editar(Connection c, TOBase t) throws Exception {
         //string com o comando sql para editar o banco de dados
-        String sql = "update usuarios set usuario = ?, senha = ?, email = ? where id = ?";
+        String sql = "update usuario set usuario = ?, senha = ?, email = ? where id = ?";
         //variavel sendo convertida para toUsuarios
         TOUsuarios to = (TOUsuarios)t;
         //variavel com lista dos parametros
@@ -59,7 +59,7 @@ public class DAOUsuarios extends DAOBase {
     @Override
     public void excluir(Connection c, TOBase t) throws Exception {
         //string com o comando sql para editar o banco de dados
-        String sql = "delete from usuarios where id = ?";
+        String sql = "delete from usuario where id = ?";
         //variavel sendo convertida para toUsuarios
         TOUsuarios to = (TOUsuarios)t;
         //variavel com lista dos parametros
@@ -75,7 +75,7 @@ public class DAOUsuarios extends DAOBase {
     @Override
     public TOBase get(Connection c, TOBase t) throws Exception {
         //string com o comando sql para editar o banco de dados
-        String sql = "select id, usuario, senha, email from usuarios where id = ? ";
+        String sql = "select id, usuario, senha, email from usuario where id = ? ";
         
         ResultSet rs = null;
         
@@ -100,7 +100,7 @@ public class DAOUsuarios extends DAOBase {
     @Override
     public JSONArray listar(Connection c) throws Exception {
         //string com o comando sql para editar o banco de dados
-        String sql = "select id, usuario, email, senha from usuarios order by usuario";
+        String sql = "select id, usuario, email, senha from usuario order by usuario";
         
         JSONArray  ja = new JSONArray();
         
@@ -122,7 +122,7 @@ public class DAOUsuarios extends DAOBase {
     @Override
     public TOBase getLogin(Connection c, TOBase t) throws Exception {
         //string com o comando sql para editar o banco de dados
-        String sql = "select id, usuario, senha, email from usuarios where usuario = ? and senha = ?";
+        String sql = "select id, usuario, senha, email, tipo from usuario where usuario = ? and senha = ?";
         
         ResultSet rs = null;
         
