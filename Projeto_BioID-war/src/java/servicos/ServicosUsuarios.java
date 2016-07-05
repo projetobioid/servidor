@@ -7,6 +7,7 @@ package servicos;
 
 import bo.BOFactory;
 import dao.DAOUsuarios;
+
 import javax.ws.rs.FormParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
@@ -16,6 +17,9 @@ import javax.ws.rs.Path;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import to.TOUsuarios;
+
+import java.security.SecureRandom;
+import java.math.BigInteger;
 
 /**
  * REST Web Service
@@ -159,11 +163,11 @@ public class ServicosUsuarios {
     @POST
     @Path("login")
     public String login(@FormParam("usuario") String usuario,
-                        @FormParam("senha") String senha,
-                        @FormParam("logSession") String logSession) throws Exception{
+                        @FormParam("senha") String senha) throws Exception{
         
         //objeto de retorno da requisicao
         JSONObject j = new JSONObject();
+        
         try{
             TOUsuarios to = new TOUsuarios();
             to.setUsuario(usuario);
@@ -180,6 +184,9 @@ public class ServicosUsuarios {
                 j.put("usuario", to.getUsuario());
                 j.put("email", to.getEmail());
                 j.put("tipo", to.getTipo());
+                
+                SecureRandom random = new SecureRandom();
+                j.put("idSession", new BigInteger(130, random).toString(32));
                 
             }
         }catch (Exception e){
