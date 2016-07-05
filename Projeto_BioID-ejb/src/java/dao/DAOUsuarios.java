@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.json.JSONArray;
 import to.TOBase;
-import to.TOUsuarios;
+import to.TOUsuario;
 
 /**
  *
@@ -22,7 +22,7 @@ public class DAOUsuarios extends DAOBase {
         //string com o comando sql para editar o banco de dados
         String sql = "insert into usuario (id, usuario, senha, email) values (?, ?, ?, ?)";
         //variavel sendo convertida para toUsuarios
-        TOUsuarios to = (TOUsuarios)t;
+        TOUsuario to = (TOUsuario)t;
         //variavel com lista dos parametros
         List<Object> u = new ArrayList<Object>();
         
@@ -41,7 +41,7 @@ public class DAOUsuarios extends DAOBase {
         //string com o comando sql para editar o banco de dados
         String sql = "update usuario set usuario = ?, senha = ?, email = ? where id = ?";
         //variavel sendo convertida para toUsuarios
-        TOUsuarios to = (TOUsuarios)t;
+        TOUsuario to = (TOUsuario)t;
         //variavel com lista dos parametros
         List<Object> u = new ArrayList<Object>();
         
@@ -61,7 +61,7 @@ public class DAOUsuarios extends DAOBase {
         //string com o comando sql para editar o banco de dados
         String sql = "delete from usuario where id = ?";
         //variavel sendo convertida para toUsuarios
-        TOUsuarios to = (TOUsuarios)t;
+        TOUsuario to = (TOUsuario)t;
         //variavel com lista dos parametros
         List<Object> u = new ArrayList<Object>();
         
@@ -81,12 +81,12 @@ public class DAOUsuarios extends DAOBase {
         
         try{
             //variavel sendo convertida para toUsuarios
-            TOUsuarios to = (TOUsuarios)t;
+            TOUsuario to = (TOUsuario)t;
             
             rs = Data.executeQuery(c, sql, to.getId());
             
             if(rs.next()){
-                return new TOUsuarios(rs);
+                return new TOUsuario(rs);
             }else{
                 return null;
             }
@@ -100,7 +100,7 @@ public class DAOUsuarios extends DAOBase {
     @Override
     public JSONArray listar(Connection c) throws Exception {
         //string com o comando sql para editar o banco de dados
-        String sql = "select id, usuario, email, senha from usuario order by usuario";
+        String sql = "select id, usuario, email, senha, tipo from usuario order by usuario";
         
         JSONArray  ja = new JSONArray();
         
@@ -110,7 +110,7 @@ public class DAOUsuarios extends DAOBase {
             rs = Data.executeQuery(c, sql);
             
             while (rs.next()){
-                TOUsuarios t = new TOUsuarios(rs);
+                TOUsuario t = new TOUsuario(rs);
                 ja.put(t.getJson());
             }
         }finally{
@@ -128,7 +128,7 @@ public class DAOUsuarios extends DAOBase {
         
         try{
             //variavel sendo convertida para toUsuarios
-            TOUsuarios to = (TOUsuarios)t;
+            TOUsuario to = (TOUsuario)t;
             //variavel com lista dos parametros
             List<Object> u = new ArrayList<Object>();
             
@@ -139,7 +139,7 @@ public class DAOUsuarios extends DAOBase {
             
             
             if(rs.next()){
-                return new TOUsuarios(rs);
+                return new TOUsuario(rs);
             }else{
                 return null;
             }
