@@ -41,7 +41,7 @@ public class ServicosCultivarrecebido {
         try{
             //cria um jsonarray e popula com uma consulta no banco
             JSONArray ja = BOFactory.listar(new DAOCultivarRecebido());
-            j.put("Data", ja);
+            j.put("data", ja);
             j.put("sucesso", true);
             
         }catch(Exception e){
@@ -52,4 +52,38 @@ public class ServicosCultivarrecebido {
         
         return j.toString();
     }
+    
+        //serviço de listar os usuarios
+    @GET
+    @Path("teste")
+    public String teste() throws Exception{
+    
+        JSONObject j = new JSONObject();
+
+        
+        try{
+            //cria um jsonarray e popula com uma consulta no banco
+            JSONArray ja = BOFactory.listar(new DAOCultivarRecebido());
+            
+            
+            
+            //Criteria crit = session.createCriteria(Produto.class);  
+            //crit.add(Restrictions.eq("nome","Teclado"));
+            //List results = crit.list(); 
+            
+            
+            
+            j.put("data", ja);
+            j.put("sucesso", true);
+            
+        }catch(Exception e){
+            j.put("sucesso", false);
+            j.put("mensagem", e.getMessage());
+        }
+        
+        
+        return j.toString();
+    }
+    
+    
 }

@@ -20,6 +20,7 @@ import to.TOUsuario;
 
 import java.security.SecureRandom;
 import java.math.BigInteger;
+import java.util.Date;
 
 /**
  * REST Web Service
@@ -184,9 +185,11 @@ public class ServicosUsuario {
                 j.put("usuario", to.getUsuario());
                 j.put("email", to.getEmail());
                 j.put("tipo", to.getTipo());
-                
+                //retorna uma senha
                 SecureRandom random = new SecureRandom();
                 j.put("idSession", new BigInteger(130, random).toString(32));
+                //retorna a data de login que espirará em um tempo determinado
+                j.put("dataLogin", new Date(System.currentTimeMillis()));
                 
             }
         }catch (Exception e){

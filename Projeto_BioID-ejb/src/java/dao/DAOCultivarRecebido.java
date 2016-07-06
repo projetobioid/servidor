@@ -23,7 +23,7 @@ public class DAOCultivarRecebido extends DAOBase{
     public JSONArray listar(Connection c) throws Exception {
         JSONArray  ja = new JSONArray();
         
-        String sql = "select id, quantidade, data_recebimento, cultivar, agricultor, grandeza from cultivarrecebido";
+        String sql = "select quantidade, data_recebimento, grandeza, cultivar.nome from cultivarrecebido join cultivar on cultivar.id = cultivarrecebido.cultivar";
         
         ResultSet rs = null;
         

@@ -20,6 +20,8 @@ public class TOCultivarRecebido extends TOBase {
     public int cultivar;
     public int agricultor;
     public String grandeza;
+    
+    public String nome;
 
     public int getId() {
         return id;
@@ -68,17 +70,28 @@ public class TOCultivarRecebido extends TOBase {
     public void setGrandeza(String grandeza) {
         this.grandeza = grandeza;
     }
+//////////////////
+    public String getNome() {
+        return nome;
+    }
 
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+/////////////
+    
+    
     public TOCultivarRecebido() {
     }
     
     public TOCultivarRecebido(ResultSet rs) throws Exception{
-        this.id = rs.getInt("id");
+        //this.id = rs.getInt("id");
         this.quantidade = rs.getInt("quantidade");
         this.data_recebimento = rs.getString("data_recebimento");
-        this.cultivar = rs.getInt("cultivar");
-        this.agricultor = rs.getInt("agricultor");
+        //this.cultivar = rs.getInt("cultivar");
+        //this.agricultor = rs.getInt("agricultor");
         this.grandeza = rs.getString("grandeza");
+        this.nome = rs.getString("nome");
     }
 
     @Override
@@ -87,13 +100,14 @@ public class TOCultivarRecebido extends TOBase {
         JSONObject j = new JSONObject();
         
         //populando o objeto j
-        j.put("id", id);
+       // j.put("id", id);
         j.put("quantidade", quantidade);
         j.put("data_recebimento", data_recebimento);
-        j.put("cultivar", cultivar);
-        j.put("agricultor", agricultor);
+        //j.put("cultivar", cultivar);
+        //j.put("agricultor", agricultor);
         j.put("grandeza", grandeza);
         
+        j.put("nome", nome);
         return j;
     }
     
