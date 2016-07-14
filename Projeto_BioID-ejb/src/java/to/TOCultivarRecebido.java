@@ -20,7 +20,8 @@ public class TOCultivarRecebido extends TOBase {
     public int cultivar;
     public int agricultor;
     public String grandeza;
-    
+    public boolean relatado;
+    public String imgcultivar;
     public String nome;
 
     public int getId() {
@@ -70,7 +71,7 @@ public class TOCultivarRecebido extends TOBase {
     public void setGrandeza(String grandeza) {
         this.grandeza = grandeza;
     }
-//////////////////
+//////////////////join
     public String getNome() {
         return nome;
     }
@@ -79,6 +80,23 @@ public class TOCultivarRecebido extends TOBase {
         this.nome = nome;
     }
 /////////////
+
+    public boolean isRelatado() {
+        return relatado;
+    }
+
+    public void setRelatado(boolean relatado) {
+        this.relatado = relatado;
+    }
+
+    public String getImgcultivar() {
+        return imgcultivar;
+    }
+
+    public void setImgcultivar(String imgcultivar) {
+        this.imgcultivar = imgcultivar;
+    }
+    
     
     
     public TOCultivarRecebido() {
@@ -92,6 +110,10 @@ public class TOCultivarRecebido extends TOBase {
         //this.agricultor = rs.getInt("agricultor");
         this.grandeza = rs.getString("grandeza");
         this.nome = rs.getString("nome");
+        this.relatado = rs.getBoolean("relatado");
+        this.imgcultivar = rs.getString("imgcultivar");
+        
+        
     }
 
     @Override
@@ -106,10 +128,15 @@ public class TOCultivarRecebido extends TOBase {
         //j.put("cultivar", cultivar);
         //j.put("agricultor", agricultor);
         j.put("grandeza", grandeza);
-        
         j.put("nome", nome);
+        j.put("relatado", relatado);
+        j.put("imgcultivar", imgcultivar);
         return j;
     }
     
-    
+
+     
+   
+
+
 }

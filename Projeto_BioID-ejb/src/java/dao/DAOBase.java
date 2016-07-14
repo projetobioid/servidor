@@ -33,4 +33,5 @@ public class DAOBase {
     public TOBase getLogin(Connection c, TOBase t) throws  Exception{
         return null;
     }
+    
 }

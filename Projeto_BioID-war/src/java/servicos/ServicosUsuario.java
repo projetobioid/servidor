@@ -20,6 +20,8 @@ import to.TOUsuario;
 
 import java.security.SecureRandom;
 import java.math.BigInteger;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -189,8 +191,8 @@ public class ServicosUsuario {
                 SecureRandom random = new SecureRandom();
                 j.put("idSession", new BigInteger(130, random).toString(32));
                 //retorna a data de login que espirará em um tempo determinado
-                j.put("dataLogin", new Date(System.currentTimeMillis()));
-                
+                //j.put("logTempo", (730 * Float.parseFloat(getData("M"))) - ((30.4166666666666667 - Float.parseFloat(getData("d")))*24) );
+                j.put("logTempo", ((730 * Float.parseFloat(getData("M"))) - (730 - (Float.parseFloat(getData("d"))*24)))+168 );
             }
         }catch (Exception e){
             j.put("sucesso", false);
@@ -198,6 +200,13 @@ public class ServicosUsuario {
         }
         
         return j.toString();
+    }
+
+    private String getData(String modelo) {
+	DateFormat dateFormat = new SimpleDateFormat(modelo);
+	Date date = new Date();
+	return dateFormat.format(date);
+
     }
     
 }
