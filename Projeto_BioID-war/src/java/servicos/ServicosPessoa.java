@@ -6,6 +6,7 @@
 package servicos;
 
 import bo.BOFactory;
+import dao.DAOEndereco;
 import dao.DAOLogin;
 import dao.DAOPessoa;
 import java.util.Date;
@@ -17,6 +18,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import to.TOEndereco;
 import to.TOLogin;
 import to.TOPessoa;
 
@@ -65,6 +67,7 @@ public class ServicosPessoa {
     @POST
     @Path("inserir")
     public String inserir(
+            //tabela pessoa
             @FormParam("unidade_idunidade") int unidade_idunidade,
             @FormParam("endereco_idendereco") int endereco_idendereco,
             @FormParam("login_idlogin") int login_idlogin,
@@ -83,9 +86,17 @@ public class ServicosPessoa {
             //tabela login
             @FormParam("usuario") String usuario,
             @FormParam("senha") String senha,
-            @FormParam("papel") String papel
+            @FormParam("papel") String papel,
+            //tabela endereco
+            @FormParam("cidade_idcidade") int cidade_idcidade,
+            @FormParam("rua") String rua,
+            @FormParam("gps_lat") int gps_lat,
+            @FormParam("gps_log") int gps_log,
+            @FormParam("bairro") String bairro,
+            @FormParam("complemento") String complemento,
+            @FormParam("cep") String cep,
+            @FormParam("numero") int numero
             ) throws Exception{
-        
 
         
         JSONObject j = new JSONObject();
@@ -93,7 +104,7 @@ public class ServicosPessoa {
         try{
             TOPessoa t = new TOPessoa();
             TOLogin tl = new TOLogin();
-            
+            TOEndereco te = new TOEndereco();
             //popula a classe
             t.setUnidade_idunidade(unidade_idunidade);
             t.setEndereco_idendereco(endereco_idendereco);
@@ -114,11 +125,22 @@ public class ServicosPessoa {
             tl.setUsuario(usuario);
             tl.setSenha(senha);
             tl.setPapel(papel);
+            //objeto TOEndereco
+            te.setCidade_idCidade(cidade_idcidade);
+            te.setRua(rua);
+            te.setGps_Lat(gps_lat);
+            te.setGps_Log(gps_log);
+            te.setBairro(bairro);
+            te.setComplemento(complemento);
+            te.setCep(cep);
+            te.setNumero(numero);
             
             //grava no banco de dados os dados da classe TOPessoa
             BOFactory.inserir(new DAOPessoa(), t);
             //grava no banco de dados os dados da classe TOLogin
             BOFactory.inserir(new DAOLogin(), tl);
+            //grava no banco de dados os dados da classe TOLogin
+            BOFactory.inserir(new DAOEndereco(), te);
             
             j.put("sucesso", true);
             
