@@ -32,6 +32,7 @@ public class ApplicationConfig extends Application {
         resources.add(servicos.ServicosAgricultor.class);
         resources.add(servicos.ServicosCultivar.class);
         resources.add(servicos.ServicosCultivarrecebido.class);
+        resources.add(servicos.ServicosLogin.class);
         resources.add(servicos.ServicosPessoa.class);
         resources.add(servicos.ServicosUsuario.class);
     }

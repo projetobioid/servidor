@@ -15,6 +15,8 @@ import java.util.Date;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.UriInfo;
 import org.json.JSONObject;
 import to.TOLogin;
 
@@ -25,6 +27,15 @@ import to.TOLogin;
  */
 @Path("login")
 public class ServicosLogin {
+
+    @Context
+    private UriInfo context;
+
+    /**
+     * Creates a new instance of ServicosUsuarios
+     */
+    public ServicosLogin() {
+    }
 
  //login
     @POST
