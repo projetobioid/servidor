@@ -67,8 +67,16 @@ public class ServicosPessoa {
     @POST
     @Path("inserir")
     public String inserir(
+            //tabela endereco
+            @FormParam("cidade_idcidade") long cidade_idcidade,
+            @FormParam("rua") String rua,
+            @FormParam("gps_lat") int gps_lat,
+            @FormParam("gps_log") int gps_log,
+            @FormParam("bairro") String bairro,
+            @FormParam("complemento") String complemento,
+            @FormParam("cep") String cep,
+            @FormParam("numero") int numero,
             //tabela pessoa
-            @FormParam("endereco_idendereco") long endereco_idendereco,
             @FormParam("escolaridade_idescolaridade") long escolaridade_idescolaridade,
             @FormParam("estadocivil_idestadocivil") long estadocivil_idestadocivil,
             @FormParam("nome") String nome,
@@ -85,26 +93,33 @@ public class ServicosPessoa {
             @FormParam("usuario") String usuario,
             @FormParam("senha") String senha,
             @FormParam("papel") String papel,
-            //tabela endereco
-            @FormParam("cidade_idcidade") int cidade_idcidade,
-            @FormParam("rua") String rua,
-            @FormParam("gps_lat") int gps_lat,
-            @FormParam("gps_log") int gps_log,
-            @FormParam("bairro") String bairro,
-            @FormParam("complemento") String complemento,
-            @FormParam("cep") String cep,
-            @FormParam("numero") int numero*/
+            */
             ) throws Exception{
 
         
         JSONObject j = new JSONObject();
         
         try{
+            long idGerado;
+            
+            //objeto TOEndereco
+            TOEndereco te = new TOEndereco();
+            te.setCidade_idCidade(cidade_idcidade);
+            te.setRua(rua);
+            te.setGps_Lat(gps_lat);
+            te.setGps_Log(gps_log);
+            te.setBairro(bairro);
+            te.setComplemento(complemento);
+            te.setCep(cep);
+            te.setNumero(numero);
+            //grava no banco de dados os dados da classe TOLogin
+            idGerado = BOFactory.inserir(new DAOEndereco(), te);
+            
             TOPessoa t = new TOPessoa();
             //TOLogin tl = new TOLogin();
-            //TOEndereco te = new TOEndereco();
+            
             //popula a classe
-            t.setEndereco_idendereco(endereco_idendereco);
+            t.setEndereco_idendereco(idGerado);
             t.setEscolaridade_idescolaridade(escolaridade_idescolaridade);
             t.setEstadocivil_idestadocivil(estadocivil_idestadocivil);
             t.setNome(nome);
@@ -117,27 +132,19 @@ public class ServicosPessoa {
             t.setTelefone1(telefone1);
             t.setTelefone2(telefone2);
             t.setEmail(email);
+            //grava no banco de dados os dados da classe TOPessoa e retorna o id gerado
+            BOFactory.inserir(new DAOPessoa(), t);
+            
             /*/objeto TOLogin
             tl.setUsuario(usuario);
             tl.setSenha(senha);
             tl.setPapel(papel);
-            //objeto TOEndereco
-            te.setCidade_idCidade(cidade_idcidade);
-            te.setRua(rua);
-            te.setGps_Lat(gps_lat);
-            te.setGps_Log(gps_log);
-            te.setBairro(bairro);
-            te.setComplemento(complemento);
-            te.setCep(cep);
-            te.setNumero(numero);
+            
             */
-            //grava no banco de dados os dados da classe TOPessoa
-            long idGerado = BOFactory.inserir(new DAOPessoa(), t);
-            System.out.println(idGerado);
+            
             //grava no banco de dados os dados da classe TOLogin
            // BOFactory.inserir(new DAOLogin(), tl);
-            //grava no banco de dados os dados da classe TOLogin
-            //BOFactory.inserir(new DAOEndereco(), te);
+            
             
             j.put("sucesso", true);
             

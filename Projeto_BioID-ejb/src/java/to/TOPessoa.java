@@ -168,10 +168,10 @@ public class TOPessoa extends TOBase{
     
      //retorna consulta do banco de dados tipo resultset
     public TOPessoa (ResultSet rs) throws Exception{
-        this.idPessoa = rs.getInt("idPessoa");
-        this.endereco_idendereco = rs.getInt("endereco_idendereco");
-        this.escolaridade_idescolaridade = rs.getInt("escolaridade_idescolaridade");
-        this.estadocivil_idestadocivil = rs.getInt("estadocivil_idestadocivil");
+        this.idPessoa = rs.getLong("idPessoa");
+        this.endereco_idendereco = rs.getLong("endereco_idendereco");
+        this.escolaridade_idescolaridade = rs.getLong("escolaridade_idescolaridade");
+        this.estadocivil_idestadocivil = rs.getLong("estadocivil_idestadocivil");
         this.nome = rs.getString("nome");
         this.sobrenome = rs.getString("sobrenome");
         this.apelido = rs.getString("apelido");

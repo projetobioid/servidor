@@ -13,7 +13,7 @@ import org.json.JSONObject;
  * @author daniel
  */
 public class TOEndereco extends TOBase{
-    public int Cidade_idCidade;
+    public long Cidade_idCidade;
     public String rua;
     public int gps_Lat;
     public int gps_Log;
@@ -22,11 +22,11 @@ public class TOEndereco extends TOBase{
     public String complemento;
     public String cep;
     
-    public int getCidade_idCidade() {
+    public long getCidade_idCidade() {
         return Cidade_idCidade;
     }
 
-    public void setCidade_idCidade(int Cidade_idCidade) {
+    public void setCidade_idCidade(long Cidade_idCidade) {
         this.Cidade_idCidade = Cidade_idCidade;
     }
     
@@ -91,7 +91,7 @@ public class TOEndereco extends TOBase{
     public TOEndereco() {
     }
 
-    public TOEndereco(String rua, int gps_Lat, int gps_Log, int numero, String bairro, String complemento, String cep, int Cidade_idCidade) {
+    public TOEndereco(String rua, int gps_Lat, int gps_Log, int numero, String bairro, String complemento, String cep, long Cidade_idCidade) {
         this.rua = rua;
         this.gps_Lat = gps_Lat;
         this.gps_Log = gps_Log;
@@ -106,7 +106,7 @@ public class TOEndereco extends TOBase{
 
     //retorna consulta do banco de dados tipo resultset
     public TOEndereco (ResultSet rs) throws Exception{
-        this.Cidade_idCidade = rs.getInt("Cidade_idCidade");
+        this.Cidade_idCidade = rs.getLong("Cidade_idCidade");
         this.rua = rs.getString("rua");
         this.gps_Lat = rs.getInt("gps_Lat");
         this.gps_Log = rs.getInt("gps_Log");
