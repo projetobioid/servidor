@@ -18,11 +18,6 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import to.TOUsuario;
 
-import java.security.SecureRandom;
-import java.math.BigInteger;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 /**
  * REST Web Service
@@ -162,51 +157,6 @@ public class ServicosUsuario {
         
     }
     
-    //login
-    @POST
-    @Path("login")
-    public String login(@FormParam("usuario") String usuario,
-                        @FormParam("senha") String senha) throws Exception{
-        
-        //objeto de retorno da requisicao
-        JSONObject j = new JSONObject();
-        
-        try{
-            TOUsuario to = new TOUsuario();
-            to.setUsuario(usuario);
-            to.setSenha(senha);
-            
-            to = (TOUsuario) BOFactory.getLogin(new DAOUsuarios(), to);
-            
-            if(to == null){
-                j.put("sucesso", false);
-                j.put("messangem", "Usuário não encontrado");
-            }else{
-                j.put("sucesso", true);
-                
-                j.put("usuario", to.getUsuario());
-                j.put("email", to.getEmail());
-                j.put("tipo", to.getTipo());
-                //retorna uma senha
-                SecureRandom random = new SecureRandom();
-                j.put("idSession", new BigInteger(130, random).toString(32));
-                //retorna a data de login que espirará em um tempo determinado
-                //j.put("logTempo", (730 * Float.parseFloat(getData("M"))) - ((30.4166666666666667 - Float.parseFloat(getData("d")))*24) );
-                j.put("logTempo", ((730 * Float.parseFloat(getData("M"))) - (730 - (Float.parseFloat(getData("d"))*24)))+168 );
-            }
-        }catch (Exception e){
-            j.put("sucesso", false);
-            j.put("messangem", e.getMessage());
-        }
-        
-        return j.toString();
-    }
-
-    private String getData(String modelo) {
-	DateFormat dateFormat = new SimpleDateFormat(modelo);
-	Date date = new Date();
-	return dateFormat.format(date);
-
-    }
+   
     
 }

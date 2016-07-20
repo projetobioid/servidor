@@ -8,6 +8,7 @@ import dao.Data;
 import to.TOBase;
 import java.sql.Connection;
 import org.json.JSONArray;
+import dao.DAOIntBase;
 
 /**
  *
@@ -73,7 +74,7 @@ public class BOFactory {
         }
     }
        
-    public static TOBase getLogin(DAOBase d, TOBase t) throws Exception{
+    public static TOBase getLogin(DAOIntBase d, TOBase t) throws Exception{
         Connection c = null;
         
         try{
