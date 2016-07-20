@@ -16,7 +16,7 @@ import to.TOEndereco;
  *
  * @author daniel
  */
-public class DAOEndereco implements DAOIntBase{
+public class DAOEndereco implements DAOBase{
 
     @Override
     public void inserir(Connection c, TOBase t) throws Exception {

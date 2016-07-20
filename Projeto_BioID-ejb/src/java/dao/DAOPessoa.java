@@ -16,7 +16,7 @@ import to.TOPessoa;
  *
  * @author daniel
  */
-public class DAOPessoa implements DAOIntBase{
+public class DAOPessoa implements DAOBase{
 
 
     @Override

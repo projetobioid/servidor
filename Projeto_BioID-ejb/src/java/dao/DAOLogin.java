@@ -17,7 +17,7 @@ import to.TOLogin;
  *
  * @author daniel
  */
-public class DAOLogin implements DAOIntBase{
+public class DAOLogin implements DAOBase{
     @Override
     public TOBase getLogin(Connection c, TOBase t) throws Exception {
         //string com o comando sql para editar o banco de dados

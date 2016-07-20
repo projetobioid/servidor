@@ -13,7 +13,7 @@ import to.TOBase;
  *
  * @author daniel
  */
-public interface DAOIntBase {
+public interface DAOBase {
      public void inserir(Connection c, TOBase t) throws Exception;
     
     public void editar(Connection c, TOBase t) throws Exception;

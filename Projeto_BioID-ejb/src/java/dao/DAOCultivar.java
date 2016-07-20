@@ -17,7 +17,7 @@ import to.TOCultivar;
  * @author daniel
  */
 @Stateless
-public class DAOCultivar implements DAOIntBase {
+public class DAOCultivar implements DAOBase {
 
     @Override
     public void inserir(Connection c, TOBase t) throws Exception {

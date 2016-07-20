@@ -7,7 +7,7 @@ import dao.Data;
 import to.TOBase;
 import java.sql.Connection;
 import org.json.JSONArray;
-import dao.DAOIntBase;
+import dao.DAOBase;
 
 /**
  *
@@ -15,7 +15,7 @@ import dao.DAOIntBase;
  */
 public class BOFactory {
        
-    public static TOBase getLogin(DAOIntBase d, TOBase t) throws Exception{
+    public static TOBase getLogin(DAOBase d, TOBase t) throws Exception{
         Connection c = null;
         
         try{
@@ -27,7 +27,7 @@ public class BOFactory {
         }
     }
     
-    public static void inserir(DAOIntBase d, TOBase t) throws Exception{
+    public static void inserir(DAOBase d, TOBase t) throws Exception{
         Connection c = null;
         
         try{
@@ -38,7 +38,7 @@ public class BOFactory {
         }
     }
     
-    public static void editar(DAOIntBase d, TOBase t) throws Exception{
+    public static void editar(DAOBase d, TOBase t) throws Exception{
         Connection c = null;
         
         try{
@@ -49,7 +49,7 @@ public class BOFactory {
         }
     }
 
-    public static void excluir(DAOIntBase d, TOBase t) throws Exception{
+    public static void excluir(DAOBase d, TOBase t) throws Exception{
         Connection c = null;
         
         try{
@@ -61,7 +61,7 @@ public class BOFactory {
     }
 
     
-    public static TOBase get(DAOIntBase d, TOBase t) throws Exception{
+    public static TOBase get(DAOBase d, TOBase t) throws Exception{
         Connection c = null;
         
         try{
@@ -73,7 +73,7 @@ public class BOFactory {
         }
     }
     
-    public static JSONArray listar(DAOIntBase d) throws Exception{
+    public static JSONArray listar(DAOBase d) throws Exception{
         Connection c = null;
         
         try{
