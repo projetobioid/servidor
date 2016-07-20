@@ -19,7 +19,7 @@ import to.TOEndereco;
 public class DAOEndereco implements DAOBase{
 
     @Override
-    public void inserir(Connection c, TOBase t) throws Exception {
+    public long inserir(Connection c, TOBase t) throws Exception {
         //string com o comando sql para editar o banco de dados
         String sql = "INSERT INTO endereco(cidade_idcidade, rua, gps_lat, gps_log, bairro, complemento, cep, numero) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         //variavel sendo convertida para toUsuarios
@@ -38,7 +38,7 @@ public class DAOEndereco implements DAOBase{
         u.add(to.getNumero());
         
         //passa por parametros a conexao e a lista de objetos da insercao de um novo produto
-        Data.executeUpdate(c, sql, u);
+        return Data.executeUpdate(c, sql, u);
     }
 
     @Override

@@ -14,7 +14,7 @@ import to.TOBase;
  * @author daniel
  */
 public interface DAOBase {
-     public void inserir(Connection c, TOBase t) throws Exception;
+     public long inserir(Connection c, TOBase t) throws Exception;
     
     public void editar(Connection c, TOBase t) throws Exception;
         

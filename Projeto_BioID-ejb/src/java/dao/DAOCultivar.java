@@ -20,7 +20,7 @@ import to.TOCultivar;
 public class DAOCultivar implements DAOBase {
 
     @Override
-    public void inserir(Connection c, TOBase t) throws Exception {
+    public long inserir(Connection c, TOBase t) throws Exception {
         String sql = "insert into cultivar (id, nome, descricao, biofortificado, tipo) values (?, ?, ?, ?, ?)";
         
         TOCultivar to = (TOCultivar)t;
@@ -35,7 +35,7 @@ public class DAOCultivar implements DAOBase {
         p.add(to.getTipo());
         
         //passa por parametros a conexao e a lista de objetos da insercao de um novo produto
-        Data.executeUpdate(c, sql, p);
+        return Data.executeUpdate(c, sql, p);
     }
     
     @Override

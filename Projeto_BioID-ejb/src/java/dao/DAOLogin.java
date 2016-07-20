@@ -21,7 +21,7 @@ public class DAOLogin implements DAOBase{
     @Override
     public TOBase getLogin(Connection c, TOBase t) throws Exception {
         //string com o comando sql para editar o banco de dados
-        String sql = "SELECT usuario, senha, papel, sessao FROM login where usuario = ? and senha = ?";
+        String sql = "SELECT unidade_idunidade, pessoa_idpessoa, usuario, senha, papel, sessao FROM login where usuario = ? and senha = ?";
         
         ResultSet rs = null;
         
@@ -48,7 +48,7 @@ public class DAOLogin implements DAOBase{
     }
 
     @Override
-    public void inserir(Connection c, TOBase t) throws Exception {
+    public long inserir(Connection c, TOBase t) throws Exception {
         //string com o comando sql para editar o banco de dados
         String sql = "INSERT INTO login(usuario, senha, papel) VALUES (?, ?, ?)";
         //variavel sendo convertida para toUsuarios
@@ -62,7 +62,7 @@ public class DAOLogin implements DAOBase{
         u.add(to.getPapel());
         
         //passa por parametros a conexao e a lista de objetos da insercao de um novo produto
-        Data.executeUpdate(c, sql, u);
+        return Data.executeUpdate(c, sql, u);
     }
 
     @Override

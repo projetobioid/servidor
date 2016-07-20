@@ -12,10 +12,12 @@ import java.security.SecureRandom;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.UriInfo;
 import org.json.JSONObject;
 import to.TOLogin;
@@ -39,6 +41,7 @@ public class ServicosLogin {
 
  //login
     @POST
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Path("validacao")
     public String login(@FormParam("usuario") String usuario,
                         @FormParam("senha") String senha) throws Exception{

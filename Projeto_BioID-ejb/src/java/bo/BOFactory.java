@@ -27,12 +27,12 @@ public class BOFactory {
         }
     }
     
-    public static void inserir(DAOBase d, TOBase t) throws Exception{
+    public static long inserir(DAOBase d, TOBase t) throws Exception{
         Connection c = null;
         
         try{
             c =  Data.openConnection();
-            d.inserir(c, t);
+            return d.inserir(c, t);
         }finally{
             c.close();
         }

@@ -20,7 +20,7 @@ public class DAOPessoa implements DAOBase{
 
 
     @Override
-    public void inserir(Connection c, TOBase t) throws Exception {
+    public long inserir(Connection c, TOBase t) throws Exception {
         //string com o comando sql para editar o banco de dados
         String sql = "INSERT INTO pessoa(endereco_idendereco, escolaridade_idescolaridade,"
                 + " estadocivil_idestadocivil, nome, sobrenome, apelido, cpf, rg, sexo, telefone1,"
@@ -45,7 +45,7 @@ public class DAOPessoa implements DAOBase{
         u.add(to.getTelefone2());
         u.add(to.getEmail());
         //passa por parametros a conexao e a lista de objetos da insercao de um novo produto
-        Data.executeUpdate(c, sql, u);
+        return Data.executeUpdate(c, sql, u);
     }
 
     @Override

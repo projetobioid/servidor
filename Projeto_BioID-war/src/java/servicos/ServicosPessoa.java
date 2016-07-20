@@ -68,9 +68,9 @@ public class ServicosPessoa {
     @Path("inserir")
     public String inserir(
             //tabela pessoa
-            @FormParam("endereco_idendereco") int endereco_idendereco,
-            @FormParam("escolaridade_idescolaridade") int escolaridade_idescolaridade,
-            @FormParam("estadocivil_idestadocivil") int estadocivil_idestadocivil,
+            @FormParam("endereco_idendereco") long endereco_idendereco,
+            @FormParam("escolaridade_idescolaridade") long escolaridade_idescolaridade,
+            @FormParam("estadocivil_idestadocivil") long estadocivil_idestadocivil,
             @FormParam("nome") String nome,
             @FormParam("sobrenome") String sobrenome,
             @FormParam("apelido") String apelido,
@@ -132,7 +132,8 @@ public class ServicosPessoa {
             te.setNumero(numero);
             */
             //grava no banco de dados os dados da classe TOPessoa
-            BOFactory.inserir(new DAOPessoa(), t);
+            long idGerado = BOFactory.inserir(new DAOPessoa(), t);
+            System.out.println(idGerado);
             //grava no banco de dados os dados da classe TOLogin
            // BOFactory.inserir(new DAOLogin(), tl);
             //grava no banco de dados os dados da classe TOLogin

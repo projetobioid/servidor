@@ -62,14 +62,26 @@ public class Data {
     
     
     //executa update passando lista
-    public static int executeUpdate(Connection conn, String query, List<Object> p) throws SQLException{
+    public static long executeUpdate(Connection conn, String query, List<Object> p) throws SQLException{
         PreparedStatement pstmt = conn.prepareStatement(query);
         //recebe os parametros da query
         int i = 1;
         for (Object o : p){
             pstmt.setObject(i++, retiraInject(o));
         }
-        return pstmt.executeUpdate();
+        
+        pstmt.executeUpdate();
+        
+        ResultSet rs = pstmt.getGeneratedKeys();
+
+        Long idGerado = null;
+
+        if(rs.next()) {
+            idGerado = rs.getLong(1);
+        }		
+	
+
+        return idGerado;
     }
     //executa update passando conexao e sql
     public static int executeUptade(Connection conn, String query) throws SQLException{
