@@ -22,18 +22,16 @@ public class DAOPessoa implements DAOBase{
     @Override
     public void inserir(Connection c, TOBase t) throws Exception {
         //string com o comando sql para editar o banco de dados
-        String sql = "INSERT INTO pessoa(unidade_idunidade, endereco_idendereco, login_idlogin,escolaridade_idescolaridade,"
+        String sql = "INSERT INTO pessoa(endereco_idendereco, escolaridade_idescolaridade,"
                 + " estadocivil_idestadocivil, nome, sobrenome, apelido, cpf, rg, sexo, telefone1,"
-                + " telefone2, email) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                + " telefone2, email) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         //variavel sendo convertida para toUsuarios
         TOPessoa to = (TOPessoa)t;
         //variavel com lista dos parametros
         List<Object> u = new ArrayList<Object>();
         
         
-        u.add(to.getUnidade_idunidade());
         u.add(to.getEndereco_idendereco());
-        u.add(to.getLogin_idlogin());
         u.add(to.getEscolaridade());
         u.add(to.getEstadocivil_idestadocivil());
         u.add(to.getNome());

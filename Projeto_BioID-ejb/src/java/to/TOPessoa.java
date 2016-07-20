@@ -14,12 +14,10 @@ import org.json.JSONObject;
  * @author daniel
  */
 public class TOPessoa extends TOBase{
-    public int id;
-    public int unidade_idunidade;
-    public int endereco_idendereco;
-    public int login_idlogin;
-    public int escolaridade;
-    public int estadocivil_idestadocivil;
+    public long idPessoa;
+    public long endereco_idendereco;
+    public long escolaridade;
+    public long estadocivil_idestadocivil;
     public String nome;
     public String sobrenome;
     public String apelido;
@@ -31,43 +29,31 @@ public class TOPessoa extends TOBase{
     public String telefone2;
     public String email;
 
-    public int getUnidade_idunidade() {
-        return unidade_idunidade;
-    }
+ 
 
-    public void setUnidade_idunidade(int unidade_idunidade) {
-        this.unidade_idunidade = unidade_idunidade;
-    }
-
-    public int getEndereco_idendereco() {
+    public long getEndereco_idendereco() {
         return endereco_idendereco;
     }
 
-    public void setEndereco_idendereco(int endereco_idendereco) {
+    public void setEndereco_idendereco(long endereco_idendereco) {
         this.endereco_idendereco = endereco_idendereco;
     }
 
-    public int getLogin_idlogin() {
-        return login_idlogin;
-    }
 
-    public void setLogin_idlogin(int login_idlogin) {
-        this.login_idlogin = login_idlogin;
-    }
 
-    public int getEscolaridade() {
+    public long getEscolaridade() {
         return escolaridade;
     }
 
-    public void setEscolaridade(int escolaridade) {
+    public void setEscolaridade(long escolaridade) {
         this.escolaridade = escolaridade;
     }
 
-    public int getEstadocivil_idestadocivil() {
+    public long getEstadocivil_idestadocivil() {
         return estadocivil_idestadocivil;
     }
 
-    public void setEstadocivil_idestadocivil(int estadocivil_idestadocivil) {
+    public void setEstadocivil_idestadocivil(long estadocivil_idestadocivil) {
         this.estadocivil_idestadocivil = estadocivil_idestadocivil;
     }
 
@@ -151,12 +137,12 @@ public class TOPessoa extends TOBase{
         this.email = email;
     }
 
-    public int getId() {
-        return id;
+    public long getId() {
+        return idPessoa;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setId(long id) {
+        this.idPessoa = idPessoa;
     }
 
     
@@ -164,10 +150,8 @@ public class TOPessoa extends TOBase{
     public TOPessoa() {
     }
 
-    public TOPessoa(int unidade_idunidade, int endereco_idendereco, int login_idlogin, int escolaridade, int estadocivil_idestadocivil, String nome, String sobrenome, String apelido, String cpf, String rg, String datanascimento, String sexo, String telefone1, String telefone2, String email) {
-        this.unidade_idunidade = unidade_idunidade;
+    public TOPessoa(long endereco_idendereco, long escolaridade, long estadocivil_idestadocivil, String nome, String sobrenome, String apelido, String cpf, String rg, String datanascimento, String sexo, String telefone1, String telefone2, String email) {
         this.endereco_idendereco = endereco_idendereco;
-        this.login_idlogin = login_idlogin;
         this.escolaridade = escolaridade;
         this.estadocivil_idestadocivil = estadocivil_idestadocivil;
         this.nome = nome;
@@ -184,9 +168,8 @@ public class TOPessoa extends TOBase{
     
      //retorna consulta do banco de dados tipo resultset
     public TOPessoa (ResultSet rs) throws Exception{
-        this.unidade_idunidade = rs.getInt("unidade_idunidade");
+        this.idPessoa = rs.getInt("idPessoa");
         this.endereco_idendereco = rs.getInt("endereco_idendereco");
-        this.login_idlogin = rs.getInt("login_idlogin");
         this.escolaridade = rs.getInt("escolaridade");
         this.nome = rs.getString("nome");
         this.sobrenome = rs.getString("sobrenome");
@@ -211,9 +194,8 @@ public class TOPessoa extends TOBase{
         JSONObject j = new JSONObject();
         
         //populando o objeto j
-        j.put("unidade_idunidade", unidade_idunidade);
+        j.put("idPessoa", idPessoa);
         j.put("endereco_idendereco", endereco_idendereco);
-        j.put("login_idlogin", login_idlogin);
         j.put("escolaridade", escolaridade);
         j.put("nome", nome);
         j.put("sobrenome", sobrenome);

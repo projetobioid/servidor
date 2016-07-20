@@ -68,9 +68,7 @@ public class ServicosPessoa {
     @Path("inserir")
     public String inserir(
             //tabela pessoa
-            @FormParam("unidade_idunidade") int unidade_idunidade,
             @FormParam("endereco_idendereco") int endereco_idendereco,
-            @FormParam("login_idlogin") int login_idlogin,
             @FormParam("escolaridade_idescolaridade") int escolaridade_idescolaridade,
             @FormParam("estadocivil_idestadocivil") int estadocivil_idestadocivil,
             @FormParam("nome") String nome,
@@ -82,8 +80,8 @@ public class ServicosPessoa {
             @FormParam("sexo") String sexo,
             @FormParam("telefone1") String telefone1,
             @FormParam("telefone2") String telefone2,
-            @FormParam("email") String email,
-            //tabela login
+            @FormParam("email") String email
+            /*/tabela login
             @FormParam("usuario") String usuario,
             @FormParam("senha") String senha,
             @FormParam("papel") String papel,
@@ -95,7 +93,7 @@ public class ServicosPessoa {
             @FormParam("bairro") String bairro,
             @FormParam("complemento") String complemento,
             @FormParam("cep") String cep,
-            @FormParam("numero") int numero
+            @FormParam("numero") int numero*/
             ) throws Exception{
 
         
@@ -103,12 +101,10 @@ public class ServicosPessoa {
         
         try{
             TOPessoa t = new TOPessoa();
-            TOLogin tl = new TOLogin();
-            TOEndereco te = new TOEndereco();
+            //TOLogin tl = new TOLogin();
+            //TOEndereco te = new TOEndereco();
             //popula a classe
-            t.setUnidade_idunidade(unidade_idunidade);
             t.setEndereco_idendereco(endereco_idendereco);
-            t.setLogin_idlogin(login_idlogin);
             t.setEscolaridade(escolaridade_idescolaridade);
             t.setEstadocivil_idestadocivil(estadocivil_idestadocivil);
             t.setNome(nome);
@@ -121,7 +117,7 @@ public class ServicosPessoa {
             t.setTelefone1(telefone1);
             t.setTelefone2(telefone2);
             t.setEmail(email);
-            //objeto TOLogin
+            /*/objeto TOLogin
             tl.setUsuario(usuario);
             tl.setSenha(senha);
             tl.setPapel(papel);
@@ -134,13 +130,13 @@ public class ServicosPessoa {
             te.setComplemento(complemento);
             te.setCep(cep);
             te.setNumero(numero);
-            
+            */
             //grava no banco de dados os dados da classe TOPessoa
             BOFactory.inserir(new DAOPessoa(), t);
             //grava no banco de dados os dados da classe TOLogin
-            BOFactory.inserir(new DAOLogin(), tl);
+           // BOFactory.inserir(new DAOLogin(), tl);
             //grava no banco de dados os dados da classe TOLogin
-            BOFactory.inserir(new DAOEndereco(), te);
+            //BOFactory.inserir(new DAOEndereco(), te);
             
             j.put("sucesso", true);
             
