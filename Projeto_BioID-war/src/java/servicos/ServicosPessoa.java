@@ -105,7 +105,7 @@ public class ServicosPessoa {
             //TOEndereco te = new TOEndereco();
             //popula a classe
             t.setEndereco_idendereco(endereco_idendereco);
-            t.setEscolaridade(escolaridade_idescolaridade);
+            t.setEscolaridade_idescolaridade(escolaridade_idescolaridade);
             t.setEstadocivil_idestadocivil(estadocivil_idestadocivil);
             t.setNome(nome);
             t.setSobrenome(sobrenome);

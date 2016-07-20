@@ -32,7 +32,7 @@ public class DAOPessoa implements DAOBase{
         
         
         u.add(to.getEndereco_idendereco());
-        u.add(to.getEscolaridade());
+        u.add(to.getEscolaridade_idescolaridade());
         u.add(to.getEstadocivil_idestadocivil());
         u.add(to.getNome());
         u.add(to.getSobrenome());
