@@ -138,7 +138,7 @@ public class ServicosPessoa {
             //grava no banco de dados os dados da classe TOPessoa
             BOFactory.inserir(new DAOPessoa(), t);
             //grava no banco de dados os dados da classe TOLogin
-            //BOFactory.inserir(new DAOLogin(), tl);
+            BOFactory.inserir(new DAOLogin(), tl);
             //grava no banco de dados os dados da classe TOLogin
             BOFactory.inserir(new DAOEndereco(), te);
             

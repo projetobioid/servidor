@@ -16,28 +16,8 @@ import to.TOPessoa;
  *
  * @author daniel
  */
-public class DAOPessoa extends DAOBase{
+public class DAOPessoa implements DAOIntBase{
 
-    @Override
-    public JSONArray listar(Connection c) throws Exception {
-        
-        return super.listar(c); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public TOBase get(Connection c, TOBase t) throws Exception {
-        return super.get(c, t); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void excluir(Connection c, TOBase t) throws Exception {
-        super.excluir(c, t); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void editar(Connection c, TOBase t) throws Exception {
-        super.editar(c, t); //To change body of generated methods, choose Tools | Templates.
-    }
 
     @Override
     public void inserir(Connection c, TOBase t) throws Exception {
@@ -68,6 +48,31 @@ public class DAOPessoa extends DAOBase{
         u.add(to.getEmail());
         //passa por parametros a conexao e a lista de objetos da insercao de um novo produto
         Data.executeUpdate(c, sql, u);
+    }
+
+    @Override
+    public void editar(Connection c, TOBase t) throws Exception {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void excluir(Connection c, TOBase t) throws Exception {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public TOBase get(Connection c, TOBase t) throws Exception {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public JSONArray listar(Connection c) throws Exception {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public TOBase getLogin(Connection c, TOBase t) throws Exception {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
     
