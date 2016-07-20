@@ -63,7 +63,7 @@ public class Data {
     
     //executa update passando lista
     public static long executeUpdate(Connection conn, String query, List<Object> p) throws SQLException{
-        PreparedStatement pstmt = conn.prepareStatement(query);
+        PreparedStatement pstmt = conn.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS);
         //recebe os parametros da query
         int i = 1;
         for (Object o : p){
@@ -74,7 +74,7 @@ public class Data {
         
         ResultSet rs = pstmt.getGeneratedKeys();
 
-        Long idGerado = null;
+        long idGerado = 0;
 
         if(rs.next()) {
             idGerado = rs.getLong(1);
