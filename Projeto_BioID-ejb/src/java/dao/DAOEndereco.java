@@ -8,6 +8,7 @@ package dao;
 import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
+import org.json.JSONArray;
 import to.TOBase;
 import to.TOEndereco;
 
@@ -15,7 +16,7 @@ import to.TOEndereco;
  *
  * @author daniel
  */
-public class DAOEndereco extends DAOBase{
+public class DAOEndereco implements DAOIntBase{
 
     @Override
     public void inserir(Connection c, TOBase t) throws Exception {
@@ -38,6 +39,31 @@ public class DAOEndereco extends DAOBase{
         
         //passa por parametros a conexao e a lista de objetos da insercao de um novo produto
         Data.executeUpdate(c, sql, u);
+    }
+
+    @Override
+    public void editar(Connection c, TOBase t) throws Exception {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void excluir(Connection c, TOBase t) throws Exception {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public TOBase get(Connection c, TOBase t) throws Exception {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public JSONArray listar(Connection c) throws Exception {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public TOBase getLogin(Connection c, TOBase t) throws Exception {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
 }

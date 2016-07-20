@@ -17,7 +17,7 @@ import to.TOCultivar;
  * @author daniel
  */
 @Stateless
-public class DAOCultivar extends DAOBase {
+public class DAOCultivar implements DAOIntBase {
 
     @Override
     public void inserir(Connection c, TOBase t) throws Exception {
@@ -111,12 +111,10 @@ public class DAOCultivar extends DAOBase {
         return ja;
     }
 
-
-
-
-
-
-
+    @Override
+    public TOBase getLogin(Connection c, TOBase t) throws Exception {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 
     
 }
