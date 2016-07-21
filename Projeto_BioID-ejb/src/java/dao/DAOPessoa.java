@@ -6,6 +6,7 @@
 package dao;
 
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 import org.json.JSONArray;
@@ -60,7 +61,22 @@ public class DAOPessoa implements DAOBase{
 
     @Override
     public TOBase get(Connection c, TOBase t) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        String sql = "SELECT * FROM pessoa where cpf = ?";
+        
+        ResultSet rs = null;
+        
+        try{
+            TOPessoa to = (TOPessoa)t;
+            rs = Data.executeQuery(c, sql, to.getCpf());
+            
+            if(rs.next()){
+                return new TOPessoa(rs);
+            }else{
+                return null;
+            }
+        }finally{
+            rs.close();
+        }
     }
 
     @Override

@@ -50,13 +50,14 @@ public class DAOLogin implements DAOBase{
     @Override
     public long inserir(Connection c, TOBase t) throws Exception {
         //string com o comando sql para editar o banco de dados
-        String sql = "INSERT INTO login(usuario, senha, papel) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO login(unidade_idunidade, pessoa_idpessoa, usuario, senha, papel) VALUES (?, ?, ?, ?, ?)";
         //variavel sendo convertida para toUsuarios
         TOLogin to = (TOLogin)t;
         //variavel com lista dos parametros
         List<Object> u = new ArrayList<Object>();
         
-
+        u.add(to.getUnidade_idunidade());
+        u.add(to.getPessoa_idpessoa());
         u.add(to.getUsuario());
         u.add(to.getSenha());
         u.add(to.getPapel());
@@ -77,7 +78,23 @@ public class DAOLogin implements DAOBase{
 
     @Override
     public TOBase get(Connection c, TOBase t) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        String sql = "SELECT * FROM login where usuario = ?";
+        
+        ResultSet rs = null;
+        
+        try{
+            TOLogin to = (TOLogin)t;
+            rs = Data.executeQuery(c, sql, to.getUsuario());
+            
+            if(rs.next()){
+                return new TOLogin(rs);
+            }else{
+                return null;
+            }
+        }finally{
+            rs.close();
+        }
+        
     }
 
     @Override

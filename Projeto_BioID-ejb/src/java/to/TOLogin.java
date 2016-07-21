@@ -13,7 +13,10 @@ import org.json.JSONObject;
  * @author daniel
  */
 public class TOLogin extends TOBase{
-
+    private long unidade_idunidade;
+    
+    private long pessoa_idpessoa;
+    
     private String usuario;
    
     private String senha;
@@ -22,7 +25,23 @@ public class TOLogin extends TOBase{
     
     private String sessao;
 
+    public long getUnidade_idunidade() {
+        return unidade_idunidade;
+    }
 
+    public void setUnidade_idunidade(long unidade_idunidade) {
+        this.unidade_idunidade = unidade_idunidade;
+    }
+
+    public long getPessoa_idpessoa() {
+        return pessoa_idpessoa;
+    }
+
+    public void setPessoa_idpessoa(long pessoa_idpessoa) {
+        this.pessoa_idpessoa = pessoa_idpessoa;
+    }
+   
+    
     public String getUsuario() {
         return usuario;
     }
@@ -58,15 +77,20 @@ public class TOLogin extends TOBase{
     public TOLogin() {
     }
 
-    public TOLogin(String usuario, String senha, String papel, String sessao) {
-
+    public TOLogin(long unidade_idunidade, long pessoa_idpessoa, String usuario, String senha, String papel, String sessao) {
+        this.unidade_idunidade = unidade_idunidade;
+        this.pessoa_idpessoa = pessoa_idpessoa;
         this.usuario = usuario;
         this.senha = senha;
         this.papel = papel;
         this.sessao = sessao;
     }
+
+    
     
     public TOLogin(ResultSet rs) throws Exception{
+        this.unidade_idunidade = rs.getLong("unidade_idunidade");
+        this.pessoa_idpessoa = rs.getLong("pessoa_idpessoa");
         this.usuario = rs.getString("usuario");
         this.senha = rs.getString("senha");
         this.papel = rs.getString("papel");
@@ -80,6 +104,8 @@ public class TOLogin extends TOBase{
         JSONObject j = new JSONObject();
         
         //populando o objeto j
+        j.put("unidade_idunidade", unidade_idunidade);
+        j.put("pessoa_idpessoa", pessoa_idpessoa);
         j.put("usuario", usuario);
         j.put("senha", senha);
         j.put("papel", papel);

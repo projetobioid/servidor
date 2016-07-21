@@ -3,10 +3,8 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/home/daniel/NetBeansProjects/Projeto_BioID/Projeto_BioID-ejb/src/java/to/TOLogin.java</file>
-            <file>file:/home/daniel/NetBeansProjects/Projeto_BioID/Projeto_BioID-ejb/src/java/dao/DAOPessoa.java</file>
-            <file>file:/home/daniel/NetBeansProjects/Projeto_BioID/Projeto_BioID-ejb/src/java/dao/DAOBase.java</file>
-            <file>file:/home/daniel/NetBeansProjects/Projeto_BioID/Projeto_BioID-ejb/src/java/dao/DAOLogin.java</file>
+            <file>file:/home/daniel/NetBeansProjects/Projeto_BioID/Projeto_BioID-ejb/src/java/to/TOEndereco.java</file>
+            <file>file:/home/daniel/NetBeansProjects/Projeto_BioID/Projeto_BioID-ejb/src/java/to/TOPessoa.java</file>
         </group>
     </open-files>
 </project-private>

@@ -88,67 +88,84 @@ public class ServicosPessoa {
             @FormParam("sexo") String sexo,
             @FormParam("telefone1") String telefone1,
             @FormParam("telefone2") String telefone2,
-            @FormParam("email") String email
-            /*/tabela login
+            @FormParam("email") String email,
+            //tabela login
             @FormParam("usuario") String usuario,
             @FormParam("senha") String senha,
             @FormParam("papel") String papel,
-            */
+            @FormParam("unidade_idunidade") long unidade_idunidade
             ) throws Exception{
 
         
+
         JSONObject j = new JSONObject();
         
         try{
+            
+            //cria objetos
+            TOPessoa t = new TOPessoa();
+            TOLogin tl = new TOLogin();
+            TOEndereco te = new TOEndereco();
             long idGerado;
             
-            //objeto TOEndereco
-            TOEndereco te = new TOEndereco();
-            te.setCidade_idCidade(cidade_idcidade);
-            te.setRua(rua);
-            te.setGps_Lat(gps_lat);
-            te.setGps_Log(gps_log);
-            te.setBairro(bairro);
-            te.setComplemento(complemento);
-            te.setCep(cep);
-            te.setNumero(numero);
-            //grava no banco de dados os dados da classe TOLogin
-            idGerado = BOFactory.inserir(new DAOEndereco(), te);
-            
-            TOPessoa t = new TOPessoa();
-            //TOLogin tl = new TOLogin();
-            
-            //popula a classe
-            t.setEndereco_idendereco(idGerado);
-            t.setEscolaridade_idescolaridade(escolaridade_idescolaridade);
-            t.setEstadocivil_idestadocivil(estadocivil_idestadocivil);
-            t.setNome(nome);
-            t.setSobrenome(sobrenome);
-            t.setApelido(apelido);
+            //popula objetos e verifica se existe o cpf e usuario cadastrados no banco
             t.setCpf(cpf);
-            t.setRg(rg);
-            //t.setDatanascimento(datanascimento);
-            t.setSexo(sexo);
-            t.setTelefone1(telefone1);
-            t.setTelefone2(telefone2);
-            t.setEmail(email);
-            //grava no banco de dados os dados da classe TOPessoa e retorna o id gerado
-            BOFactory.inserir(new DAOPessoa(), t);
-            
-            /*/objeto TOLogin
             tl.setUsuario(usuario);
-            tl.setSenha(senha);
-            tl.setPapel(papel);
             
-            */
-            
-            //grava no banco de dados os dados da classe TOLogin
-           // BOFactory.inserir(new DAOLogin(), tl);
-            
-            
-            j.put("sucesso", true);
-            
-            
+            //se nao existe cpf nem usuario eh cadastrado no banco
+            if(BOFactory.get(new DAOPessoa(), t) == null ){
+                if(BOFactory.get(new DAOLogin(), tl) == null ){
+                    //objeto TOEndereco
+                    te.setCidade_idCidade(cidade_idcidade);
+                    te.setRua(rua);
+                    te.setGps_Lat(gps_lat);
+                    te.setGps_Log(gps_log);
+                    te.setBairro(bairro);
+                    te.setComplemento(complemento);
+                    te.setCep(cep);
+                    te.setNumero(numero);
+                    //grava no banco de dados os dados da classe TOLogin e retorna o id gerado
+                    idGerado = BOFactory.inserir(new DAOEndereco(), te);
+
+                    //popula a classe
+                    t.setEndereco_idendereco(idGerado);
+                    t.setEscolaridade_idescolaridade(escolaridade_idescolaridade);
+                    t.setEstadocivil_idestadocivil(estadocivil_idestadocivil);
+                    t.setNome(nome);
+                    t.setSobrenome(sobrenome);
+                    t.setApelido(apelido);
+                    t.setRg(rg);
+                    //t.setDatanascimento(datanascimento);
+                    t.setSexo(sexo);
+                    t.setTelefone1(telefone1);
+                    t.setTelefone2(telefone2);
+                    t.setEmail(email);
+                    //grava no banco de dados os dados da classe TOPessoa e retorna o id gerado
+                    idGerado = BOFactory.inserir(new DAOPessoa(), t);
+
+                    //popula a classe
+
+                    tl.setUnidade_idunidade(unidade_idunidade);
+                    tl.setPessoa_idpessoa(idGerado);
+                    tl.setSenha(senha);
+                    tl.setPapel(papel);
+                    //grava no banco de dados os dados da classe TOLogin
+                    BOFactory.inserir(new DAOLogin(), tl);
+
+                    j.put("sucesso", true);
+                    j.put("mensagem", "Usuario cadastrado!");
+                //mensagen de cpf ja existente
+                }else{
+                    j.put("sucesso", false);
+                    j.put("erro", 1);
+                    j.put("mensagem", "Usuario ja existe no sistema!");
+                }
+            //mensagen de usuario ja existente
+            }else{
+                j.put("sucesso", false);
+                j.put("erro", 2);
+                j.put("mensagem", "CPF ja cadastrado!");
+            }
         }catch(Exception e){
             j.put("sucesso", false);
             j.put("mensagem", e.getMessage());
