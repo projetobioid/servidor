@@ -110,9 +110,7 @@ public class ServicosPessoa {
             //cria objetos
             TOPessoa t = new TOPessoa();
             TOLogin tl = new TOLogin();
-            TOEndereco te = new TOEndereco();
-            long idGerado;
-            
+                        
             //popula objetos e verifica se existe o cpf e usuario cadastrados no banco
             t.setCpf(cpf);
             tl.setUsuario(usuario);
@@ -120,7 +118,9 @@ public class ServicosPessoa {
             //se nao existe cpf nem usuario eh cadastrado no banco
             if(BOFactory.get(new DAOPessoa(), t) == null ){
                 if(BOFactory.get(new DAOLogin(), tl) == null ){
+                    long idGerado;
                     //objeto TOEndereco
+                    TOEndereco te = new TOEndereco();
                     te.setCidade_idCidade(cidade_idcidade);
                     te.setRua(rua);
                     te.setGps_Lat(gps_lat);
