@@ -7,12 +7,15 @@ package servicos;
 
 import bo.BOFactory;
 import dao.DAOCultivar;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import to.TOCultivar;
@@ -58,31 +61,43 @@ public class ServicosCultivar {
     
     //metodo que insere no banco de dados
     @POST
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @Produces(MediaType.APPLICATION_JSON)
     @Path("inserir")
     public String inserir(
-            @FormParam("id") int id,
             @FormParam("nome") String nome,
+            @FormParam("imagem") String imagem,
             @FormParam("descricao") String descricao,
             @FormParam("biofortificado") boolean biofortificado,
-            @FormParam("tipo") String tipo) throws Exception{
+            @FormParam("unidademedida") String unidademedida,
+            @FormParam("valornutricional") String valornutricional
+            
+            ) throws Exception{
         
                 
         JSONObject j = new JSONObject();
         
         try{    
-            
+            //cria um objeto
             TOCultivar t = new TOCultivar();
-           //p.setId(Guid.getString());
-            t.setId(id);
             t.setNome(nome);
-            t.setDescricao(descricao);
-            t.setBiofortificado(biofortificado);
-            t.setTipo(tipo);
             
-            BOFactory.inserir(new DAOCultivar(), t);
-            
-            j.put("sucesso", true);
-        
+            if(BOFactory.get(new DAOCultivar(), t)== null){
+                t.setImagem(imagem);
+                t.setDescricao(descricao);
+                t.setBiofortificado(biofortificado);
+                t.setUnidademedida(unidademedida);
+                t.setValornutricional(valornutricional);
+
+                BOFactory.inserir(new DAOCultivar(), t);
+
+                j.put("sucesso", true);
+                j.put("mensagem", "Cultivar cadastrado!");
+            }else{
+               j.put("sucesso", false);
+               j.put("erro", 1);
+               j.put("mensagem", "Cultivar ja cadastrado!");
+            }
         }catch(Exception e){
             j.put("sucesso", false);
             j.put("mensagem", e.getMessage());
@@ -107,7 +122,7 @@ public class ServicosCultivar {
         try{    
             
             TOCultivar t = new TOCultivar();
-            t.setId(id);
+           // t.setIdCultivar(id);
             
             t = (TOCultivar) BOFactory.get(new DAOCultivar(), t);
             
@@ -118,7 +133,7 @@ public class ServicosCultivar {
                 t.setNome(nome);
                 t.setDescricao(descricao);
                 t.setBiofortificado(biofortificado);
-                t.setTipo(tipo); 
+                //t.setTipo(tipo); 
                 
                 BOFactory.editar(new DAOCultivar(), t);
                 j.put("sucesso", true); 
@@ -145,7 +160,7 @@ public class ServicosCultivar {
         try{               
             
             TOCultivar p = new TOCultivar();
-            p.setId(id);
+            //p.setIdCultivar(id);
             
             p = (TOCultivar) BOFactory.get(new DAOCultivar(), p);
             

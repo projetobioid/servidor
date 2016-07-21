@@ -21,18 +21,19 @@ public class DAOCultivar implements DAOBase {
 
     @Override
     public long inserir(Connection c, TOBase t) throws Exception {
-        String sql = "insert into cultivar (id, nome, descricao, biofortificado, tipo) values (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO cultivar(nome, imagem, descricao, biofortificado, unidademedida, valornutricional) VALUES (?, ?, ?, ?, ?, ?)";
         
         TOCultivar to = (TOCultivar)t;
         
         List<Object> p = new ArrayList<Object>();
         
         
-        p.add(to.getId());
         p.add(to.getNome());
+        p.add(to.getImagem());
         p.add(to.getDescricao());
-        p.add(to.getBiofortificado());
-        p.add(to.getTipo());
+        p.add(to.isBiofortificado());
+        p.add(to.getUnidademedida());
+        p.add(to.getValornutricional());
         
         //passa por parametros a conexao e a lista de objetos da insercao de um novo produto
         return Data.executeUpdate(c, sql, p);
@@ -49,9 +50,9 @@ public class DAOCultivar implements DAOBase {
         
         p.add(to.getNome());
         p.add(to.getDescricao());
-        p.add(to.getBiofortificado());
-        p.add(to.getTipo());
-        p.add(to.getId());
+        //p.add(to.getBiofortificado());
+        //p.add(to.getTipo());
+        //p.add(to.getIdCultivar());
        
         //passa por parametros a conexao e a lista de objetos da insercao de um novo produto        
         Data.executeUpdate(c, sql, p);
@@ -65,20 +66,20 @@ public class DAOCultivar implements DAOBase {
         
         List<Object> p = new ArrayList<Object>();
         
-        p.add(to.getId());
+       // p.add(to.getIdCultivar());
         
         Data.executeUpdate(c, sql, p);
     } 
 
     @Override
     public TOBase get(Connection c, TOBase t) throws Exception {
-        String sql = "select id, nome, descricao, biofortificado, tipo from cultivar where id = ? ";
+        String sql = "select * from cultivar where LOWER(nome) = LOWER(?) ";
         
         ResultSet rs = null;
         
         try{
             TOCultivar to = (TOCultivar)t;
-            rs = Data.executeQuery(c, sql, to.getId());
+            rs = Data.executeQuery(c, sql, to.getNome());
             
             if(rs.next()){
                 return new TOCultivar(rs);
