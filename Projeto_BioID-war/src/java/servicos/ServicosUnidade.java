@@ -38,11 +38,11 @@ public class ServicosUnidade {
      */
     public ServicosUnidade() {
     }
-//metodo que insere no banco de dados
+    //metodo que insere no banco de dados
+    @Path("inserir")
     @POST
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("inserir")
     public String inserir(
             //tabela endereco
             @FormParam("cidade_idcidade") long cidade_idcidade,

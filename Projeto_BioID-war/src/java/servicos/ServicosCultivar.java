@@ -7,6 +7,9 @@ package servicos;
 
 import bo.BOFactory;
 import dao.DAOCultivar;
+import dao.DAOPessoa;
+import dao.DAOPropriedade;
+import dao.DAOSafra;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
@@ -19,6 +22,9 @@ import javax.ws.rs.core.MediaType;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import to.TOCultivar;
+import to.TOPessoa;
+import to.TOPropriedade;
+import to.TOSafra;
 
 /**
  * REST Web Service
@@ -38,8 +44,8 @@ public class ServicosCultivar {
     }
 
     //metodo que lista todos os produtos do banco de dados
-    @GET
     @Path("listar")
+    @GET
     //@Produces({MediaType.APPLICATION_XML})//, MediaType.APPLICATION_JSON})
     public String listar() throws Exception {
         
@@ -60,10 +66,10 @@ public class ServicosCultivar {
     }
     
     //metodo que insere no banco de dados
+    @Path("inserir")
     @POST
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("inserir")
     public String inserir(
             @FormParam("nome") String nome,
             @FormParam("imagem") String imagem,
@@ -107,8 +113,8 @@ public class ServicosCultivar {
     }
     
     //metodo que insere no banco de dados
-    @POST
     @Path("editar")
+    @POST
     public String editar(
             @FormParam("id") int id,
             @FormParam("nome") String nome,
@@ -149,9 +155,8 @@ public class ServicosCultivar {
     
     
 
-    
-    @POST
     @Path("excluir")
+    @POST
     public String excluir(
             @FormParam("id") int id)throws Exception{
         
@@ -180,6 +185,97 @@ public class ServicosCultivar {
         
     }
     
+    @Path("distribuir")
+    @POST
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @Produces(MediaType.APPLICATION_JSON)
+    public String distribuir(
+            @FormParam("cpf") String cpf,
+            @FormParam("nomecultivar") String nomecultivar,
+            @FormParam("nomepropriedade") String nomepropriedade,
+            @FormParam("idsafra") String idsafra,
+            @FormParam("datareceb") String datareceb,
+            @FormParam("qtdrecebida") double qtdrecebida,
+            @FormParam("relatada") boolean relatada/*,
+            @FormParam("datacolheita") String datacolheita,
+            @FormParam("qtdconsumida") double qtdconsumida,
+            @FormParam("qtdreplantar") double qtdreplantar,
+            @FormParam("qtddestinada") double qtddestinada,
+            @FormParam("destino") String destino*/
+            
+            ) throws Exception{
+        
+                
+        JSONObject j = new JSONObject();
+        
+        try{    
+            //cria um objeto
+            TOPessoa tp = new TOPessoa();
+            TOCultivar tc = new TOCultivar();
+            
+            tp.setCpf(cpf);
+            tc.setNome(nomecultivar);
+            tc = (TOCultivar) BOFactory.get(new DAOCultivar(), tc);
+            if(BOFactory.get(new DAOPessoa(), tp)!= null){
+                if(tc != null){
+                    TOSafra tf = new TOSafra();
+                    //busca o id da propriedade pelo nome
+                    TOPropriedade tpr = new TOPropriedade();
+                    tpr.setNomepropriedade(nomepropriedade);
+                    //inseri o id da propriedade
+                    tf.setPropriedade_idpropriedade(((TOPropriedade) BOFactory.get(new DAOPropriedade(), tpr)).getIdpropriedade());
 
+                    //inseri o id do cultivar
+                    tf.setCultivar_idcultivar(tc.getIdcultivar());
+                    tf.setIdsafra(idsafra);
+                    //tf.setDatareceb(datareceb);
+                    tf.setQtdrecebida(qtdrecebida);
+                    tf.setRelatada(relatada);
+                    
+
+                BOFactory.inserir(new DAOSafra(), tf);
+                
+                j.put("sucesso", true);
+                j.put("mensagem", "Distribuicao com sucesso!");
+                }else{
+                    j.put("sucesso", false);
+                    j.put("erro", 1);
+                    j.put("mensagem", "Cultivar nao encontrado!");
+                }
+            }else{
+               j.put("sucesso", false);
+               j.put("erro", 1);
+               j.put("mensagem", "CPF nao encontrado!");
+            }
+        }catch(Exception e){
+            j.put("sucesso", false);
+            j.put("mensagem", e.getMessage());
+        }
+        
+        return j.toString(); 
+    }
     
+    //metodo que lista todos os cultivares recebido
+    @Path("listarrecebidos")
+    @POST
+    @Produces(MediaType.APPLICATION_JSON)
+    public String listarrecebido(
+            @FormParam("idpropriedade") String idpropriedade
+            ) throws Exception {
+        
+        JSONObject j = new JSONObject();
+        
+        try{
+            JSONArray ja = BOFactory.listar(new DAOCultivar()) ;
+        
+            j.put("data", ja);
+            j.put("sucesso", true);
+        
+        }catch(Exception e){
+            j.put("sucesso", false);
+            j.put("mensagem", e.getMessage());
+        }
+        
+        return j.toString();
+    }
 }

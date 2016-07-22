@@ -41,10 +41,10 @@ public class ServicosLogin {
     }
 
  //login
+    @Path("validacao")
     @POST
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("validacao")
     public String login(@FormParam("usuario") String usuario,
                         @FormParam("senha") String senha) throws Exception{
         
@@ -74,7 +74,7 @@ public class ServicosLogin {
                 j.put("logTempo", ((730 * Float.parseFloat(getData("M"))) - (730 - (Float.parseFloat(getData("d"))*24)))+168 );
             }
         }catch (Exception e){
-            j.put("sucesso", false);
+            j.put("sucessiio", false);
             j.put("messangem", e.getMessage());
         }
         

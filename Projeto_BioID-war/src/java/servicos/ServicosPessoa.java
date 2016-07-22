@@ -44,8 +44,8 @@ public class ServicosPessoa {
 
     
     //serviço de listar os usuarios
-    @GET
     @Path("listar")
+    @GET
     public String listar() throws Exception{
     
         JSONObject j = new JSONObject();
@@ -67,10 +67,10 @@ public class ServicosPessoa {
     }
     
     //adicionar usuario no sistema
+    @Path("inserir")
     @POST
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("inserir")
     public String inserir(
             //tabela endereco
             @FormParam("cidade_idcidade") long cidade_idcidade,
@@ -181,8 +181,8 @@ public class ServicosPessoa {
     }
     
     //edita um usuario no banco de dados
-    @POST
     @Path("editar")
+    @POST
     public String editar(@FormParam("id") long id,
             @FormParam("usuario") String usuario,
             @FormParam("senha") String senha,
@@ -216,8 +216,8 @@ public class ServicosPessoa {
     }
     
     //exclui usuario do banco de dados
-    @POST
     @Path("excluir")
+    @POST
     public String excluir(@FormParam("id") long id) throws Exception{
         //objeto de retorno da requisicao
         JSONObject j = new JSONObject();
@@ -254,8 +254,8 @@ public class ServicosPessoa {
     
     
      //adicionar usuario no sistema
-    @POST
     @Path("teste")
+    @POST
     public String teste(
             @FormParam("id") int id, @FormParam("nome") String nome) throws Exception{
         
