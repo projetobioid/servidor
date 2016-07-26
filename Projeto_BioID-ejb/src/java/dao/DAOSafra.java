@@ -46,7 +46,28 @@ public class DAOSafra implements DAOBase{
 
     @Override
     public void editar(Connection c, TOBase t) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        String sql = "UPDATE safra SET relatada=?, datacolheita=?, qtdconsumida=?, qtdreplatar=?, qtddestinada=?, destino=? WHERE propriedade_idpropriedade = ? and cultivar_idcultivar = ? and idsafra = ?";
+
+        
+        TOSafra to = (TOSafra)t;
+        
+        List<Object> p = new ArrayList<Object>();
+        
+        
+        p.add(to.isRelatada());
+        p.add(to.getDatacolheita());
+        p.add(to.getQtdconsumida());
+        p.add(to.getQtdreplatar());
+        p.add(to.getQtddestinada());
+        p.add(to.getDestino());
+        p.add(to.getPropriedade_idpropriedade());
+        p.add(to.getCultivar_idcultivar());
+        p.add(to.getIdsafra());
+        
+        
+        //passa por parametros a conexao e a lista de objetos da insercao de um novo produto        
+        Data.executeUpdate(c, sql, p);
+        
     }
 
     @Override
@@ -56,7 +77,22 @@ public class DAOSafra implements DAOBase{
 
     @Override
     public TOBase get(Connection c, TOBase t) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        String sql = "select * from safra where LOWER(idsafra) = LOWER(?)";
+        
+        ResultSet rs = null;
+        
+        try{
+            TOSafra to = (TOSafra)t;
+            rs = Data.executeQuery(c, sql, to.getIdsafra());
+            
+            if(rs.next()){
+                return new TOSafra(rs);
+            }else{
+                return null;
+            }
+        }finally{
+            rs.close();
+        }
     }
 
     @Override

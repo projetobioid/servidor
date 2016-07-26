@@ -87,7 +87,7 @@ public class BOFactory {
     }
     
     
-        public static JSONArray listarrecebidos(DAOBase d, TOSafra t) throws Exception{
+    public static JSONArray listarrecebidos(DAOBase d, TOSafra t) throws Exception{
         Connection c = null;
         
         try{

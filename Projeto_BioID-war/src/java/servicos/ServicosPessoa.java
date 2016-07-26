@@ -9,6 +9,10 @@ import bo.BOFactory;
 import dao.DAOEndereco;
 import dao.DAOLogin;
 import dao.DAOPessoa;
+import java.math.BigInteger;
+import java.security.SecureRandom;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.core.Context;
@@ -245,46 +249,56 @@ public class ServicosPessoa {
         
     }
     
-    
-    
-    
-    
-    
-    
-    
-    
-     //adicionar usuario no sistema
-    @Path("teste")
-    @POST
-    public String teste(
-            @FormParam("id") int id, @FormParam("nome") String nome) throws Exception{
-        
 
+    
+    //login
+    @Path("validacao")
+    @POST
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @Produces(MediaType.APPLICATION_JSON)
+    public String login(@FormParam("usuario") String usuario,
+                        @FormParam("senha") String senha) throws Exception{
         
+        //objeto de retorno da requisicao
         JSONObject j = new JSONObject();
         
         try{
-            TOPessoa t = new TOPessoa();
-            //popula a classe
-            t.setId(id);
-            t.setNome(nome);
+            TOLogin to = new TOLogin();
+            to.setUsuario(usuario);
+            to.setSenha(senha);
             
             
-            //grava no banco de dados os dados da classe TOUsuario
-            BOFactory.inserir(new DAOPessoa(), t);
+            to = (TOLogin) BOFactory.getLogin(new DAOLogin(), to);
             
-            j.put("sucesso", true);
-            
-            
-        }catch(Exception e){
-            j.put("sucesso", false);
-            j.put("mensagem", e.getMessage());
-            
+            if(to == null){
+                j.put("sucesso", false);
+                j.put("messangem", "Usuário não encontrado");
+            }else{
+                j.put("sucesso", true);
+                
+                j.put("usuario", to.getUsuario());
+                j.put("papel", to.getPapel());
+                //retorna uma senha
+                SecureRandom random = new SecureRandom();
+                j.put("idSession", new BigInteger(130, random).toString(32));
+                //retorna a data de login que espirará em um tempo determinado
+                j.put("logTempo", ((730 * Float.parseFloat(getData("M"))) - (730 - (Float.parseFloat(getData("d"))*24)))+168 );
+            }
+        }catch (Exception e){
+            j.put("sucessiio", false);
+            j.put("messangem", e.getMessage());
         }
         
         return j.toString();
     }
     
+
+    private String getData(String modelo) {
+	DateFormat dateFormat = new SimpleDateFormat(modelo);
+	Date date = new Date();
+	return dateFormat.format(date);
+
+    }
     
     
     

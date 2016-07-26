@@ -50,7 +50,8 @@ public class DAOPropriedade implements DAOBase{
             }
         }finally{
             rs.close();
-        }}
+        }
+    }
 
     @Override
     public JSONArray listar(Connection c) throws Exception {

@@ -10,6 +10,7 @@ import dao.DAOCultivar;
 import dao.DAOPessoa;
 import dao.DAOPropriedade;
 import dao.DAOSafra;
+import java.util.Date;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
@@ -196,12 +197,8 @@ public class ServicosCultivar {
             @FormParam("idsafra") String idsafra,
             @FormParam("datareceb") String datareceb,
             @FormParam("qtdrecebida") double qtdrecebida,
-            @FormParam("relatada") boolean relatada/*,
-            @FormParam("datacolheita") String datacolheita,
-            @FormParam("qtdconsumida") double qtdconsumida,
-            @FormParam("qtdreplantar") double qtdreplantar,
-            @FormParam("qtddestinada") double qtddestinada,
-            @FormParam("destino") String destino*/
+            @FormParam("relatada") boolean relatada
+            
             
             ) throws Exception{
         
@@ -258,6 +255,7 @@ public class ServicosCultivar {
     //metodo que lista todos os cultivares recebido
     @Path("listarrecebidos")
     @POST
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.APPLICATION_JSON)
     public String listarrecebido(
             @FormParam("idpropriedade") long idpropriedade
@@ -287,4 +285,53 @@ public class ServicosCultivar {
         
         return j.toString();
     }
+    
+     //metodo que relata os cultivares recebido
+    @Path("relatar")
+    @POST
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @Produces(MediaType.APPLICATION_JSON)
+    public String relatar(
+            @FormParam("propriedade_idpropriedade") long propriedade_idpropriedade,
+            @FormParam("cultivar_idcultivar") long cultivar_idcultivar,
+            @FormParam("idsafra") String idsafra,
+            //@FormParam("datacolheita") Date datacolheita,
+            @FormParam("qtdconsumida") double qtdconsumida,
+            @FormParam("qtdreplantar") double qtdreplantar,
+            @FormParam("qtddestinada") double qtddestinada,
+            @FormParam("destino") String destino
+            
+            ) throws Exception {
+        
+        JSONObject j = new JSONObject();
+        
+        try{    
+            //cria um objeto
+            TOSafra ts = new TOSafra();
+            
+            ts.setPropriedade_idpropriedade(propriedade_idpropriedade);
+            ts.setCultivar_idcultivar(cultivar_idcultivar);
+            ts.setIdsafra(idsafra);
+            ts.setRelatada(true);
+            //ts.setDatacolheita(datacolheita);
+            ts.setQtdconsumida(qtdconsumida);
+            ts.setQtdreplatar(qtdreplantar);
+            ts.setQtddestinada(qtddestinada);
+            ts.setDestino(destino);
+
+            BOFactory.editar(new DAOSafra(), ts);
+                        
+               j.put("sucesso", true);
+               j.put("mensagem", "Cultivar relatado!");
+            
+        }catch(Exception e){
+            j.put("sucesso", false);
+            j.put("mensagem", e.getMessage());
+        }
+        
+        
+        return j.toString();
+    }
+    
+    
 }
