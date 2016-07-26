@@ -260,17 +260,26 @@ public class ServicosCultivar {
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     public String listarrecebido(
-            @FormParam("idpropriedade") String idpropriedade
+            @FormParam("idpropriedade") long idpropriedade
             ) throws Exception {
         
         JSONObject j = new JSONObject();
         
+        
         try{
-            JSONArray ja = BOFactory.listar(new DAOCultivar()) ;
+            
+            TOSafra t = new TOSafra();
+            t.setPropriedade_idpropriedade(idpropriedade);
         
-            j.put("data", ja);
-            j.put("sucesso", true);
-        
+            JSONArray ja = BOFactory.listarrecebidos(new DAOSafra(), t) ;
+            
+            if(ja.length() > 0){
+                j.put("data", ja);
+                j.put("sucesso", true);
+            }else{
+                j.put("sucesso", false);
+                j.put("mensagem", "Nenhum cultivar recebido");
+            }
         }catch(Exception e){
             j.put("sucesso", false);
             j.put("mensagem", e.getMessage());

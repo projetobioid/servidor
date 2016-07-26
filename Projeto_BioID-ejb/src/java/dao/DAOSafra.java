@@ -6,6 +6,7 @@
 package dao;
 
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 import org.json.JSONArray;
@@ -66,6 +67,32 @@ public class DAOSafra implements DAOBase{
     @Override
     public TOBase getLogin(Connection c, TOBase t) throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public JSONArray listarrecebidos(Connection c, TOSafra t) throws Exception {
+        JSONArray  ja = new JSONArray();
+        
+        String sql = "SELECT * FROM safra where propriedade_idpropriedade = ?";
+        
+        ResultSet rs = null;
+        
+        try{
+            //variavel com lista dos parametros
+            List<Object> u = new ArrayList<Object>();
+            
+            u.add(t.getPropriedade_idpropriedade());
+            
+            rs = Data.executeQuery(c, sql, u);
+            
+            while (rs.next()){
+                TOSafra ts = new TOSafra(rs);
+                ja.put(ts.getJson());
+            }
+        }finally{
+            rs.close();
+        }
+        return ja;
     }
     
 }

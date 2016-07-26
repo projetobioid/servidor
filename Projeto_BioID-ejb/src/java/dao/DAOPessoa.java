@@ -12,6 +12,7 @@ import java.util.List;
 import org.json.JSONArray;
 import to.TOBase;
 import to.TOPessoa;
+import to.TOSafra;
 
 /**
  *
@@ -86,6 +87,11 @@ public class DAOPessoa implements DAOBase{
 
     @Override
     public TOBase getLogin(Connection c, TOBase t) throws Exception {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    @Override
+    public JSONArray listarrecebidos(Connection c, TOSafra t) throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     

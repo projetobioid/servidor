@@ -8,6 +8,7 @@ import to.TOBase;
 import java.sql.Connection;
 import org.json.JSONArray;
 import dao.DAOBase;
+import to.TOSafra;
 
 /**
  *
@@ -86,7 +87,17 @@ public class BOFactory {
     }
     
     
-    
+        public static JSONArray listarrecebidos(DAOBase d, TOSafra t) throws Exception{
+        Connection c = null;
+        
+        try{
+            c =  Data.openConnection();
+            
+            return d.listarrecebidos(c, t);
+        }finally{
+            c.close();
+        }
+    }
     
     
     

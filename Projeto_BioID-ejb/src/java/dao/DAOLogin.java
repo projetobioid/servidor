@@ -12,6 +12,7 @@ import java.util.List;
 import org.json.JSONArray;
 import to.TOBase;
 import to.TOLogin;
+import to.TOSafra;
 
 /**
  *
@@ -99,6 +100,12 @@ public class DAOLogin implements DAOBase{
 
     @Override
     public JSONArray listar(Connection c) throws Exception {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+
+    @Override
+    public JSONArray listarrecebidos(Connection c, TOSafra t) throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
