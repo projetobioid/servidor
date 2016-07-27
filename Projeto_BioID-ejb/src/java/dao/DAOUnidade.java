@@ -83,7 +83,7 @@ public class DAOUnidade implements DAOBase{
     }
 
     @Override
-    public JSONArray listarrecebidos(Connection c, TOSafra t) throws Exception {
+    public JSONArray listar(Connection c, TOBase t) throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     

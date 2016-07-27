@@ -13,10 +13,12 @@ import org.json.JSONObject;
  * @author daniel
  */
 public class TOLogin extends TOBase{
-    private long unidade_idunidade;
+    private long idlogin;
     
     private long pessoa_idpessoa;
     
+    private long unidade_idunidade;
+        
     private String usuario;
    
     private String senha;
@@ -25,12 +27,13 @@ public class TOLogin extends TOBase{
     
     private String sessao;
 
-    public long getUnidade_idunidade() {
-        return unidade_idunidade;
+    
+    public long getIdlogin() {
+        return idlogin;
     }
 
-    public void setUnidade_idunidade(long unidade_idunidade) {
-        this.unidade_idunidade = unidade_idunidade;
+    public void setIdlogin(long idlogin) {
+        this.idlogin = idlogin;
     }
 
     public long getPessoa_idpessoa() {
@@ -40,7 +43,15 @@ public class TOLogin extends TOBase{
     public void setPessoa_idpessoa(long pessoa_idpessoa) {
         this.pessoa_idpessoa = pessoa_idpessoa;
     }
-   
+    
+    
+    public long getUnidade_idunidade() {
+        return unidade_idunidade;
+    }
+
+    public void setUnidade_idunidade(long unidade_idunidade) {
+        this.unidade_idunidade = unidade_idunidade;
+    }  
     
     public String getUsuario() {
         return usuario;
@@ -77,20 +88,22 @@ public class TOLogin extends TOBase{
     public TOLogin() {
     }
 
-    public TOLogin(long unidade_idunidade, long pessoa_idpessoa, String usuario, String senha, String papel, String sessao) {
-        this.unidade_idunidade = unidade_idunidade;
+    public TOLogin(long idlogin, long pessoa_idpessoa, long unidade_idunidade, String usuario, String senha, String papel, String sessao) {
+        this.idlogin = idlogin;
         this.pessoa_idpessoa = pessoa_idpessoa;
+        this.unidade_idunidade = unidade_idunidade;
         this.usuario = usuario;
         this.senha = senha;
         this.papel = papel;
         this.sessao = sessao;
     }
 
-    
+     
     
     public TOLogin(ResultSet rs) throws Exception{
-        this.unidade_idunidade = rs.getLong("unidade_idunidade");
+        this.idlogin = rs.getLong("idlogin");
         this.pessoa_idpessoa = rs.getLong("pessoa_idpessoa");
+        this.unidade_idunidade = rs.getLong("unidade_idunidade");
         this.usuario = rs.getString("usuario");
         this.senha = rs.getString("senha");
         this.papel = rs.getString("papel");
@@ -104,8 +117,8 @@ public class TOLogin extends TOBase{
         JSONObject j = new JSONObject();
         
         //populando o objeto j
+        j.put("idlogin", idlogin);
         j.put("unidade_idunidade", unidade_idunidade);
-        j.put("pessoa_idpessoa", pessoa_idpessoa);
         j.put("usuario", usuario);
         j.put("senha", senha);
         j.put("papel", papel);

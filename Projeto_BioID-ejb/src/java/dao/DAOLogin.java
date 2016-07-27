@@ -22,7 +22,7 @@ public class DAOLogin implements DAOBase{
     @Override
     public TOBase getLogin(Connection c, TOBase t) throws Exception {
         //string com o comando sql para editar o banco de dados
-        String sql = "SELECT unidade_idunidade, pessoa_idpessoa, usuario, senha, papel, sessao FROM login where usuario = ? and senha = ?";
+        String sql = "SELECT * FROM login where usuario = ? and senha = ?";
         
         ResultSet rs = null;
         
@@ -51,14 +51,14 @@ public class DAOLogin implements DAOBase{
     @Override
     public long inserir(Connection c, TOBase t) throws Exception {
         //string com o comando sql para editar o banco de dados
-        String sql = "INSERT INTO login(unidade_idunidade, pessoa_idpessoa, usuario, senha, papel) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO login(pessoa_idpessoa, unidade_idunidade, usuario, senha, papel) VALUES (?, ?, ?, ?, ?)";
         //variavel sendo convertida para toUsuarios
         TOLogin to = (TOLogin)t;
         //variavel com lista dos parametros
         List<Object> u = new ArrayList<Object>();
         
-        u.add(to.getUnidade_idunidade());
         u.add(to.getPessoa_idpessoa());
+        u.add(to.getUnidade_idunidade());
         u.add(to.getUsuario());
         u.add(to.getSenha());
         u.add(to.getPapel());
@@ -105,7 +105,7 @@ public class DAOLogin implements DAOBase{
 
 
     @Override
-    public JSONArray listarrecebidos(Connection c, TOSafra t) throws Exception {
+    public JSONArray listar(Connection c, TOBase t) throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

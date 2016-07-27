@@ -8,7 +8,6 @@ package dao;
 import java.sql.Connection;
 import org.json.JSONArray;
 import to.TOBase;
-import to.TOSafra;
 
 /**
  *
@@ -25,7 +24,7 @@ public interface DAOBase {
     
     public JSONArray listar(Connection c) throws Exception;
     
-    public JSONArray listarrecebidos(Connection c, TOSafra t) throws Exception;
+    public JSONArray listar(Connection c, TOBase t) throws Exception;
             
     public TOBase getLogin(Connection c, TOBase t) throws  Exception;
 }

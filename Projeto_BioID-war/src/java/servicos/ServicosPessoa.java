@@ -6,9 +6,13 @@
 package servicos;
 
 import bo.BOFactory;
+import dao.DAOAgricultor;
+import dao.DAOBase;
 import dao.DAOEndereco;
 import dao.DAOLogin;
 import dao.DAOPessoa;
+import dao.DAOPropriedade;
+import dao.DAORelacaopa;
 import java.math.BigInteger;
 import java.security.SecureRandom;
 import java.text.DateFormat;
@@ -25,9 +29,13 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import to.TOAgricultor;
+import to.TOBase;
 import to.TOEndereco;
 import to.TOLogin;
 import to.TOPessoa;
+import to.TOPropriedade;
+import to.TORelacaopa;
 
 /**
  * REST Web Service
@@ -153,9 +161,8 @@ public class ServicosPessoa {
                     idGerado = BOFactory.inserir(new DAOPessoa(), t);
 
                     //popula a classe
-
-                    tl.setUnidade_idunidade(unidade_idunidade);
                     tl.setPessoa_idpessoa(idGerado);
+                    tl.setUnidade_idunidade(unidade_idunidade);
                     tl.setSenha(senha);
                     tl.setPapel(papel);
                     //grava no banco de dados os dados da classe TOLogin
@@ -285,7 +292,7 @@ public class ServicosPessoa {
                 j.put("logTempo", ((730 * Float.parseFloat(getData("M"))) - (730 - (Float.parseFloat(getData("d"))*24)))+168 );
             }
         }catch (Exception e){
-            j.put("sucessiio", false);
+            j.put("sucesso", false);
             j.put("messangem", e.getMessage());
         }
         
@@ -301,7 +308,139 @@ public class ServicosPessoa {
     }
     
     
+    @Path("inseriragricultor")
+    @POST
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @Produces(MediaType.APPLICATION_JSON)
+    public String inserirAgricultor(
+            @FormParam("cpf") String cpf,
+            @FormParam("qtdedeintegrantes") int qtdedeintegrantes,
+            @FormParam("qtdedecriancas") int qtdedecriancas,
+            @FormParam("qtdedegravidas") int qtdedegravidas
+            )throws Exception{
+        
+        JSONObject j = new JSONObject();
+        try{
+            TOPessoa tp = new TOPessoa();
+            TOAgricultor t = new TOAgricultor();
+            
+            tp.setCpf(cpf);
+            t.setPessoa_idpessoa(((TOPessoa) BOFactory.get(new DAOPessoa(), tp)).getIdpessoa());
+            t.setQtdedeintegrantes(qtdedeintegrantes);
+            t.setQtdedecriancas(qtdedecriancas);
+            t.setQtdedegravida(qtdedegravidas);
+            
+            BOFactory.inserir(new DAOAgricultor(), t);
+            
+            j.put("sucesso", true);
+            j.put("messangem", "Agricultor cadastrado");
+        }catch(Exception e){
+            j.put("sucesso", false);
+            j.put("messangem", e.getMessage());
+        }
+        
+        return j.toString();
+    } 
+  
     
+    
+    @Path("inserirpropriedade")
+    @POST
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @Produces(MediaType.APPLICATION_JSON)
+    public String inserirPropriedade(
+            //tabela endereco
+            @FormParam("cidade_idcidade") long cidade_idcidade,
+            @FormParam("rua") String rua,
+            @FormParam("gps_lat") int gps_lat,
+            @FormParam("gps_log") int gps_log,
+            @FormParam("bairro") String bairro,
+            @FormParam("complemento") String complemento,
+            @FormParam("cep") String cep,
+            @FormParam("numero") int numero,
+            //tabela propriedade
+            @FormParam("unidade_idunidade") long unidade_idunidade,
+            @FormParam("nomepropriedade") String nomepropriedade,
+            @FormParam("area") float area,
+            @FormParam("unidadedemedida") String unidadedemedida,
+            @FormParam("areautilizavel") float areautilizavel,
+            @FormParam("unidadedemedidaau") String unidadedemedidaau,
+            @FormParam("cpf") String cpf
+            
+            )throws Exception{
+        
+        JSONObject j = new JSONObject();
+        try{
+            
+            //objeto TOEndereco
+            TOEndereco te = new TOEndereco();
+            te.setCidade_idCidade(cidade_idcidade);
+            te.setRua(rua);
+            te.setGps_Lat(gps_lat);
+            te.setGps_Log(gps_log);
+            te.setBairro(bairro);
+            te.setComplemento(complemento);
+            te.setCep(cep);
+            te.setNumero(numero);
+            
+            TOPropriedade t = new TOPropriedade();
+            
+            t.setEndereco_idendereco(BOFactory.inserir(new DAOEndereco(), te));
+            t.setUnidade_idunidade(unidade_idunidade);
+            t.setNomepropriedade(nomepropriedade);
+            t.setArea(area);
+            t.setUnidadedemedida(unidadedemedida);
+            t.setAreautilizavel(areautilizavel);
+            t.setUnidadedemedidaau(unidadedemedidaau);
+            
+            TORelacaopa tr = new TORelacaopa();
+            
+            TOPessoa tp = new TOPessoa();
+            tp.setCpf(cpf);
+            tr.setPropriedade_idpropriedade(BOFactory.inserir(new DAOPropriedade(), t));
+            tr.setAgricultor_pessoa_idpessoa(((TOPessoa) BOFactory.get(new DAOPessoa(), tp)).getIdpessoa());
+            
+            BOFactory.inserir(new DAORelacaopa(), tr);
+            
+            j.put("sucesso", true);
+            j.put("messangem", "Propriedade cadastrada");
+        }catch(Exception e){
+            j.put("sucesso", false);
+            j.put("messangem", e.getMessage());
+        }
+        
+        return j.toString();
+    } 
+    
+    @Path("listarpropriedades")
+    @POST
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @Produces(MediaType.APPLICATION_JSON)
+    public String listarPropriedades(
+            @FormParam("usuario") String usuario)throws Exception{
+        
+        JSONObject j = new JSONObject();
+ 
+        try{
+            TOPropriedade t = new TOPropriedade();
+            t.setUsuario(usuario);
+        
+            JSONArray ja = BOFactory.listar(new DAOPropriedade(), t) ;
+            
+            if(ja.length() > 0){
+                j.put("data", ja);
+                j.put("sucesso", true);
+            }else{
+                j.put("sucesso", false);
+                j.put("mensagem", "Usuario sem propriedade");
+            }
+        }catch(Exception e){
+            j.put("sucesso", false);
+            j.put("mensagem", e.getMessage());
+        }
+        
+        return j.toString();
+    } 
     
     
     

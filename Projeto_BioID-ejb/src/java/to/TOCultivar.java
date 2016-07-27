@@ -15,7 +15,7 @@ public class TOCultivar extends TOBase{
     //id do produto
     private long idcultivar;
     //nome do produto
-    private String nome;
+    private String nomecultivar;
     
     private String imagem;
     //descricao do produto
@@ -36,12 +36,12 @@ public class TOCultivar extends TOBase{
         this.idcultivar = idcultivar;
     }
 
-    public String getNome() {
-        return nome;
+    public String getNomecultivar() {
+        return nomecultivar;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public void setNomecultivar(String nomecultivar) {
+        this.nomecultivar = nomecultivar;
     }
 
     public String getImagem() {
@@ -95,7 +95,7 @@ public class TOCultivar extends TOBase{
     //retorna consulta do banco de dados tipo resultset
     public TOCultivar (ResultSet rs) throws Exception{
         this.idcultivar = rs.getLong("idcultivar");
-        this.nome = rs.getString("nome");
+        this.nomecultivar = rs.getString("nomecultivar");
         this.imagem = rs.getString("imagem");
         this.descricao = rs.getString("descricao");
         this.biofortificado = rs.getBoolean("biofortificado");
@@ -110,7 +110,7 @@ public class TOCultivar extends TOBase{
         
         //populando o objeto j
         j.put("idcultivar", idcultivar);
-        j.put("nome", nome);
+        j.put("nomecultivar", nomecultivar);
         j.put("imagem", imagem);
         j.put("descricao", descricao);
         j.put("biofortificado", biofortificado);

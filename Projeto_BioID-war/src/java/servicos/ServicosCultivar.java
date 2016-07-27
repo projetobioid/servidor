@@ -87,7 +87,7 @@ public class ServicosCultivar {
         try{    
             //cria um objeto
             TOCultivar t = new TOCultivar();
-            t.setNome(nome);
+            t.setNomecultivar(nome);
             
             if(BOFactory.get(new DAOCultivar(), t)== null){
                 t.setImagem(imagem);
@@ -137,7 +137,7 @@ public class ServicosCultivar {
                 j.put("sucesso", false);
                 j.put("mensagem", "Produto não encontrado");
             }else{
-                t.setNome(nome);
+                t.setNomecultivar(nome);
                 t.setDescricao(descricao);
                 t.setBiofortificado(biofortificado);
                 //t.setTipo(tipo); 
@@ -194,7 +194,7 @@ public class ServicosCultivar {
             @FormParam("cpf") String cpf,
             @FormParam("nomecultivar") String nomecultivar,
             @FormParam("nomepropriedade") String nomepropriedade,
-            @FormParam("idsafra") String idsafra,
+            @FormParam("safra") String safra,
             @FormParam("datareceb") String datareceb,
             @FormParam("qtdrecebida") double qtdrecebida,
             @FormParam("relatada") boolean relatada
@@ -211,26 +211,27 @@ public class ServicosCultivar {
             TOCultivar tc = new TOCultivar();
             
             tp.setCpf(cpf);
-            tc.setNome(nomecultivar);
+            tc.setNomecultivar(nomecultivar);
             tc = (TOCultivar) BOFactory.get(new DAOCultivar(), tc);
-            if(BOFactory.get(new DAOPessoa(), tp)!= null){
+            tp = (TOPessoa) BOFactory.get(new DAOPessoa(), tp);
+            if(tp != null){
                 if(tc != null){
-                    TOSafra tf = new TOSafra();
+                    TOSafra ts = new TOSafra();
                     //busca o id da propriedade pelo nome
                     TOPropriedade tpr = new TOPropriedade();
                     tpr.setNomepropriedade(nomepropriedade);
                     //inseri o id da propriedade
-                    tf.setPropriedade_idpropriedade(((TOPropriedade) BOFactory.get(new DAOPropriedade(), tpr)).getIdpropriedade());
+                    ts.setPropriedade_idpropriedade(((TOPropriedade) BOFactory.get(new DAOPropriedade(), tpr)).getIdpropriedade());
 
                     //inseri o id do cultivar
-                    tf.setCultivar_idcultivar(tc.getIdcultivar());
-                    tf.setIdsafra(idsafra);
+                    ts.setCultivar_idcultivar(tc.getIdcultivar());
+                    ts.setSafra(safra);
                     //tf.setDatareceb(datareceb);
-                    tf.setQtdrecebida(qtdrecebida);
-                    tf.setRelatada(relatada);
+                    ts.setQtdrecebida(qtdrecebida);
+                    ts.setRelatada(relatada);
                     
 
-                BOFactory.inserir(new DAOSafra(), tf);
+                BOFactory.inserir(new DAOSafra(), ts);
                 
                 j.put("sucesso", true);
                 j.put("mensagem", "Distribuicao com sucesso!");
@@ -269,7 +270,7 @@ public class ServicosCultivar {
             TOSafra t = new TOSafra();
             t.setPropriedade_idpropriedade(idpropriedade);
         
-            JSONArray ja = BOFactory.listarrecebidos(new DAOSafra(), t) ;
+            JSONArray ja = BOFactory.listar(new DAOSafra(), t) ;
             
             if(ja.length() > 0){
                 j.put("data", ja);
@@ -294,7 +295,7 @@ public class ServicosCultivar {
     public String relatar(
             @FormParam("propriedade_idpropriedade") long propriedade_idpropriedade,
             @FormParam("cultivar_idcultivar") long cultivar_idcultivar,
-            @FormParam("idsafra") String idsafra,
+            @FormParam("safra") String safra,
             //@FormParam("datacolheita") Date datacolheita,
             @FormParam("qtdconsumida") double qtdconsumida,
             @FormParam("qtdreplantar") double qtdreplantar,
@@ -311,7 +312,7 @@ public class ServicosCultivar {
             
             ts.setPropriedade_idpropriedade(propriedade_idpropriedade);
             ts.setCultivar_idcultivar(cultivar_idcultivar);
-            ts.setIdsafra(idsafra);
+            ts.setSafra(safra);
             ts.setRelatada(true);
             //ts.setDatacolheita(datacolheita);
             ts.setQtdconsumida(qtdconsumida);

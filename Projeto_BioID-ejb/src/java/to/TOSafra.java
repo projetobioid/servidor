@@ -14,17 +14,32 @@ import org.json.JSONObject;
  * @author daniel
  */
 public class TOSafra extends TOBase {
-    public long propriedade_idpropriedade;
-    public long cultivar_idcultivar;
-    public String idsafra;
-    public Date datareceb;
-    public double qtdrecebida;
-    public boolean relatada;
-    public Date datacolheita;
-    public double qtdconsumida;
-    public double qtdreplatar;
-    public double qtddestinada;
-    public String destino;
+    private long propriedade_idpropriedade;
+    
+    private String nomepropriedade;
+    
+    private long cultivar_idcultivar;
+    
+    private String nomecultivar;
+    
+    private String safra;
+    
+    private Date datareceb;
+    
+    private double qtdrecebida;
+    
+    private boolean relatada;
+    
+    private Date datacolheita;
+    
+    private double qtdconsumida;
+    
+    private double qtdreplatar;
+    
+    private double qtddestinada;
+    
+    private String destino;
+    
 
     public long getPropriedade_idpropriedade() {
         return propriedade_idpropriedade;
@@ -34,6 +49,15 @@ public class TOSafra extends TOBase {
         this.propriedade_idpropriedade = propriedade_idpropriedade;
     }
 
+    public String getNomepropriedade() {
+        return nomepropriedade;
+    }
+
+    public void setNomepropriedade(String nomepropriedade) {
+        this.nomepropriedade = nomepropriedade;
+    }
+
+    
     public long getCultivar_idcultivar() {
         return cultivar_idcultivar;
     }
@@ -42,12 +66,21 @@ public class TOSafra extends TOBase {
         this.cultivar_idcultivar = cultivar_idcultivar;
     }
 
-    public String getIdsafra() {
-        return idsafra;
+    public String getNomecultivar() {
+        return nomecultivar;
     }
 
-    public void setIdsafra(String idsafra) {
-        this.idsafra = idsafra;
+    public void setNomecultivar(String nomecultivar) {
+        this.nomecultivar = nomecultivar;
+    }
+ 
+    
+    public String getSafra() {
+        return safra;
+    }
+
+    public void setSafra(String safra) {
+        this.safra = safra;
     }
 
     public Date getDatareceb() {
@@ -120,10 +153,12 @@ public class TOSafra extends TOBase {
     public TOSafra() {
     }
 
-    public TOSafra(long propriedade_idpropriedade, long cultivar_idcultivar, String idsafra, Date datareceb, double qtdrecebida, boolean relatada, Date datacolheita, double qtdconsumida, double qtdreplatar, double qtddestinada, String destino) {
+    public TOSafra(long propriedade_idpropriedade, String nomepropriedade, long cultivar_idcultivar, String nomecultivar, String safra, Date datareceb, double qtdrecebida, boolean relatada, Date datacolheita, double qtdconsumida, double qtdreplatar, double qtddestinada, String destino) {
         this.propriedade_idpropriedade = propriedade_idpropriedade;
+        this.nomepropriedade = nomepropriedade;
         this.cultivar_idcultivar = cultivar_idcultivar;
-        this.idsafra = idsafra;
+        this.nomecultivar = nomecultivar;
+        this.safra = safra;
         this.datareceb = datareceb;
         this.qtdrecebida = qtdrecebida;
         this.relatada = relatada;
@@ -133,11 +168,15 @@ public class TOSafra extends TOBase {
         this.qtddestinada = qtddestinada;
         this.destino = destino;
     }
+
+    
       
     public TOSafra(ResultSet rs) throws Exception{
         this.propriedade_idpropriedade = rs.getLong("propriedade_idpropriedade");
+        this.nomepropriedade = rs.getString("nomepropriedade");
         this.cultivar_idcultivar = rs.getLong("cultivar_idcultivar");
-        this.idsafra = rs.getString("idsafra");
+        this.nomecultivar = rs.getString("nomecultivar");
+        this.safra = rs.getString("safra");
         this.datareceb = rs.getDate("datareceb");
         this.qtdrecebida = rs.getDouble("qtdrecebida");
         this.relatada = rs.getBoolean("relatada");
@@ -156,8 +195,10 @@ public class TOSafra extends TOBase {
         
         //populando o objeto j
         j.put("propriedade_idpropriedade", propriedade_idpropriedade);
+        j.put("nomepropriedade", nomepropriedade);
         j.put("cultivar_idcultivar", cultivar_idcultivar);
-        j.put("idsafra", idsafra);
+        j.put("nomecultivar", nomecultivar);
+        j.put("safra", safra);
         j.put("datareceb", datareceb);
         j.put("qtdrecebida", qtdrecebida);
         j.put("relatada", relatada);

@@ -13,14 +13,15 @@ import org.json.JSONObject;
  * @author Aimee
  */
 public class TOPropriedade extends TOBase {
-    public long idpropriedade;
-    public long endereco_idendereco;
-    public long unidade_idunidade;
-    public String nomepropriedade;
-    public double area;
-    public String unidadedemedida;
-    public double areautilizavel;
-    public String unidadedemedidaau;
+    private long idpropriedade;
+    private long endereco_idendereco;
+    private long unidade_idunidade;
+    private String nomepropriedade;
+    private double area;
+    private String unidadedemedida;
+    private double areautilizavel;
+    private String unidadedemedidaau;
+    private String usuario;
 
     public long getIdpropriedade() {
         return idpropriedade;
@@ -86,6 +87,16 @@ public class TOPropriedade extends TOBase {
         this.unidadedemedidaau = unidadedemedidaau;
     }
 
+    public String getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(String usuario) {
+        this.usuario = usuario;
+    }
+
+    
+    
     public TOPropriedade() {
     }
 

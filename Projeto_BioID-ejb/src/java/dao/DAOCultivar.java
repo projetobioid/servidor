@@ -11,7 +11,6 @@ import javax.ejb.Stateless;
 import org.json.JSONArray;
 import to.TOBase;
 import to.TOCultivar;
-import to.TOSafra;
 
 /**
  *
@@ -29,7 +28,7 @@ public class DAOCultivar implements DAOBase {
         List<Object> p = new ArrayList<Object>();
         
         
-        p.add(to.getNome());
+        p.add(to.getNomecultivar());
         p.add(to.getImagem());
         p.add(to.getDescricao());
         p.add(to.isBiofortificado());
@@ -49,7 +48,7 @@ public class DAOCultivar implements DAOBase {
         List<Object> p = new ArrayList<Object>();
         
         
-        p.add(to.getNome());
+        p.add(to.getNomecultivar());
         p.add(to.getDescricao());
         //p.add(to.getBiofortificado());
         //p.add(to.getTipo());
@@ -74,13 +73,13 @@ public class DAOCultivar implements DAOBase {
 
     @Override
     public TOBase get(Connection c, TOBase t) throws Exception {
-        String sql = "select * from cultivar where LOWER(nome) = LOWER(?) ";
+        String sql = "select * from cultivar where LOWER(nomecultivar) = LOWER(?)";
         
         ResultSet rs = null;
         
         try{
             TOCultivar to = (TOCultivar)t;
-            rs = Data.executeQuery(c, sql, to.getNome());
+            rs = Data.executeQuery(c, sql, to.getNomecultivar());
             
             if(rs.next()){
                 return new TOCultivar(rs);
@@ -119,7 +118,7 @@ public class DAOCultivar implements DAOBase {
     }
 
     @Override
-    public JSONArray listarrecebidos(Connection c, TOSafra t) throws Exception {
+    public JSONArray listar(Connection c, TOBase t) throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

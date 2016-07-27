@@ -87,13 +87,13 @@ public class BOFactory {
     }
     
     
-    public static JSONArray listarrecebidos(DAOBase d, TOSafra t) throws Exception{
+    public static JSONArray listar(DAOBase d, TOBase t) throws Exception{
         Connection c = null;
         
         try{
             c =  Data.openConnection();
             
-            return d.listarrecebidos(c, t);
+            return d.listar(c, t);
         }finally{
             c.close();
         }

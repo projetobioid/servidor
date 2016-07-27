@@ -14,7 +14,7 @@ import org.json.JSONObject;
  * @author daniel
  */
 public class TOPessoa extends TOBase{
-    public long idPessoa;
+    public long idpessoa;
     public long endereco_idendereco;
     public long escolaridade_idescolaridade;
     public long estadocivil_idestadocivil;
@@ -29,8 +29,14 @@ public class TOPessoa extends TOBase{
     public String telefone2;
     public String email;
 
- 
+    public long getIdpessoa() {
+        return idpessoa;
+    }
 
+    public void setIdpessoa(long idpessoa) {
+        this.idpessoa = idpessoa;
+    }
+    
     public long getEndereco_idendereco() {
         return endereco_idendereco;
     }
@@ -137,20 +143,14 @@ public class TOPessoa extends TOBase{
         this.email = email;
     }
 
-    public long getId() {
-        return idPessoa;
-    }
-
-    public void setId(long idPessoa) {
-        this.idPessoa = idPessoa;
-    }
 
     
     
     public TOPessoa() {
     }
 
-    public TOPessoa(long endereco_idendereco, long escolaridade_idescolaridade, long estadocivil_idestadocivil, String nome, String sobrenome, String apelido, String cpf, String rg, String datanascimento, String sexo, String telefone1, String telefone2, String email) {
+    public TOPessoa(long idpessoa, long endereco_idendereco, long escolaridade_idescolaridade, long estadocivil_idestadocivil, String nome, String sobrenome, String apelido, String cpf, String rg, String datanascimento, String sexo, String telefone1, String telefone2, String email) {
+        this.idpessoa = idpessoa;
         this.endereco_idendereco = endereco_idendereco;
         this.escolaridade_idescolaridade = escolaridade_idescolaridade;
         this.estadocivil_idestadocivil = estadocivil_idestadocivil;
@@ -165,10 +165,12 @@ public class TOPessoa extends TOBase{
         this.telefone2 = telefone2;
         this.email = email;
     }
+
+   
     
      //retorna consulta do banco de dados tipo resultset
     public TOPessoa (ResultSet rs) throws Exception{
-        this.idPessoa = rs.getLong("idPessoa");
+        this.idpessoa = rs.getLong("idpessoa");
         this.endereco_idendereco = rs.getLong("endereco_idendereco");
         this.escolaridade_idescolaridade = rs.getLong("escolaridade_idescolaridade");
         this.estadocivil_idestadocivil = rs.getLong("estadocivil_idestadocivil");
@@ -195,7 +197,7 @@ public class TOPessoa extends TOBase{
         JSONObject j = new JSONObject();
         
         //populando o objeto j
-        j.put("idPessoa", idPessoa);
+        j.put("idpessoa", idpessoa);
         j.put("endereco_idendereco", endereco_idendereco);
         j.put("escolaridade", escolaridade_idescolaridade);
         j.put("nome", nome);

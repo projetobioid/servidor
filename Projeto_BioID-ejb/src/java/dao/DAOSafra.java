@@ -21,7 +21,7 @@ public class DAOSafra implements DAOBase{
 
     @Override
     public long inserir(Connection c, TOBase t) throws Exception {
-        String sql = "INSERT INTO safra(propriedade_idpropriedade, cultivar_idcultivar, idsafra, datareceb,qtdrecebida, relatada, datacolheita, qtdconsumida, qtdreplatar,qtddestinada, destino) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?,?, ?);";
+        String sql = "INSERT INTO safra(propriedade_idpropriedade, cultivar_idcultivar, safra, datareceb, qtdrecebida, relatada, datacolheita, qtdconsumida, qtdreplatar,qtddestinada, destino) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?,?, ?);";
         
         TOSafra to = (TOSafra)t;
         
@@ -30,7 +30,7 @@ public class DAOSafra implements DAOBase{
         
         p.add(to.getPropriedade_idpropriedade());
         p.add(to.getCultivar_idcultivar());
-        p.add(to.getIdsafra());
+        p.add(to.getSafra());
         p.add(to.getDatareceb());
         p.add(to.getQtdrecebida());
         p.add(to.isRelatada());
@@ -46,7 +46,7 @@ public class DAOSafra implements DAOBase{
 
     @Override
     public void editar(Connection c, TOBase t) throws Exception {
-        String sql = "UPDATE safra SET relatada=?, datacolheita=?, qtdconsumida=?, qtdreplatar=?, qtddestinada=?, destino=? WHERE propriedade_idpropriedade = ? and cultivar_idcultivar = ? and idsafra = ?";
+        String sql = "UPDATE safra SET relatada=?, datacolheita=?, qtdconsumida=?, qtdreplatar=?, qtddestinada=?, destino=? WHERE propriedade_idpropriedade = ? and cultivar_idcultivar = ? and safra = ?";
 
         
         TOSafra to = (TOSafra)t;
@@ -62,7 +62,7 @@ public class DAOSafra implements DAOBase{
         p.add(to.getDestino());
         p.add(to.getPropriedade_idpropriedade());
         p.add(to.getCultivar_idcultivar());
-        p.add(to.getIdsafra());
+        p.add(to.getSafra());
         
         
         //passa por parametros a conexao e a lista de objetos da insercao de um novo produto        
@@ -77,13 +77,13 @@ public class DAOSafra implements DAOBase{
 
     @Override
     public TOBase get(Connection c, TOBase t) throws Exception {
-        String sql = "select * from safra where LOWER(idsafra) = LOWER(?)";
+        String sql = "select * from safra where LOWER(safra) = LOWER(?)";
         
         ResultSet rs = null;
         
         try{
             TOSafra to = (TOSafra)t;
-            rs = Data.executeQuery(c, sql, to.getIdsafra());
+            rs = Data.executeQuery(c, sql, to.getSafra());
             
             if(rs.next()){
                 return new TOSafra(rs);
@@ -106,10 +106,14 @@ public class DAOSafra implements DAOBase{
     }
 
     @Override
-    public JSONArray listarrecebidos(Connection c, TOSafra t) throws Exception {
+    public JSONArray listar(Connection c, TOBase t) throws Exception {
         JSONArray  ja = new JSONArray();
         
-        String sql = "SELECT * FROM safra where propriedade_idpropriedade = ?";
+        String sql = "SELECT idsafra, propriedade_idpropriedade, cultivar_idcultivar, datareceb,"
+                + "qtdrecebida, relatada, datacolheita, qtdconsumida, qtdreplatar, "
+                + "qtddestinada, destino, safra, nomecultivar, nomepropriedade "
+                + "FROM safra INNER JOIN cultivar ON (cultivar_idcultivar = idcultivar) "
+                + "INNER JOIN propriedade ON(propriedade_idpropriedade = idpropriedade) where propriedade_idpropriedade = ?";
         
         ResultSet rs = null;
         
@@ -117,7 +121,8 @@ public class DAOSafra implements DAOBase{
             //variavel com lista dos parametros
             List<Object> u = new ArrayList<Object>();
             
-            u.add(t.getPropriedade_idpropriedade());
+            
+            u.add(((TOSafra) t).getPropriedade_idpropriedade());
             
             rs = Data.executeQuery(c, sql, u);
             
