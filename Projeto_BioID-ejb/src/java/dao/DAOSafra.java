@@ -109,11 +109,13 @@ public class DAOSafra implements DAOBase{
     public JSONArray listar(Connection c, TOBase t) throws Exception {
         JSONArray  ja = new JSONArray();
         
-        String sql = "SELECT idsafra, propriedade_idpropriedade, cultivar_idcultivar, datareceb,"
-                + "qtdrecebida, relatada, datacolheita, qtdconsumida, qtdreplatar, "
-                + "qtddestinada, destino, safra, nomecultivar, nomepropriedade "
-                + "FROM safra INNER JOIN cultivar ON (cultivar_idcultivar = idcultivar) "
-                + "INNER JOIN propriedade ON(propriedade_idpropriedade = idpropriedade) where propriedade_idpropriedade = ?";
+        String sql = "SELECT s.idsafra, s.propriedade_idpropriedade, s.cultivar_idcultivar, s.datareceb, s.qtdrecebida, s.relatada, s.datacolheita, "
+                + "s.qtdconsumida, s.qtdreplatar, s.qtddestinada, s.destino, s.safra, c.nomecultivar, pr.nomepropriedade FROM login l "
+                + "INNER JOIN pessoa p ON( p.idpessoa = l.pessoa_idpessoa) "
+                + "INNER JOIN relacaopa r ON( r.agricultor_pessoa_idpessoa = p.idpessoa) "
+                + "INNER JOIN propriedade pr ON (pr.idpropriedade = r.propriedade_idpropriedade) "
+                + "INNER JOIN safra s ON (s.propriedade_idpropriedade = pr.idpropriedade) "
+                + "INNER JOIN cultivar c ON (idcultivar = cultivar_idcultivar) where l.usuario = ?";
         
         ResultSet rs = null;
         
@@ -122,7 +124,7 @@ public class DAOSafra implements DAOBase{
             List<Object> u = new ArrayList<Object>();
             
             
-            u.add(((TOSafra) t).getPropriedade_idpropriedade());
+            u.add(((TOSafra) t).getUsuario());
             
             rs = Data.executeQuery(c, sql, u);
             

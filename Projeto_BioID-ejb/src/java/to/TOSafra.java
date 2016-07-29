@@ -40,6 +40,7 @@ public class TOSafra extends TOBase {
     
     private String destino;
     
+    private String usuario;
 
     public long getPropriedade_idpropriedade() {
         return propriedade_idpropriedade;
@@ -147,13 +148,19 @@ public class TOSafra extends TOBase {
         this.destino = destino;
     }
 
-    
+    public String getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(String usuario) {
+        this.usuario = usuario;
+    }
     
     
     public TOSafra() {
     }
 
-    public TOSafra(long propriedade_idpropriedade, String nomepropriedade, long cultivar_idcultivar, String nomecultivar, String safra, Date datareceb, double qtdrecebida, boolean relatada, Date datacolheita, double qtdconsumida, double qtdreplatar, double qtddestinada, String destino) {
+    public TOSafra(long propriedade_idpropriedade, String nomepropriedade, long cultivar_idcultivar, String nomecultivar, String safra, Date datareceb, double qtdrecebida, boolean relatada, Date datacolheita, double qtdconsumida, double qtdreplatar, double qtddestinada, String destino, String usuario) {
         this.propriedade_idpropriedade = propriedade_idpropriedade;
         this.nomepropriedade = nomepropriedade;
         this.cultivar_idcultivar = cultivar_idcultivar;
@@ -167,7 +174,10 @@ public class TOSafra extends TOBase {
         this.qtdreplatar = qtdreplatar;
         this.qtddestinada = qtddestinada;
         this.destino = destino;
+        this.usuario = usuario;
     }
+
+    
 
     
       
@@ -185,7 +195,6 @@ public class TOSafra extends TOBase {
         this.qtdreplatar = rs.getDouble("qtdreplatar");
         this.qtddestinada = rs.getDouble("qtddestinada");
         this.destino = rs.getString("destino");
-        
     }
 
     @Override

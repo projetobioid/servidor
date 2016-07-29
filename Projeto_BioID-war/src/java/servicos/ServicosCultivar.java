@@ -259,7 +259,7 @@ public class ServicosCultivar {
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.APPLICATION_JSON)
     public String listarrecebido(
-            @FormParam("idpropriedade") long idpropriedade
+            @FormParam("usuario") String usuario
             ) throws Exception {
         
         JSONObject j = new JSONObject();
@@ -268,7 +268,7 @@ public class ServicosCultivar {
         try{
             
             TOSafra t = new TOSafra();
-            t.setPropriedade_idpropriedade(idpropriedade);
+            t.setUsuario(usuario);
         
             JSONArray ja = BOFactory.listar(new DAOSafra(), t) ;
             
