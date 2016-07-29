@@ -54,7 +54,7 @@ public class ServicosUnidade {
             @FormParam("cep") String cep,
             @FormParam("numero") int numero,
             //tabela unidade
-            @FormParam("nome") String nome,
+            @FormParam("nomeunidade") String nomeunidade,
             @FormParam("telefone1") String telefone1,
             @FormParam("telefone2") String telefone2,
             @FormParam("email") String email,
@@ -70,10 +70,9 @@ public class ServicosUnidade {
         try{    
             //cria um objeto          
             TOUnidade t = new TOUnidade();
-            t.setNome(nome);
+            t.setCnpj(cnpj);
             
             if(BOFactory.get(new DAOUnidade(), t)== null){
-                //long idGerado;
                 //objeto TOEndereco
                 TOEndereco te = new TOEndereco();
                 te.setCidade_idCidade(cidade_idcidade);
@@ -85,13 +84,11 @@ public class ServicosUnidade {
                 te.setCep(cep);
                 te.setNumero(numero);
                 //grava no banco de dados os dados da classe TOLogin e retorna o id gerado
-                //idGerado = BOFactory.inserir(new DAOEndereco(), te);
-                
                 t.setEndereco_idendereco(BOFactory.inserir(new DAOEndereco(), te));
+                t.setNomeunidade(nomeunidade);
                 t.setTelefone1(telefone1);
                 t.setTelefone2(telefone2);
                 t.setEmail(email);
-                t.setCnpj(cnpj);
                 t.setRazao_social(razao_social);
                 t.setNome_fanta(nome_fanta);
 
@@ -102,7 +99,7 @@ public class ServicosUnidade {
             }else{
                j.put("sucesso", false);
                j.put("erro", 1);
-               j.put("mensagem", "Unidade ja cadastrado!");
+               j.put("mensagem", "Unidade ja cadastrada!");
             }
         }catch(Exception e){
             j.put("sucesso", false);

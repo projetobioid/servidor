@@ -12,15 +12,15 @@ import org.json.JSONObject;
  */
 public class TOUnidade extends TOBase{
     
-    public long idunidade;
-    public long endereco_idendereco;
-    public String nome;
-    public String telefone1;
-    public String telefone2;
-    public String email;
-    public String cnpj;
-    public String razao_social;
-    public String nome_fanta;
+    private long idunidade;
+    private long endereco_idendereco;
+    private String nomeunidade;
+    private String telefone1;
+    private String telefone2;
+    private String email;
+    private String cnpj;
+    private String razao_social;
+    private String nome_fanta;
 
     public long getIdunidade() {
         return idunidade;
@@ -38,12 +38,12 @@ public class TOUnidade extends TOBase{
         this.endereco_idendereco = endereco_idendereco;
     }
 
-    public String getNome() {
-        return nome;
+    public String getNomeunidade() {
+        return nomeunidade;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public void setNomeunidade(String nomeunidade) {
+        this.nomeunidade = nomeunidade;
     }
 
     public String getTelefone1() {
@@ -101,10 +101,10 @@ public class TOUnidade extends TOBase{
     public TOUnidade() {
     }
 
-    public TOUnidade(long idunidade, long endereco_idendereco, String nome, String telefone1, String telefone2, String email, String cnpj, String razao_social, String nome_fanta) {
+    public TOUnidade(long idunidade, long endereco_idendereco, String nomeunidade, String telefone1, String telefone2, String email, String cnpj, String razao_social, String nome_fanta) {
         this.idunidade = idunidade;
         this.endereco_idendereco = endereco_idendereco;
-        this.nome = nome;
+        this.nomeunidade = nomeunidade;
         this.telefone1 = telefone1;
         this.telefone2 = telefone2;
         this.email = email;
@@ -118,7 +118,7 @@ public class TOUnidade extends TOBase{
     public TOUnidade (ResultSet rs) throws Exception{
         this.idunidade = rs.getLong("idunidade");
         this.endereco_idendereco = rs.getLong("endereco_idendereco");
-        this.nome = rs.getString("nome");
+        this.nomeunidade = rs.getString("nomeunidade");
         this.telefone1 = rs.getString("telefone1");
         this.telefone2 = rs.getString("telefone2");
         this.email = rs.getString("email");
@@ -137,7 +137,7 @@ public class TOUnidade extends TOBase{
         //populando o objeto j
         j.put("idunidade", idunidade);
         j.put("endereco_idendereco", endereco_idendereco);
-        j.put("nome", nome);
+        j.put("nomeunidade", nomeunidade);
         j.put("telefone1", telefone1);
         j.put("telefone2", telefone2);
         j.put("email", email);

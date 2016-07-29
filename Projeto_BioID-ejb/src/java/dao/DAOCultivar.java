@@ -21,7 +21,7 @@ public class DAOCultivar implements DAOBase {
 
     @Override
     public long inserir(Connection c, TOBase t) throws Exception {
-        String sql = "INSERT INTO cultivar(nome, imagem, descricao, biofortificado, unidademedida, valornutricional) VALUES (?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO cultivar(nomecultivar, imagem, descricao, biofortificado, unidademedida, valornutricional) VALUES (?, ?, ?, ?, ?, ?)";
         
         TOCultivar to = (TOCultivar)t;
         
@@ -73,13 +73,19 @@ public class DAOCultivar implements DAOBase {
 
     @Override
     public TOBase get(Connection c, TOBase t) throws Exception {
-        String sql = "select * from cultivar where LOWER(nomecultivar) = LOWER(?)";
+        String sql = "select * from cultivar where LOWER(nomecultivar) = LOWER(?) and biofortificado = ?";
         
         ResultSet rs = null;
+        List<Object> p = new ArrayList<Object>();
+        
+        
         
         try{
             TOCultivar to = (TOCultivar)t;
-            rs = Data.executeQuery(c, sql, to.getNomecultivar());
+            p.add(to.getNomecultivar());
+            p.add(to.isBiofortificado());
+            
+            rs = Data.executeQuery(c, sql, p);
             
             if(rs.next()){
                 return new TOCultivar(rs);
@@ -95,7 +101,7 @@ public class DAOCultivar implements DAOBase {
     public JSONArray listar(Connection c) throws Exception {
         JSONArray  ja = new JSONArray();
         
-        String sql = "select id, nome, descricao, biofortificado, tipo from cultivar order by nome";
+        String sql = "select * from cultivar order by nomecultivar";
         
         ResultSet rs = null;
         

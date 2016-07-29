@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 import org.json.JSONArray;
 import to.TOBase;
-import to.TOSafra;
 import to.TOUnidade;
 
 /**
@@ -22,7 +21,7 @@ public class DAOUnidade implements DAOBase{
 
     @Override
     public long inserir(Connection c, TOBase t) throws Exception {
-        String sql = "INSERT INTO unidade(endereco_idendereco, nome, telefone1, telefone2, email, cnpj, razao_social, nome_fanta) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO unidade(endereco_idendereco, nomeunidade, telefone1, telefone2, email, cnpj, razao_social, nome_fanta) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         
         TOUnidade to = (TOUnidade)t;
         
@@ -30,7 +29,7 @@ public class DAOUnidade implements DAOBase{
         
         
         p.add(to.getEndereco_idendereco());
-        p.add(to.getNome());
+        p.add(to.getNomeunidade());
         p.add(to.getTelefone1());
         p.add(to.getTelefone2());
         p.add(to.getEmail());
@@ -54,13 +53,16 @@ public class DAOUnidade implements DAOBase{
 
     @Override
     public TOBase get(Connection c, TOBase t) throws Exception {
-        String sql = "select * from unidade where LOWER(nome) = LOWER(?) ";
+        String sql = "SELECT * FROM unidade where LOWER(nomeunidade) = LOWER(?) OR cnpj = ?";
         
         ResultSet rs = null;
+        List<Object> p = new ArrayList<Object>();
         
         try{
             TOUnidade to = (TOUnidade)t;
-            rs = Data.executeQuery(c, sql, to.getNome());
+            p.add(to.getNomeunidade());
+            p.add(to.getCnpj());
+            rs = Data.executeQuery(c, sql, p);
             
             if(rs.next()){
                 return new TOUnidade(rs);

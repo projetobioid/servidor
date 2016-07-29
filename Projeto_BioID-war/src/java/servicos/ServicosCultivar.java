@@ -72,7 +72,7 @@ public class ServicosCultivar {
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.APPLICATION_JSON)
     public String inserir(
-            @FormParam("nome") String nome,
+            @FormParam("nomecultivar") String nomecultivar,
             @FormParam("imagem") String imagem,
             @FormParam("descricao") String descricao,
             @FormParam("biofortificado") boolean biofortificado,
@@ -87,12 +87,12 @@ public class ServicosCultivar {
         try{    
             //cria um objeto
             TOCultivar t = new TOCultivar();
-            t.setNomecultivar(nome);
+            t.setNomecultivar(nomecultivar);
+            t.setBiofortificado(biofortificado);
             
             if(BOFactory.get(new DAOCultivar(), t)== null){
                 t.setImagem(imagem);
                 t.setDescricao(descricao);
-                t.setBiofortificado(biofortificado);
                 t.setUnidademedida(unidademedida);
                 t.setValornutricional(valornutricional);
 
