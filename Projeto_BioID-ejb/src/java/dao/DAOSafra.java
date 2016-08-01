@@ -21,7 +21,7 @@ public class DAOSafra implements DAOBase{
 
     @Override
     public long inserir(Connection c, TOBase t) throws Exception {
-        String sql = "INSERT INTO safra(propriedade_idpropriedade, cultivar_idcultivar, safra, datareceb, qtdrecebida, relatada, datacolheita, qtdconsumida, qtdreplatar,qtddestinada, destino) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?,?, ?);";
+        String sql = "INSERT INTO safra(propriedade_idpropriedade, cultivar_idcultivar, safra, datareceb, qtdrecebida, gndqtdrecebida) VALUES (?, ?, ?, ?, ?, ?)";
         
         TOSafra to = (TOSafra)t;
         
@@ -33,12 +33,7 @@ public class DAOSafra implements DAOBase{
         p.add(to.getSafra());
         p.add(to.getDatareceb());
         p.add(to.getQtdrecebida());
-        p.add(to.isRelatada());
-        p.add(to.getDatacolheita());
-        p.add(to.getQtdconsumida());
-        p.add(to.getQtdreplatar());
-        p.add(to.getQtddestinada());
-        p.add(to.getDestino());
+        p.add(to.getGndqtdrecebida());
         
         //passa por parametros a conexao e a lista de objetos da insercao de um novo produto
         return Data.executeUpdate(c, sql, p);
@@ -46,20 +41,15 @@ public class DAOSafra implements DAOBase{
 
     @Override
     public void editar(Connection c, TOBase t) throws Exception {
-        String sql = "UPDATE safra SET relatada=?, datacolheita=?, qtdconsumida=?, qtdreplatar=?, qtddestinada=?, destino=? WHERE propriedade_idpropriedade = ? and cultivar_idcultivar = ? and safra = ?";
+        String sql = "UPDATE safra SET datacolheita=?, qtdconsumida=?, qtdreplatar=?, qtddestinada=?, destino=? WHERE propriedade_idpropriedade = ? and cultivar_idcultivar = ? and safra = ?";
 
         
         TOSafra to = (TOSafra)t;
         
         List<Object> p = new ArrayList<Object>();
         
-        
-        p.add(to.isRelatada());
+
         p.add(to.getDatacolheita());
-        p.add(to.getQtdconsumida());
-        p.add(to.getQtdreplatar());
-        p.add(to.getQtddestinada());
-        p.add(to.getDestino());
         p.add(to.getPropriedade_idpropriedade());
         p.add(to.getCultivar_idcultivar());
         p.add(to.getSafra());
@@ -109,20 +99,21 @@ public class DAOSafra implements DAOBase{
     public JSONArray listar(Connection c, TOBase t) throws Exception {
         JSONArray  ja = new JSONArray();
         
-        String sql = "SELECT s.idsafra, s.propriedade_idpropriedade, s.cultivar_idcultivar, s.datareceb, s.qtdrecebida, s.relatada, s.datacolheita, "
-                + "s.qtdconsumida, s.qtdreplatar, s.qtddestinada, s.destino, s.safra, c.nomecultivar, pr.nomepropriedade FROM login l "
-                + "INNER JOIN pessoa p ON( p.idpessoa = l.pessoa_idpessoa) "
-                + "INNER JOIN relacaopa r ON( r.agricultor_pessoa_idpessoa = p.idpessoa) "
-                + "INNER JOIN propriedade pr ON (pr.idpropriedade = r.propriedade_idpropriedade) "
-                + "INNER JOIN safra s ON (s.propriedade_idpropriedade = pr.idpropriedade) "
-                + "INNER JOIN cultivar c ON (idcultivar = cultivar_idcultivar) where l.usuario = ?";
-        
+        String sql = "SELECT s.idsafra, s.propriedade_idpropriedade, s.cultivar_idcultivar, s.safra, s.datareceb, s.qtdrecebida, s.gndqtdrecebida, d.descricao, sr.datacolheita, sr.quantidade, sr.grandeza, c.nomecultivar, pr.nomepropriedade FROM login l"
+                + " INNER JOIN pessoa p ON( p.idpessoa = l.pessoa_idpessoa)"
+                + " INNER JOIN relacaopa r ON( r.agricultor_pessoa_idpessoa = p.idpessoa)"
+                + " INNER JOIN propriedade pr ON (pr.idpropriedade = r.propriedade_idpropriedade)"
+                + " INNER JOIN safra s ON (s.propriedade_idpropriedade = pr.idpropriedade)"
+                + " INNER JOIN cultivar c ON (idcultivar = cultivar_idcultivar)"
+                + " INNER JOIN safrarelatada sr ON (sr.safra_idsafra = s.idsafra)"
+                + " INNER JOIN destinacao d ON (d.iddestinacao = sr.destinacao_iddestinacao)"
+                + " where l.usuario = ?";
+           
         ResultSet rs = null;
         
         try{
             //variavel com lista dos parametros
             List<Object> u = new ArrayList<Object>();
-            
             
             u.add(((TOSafra) t).getUsuario());
             

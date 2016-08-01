@@ -14,14 +14,24 @@ import org.json.JSONObject;
  */
 public class TOPropriedade extends TOBase {
     private long idpropriedade;
+    
     private long endereco_idendereco;
+    
     private long unidade_idunidade;
+    
     private String nomepropriedade;
+    
     private double area;
+    
     private String unidadedemedida;
+    
     private double areautilizavel;
+    
     private String unidadedemedidaau;
+    
     private String usuario;
+    
+    private String cpf;
 
     public long getIdpropriedade() {
         return idpropriedade;
@@ -95,12 +105,21 @@ public class TOPropriedade extends TOBase {
         this.usuario = usuario;
     }
 
+    public String getCpf() {
+        return cpf;
+    }
+
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
+    }
+
+    
     
     
     public TOPropriedade() {
     }
 
-    public TOPropriedade(long idpropriedade, long endereco_idendereco, long unidade_idunidade, String nomepropriedade, double area, String unidadedemedida, double areautilizavel, String unidadedemedidaau) {
+    public TOPropriedade(long idpropriedade, long endereco_idendereco, long unidade_idunidade, String nomepropriedade, double area, String unidadedemedida, double areautilizavel, String unidadedemedidaau, String usuario, String cpf) {
         this.idpropriedade = idpropriedade;
         this.endereco_idendereco = endereco_idendereco;
         this.unidade_idunidade = unidade_idunidade;
@@ -109,7 +128,11 @@ public class TOPropriedade extends TOBase {
         this.unidadedemedida = unidadedemedida;
         this.areautilizavel = areautilizavel;
         this.unidadedemedidaau = unidadedemedidaau;
+        this.usuario = usuario;
+        this.cpf = cpf;
     }
+
+    
 
     
  

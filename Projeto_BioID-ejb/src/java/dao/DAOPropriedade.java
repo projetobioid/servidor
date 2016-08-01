@@ -54,13 +54,21 @@ public class DAOPropriedade implements DAOBase{
 
     @Override
     public TOBase get(Connection c, TOBase t) throws Exception {
-        String sql = "select * from propriedade where LOWER(nomepropriedade) = LOWER(?)";
+        String sql = "SELECT * FROM propriedade pr "
+                + "INNER JOIN relacaopa r ON(r.propriedade_idpropriedade = pr.idpropriedade)"
+                + "INNER JOIN pessoa p ON(p.idpessoa = r.agricultor_pessoa_idpessoa)"
+                + "WHERE LOWER(pr.nomepropriedade) = LOWER(?) and p.cpf = ?";
         
         ResultSet rs = null;
+        List<Object> p = new ArrayList<Object>();
         
         try{
+            
             TOPropriedade to = (TOPropriedade)t;
-            rs = Data.executeQuery(c, sql, to.getNomepropriedade());
+            p.add(to.getNomepropriedade());
+            p.add(to.getCpf());
+            
+            rs = Data.executeQuery(c, sql, p);
             
             if(rs.next()){
                 return new TOPropriedade(rs);

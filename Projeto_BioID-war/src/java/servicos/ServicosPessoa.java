@@ -78,8 +78,9 @@ public class ServicosPessoa {
         return j.toString();
     }
     
-    //adicionar usuario no sistema
-    @Path("inserir")
+    
+     //adicionar usuario no sistema
+    @Path("inseriragricultor")
     @POST
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.APPLICATION_JSON)
@@ -106,11 +107,22 @@ public class ServicosPessoa {
             @FormParam("telefone1") String telefone1,
             @FormParam("telefone2") String telefone2,
             @FormParam("email") String email,
+            //tabela agricultor
+            @FormParam("qtdedeintegrantes") int qtdedeintegrantes,
+            @FormParam("qtdedecriancas") int qtdedecriancas,
+            @FormParam("qtdedegravidas") int qtdedegravidas,
             //tabela login
             @FormParam("usuario") String usuario,
             @FormParam("senha") String senha,
             @FormParam("papel") String papel,
-            @FormParam("unidade_idunidade") long unidade_idunidade
+            @FormParam("unidade_idunidade") long unidade_idunidade,
+            
+            //tabela propriedade
+            @FormParam("nomepropriedade") String nomepropriedade,
+            @FormParam("area") float area,
+            @FormParam("unidadedemedida") String unidadedemedida,
+            @FormParam("areautilizavel") float areautilizavel,
+            @FormParam("unidadedemedidaau") String unidadedemedidaau
             ) throws Exception{
 
         
@@ -122,64 +134,101 @@ public class ServicosPessoa {
             //cria objetos
             TOPessoa t = new TOPessoa();
             TOLogin tl = new TOLogin();
-                        
+            TOAgricultor ta = new TOAgricultor();
+            TOPropriedade tp = new TOPropriedade();
+            TORelacaopa tr = new TORelacaopa();
+            
             //popula objetos e verifica se existe o cpf e usuario cadastrados no banco
             t.setCpf(cpf);
             tl.setUsuario(usuario);
+            tp.setNomepropriedade(nomepropriedade);
             
             //se nao existe cpf nem usuario eh cadastrado no banco
             if(BOFactory.get(new DAOPessoa(), t) == null ){
                 if(BOFactory.get(new DAOLogin(), tl) == null ){
-                    long idGerado;
-                    //objeto TOEndereco
-                    TOEndereco te = new TOEndereco();
-                    te.setCidade_idCidade(cidade_idcidade);
-                    te.setRua(rua);
-                    te.setGps_Lat(gps_lat);
-                    te.setGps_Log(gps_log);
-                    te.setBairro(bairro);
-                    te.setComplemento(complemento);
-                    te.setCep(cep);
-                    te.setNumero(numero);
-                    //grava no banco de dados os dados da classe TOLogin e retorna o id gerado
-                    idGerado = BOFactory.inserir(new DAOEndereco(), te);
+                    if(BOFactory.get(new DAOPropriedade(), tp) == null ){
+                        long idGerado;
+                        //objeto TOEndereco
+                        TOEndereco te = new TOEndereco();
+                        te.setCidade_idCidade(cidade_idcidade);
+                        te.setRua(rua);
+                        te.setGps_Lat(gps_lat);
+                        te.setGps_Log(gps_log);
+                        te.setBairro(bairro);
+                        te.setComplemento(complemento);
+                        te.setCep(cep);
+                        te.setNumero(numero);
+                        //grava no banco de dados os dados da classe TOLogin e retorna o id gerado
+                        idGerado = BOFactory.inserir(new DAOEndereco(), te);
+                        //grava o idGerado do endereco na TOPropriedade
+                        tp.setEndereco_idendereco(idGerado);
 
-                    //popula a classe
-                    t.setEndereco_idendereco(idGerado);
-                    t.setEscolaridade_idescolaridade(escolaridade_idescolaridade);
-                    t.setEstadocivil_idestadocivil(estadocivil_idestadocivil);
-                    t.setNome(nome);
-                    t.setSobrenome(sobrenome);
-                    t.setApelido(apelido);
-                    t.setRg(rg);
-                    //t.setDatanascimento(datanascimento);
-                    t.setSexo(sexo);
-                    t.setTelefone1(telefone1);
-                    t.setTelefone2(telefone2);
-                    t.setEmail(email);
-                    //grava no banco de dados os dados da classe TOPessoa e retorna o id gerado
-                    idGerado = BOFactory.inserir(new DAOPessoa(), t);
 
-                    //popula a classe
-                    tl.setPessoa_idpessoa(idGerado);
-                    tl.setUnidade_idunidade(unidade_idunidade);
-                    tl.setSenha(senha);
-                    tl.setPapel(papel);
-                    //grava no banco de dados os dados da classe TOLogin
-                    BOFactory.inserir(new DAOLogin(), tl);
+                        //popula a classe TOPessoa
+                        t.setEndereco_idendereco(idGerado);
+                        t.setEscolaridade_idescolaridade(escolaridade_idescolaridade);
+                        t.setEstadocivil_idestadocivil(estadocivil_idestadocivil);
+                        t.setNome(nome);
+                        t.setSobrenome(sobrenome);
+                        t.setApelido(apelido);
+                        t.setRg(rg);
+                        //t.setDatanascimento(datanascimento);
+                        t.setSexo(sexo);
+                        t.setTelefone1(telefone1);
+                        t.setTelefone2(telefone2);
+                        t.setEmail(email);
+                        //grava no banco de dados os dados da classe TOPessoa e retorna o id gerado
+                        idGerado = BOFactory.inserir(new DAOPessoa(), t);
+                        tr.setAgricultor_pessoa_idpessoa(idGerado);
 
-                    j.put("sucesso", true);
-                    j.put("mensagem", "Usuario cadastrado!");
+                        //popula a classe TOAgricultor
+                        ta.setPessoa_idpessoa(idGerado);
+                        ta.setQtdedeintegrantes(qtdedeintegrantes);
+                        ta.setQtdedecriancas(qtdedecriancas);
+                        ta.setQtdedegravida(qtdedegravidas);                    
+                        //grava no bando de dados os dados da classe TOAgricultor
+                        BOFactory.inserir(new DAOAgricultor(), ta);
+
+                        //popula a classe TOLogin
+                        tl.setPessoa_idpessoa(idGerado);
+                        tl.setUnidade_idunidade(unidade_idunidade);
+                        tl.setSenha(senha);
+                        tl.setPapel(papel);
+                        //grava no banco de dados os dados da classe TOLogin
+                        BOFactory.inserir(new DAOLogin(), tl);
+
+                        //popula a classe TOPropriedade
+                        tp.setUnidade_idunidade(unidade_idunidade);
+                        tp.setNomepropriedade(nomepropriedade);
+                        tp.setArea(area);
+                        tp.setUnidadedemedida(unidadedemedida);
+                        tp.setAreautilizavel(areautilizavel);
+                        tp.setUnidadedemedidaau(unidadedemedidaau);
+                        //grava no banco de dados a TOPropriedade
+                        idGerado = BOFactory.inserir(new DAOPropriedade(), tp);
+
+                        //popula a classe TORelacaopa
+                        tr.setPropriedade_idpropriedade(idGerado);
+                        BOFactory.inserir(new DAORelacaopa(), tr);
+
+                        j.put("sucesso", true);
+                        j.put("mensagem", "Usuario cadastrado!");
+                    //mensagen de propriedade ja cadastrada
+                    }else{
+                        j.put("sucesso", false);
+                        j.put("erro", 1);
+                        j.put("mensagem", "Propriedade ja existe no sistema!");
+                    }
                 //mensagen de cpf ja existente
                 }else{
                     j.put("sucesso", false);
-                    j.put("erro", 1);
+                    j.put("erro", 2);
                     j.put("mensagem", "Usuario ja existe no sistema!");
                 }
             //mensagen de usuario ja existente
             }else{
                 j.put("sucesso", false);
-                j.put("erro", 2);
+                j.put("erro", 3);
                 j.put("mensagem", "CPF ja cadastrado!");
             }
         }catch(Exception e){
@@ -190,6 +239,8 @@ public class ServicosPessoa {
         
         return j.toString();
     }
+    
+    
     
     //edita um usuario no banco de dados
     @Path("editar")
@@ -308,39 +359,7 @@ public class ServicosPessoa {
     }
     
     
-    @Path("inseriragricultor")
-    @POST
-    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    @Produces(MediaType.APPLICATION_JSON)
-    public String inserirAgricultor(
-            @FormParam("cpf") String cpf,
-            @FormParam("qtdedeintegrantes") int qtdedeintegrantes,
-            @FormParam("qtdedecriancas") int qtdedecriancas,
-            @FormParam("qtdedegravidas") int qtdedegravidas
-            )throws Exception{
-        
-        JSONObject j = new JSONObject();
-        try{
-            TOPessoa tp = new TOPessoa();
-            TOAgricultor t = new TOAgricultor();
-            
-            tp.setCpf(cpf);
-            t.setPessoa_idpessoa(((TOPessoa) BOFactory.get(new DAOPessoa(), tp)).getIdpessoa());
-            t.setQtdedeintegrantes(qtdedeintegrantes);
-            t.setQtdedecriancas(qtdedecriancas);
-            t.setQtdedegravida(qtdedegravidas);
-            
-            BOFactory.inserir(new DAOAgricultor(), t);
-            
-            j.put("sucesso", true);
-            j.put("messangem", "Agricultor cadastrado");
-        }catch(Exception e){
-            j.put("sucesso", false);
-            j.put("messangem", e.getMessage());
-        }
-        
-        return j.toString();
-    } 
+    
   
     
     
@@ -374,36 +393,45 @@ public class ServicosPessoa {
             
             //objeto TOEndereco
             TOEndereco te = new TOEndereco();
-            te.setCidade_idCidade(cidade_idcidade);
-            te.setRua(rua);
-            te.setGps_Lat(gps_lat);
-            te.setGps_Log(gps_log);
-            te.setBairro(bairro);
-            te.setComplemento(complemento);
-            te.setCep(cep);
-            te.setNumero(numero);
+            TOPropriedade tpd = new TOPropriedade();
             
-            TOPropriedade t = new TOPropriedade();
+            tpd.setNomepropriedade(nomepropriedade);
+            tpd.setCpf(cpf);
             
-            t.setEndereco_idendereco(BOFactory.inserir(new DAOEndereco(), te));
-            t.setUnidade_idunidade(unidade_idunidade);
-            t.setNomepropriedade(nomepropriedade);
-            t.setArea(area);
-            t.setUnidadedemedida(unidadedemedida);
-            t.setAreautilizavel(areautilizavel);
-            t.setUnidadedemedidaau(unidadedemedidaau);
-            
-            TORelacaopa tr = new TORelacaopa();
-            
-            TOPessoa tp = new TOPessoa();
-            tp.setCpf(cpf);
-            tr.setPropriedade_idpropriedade(BOFactory.inserir(new DAOPropriedade(), t));
-            tr.setAgricultor_pessoa_idpessoa(((TOPessoa) BOFactory.get(new DAOPessoa(), tp)).getIdpessoa());
-            
-            BOFactory.inserir(new DAORelacaopa(), tr);
-            
-            j.put("sucesso", true);
-            j.put("messangem", "Propriedade cadastrada");
+            if(BOFactory.get(new DAOPropriedade(), tpd) == null ){
+                te.setCidade_idCidade(cidade_idcidade);
+                te.setRua(rua);
+                te.setGps_Lat(gps_lat);
+                te.setGps_Log(gps_log);
+                te.setBairro(bairro);
+                te.setComplemento(complemento);
+                te.setCep(cep);
+                te.setNumero(numero);
+
+                tpd.setEndereco_idendereco(BOFactory.inserir(new DAOEndereco(), te));
+                tpd.setUnidade_idunidade(unidade_idunidade);
+                
+                tpd.setArea(area);
+                tpd.setUnidadedemedida(unidadedemedida);
+                tpd.setAreautilizavel(areautilizavel);
+                tpd.setUnidadedemedidaau(unidadedemedidaau);
+
+                TORelacaopa tr = new TORelacaopa();
+
+                TOPessoa tp = new TOPessoa();
+                tp.setCpf(cpf);
+                tr.setPropriedade_idpropriedade(BOFactory.inserir(new DAOPropriedade(), tpd));
+                tr.setAgricultor_pessoa_idpessoa(((TOPessoa) BOFactory.get(new DAOPessoa(), tp)).getIdpessoa());
+
+                BOFactory.inserir(new DAORelacaopa(), tr);
+
+                j.put("sucesso", true);
+                j.put("messangem", "Propriedade cadastrada");
+            }else{
+                j.put("sucesso", false);
+                j.put("erro", 1);
+                j.put("mensagem", "Propriedade ja existe no sistema!");
+            }
         }catch(Exception e){
             j.put("sucesso", false);
             j.put("messangem", e.getMessage());

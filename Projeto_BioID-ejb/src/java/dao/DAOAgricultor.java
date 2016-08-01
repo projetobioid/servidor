@@ -21,7 +21,7 @@ public class DAOAgricultor implements DAOBase{
 
     @Override
     public long inserir(Connection c, TOBase t) throws Exception {
-        String sql = "INSERT INTO agricultor(pessoa_idpessoa, qtdedeintegrantes, qtdedecriancas, qtdedegravidas) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO agricultor(pessoa_idpessoa, qtdedeintegrantes, qtdedecriancas, qtdedegravidas)VALUES (?, ?, ?, ?)";
         
         TOAgricultor to = (TOAgricultor)t;
         
