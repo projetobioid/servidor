@@ -10,7 +10,9 @@ import dao.DAOCultivar;
 import dao.DAOPessoa;
 import dao.DAOPropriedade;
 import dao.DAOSafra;
+import dao.DAOSafraImg;
 import dao.DAOSafrarelatada;
+import dao.DAOVersao;
 import java.util.Date;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.core.Context;
@@ -23,11 +25,14 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import to.TOBase;
 import to.TOCultivar;
 import to.TOPessoa;
 import to.TOPropriedade;
 import to.TOSafra;
+import to.TOSafraImg;
 import to.TOSafrarelatada;
+import to.TOVersao;
 
 /**
  * REST Web Service
@@ -55,7 +60,7 @@ public class ServicosCultivar {
         JSONObject j = new JSONObject();
         
         try{
-            JSONArray ja = BOFactory.listar(new DAOCultivar()) ;
+            JSONArray ja = BOFactory.listar(new DAOCultivar());
         
             j.put("data", ja);
             j.put("sucesso", true);
@@ -286,11 +291,15 @@ public class ServicosCultivar {
             
             TOSafra t = new TOSafra();
             t.setUsuario(usuario);
-        
-            JSONArray ja = BOFactory.listar(new DAOSafra(), t) ;
+            JSONArray ja = BOFactory.listar(new DAOSafra(), t);
+            
+            TOSafraImg ti = new TOSafraImg();
+            ti.setUsuario(usuario);
+            JSONArray ji = BOFactory.listarImg(new DAOSafraImg(), ti);
             
             if(ja.length() > 0){
                 j.put("data", ja);
+                j.put("imagens", ji);
                 j.put("sucesso", true);
             }else{
                 j.put("sucesso", false);
@@ -346,5 +355,41 @@ public class ServicosCultivar {
         return j.toString();
     }
     
-    
+    //metodo que verifica a versao do app
+    @Path("versao")
+    @POST
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @Produces(MediaType.APPLICATION_JSON)
+    public String verificarversao(
+            @FormParam("versao") String versao
+            ) throws Exception {
+        
+        JSONObject j = new JSONObject();
+        
+            
+        try{
+            TOVersao t = new TOVersao();
+            t.setDescricao(versao);
+            t = (TOVersao) BOFactory.get(new DAOVersao(), t);
+            
+            if(t == null){
+                
+                JSONArray ja = BOFactory.listar(new DAOCultivar());
+                
+                
+                j.put("sucesso", true);
+               // j.put("versao", t.getDescricao());
+                j.put("data", ja);
+            }else{
+                j.put("sucesso", true);
+                j.put("versao", t.getDescricao());
+                j.put("menssage", "Versao atuazizada!");
+           }
+        }catch(Exception e){
+            j.put("sucesso", false);
+            j.put("mensagem", e.getMessage());
+        }
+        
+        return j.toString();
+    }
 }

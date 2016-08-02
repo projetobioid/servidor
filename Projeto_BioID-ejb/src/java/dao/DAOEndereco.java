@@ -11,7 +11,6 @@ import java.util.List;
 import org.json.JSONArray;
 import to.TOBase;
 import to.TOEndereco;
-import to.TOSafra;
 
 /**
  *
@@ -71,5 +70,5 @@ public class DAOEndereco implements DAOBase{
     public JSONArray listar(Connection c, TOBase t) throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
+
 }

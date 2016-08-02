@@ -147,5 +147,6 @@ public class DAOPropriedade implements DAOBase{
             rs.close();
         }
         return ja;}
+
     
 }

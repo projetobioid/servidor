@@ -12,6 +12,7 @@ import java.util.List;
 import org.json.JSONArray;
 import to.TOBase;
 import to.TOSafra;
+import to.TOSafraImg;
 
 /**
  *
@@ -109,8 +110,9 @@ public class DAOSafra implements DAOBase{
                 + " INNER JOIN destinacao d ON (d.iddestinacao = sr.destinacao_iddestinacao)"
                 + " where l.usuario = ?";
            
-        ResultSet rs = null;
         
+        
+        ResultSet rs = null;
         try{
             //variavel com lista dos parametros
             List<Object> u = new ArrayList<Object>();
@@ -123,10 +125,21 @@ public class DAOSafra implements DAOBase{
                 TOSafra ts = new TOSafra(rs);
                 ja.put(ts.getJson());
             }
+            
+                        
         }finally{
             rs.close();
         }
         return ja;
     }
+
+
+
     
 }
+
+
+
+
+
+

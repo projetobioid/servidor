@@ -101,7 +101,7 @@ public class DAOCultivar implements DAOBase {
     public JSONArray listar(Connection c) throws Exception {
         JSONArray  ja = new JSONArray();
         
-        String sql = "select * from cultivar order by nomecultivar";
+        String sql = "select * from cultivar where biofortificado = true order by nomecultivar";
         
         ResultSet rs = null;
         
@@ -127,8 +127,6 @@ public class DAOCultivar implements DAOBase {
     public JSONArray listar(Connection c, TOBase t) throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
-
 
     
 }

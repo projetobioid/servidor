@@ -175,7 +175,9 @@ public class TOSafra extends TOBase {
         this.nomecultivar = nomecultivar;
         this.nomepropriedade = nomepropriedade;
         this.usuario = usuario;
-    }   
+    }
+
+      
 
       
     public TOSafra(ResultSet rs) throws Exception{
