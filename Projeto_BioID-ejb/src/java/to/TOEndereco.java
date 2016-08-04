@@ -13,21 +13,29 @@ import org.json.JSONObject;
  * @author daniel
  */
 public class TOEndereco extends TOBase{
-    public long Cidade_idCidade;
-    public String rua;
-    public int gps_Lat;
-    public int gps_Log;
-    public int numero;
-    public String bairro;
-    public String complemento;
-    public String cep;
+   
+    private long cidade_idcidade;
     
-    public long getCidade_idCidade() {
-        return Cidade_idCidade;
+    private String rua;
+    
+    private int gps_lat;
+   
+    private int gps_long;
+    
+    private int numero;
+    
+    private String bairro;
+    
+    private String complemento;
+    
+    private String cep;
+    
+    public long getCidade_idcidade() {
+        return cidade_idcidade;
     }
 
-    public void setCidade_idCidade(long Cidade_idCidade) {
-        this.Cidade_idCidade = Cidade_idCidade;
+    public void setCidade_idcidade(long cidade_idcidade) {
+        this.cidade_idcidade = cidade_idcidade;
     }
     
     public String getRua() {
@@ -38,20 +46,20 @@ public class TOEndereco extends TOBase{
         this.rua = rua;
     }
 
-    public int getGps_Lat() {
-        return gps_Lat;
+    public int getGps_lat() {
+        return gps_lat;
     }
 
-    public void setGps_Lat(int gps_Lat) {
-        this.gps_Lat = gps_Lat;
+    public void setGps_lat(int gps_lat) {
+        this.gps_lat = gps_lat;
     }
 
-    public int getGps_Log() {
-        return gps_Log;
+    public int getGps_long() {
+        return gps_long;
     }
 
-    public void setGps_Log(int gps_Log) {
-        this.gps_Log = gps_Log;
+    public void setGps_long(int gps_long) {
+        this.gps_long = gps_long;
     }
 
     public int getNumero() {
@@ -91,25 +99,25 @@ public class TOEndereco extends TOBase{
     public TOEndereco() {
     }
 
-    public TOEndereco(String rua, int gps_Lat, int gps_Log, int numero, String bairro, String complemento, String cep, long Cidade_idCidade) {
+    public TOEndereco(String rua, int gps_lat, int gps_long, int numero, String bairro, String complemento, String cep, long Cidade_idCidade) {
         this.rua = rua;
-        this.gps_Lat = gps_Lat;
-        this.gps_Log = gps_Log;
+        this.gps_lat = gps_lat;
+        this.gps_long = gps_long;
         this.numero = numero;
         this.bairro = bairro;
         this.complemento = complemento;
         this.cep = cep;
-        this.Cidade_idCidade = Cidade_idCidade;
+        this.cidade_idcidade = Cidade_idCidade;
     }
 
 
 
     //retorna consulta do banco de dados tipo resultset
     public TOEndereco (ResultSet rs) throws Exception{
-        this.Cidade_idCidade = rs.getLong("Cidade_idCidade");
+        this.cidade_idcidade = rs.getLong("cidade_idcidade");
         this.rua = rs.getString("rua");
-        this.gps_Lat = rs.getInt("gps_Lat");
-        this.gps_Log = rs.getInt("gps_Log");
+        this.gps_lat = rs.getInt("gps_lat");
+        this.gps_long = rs.getInt("gps_long");
         this.numero = rs.getInt("numero");
         this.bairro = rs.getString("bairro");
         this.complemento = rs.getString("complemento");
@@ -123,10 +131,10 @@ public class TOEndereco extends TOBase{
         JSONObject j = new JSONObject();
         
         //populando o objeto j
-        j.put("Cidade_idCidade", Cidade_idCidade);
+        j.put("cidade_idcidade", cidade_idcidade);
         j.put("rua", rua);
-        j.put("gps_Lat", gps_Lat);
-        j.put("gps_Log", gps_Log);
+        j.put("gps_lat", gps_lat);
+        j.put("gps_long", gps_long);
         j.put("numero", numero);
         j.put("bairro", bairro);
         j.put("complemento", complemento);

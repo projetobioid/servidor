@@ -21,17 +21,17 @@ public class DAOEndereco implements DAOBase{
     @Override
     public long inserir(Connection c, TOBase t) throws Exception {
         //string com o comando sql para editar o banco de dados
-        String sql = "INSERT INTO endereco(cidade_idcidade, rua, gps_lat, gps_log, bairro, complemento, cep, numero) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO endereco(cidade_idcidade, rua, gps_lat, gps_long, bairro, complemento, cep, numero) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         //variavel sendo convertida para toUsuarios
         TOEndereco to = (TOEndereco)t;
         //variavel com lista dos parametros
         List<Object> u = new ArrayList<Object>();
         
         
-        u.add(to.getCidade_idCidade());
+        u.add(to.getCidade_idcidade());
         u.add(to.getRua());
-        u.add(to.getGps_Lat());
-        u.add(to.getGps_Log());
+        u.add(to.getGps_lat());
+        u.add(to.getGps_long());
         u.add(to.getBairro());
         u.add(to.getComplemento());
         u.add(to.getCep());

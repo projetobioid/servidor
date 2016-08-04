@@ -24,7 +24,7 @@ public class TOSafrarelatada extends TOBase{
     
     public float quantidade;
     
-    public String grandeza;
+    public long unidademedida_idunidademedida;
 
     public long getIdsafrarelatada() {
         return idsafrarelatada;
@@ -66,24 +66,24 @@ public class TOSafrarelatada extends TOBase{
         this.quantidade = quantidade;
     }
 
-    public String getGrandeza() {
-        return grandeza;
+    public long getUnidademedida_idunidademedida() {
+        return unidademedida_idunidademedida;
     }
 
-    public void setGrandeza(String grandeza) {
-        this.grandeza = grandeza;
+    public void setUnidademedida_idunidademedida(long unidademedida_idunidademedida) {
+        this.unidademedida_idunidademedida = unidademedida_idunidademedida;
     }
 
     public TOSafrarelatada() {
     }
 
-    public TOSafrarelatada(long idsafrarelatada, long safra_idsafra, long destinacao_iddestinacao, Date datacolheita, float quantidade, String grandeza) {
+    public TOSafrarelatada(long idsafrarelatada, long safra_idsafra, long destinacao_iddestinacao, Date datacolheita, float quantidade, long unidademedida_idunidademedida) {
         this.idsafrarelatada = idsafrarelatada;
         this.safra_idsafra = safra_idsafra;
         this.destinacao_iddestinacao = destinacao_iddestinacao;
         this.datacolheita = datacolheita;
         this.quantidade = quantidade;
-        this.grandeza = grandeza;
+        this.unidademedida_idunidademedida = unidademedida_idunidademedida;
     }
     
     public TOSafrarelatada(ResultSet rs) throws Exception{
@@ -92,7 +92,7 @@ public class TOSafrarelatada extends TOBase{
         this.destinacao_iddestinacao = rs.getLong("destinacao_iddestinacao");
         this.datacolheita = rs.getDate("datacolheita");
         this.quantidade = rs.getFloat("quantidade");
-        this.grandeza = rs.getString("grandeza");
+        this.unidademedida_idunidademedida = rs.getLong("unidademedida_idunidademedida");
         
     }
 
@@ -107,7 +107,7 @@ public class TOSafrarelatada extends TOBase{
         j.put("destinacao_iddestinacao", destinacao_iddestinacao);
         j.put("datacolheita", datacolheita);
         j.put("quantidade", quantidade);
-        j.put("grandeza", grandeza);
+        j.put("unidademedida_idunidademedida", unidademedida_idunidademedida);
         
         return j;
     }

@@ -23,7 +23,7 @@ public class TOCultivar extends TOBase{
     //tipo do produto se é bio ou não
     private boolean biofortificado;
     //tipo da distribuicao do cultivar
-    private String unidademedida;
+    private long unidademedida_idunidademedida;
 
     private String valornutricional;
     //gets e sets
@@ -68,12 +68,12 @@ public class TOCultivar extends TOBase{
         this.biofortificado = biofortificado;
     }
 
-    public String getUnidademedida() {
-        return unidademedida;
+    public long getUnidademedida_idunidademedida() {
+        return unidademedida_idunidademedida;
     }
 
-    public void setUnidademedida(String unidademedida) {
-        this.unidademedida = unidademedida;
+    public void setUnidademedida_idunidademedida(long unidademedida_idunidademedida) {
+        this.unidademedida_idunidademedida = unidademedida_idunidademedida;
     }
 
     public String getValornutricional() {
@@ -91,6 +91,17 @@ public class TOCultivar extends TOBase{
     public TOCultivar() {
     }
 
+    public TOCultivar(long idcultivar, String nomecultivar, String imagem, String descricao, boolean biofortificado, long unidademedida_idunidademedida, String valornutricional) {
+        this.idcultivar = idcultivar;
+        this.nomecultivar = nomecultivar;
+        this.imagem = imagem;
+        this.descricao = descricao;
+        this.biofortificado = biofortificado;
+        this.unidademedida_idunidademedida = unidademedida_idunidademedida;
+        this.valornutricional = valornutricional;
+    }
+
+    
     
     //retorna consulta do banco de dados tipo resultset
     public TOCultivar (ResultSet rs) throws Exception{
@@ -99,7 +110,7 @@ public class TOCultivar extends TOBase{
         this.imagem = rs.getString("imagem");
         this.descricao = rs.getString("descricao");
         this.biofortificado = rs.getBoolean("biofortificado");
-        this.unidademedida = rs.getString("unidademedida");
+        this.unidademedida_idunidademedida = rs.getLong("unidademedida_idunidademedida");
         this.valornutricional = rs.getString("valornutricional");
     }
     //classe sobrescrita de tobase
@@ -114,7 +125,7 @@ public class TOCultivar extends TOBase{
         j.put("imagem", imagem);
         j.put("descricao", descricao);
         j.put("biofortificado", biofortificado);
-        j.put("unidademedida", unidademedida);
+        j.put("unidademedida_idunidademedida", unidademedida_idunidademedida);
         j.put("valornutricional", valornutricional);
         
         return j;

@@ -16,6 +16,8 @@ import org.json.JSONObject;
 public class TOSafra extends TOBase {
     private long idsafra;
     
+    private long unidademedida_idunidademedida;
+    
     private long propriedade_idpropriedade;
      
     private long cultivar_idcultivar;
@@ -26,15 +28,13 @@ public class TOSafra extends TOBase {
     
     private double qtdrecebida;
     
-    private String gndqtdrecebida;
+    //campos do result set
+    
+    private String grandeza_safra;
     
     private String descricao;
     
-    private Date datacolheita;
-    
-    private double quantidade;
-    
-    private String grandeza;
+    private String grandeza_cultivar;
     
     private String nomecultivar;
     
@@ -48,6 +48,14 @@ public class TOSafra extends TOBase {
 
     public void setIdsafra(long idsafra) {
         this.idsafra = idsafra;
+    }
+
+    public long getUnidademedida_idunidademedida() {
+        return unidademedida_idunidademedida;
+    }
+
+    public void setUnidademedida_idunidademedida(long unidademedida_idunidademedida) {
+        this.unidademedida_idunidademedida = unidademedida_idunidademedida;
     }
 
     public long getPropriedade_idpropriedade() {
@@ -90,12 +98,13 @@ public class TOSafra extends TOBase {
         this.qtdrecebida = qtdrecebida;
     }
 
-    public String getGndqtdrecebida() {
-        return gndqtdrecebida;
+
+    public String getGrandeza_safra() {
+        return grandeza_safra;
     }
 
-    public void setGndqtdrecebida(String gndqtdrecebida) {
-        this.gndqtdrecebida = gndqtdrecebida;
+    public void setGrandeza_safra(String grandeza_safra) {
+        this.grandeza_safra = grandeza_safra;
     }
 
     public String getDescricao() {
@@ -106,28 +115,14 @@ public class TOSafra extends TOBase {
         this.descricao = descricao;
     }
 
-    public Date getDatacolheita() {
-        return datacolheita;
+
+
+    public String getGrandeza_cultivar() {
+        return grandeza_cultivar;
     }
 
-    public void setDatacolheita(Date datacolheita) {
-        this.datacolheita = datacolheita;
-    }
-
-    public double getQuantidade() {
-        return quantidade;
-    }
-
-    public void setQuantidade(double quantidade) {
-        this.quantidade = quantidade;
-    }
-
-    public String getGrandeza() {
-        return grandeza;
-    }
-
-    public void setGrandeza(String grandeza) {
-        this.grandeza = grandeza;
+    public void setGrandeza_cultivar(String grandeza_cultivar) {
+        this.grandeza_cultivar = grandeza_cultivar;
     }
 
     public String getNomecultivar() {
@@ -160,26 +155,23 @@ public class TOSafra extends TOBase {
     public TOSafra() {
     }
 
-    public TOSafra(long idsafra, long propriedade_idpropriedade, long cultivar_idcultivar, String safra, Date datareceb, double qtdrecebida, String gndqtdrecebida, String descricao, Date datacolheita, double quantidade, String grandeza, String nomecultivar, String nomepropriedade, String usuario) {
+    public TOSafra(long idsafra, long unidademedida_idunidademedida, long propriedade_idpropriedade, long cultivar_idcultivar, String safra, Date datareceb, double qtdrecebida, String grandeza_safra, String descricao, String grandeza_cultivar, String nomecultivar, String nomepropriedade, String usuario) {
         this.idsafra = idsafra;
+        this.unidademedida_idunidademedida = unidademedida_idunidademedida;
         this.propriedade_idpropriedade = propriedade_idpropriedade;
         this.cultivar_idcultivar = cultivar_idcultivar;
         this.safra = safra;
         this.datareceb = datareceb;
         this.qtdrecebida = qtdrecebida;
-        this.gndqtdrecebida = gndqtdrecebida;
+        this.grandeza_safra = grandeza_safra;
         this.descricao = descricao;
-        this.datacolheita = datacolheita;
-        this.quantidade = quantidade;
-        this.grandeza = grandeza;
+        this.grandeza_cultivar = grandeza_cultivar;
         this.nomecultivar = nomecultivar;
         this.nomepropriedade = nomepropriedade;
         this.usuario = usuario;
     }
 
-      
-
-      
+         
     public TOSafra(ResultSet rs) throws Exception{
         this.idsafra = rs.getLong("idsafra");
         this.propriedade_idpropriedade = rs.getLong("propriedade_idpropriedade");
@@ -187,16 +179,12 @@ public class TOSafra extends TOBase {
         this.safra = rs.getString("safra");
         this.datareceb = rs.getDate("datareceb");
         this.qtdrecebida = rs.getDouble("qtdrecebida");
-        this.gndqtdrecebida = rs.getString("gndqtdrecebida");
-        
+        this.grandeza_cultivar = rs.getString("grandeza_cultivar");
         this.descricao = rs.getString("descricao");
-        this.datacolheita = rs.getDate("datacolheita");
-        this.quantidade = rs.getDouble("quantidade");
-        this.grandeza = rs.getString("grandeza");
+        this.grandeza_safra = rs.getString("grandeza_safra");
         this.nomecultivar = rs.getString("nomecultivar");
         this.nomepropriedade = rs.getString("nomepropriedade");
-        
-        
+
     }
 
     @Override
@@ -211,12 +199,9 @@ public class TOSafra extends TOBase {
         j.put("safra", safra);
         j.put("datareceb", datareceb);
         j.put("qtdrecebida", qtdrecebida);
-        j.put("gndqtdrecebida", gndqtdrecebida);
-        
+        j.put("grandeza_cultivar", grandeza_cultivar);
         j.put("descricao", descricao);
-        j.put("datacolheita", datacolheita);
-        j.put("quantidade", quantidade);
-        j.put("grandeza", grandeza);
+        j.put("grandeza_safra", grandeza_safra);
         j.put("nomecultivar", nomecultivar);
         j.put("nomepropriedade", nomepropriedade);
         

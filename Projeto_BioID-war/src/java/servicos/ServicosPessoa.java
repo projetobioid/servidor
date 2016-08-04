@@ -7,7 +7,6 @@ package servicos;
 
 import bo.BOFactory;
 import dao.DAOAgricultor;
-import dao.DAOBase;
 import dao.DAOEndereco;
 import dao.DAOLogin;
 import dao.DAOPessoa;
@@ -30,7 +29,6 @@ import javax.ws.rs.core.MediaType;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import to.TOAgricultor;
-import to.TOBase;
 import to.TOEndereco;
 import to.TOLogin;
 import to.TOPessoa;
@@ -89,7 +87,7 @@ public class ServicosPessoa {
             @FormParam("cidade_idcidade") long cidade_idcidade,
             @FormParam("rua") String rua,
             @FormParam("gps_lat") int gps_lat,
-            @FormParam("gps_log") int gps_log,
+            @FormParam("gps_long") int gps_long,
             @FormParam("bairro") String bairro,
             @FormParam("complemento") String complemento,
             @FormParam("cep") String cep,
@@ -120,9 +118,9 @@ public class ServicosPessoa {
             //tabela propriedade
             @FormParam("nomepropriedade") String nomepropriedade,
             @FormParam("area") float area,
-            @FormParam("unidadedemedida") String unidadedemedida,
+            @FormParam("unidadedemedida") long unidadedemedida,
             @FormParam("areautilizavel") float areautilizavel,
-            @FormParam("unidadedemedidaau") String unidadedemedidaau
+            @FormParam("unidadedemedidaau") long unidadedemedidaau
             ) throws Exception{
 
         
@@ -150,10 +148,10 @@ public class ServicosPessoa {
                         long idGerado;
                         //objeto TOEndereco
                         TOEndereco te = new TOEndereco();
-                        te.setCidade_idCidade(cidade_idcidade);
+                        te.setCidade_idcidade(cidade_idcidade);
                         te.setRua(rua);
-                        te.setGps_Lat(gps_lat);
-                        te.setGps_Log(gps_log);
+                        te.setGps_lat(gps_lat);
+                        te.setGps_long(gps_long);
                         te.setBairro(bairro);
                         te.setComplemento(complemento);
                         te.setCep(cep);
@@ -381,9 +379,9 @@ public class ServicosPessoa {
             @FormParam("unidade_idunidade") long unidade_idunidade,
             @FormParam("nomepropriedade") String nomepropriedade,
             @FormParam("area") float area,
-            @FormParam("unidadedemedida") String unidadedemedida,
+            @FormParam("unidadedemedida") long unidadedemedida,
             @FormParam("areautilizavel") float areautilizavel,
-            @FormParam("unidadedemedidaau") String unidadedemedidaau,
+            @FormParam("unidadedemedidaau") long unidadedemedidaau,
             @FormParam("cpf") String cpf
             
             )throws Exception{
@@ -399,10 +397,10 @@ public class ServicosPessoa {
             tpd.setCpf(cpf);
             
             if(BOFactory.get(new DAOPropriedade(), tpd) == null ){
-                te.setCidade_idCidade(cidade_idcidade);
+                te.setCidade_idcidade(cidade_idcidade);
                 te.setRua(rua);
-                te.setGps_Lat(gps_lat);
-                te.setGps_Log(gps_log);
+                te.setGps_lat(gps_lat);
+                te.setGps_long(gps_log);
                 te.setBairro(bairro);
                 te.setComplemento(complemento);
                 te.setCep(cep);

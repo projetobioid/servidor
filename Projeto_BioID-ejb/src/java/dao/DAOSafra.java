@@ -7,12 +7,14 @@ package dao;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import org.json.JSONArray;
 import to.TOBase;
 import to.TOSafra;
-import to.TOSafraImg;
 
 /**
  *
@@ -22,19 +24,17 @@ public class DAOSafra implements DAOBase{
 
     @Override
     public long inserir(Connection c, TOBase t) throws Exception {
-        String sql = "INSERT INTO safra(propriedade_idpropriedade, cultivar_idcultivar, safra, datareceb, qtdrecebida, gndqtdrecebida) VALUES (?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO safra(unidademedida_idunidademedida, propriedade_idpropriedade, cultivar_idcultivar, safra, datareceb, qtdrecebida) VALUES (?, ?, ?, ?, ?, ?)";
         
         TOSafra to = (TOSafra)t;
-        
         List<Object> p = new ArrayList<Object>();
         
-        
+        p.add(to.getUnidademedida_idunidademedida());
         p.add(to.getPropriedade_idpropriedade());
         p.add(to.getCultivar_idcultivar());
         p.add(to.getSafra());
-        p.add(to.getDatareceb());
+        p.add(new Timestamp((to.getDatareceb()).getTime()));
         p.add(to.getQtdrecebida());
-        p.add(to.getGndqtdrecebida());
         
         //passa por parametros a conexao e a lista de objetos da insercao de um novo produto
         return Data.executeUpdate(c, sql, p);
@@ -42,7 +42,7 @@ public class DAOSafra implements DAOBase{
 
     @Override
     public void editar(Connection c, TOBase t) throws Exception {
-        String sql = "UPDATE safra SET datacolheita=?, qtdconsumida=?, qtdreplatar=?, qtddestinada=?, destino=? WHERE propriedade_idpropriedade = ? and cultivar_idcultivar = ? and safra = ?";
+        String sql = "UPDATE safra SET qtdconsumida=?, qtdreplatar=?, qtddestinada=?, destino=? WHERE propriedade_idpropriedade = ? and cultivar_idcultivar = ? and safra = ?";
 
         
         TOSafra to = (TOSafra)t;
@@ -50,7 +50,6 @@ public class DAOSafra implements DAOBase{
         List<Object> p = new ArrayList<Object>();
         
 
-        p.add(to.getDatacolheita());
         p.add(to.getPropriedade_idpropriedade());
         p.add(to.getCultivar_idcultivar());
         p.add(to.getSafra());
@@ -100,15 +99,18 @@ public class DAOSafra implements DAOBase{
     public JSONArray listar(Connection c, TOBase t) throws Exception {
         JSONArray  ja = new JSONArray();
         
-        String sql = "SELECT s.idsafra, s.propriedade_idpropriedade, s.cultivar_idcultivar, s.safra, s.datareceb, s.qtdrecebida, s.gndqtdrecebida, d.descricao, sr.datacolheita, sr.quantidade, sr.grandeza, c.nomecultivar, pr.nomepropriedade FROM login l"
-                + " INNER JOIN pessoa p ON( p.idpessoa = l.pessoa_idpessoa)"
-                + " INNER JOIN relacaopa r ON( r.agricultor_pessoa_idpessoa = p.idpessoa)"
-                + " INNER JOIN propriedade pr ON (pr.idpropriedade = r.propriedade_idpropriedade)"
-                + " INNER JOIN safra s ON (s.propriedade_idpropriedade = pr.idpropriedade)"
-                + " INNER JOIN cultivar c ON (idcultivar = cultivar_idcultivar)"
-                + " INNER JOIN safrarelatada sr ON (sr.safra_idsafra = s.idsafra)"
-                + " INNER JOIN destinacao d ON (d.iddestinacao = sr.destinacao_iddestinacao)"
-                + " where l.usuario = ?";
+        String sql = "SELECT s.idsafra, s.propriedade_idpropriedade, s.cultivar_idcultivar, s.safra, s.datareceb, s.qtdrecebida, uc.grandeza as grandeza_cultivar, d.descricao, us.grandeza as grandeza_safra, c.nomecultivar, pr.nomepropriedade "
+                + "FROM login l "
+                + "INNER JOIN pessoa p ON( p.idpessoa = l.pessoa_idpessoa) "
+                + "INNER JOIN relacaopa r ON( r.agricultor_pessoa_idpessoa = p.idpessoa) "
+                + "INNER JOIN propriedade pr ON (pr.idpropriedade = r.propriedade_idpropriedade) "
+                + "INNER JOIN safra s ON (s.propriedade_idpropriedade = pr.idpropriedade) "
+                + "INNER JOIN cultivar c ON (idcultivar = cultivar_idcultivar) "
+                + "INNER JOIN safrarelatada sr ON (sr.safra_idsafra = s.idsafra ) "
+                + "INNER JOIN destinacao d ON (d.iddestinacao = sr.destinacao_iddestinacao) "
+                + "INNER JOIN unidademedida uc ON(uc.idunidademedida = c.unidademedida_idunidademedida) "
+                + "INNER JOIN unidademedida us ON(us.idunidademedida = s.unidademedida_idunidademedida) "
+                + "where l.usuario = ?";
            
         
         

@@ -32,7 +32,7 @@ public class DAOCultivar implements DAOBase {
         p.add(to.getImagem());
         p.add(to.getDescricao());
         p.add(to.isBiofortificado());
-        p.add(to.getUnidademedida());
+        p.add(to.getUnidademedida_idunidademedida());
         p.add(to.getValornutricional());
         
         //passa por parametros a conexao e a lista de objetos da insercao de um novo produto

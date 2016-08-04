@@ -83,7 +83,7 @@ public class ServicosCultivar {
             @FormParam("imagem") String imagem,
             @FormParam("descricao") String descricao,
             @FormParam("biofortificado") boolean biofortificado,
-            @FormParam("unidademedida") String unidademedida,
+            @FormParam("unidademedida_idunidademedida") long unidademedida_idunidademedida,
             @FormParam("valornutricional") String valornutricional
             
             ) throws Exception{
@@ -100,7 +100,7 @@ public class ServicosCultivar {
             if(BOFactory.get(new DAOCultivar(), t)== null){
                 t.setImagem(imagem);
                 t.setDescricao(descricao);
-                t.setUnidademedida(unidademedida);
+                t.setUnidademedida_idunidademedida(unidademedida_idunidademedida);
                 t.setValornutricional(valornutricional);
 
                 BOFactory.inserir(new DAOCultivar(), t);
@@ -203,9 +203,9 @@ public class ServicosCultivar {
             @FormParam("biofortificado") boolean biofortificado,
             @FormParam("nomepropriedade") String nomepropriedade,
             @FormParam("safra") String safra,
-            @FormParam("datareceb") String datareceb,
+            @FormParam("datareceb") Date datareceb,
             @FormParam("qtdrecebida") double qtdrecebida,
-            @FormParam("gndqtdrecebida") String gndqtdrecebida
+            @FormParam("unidademedida_idunidademedida") long unidademedida_idunidademedida
             
             
             ) throws Exception{
@@ -215,12 +215,10 @@ public class ServicosCultivar {
         
         try{    
             //cria um objeto
-            TOPessoa tp = new TOPessoa();
             TOCultivar tc = new TOCultivar();
             TOPropriedade tpr = new TOPropriedade();
             TOSafrarelatada tsr = new TOSafrarelatada();
             
-            tp.setCpf(cpf);
             tc.setNomecultivar(nomecultivar);
             tc.setBiofortificado(biofortificado);
             tpr.setNomepropriedade(nomepropriedade);
@@ -228,45 +226,39 @@ public class ServicosCultivar {
             
             
             tc = (TOCultivar) BOFactory.get(new DAOCultivar(), tc);
-            tp = (TOPessoa) BOFactory.get(new DAOPessoa(), tp);
             tpr = (TOPropriedade) BOFactory.get(new DAOPropriedade(), tpr);
 
             
-            if(tp != null){
-                if(tpr != null){
-                    if(tc != null){
-                        TOSafra ts = new TOSafra();
-                        //inseri o id da propriedade
-                        ts.setPropriedade_idpropriedade(tpr.getIdpropriedade());
-                        //inseri o id do cultivar
-                        ts.setCultivar_idcultivar(tc.getIdcultivar());
-                        ts.setSafra(safra);
-                        //tf.setDatareceb(datareceb);
-                        ts.setQtdrecebida(qtdrecebida);
-                        ts.setGndqtdrecebida(gndqtdrecebida);
+            if(tpr != null){
+                if(tc != null){
+                    TOSafra ts = new TOSafra();
+                    ts.setUnidademedida_idunidademedida(unidademedida_idunidademedida);
+                    //inseri o id da propriedade
+                    ts.setPropriedade_idpropriedade(tpr.getIdpropriedade());
+                    //inseri o id do cultivar
+                    ts.setCultivar_idcultivar(tc.getIdcultivar());
+                    ts.setSafra(safra);
+                    ts.setDatareceb(datareceb);
+                    ts.setQtdrecebida(qtdrecebida);
+                    
 
+                    tsr.setSafra_idsafra(BOFactory.inserir(new DAOSafra(), ts));
+                    tsr.setDestinacao_iddestinacao(0);
+                    BOFactory.inserir(new DAOSafrarelatada(), tsr);
 
-                        tsr.setSafra_idsafra(BOFactory.inserir(new DAOSafra(), ts));
-                        tsr.setDestinacao_iddestinacao(0);
-                        BOFactory.inserir(new DAOSafrarelatada(), tsr);
-                        
-                        j.put("sucesso", true);
-                        j.put("mensagem", "Distribuicao com sucesso!");
-                    }else{
-                        j.put("sucesso", false);
-                        j.put("erro", 1);
-                        j.put("mensagem", "Cultivar nao encontrado!");
-                    }
+                    j.put("sucesso", true);
+                    j.put("mensagem", "Distribuicao com sucesso!");
                 }else{
                     j.put("sucesso", false);
-                    j.put("erro", 2);
-                    j.put("mensagem", "Propriedade nao encontrado!");
+                    j.put("erro", 1);
+                    j.put("mensagem", "Cultivar nao encontrado!");
                 }
             }else{
-               j.put("sucesso", false);
-               j.put("erro", 3);
-               j.put("mensagem", "CPF nao encontrado!");
+                j.put("sucesso", false);
+                j.put("erro", 2);
+                j.put("mensagem", "Propriedade e cpf nao encontrado!");
             }
+
         }catch(Exception e){
             j.put("sucesso", false);
             j.put("mensagem", e.getMessage());

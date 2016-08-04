@@ -23,11 +23,11 @@ public class TOPropriedade extends TOBase {
     
     private double area;
     
-    private String unidadedemedida;
+    private long unidadedemedida;
     
     private double areautilizavel;
     
-    private String unidadedemedidaau;
+    private long unidadedemedidaau;
     
     private String usuario;
     
@@ -73,11 +73,11 @@ public class TOPropriedade extends TOBase {
         this.area = area;
     }
 
-    public String getUnidadedemedida() {
+    public long getUnidadedemedida() {
         return unidadedemedida;
     }
 
-    public void setUnidadedemedida(String unidadedemedida) {
+    public void setUnidadedemedida(long unidadedemedida) {
         this.unidadedemedida = unidadedemedida;
     }
 
@@ -89,11 +89,11 @@ public class TOPropriedade extends TOBase {
         this.areautilizavel = areautilizavel;
     }
 
-    public String getUnidadedemedidaau() {
+    public long getUnidadedemedidaau() {
         return unidadedemedidaau;
     }
 
-    public void setUnidadedemedidaau(String unidadedemedidaau) {
+    public void setUnidadedemedidaau(long unidadedemedidaau) {
         this.unidadedemedidaau = unidadedemedidaau;
     }
 
@@ -119,7 +119,7 @@ public class TOPropriedade extends TOBase {
     public TOPropriedade() {
     }
 
-    public TOPropriedade(long idpropriedade, long endereco_idendereco, long unidade_idunidade, String nomepropriedade, double area, String unidadedemedida, double areautilizavel, String unidadedemedidaau, String usuario, String cpf) {
+    public TOPropriedade(long idpropriedade, long endereco_idendereco, long unidade_idunidade, String nomepropriedade, double area, long unidadedemedida, double areautilizavel, long unidadedemedidaau, String usuario, String cpf) {
         this.idpropriedade = idpropriedade;
         this.endereco_idendereco = endereco_idendereco;
         this.unidade_idunidade = unidade_idunidade;
@@ -142,9 +142,9 @@ public class TOPropriedade extends TOBase {
         this.unidade_idunidade = rs.getLong("unidade_idunidade");
         this.nomepropriedade = rs.getString("nomepropriedade");
         this.area = rs.getDouble("area");
-        this.unidadedemedida = rs.getString("unidadedemedida");
+        this.unidadedemedida = rs.getLong("unidadedemedida");
         this.areautilizavel = rs.getDouble("areautilizavel");
-        this.unidadedemedidaau = rs.getString("unidadedemedidaau");
+        this.unidadedemedidaau = rs.getLong("unidadedemedidaau");
         
     }
     @Override

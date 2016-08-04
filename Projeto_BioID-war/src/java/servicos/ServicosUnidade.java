@@ -13,10 +13,8 @@ import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
-import javax.ws.rs.PUT;
 import javax.ws.rs.core.MediaType;
 import org.json.JSONObject;
 import to.TOEndereco;
@@ -75,10 +73,10 @@ public class ServicosUnidade {
             if(BOFactory.get(new DAOUnidade(), t)== null){
                 //objeto TOEndereco
                 TOEndereco te = new TOEndereco();
-                te.setCidade_idCidade(cidade_idcidade);
+                te.setCidade_idcidade(cidade_idcidade);
                 te.setRua(rua);
-                te.setGps_Lat(gps_lat);
-                te.setGps_Log(gps_log);
+                te.setGps_lat(gps_lat);
+                te.setGps_long(gps_log);
                 te.setBairro(bairro);
                 te.setComplemento(complemento);
                 te.setCep(cep);
