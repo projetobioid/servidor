@@ -8,8 +8,6 @@ package dao;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import org.json.JSONArray;
@@ -33,7 +31,7 @@ public class DAOSafra implements DAOBase{
         p.add(to.getPropriedade_idpropriedade());
         p.add(to.getCultivar_idcultivar());
         p.add(to.getSafra());
-        p.add(new Timestamp((to.getDatareceb()).getTime()));
+        p.add(to.getDatareceb());
         p.add(to.getQtdrecebida());
         
         //passa por parametros a conexao e a lista de objetos da insercao de um novo produto

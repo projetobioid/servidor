@@ -20,7 +20,7 @@ public class DAOSafrarelatada implements DAOBase{
 
     @Override
     public long inserir(Connection c, TOBase t) throws Exception {
-        String sql = "INSERT INTO safrarelatada(safra_idsafra, destinacao_iddestinacao, datacolheita, quantidade, unidademedida_idunidademedida) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO safrarelatada(safra_idsafra, unidademedida_idunidademedida, destinacao_iddestinacao, datacolheita, quantidade)VALUES (?, ?, ?, ?, ?)";
         
         TOSafrarelatada to = (TOSafrarelatada)t;
         
@@ -28,10 +28,11 @@ public class DAOSafrarelatada implements DAOBase{
         
         
         p.add(to.getSafra_idsafra());
+        p.add(to.getUnidademedida_idunidademedida());
         p.add(to.getDestinacao_iddestinacao());
         p.add(to.getDatacolheita());
         p.add(to.getQuantidade());
-        p.add(to.getUnidademedida_idunidademedida());
+        
         
         //passa por parametros a conexao e a lista de objetos da insercao de um novo produto
         return Data.executeUpdate(c, sql, p);

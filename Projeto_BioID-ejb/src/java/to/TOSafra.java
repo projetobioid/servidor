@@ -6,6 +6,7 @@
 package to;
 
 import java.sql.ResultSet;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import org.json.JSONObject;
 
@@ -24,9 +25,9 @@ public class TOSafra extends TOBase {
     
     private String safra;
     
-    private Date datareceb;
+    private String datareceb;
     
-    private double qtdrecebida;
+    private float qtdrecebida;
     
     //campos do result set
     
@@ -82,19 +83,19 @@ public class TOSafra extends TOBase {
         this.safra = safra;
     }
 
-    public Date getDatareceb() {
+    public String getDatareceb() {
         return datareceb;
     }
 
-    public void setDatareceb(Date datareceb) {
+    public void setDatareceb(String datareceb) {
         this.datareceb = datareceb;
     }
 
-    public double getQtdrecebida() {
+    public float getQtdrecebida() {
         return qtdrecebida;
     }
 
-    public void setQtdrecebida(double qtdrecebida) {
+    public void setQtdrecebida(float qtdrecebida) {
         this.qtdrecebida = qtdrecebida;
     }
 
@@ -155,7 +156,7 @@ public class TOSafra extends TOBase {
     public TOSafra() {
     }
 
-    public TOSafra(long idsafra, long unidademedida_idunidademedida, long propriedade_idpropriedade, long cultivar_idcultivar, String safra, Date datareceb, double qtdrecebida, String grandeza_safra, String descricao, String grandeza_cultivar, String nomecultivar, String nomepropriedade, String usuario) {
+    public TOSafra(long idsafra, long unidademedida_idunidademedida, long propriedade_idpropriedade, long cultivar_idcultivar, String safra, String datareceb, float qtdrecebida, String grandeza_safra, String descricao, String grandeza_cultivar, String nomecultivar, String nomepropriedade, String usuario) {
         this.idsafra = idsafra;
         this.unidademedida_idunidademedida = unidademedida_idunidademedida;
         this.propriedade_idpropriedade = propriedade_idpropriedade;
@@ -177,8 +178,8 @@ public class TOSafra extends TOBase {
         this.propriedade_idpropriedade = rs.getLong("propriedade_idpropriedade");
         this.cultivar_idcultivar = rs.getLong("cultivar_idcultivar");
         this.safra = rs.getString("safra");
-        this.datareceb = rs.getDate("datareceb");
-        this.qtdrecebida = rs.getDouble("qtdrecebida");
+        this.datareceb = rs.getString("datareceb");
+        this.qtdrecebida = rs.getFloat("qtdrecebida");
         this.grandeza_cultivar = rs.getString("grandeza_cultivar");
         this.descricao = rs.getString("descricao");
         this.grandeza_safra = rs.getString("grandeza_safra");
@@ -191,6 +192,7 @@ public class TOSafra extends TOBase {
     public JSONObject getJson() throws Exception {
          //variavel para retorno do json contendo as informacoes do produto
         JSONObject j = new JSONObject();
+        
         
         //populando o objeto j
         j.put("idsafra", idsafra);
@@ -208,10 +210,6 @@ public class TOSafra extends TOBase {
         return j;
     }
 
-    
-
-     
-   
 
 
 }

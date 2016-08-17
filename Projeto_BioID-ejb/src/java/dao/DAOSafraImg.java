@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 import org.json.JSONArray;
 import to.TOBase;
-import to.TOSafra;
 import to.TOSafraImg;
 
 /**
@@ -49,7 +48,7 @@ public class DAOSafraImg implements DAOBase{
     public JSONArray listar(Connection c, TOBase t) throws Exception {
         JSONArray  ja = new JSONArray();
         
-        String sql = "SELECT DISTINCT c.nomecultivar, c.imagem FROM login l"
+        String sql = "SELECT DISTINCT c.nomecultivar, c.imagem, c.descricao, c.valornutricional FROM login l"
                 + " INNER JOIN pessoa p ON( p.idpessoa = l.pessoa_idpessoa)"
                 + " INNER JOIN relacaopa r ON( r.agricultor_pessoa_idpessoa = p.idpessoa)"
                 + " INNER JOIN propriedade pr ON (pr.idpropriedade = r.propriedade_idpropriedade)"

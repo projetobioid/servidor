@@ -23,24 +23,23 @@ public class DAOPessoa implements DAOBase{
     @Override
     public long inserir(Connection c, TOBase t) throws Exception {
         //string com o comando sql para editar o banco de dados
-        String sql = "INSERT INTO pessoa(endereco_idendereco, escolaridade_idescolaridade,"
-                + " estadocivil_idestadocivil, nome, sobrenome, apelido, cpf, rg, sexo, telefone1,"
-                + " telefone2, email) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO pessoa(estadocivil_idestadocivil, escolaridade_idescolaridade, endereco_idendereco, nome,"
+                + " sobrenome, apelido, cpf, rg, datanascimento, sexo, telefone1, telefone2, email) "
+                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
         //variavel sendo convertida para toUsuarios
         TOPessoa to = (TOPessoa)t;
         //variavel com lista dos parametros
         List<Object> u = new ArrayList<Object>();
         
-        
-        u.add(to.getEndereco_idendereco());
-        u.add(to.getEscolaridade_idescolaridade());
         u.add(to.getEstadocivil_idestadocivil());
+        u.add(to.getEscolaridade_idescolaridade());
+        u.add(to.getEndereco_idendereco());
         u.add(to.getNome());
         u.add(to.getSobrenome());
         u.add(to.getApelido());
         u.add(to.getCpf());
         u.add(to.getRg());
-       // u.add(to.getDatanascimento());
+        u.add(to.getDatanascimento());
         u.add(to.getSexo());
         u.add(to.getTelefone1());
         u.add(to.getTelefone2());

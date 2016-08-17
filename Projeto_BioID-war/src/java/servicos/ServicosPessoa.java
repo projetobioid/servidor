@@ -75,7 +75,120 @@ public class ServicosPessoa {
         
         return j.toString();
     }
-    
+     //adicionar usuario no sistema
+    @Path("inserir")
+    @POST
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @Produces(MediaType.APPLICATION_JSON)
+    public String inserir(
+            //tabela endereco
+            @FormParam("cidade_idcidade") long cidade_idcidade,
+            @FormParam("rua") String rua,
+            @FormParam("gps_lat") int gps_lat,
+            @FormParam("gps_long") int gps_long,
+            @FormParam("bairro") String bairro,
+            @FormParam("complemento") String complemento,
+            @FormParam("cep") String cep,
+            @FormParam("numero") int numero,
+            //tabela pessoa
+            @FormParam("escolaridade_idescolaridade") long escolaridade_idescolaridade,
+            @FormParam("estadocivil_idestadocivil") long estadocivil_idestadocivil,
+            @FormParam("nome") String nome,
+            @FormParam("sobrenome") String sobrenome,
+            @FormParam("apelido") String apelido,
+            @FormParam("cpf") String cpf,
+            @FormParam("rg") String rg,
+            @FormParam("datanascimento") String datanascimento,
+            @FormParam("sexo") String sexo,
+            @FormParam("telefone1") String telefone1,
+            @FormParam("telefone2") String telefone2,
+            @FormParam("email") String email,
+  
+            //tabela login
+            @FormParam("usuario") String usuario,
+            @FormParam("senha") String senha,
+            @FormParam("papel") String papel,
+            @FormParam("unidade_idunidade") long unidade_idunidade
+            
+
+            ) throws Exception{
+
+        
+
+        JSONObject j = new JSONObject();
+        
+        try{
+            
+            //cria objetos
+            TOPessoa t = new TOPessoa();
+            TOLogin tl = new TOLogin();
+            
+            //popula objetos e verifica se existe o cpf e usuario cadastrados no banco
+            t.setCpf(cpf);
+            tl.setUsuario(usuario);
+            
+            //se nao existe cpf nem usuario eh cadastrado no banco
+            if(BOFactory.get(new DAOPessoa(), t) == null ){
+                if(BOFactory.get(new DAOLogin(), tl) == null ){
+                   
+                    //objeto TOEndereco
+                    TOEndereco te = new TOEndereco();
+                    te.setCidade_idcidade(cidade_idcidade);
+                    te.setRua(rua);
+                    te.setGps_lat(gps_lat);
+                    te.setGps_long(gps_long);
+                    te.setBairro(bairro);
+                    te.setComplemento(complemento);
+                    te.setCep(cep);
+                    te.setNumero(numero);
+
+                    //popula a classe TOPessoa
+                    t.setEndereco_idendereco(BOFactory.inserir(new DAOEndereco(), te));
+                    t.setEscolaridade_idescolaridade(escolaridade_idescolaridade);
+                    t.setEstadocivil_idestadocivil(estadocivil_idestadocivil);
+                    t.setNome(nome);
+                    t.setSobrenome(sobrenome);
+                    t.setApelido(apelido);
+                    t.setRg(rg);
+                    t.setDatanascimento(datanascimento);
+                    t.setSexo(sexo);
+                    t.setTelefone1(telefone1);
+                    t.setTelefone2(telefone2);
+                    t.setEmail(email);
+
+
+                    //popula a classe TOLogin
+                    tl.setPessoa_idpessoa(BOFactory.inserir(new DAOPessoa(), t));
+                    tl.setUnidade_idunidade(unidade_idunidade);
+                    tl.setSenha(senha);
+                    tl.setPapel(papel);
+                    //grava no banco de dados os dados da classe TOLogin
+                    BOFactory.inserir(new DAOLogin(), tl);
+
+                        
+
+                    j.put("sucesso", true);
+                    j.put("mensagem", "Usuario cadastrado!");
+                //mensagen de cpf ja existente
+                }else{
+                    j.put("sucesso", false);
+                    j.put("erro", 1);
+                    j.put("mensagem", "Usuario ja existe no sistema!");
+                }
+            //mensagen de usuario ja existente
+            }else{
+                j.put("sucesso", false);
+                j.put("erro", 3);
+                j.put("mensagem", "CPF ja cadastrado!");
+            }
+        }catch(Exception e){
+            j.put("sucesso", false);
+            j.put("mensagem", e.getMessage());
+            
+        }
+        
+        return j.toString();
+    }
     
      //adicionar usuario no sistema
     @Path("inseriragricultor")
@@ -100,7 +213,7 @@ public class ServicosPessoa {
             @FormParam("apelido") String apelido,
             @FormParam("cpf") String cpf,
             @FormParam("rg") String rg,
-            //@FormParam("datanascimento") String datanascimento,
+            @FormParam("datanascimento") String datanascimento,
             @FormParam("sexo") String sexo,
             @FormParam("telefone1") String telefone1,
             @FormParam("telefone2") String telefone2,
@@ -170,7 +283,7 @@ public class ServicosPessoa {
                         t.setSobrenome(sobrenome);
                         t.setApelido(apelido);
                         t.setRg(rg);
-                        //t.setDatanascimento(datanascimento);
+                        t.setDatanascimento(datanascimento);
                         t.setSexo(sexo);
                         t.setTelefone1(telefone1);
                         t.setTelefone2(telefone2);
@@ -370,7 +483,7 @@ public class ServicosPessoa {
             @FormParam("cidade_idcidade") long cidade_idcidade,
             @FormParam("rua") String rua,
             @FormParam("gps_lat") int gps_lat,
-            @FormParam("gps_log") int gps_log,
+            @FormParam("gps_long") int gps_long,
             @FormParam("bairro") String bairro,
             @FormParam("complemento") String complemento,
             @FormParam("cep") String cep,
@@ -400,7 +513,7 @@ public class ServicosPessoa {
                 te.setCidade_idcidade(cidade_idcidade);
                 te.setRua(rua);
                 te.setGps_lat(gps_lat);
-                te.setGps_long(gps_log);
+                te.setGps_long(gps_long);
                 te.setBairro(bairro);
                 te.setComplemento(complemento);
                 te.setCep(cep);
@@ -419,6 +532,8 @@ public class ServicosPessoa {
                 TOPessoa tp = new TOPessoa();
                 tp.setCpf(cpf);
                 tr.setPropriedade_idpropriedade(BOFactory.inserir(new DAOPropriedade(), tpd));
+                ((TOPessoa) BOFactory.get(new DAOPessoa(), tp)).getIdpessoa();
+                
                 tr.setAgricultor_pessoa_idpessoa(((TOPessoa) BOFactory.get(new DAOPessoa(), tp)).getIdpessoa());
 
                 BOFactory.inserir(new DAORelacaopa(), tr);

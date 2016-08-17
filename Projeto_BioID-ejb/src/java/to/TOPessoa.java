@@ -6,7 +6,6 @@
 package to;
 
 import java.sql.ResultSet;
-import java.util.Date;
 import org.json.JSONObject;
 
 /**
@@ -14,20 +13,20 @@ import org.json.JSONObject;
  * @author daniel
  */
 public class TOPessoa extends TOBase{
-    public long idpessoa;
-    public long endereco_idendereco;
-    public long escolaridade_idescolaridade;
-    public long estadocivil_idestadocivil;
-    public String nome;
-    public String sobrenome;
-    public String apelido;
-    public String cpf;
-    public String rg;
-    public String datanascimento;
-    public String sexo;
-    public String telefone1;
-    public String telefone2;
-    public String email;
+    private long idpessoa;
+    private long endereco_idendereco;
+    private long escolaridade_idescolaridade;
+    private long estadocivil_idestadocivil;
+    private String nome;
+    private String sobrenome;
+    private String apelido;
+    private String cpf;
+    private String rg;
+    private String datanascimento;
+    private String sexo;
+    private String telefone1;
+    private String telefone2;
+    private String email;
 
     public long getIdpessoa() {
         return idpessoa;
@@ -199,7 +198,7 @@ public class TOPessoa extends TOBase{
         //populando o objeto j
         j.put("idpessoa", idpessoa);
         j.put("endereco_idendereco", endereco_idendereco);
-        j.put("escolaridade", escolaridade_idescolaridade);
+        j.put("estadocivil_idestadocivil", escolaridade_idescolaridade);
         j.put("nome", nome);
         j.put("sobrenome", sobrenome);
         j.put("apelido", apelido);

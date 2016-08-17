@@ -7,12 +7,13 @@ package servicos;
 
 import bo.BOFactory;
 import dao.DAOCultivar;
-import dao.DAOPessoa;
 import dao.DAOPropriedade;
 import dao.DAOSafra;
 import dao.DAOSafraImg;
 import dao.DAOSafrarelatada;
 import dao.DAOVersao;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.core.Context;
@@ -25,9 +26,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import to.TOBase;
 import to.TOCultivar;
-import to.TOPessoa;
 import to.TOPropriedade;
 import to.TOSafra;
 import to.TOSafraImg;
@@ -203,14 +202,13 @@ public class ServicosCultivar {
             @FormParam("biofortificado") boolean biofortificado,
             @FormParam("nomepropriedade") String nomepropriedade,
             @FormParam("safra") String safra,
-            @FormParam("datareceb") Date datareceb,
-            @FormParam("qtdrecebida") double qtdrecebida,
+            @FormParam("datareceb") String datareceb,
+            @FormParam("qtdrecebida") float qtdrecebida,
             @FormParam("unidademedida_idunidademedida") long unidademedida_idunidademedida
             
             
             ) throws Exception{
         
-                
         JSONObject j = new JSONObject();
         
         try{    
@@ -233,9 +231,7 @@ public class ServicosCultivar {
                 if(tc != null){
                     TOSafra ts = new TOSafra();
                     ts.setUnidademedida_idunidademedida(unidademedida_idunidademedida);
-                    //inseri o id da propriedade
                     ts.setPropriedade_idpropriedade(tpr.getIdpropriedade());
-                    //inseri o id do cultivar
                     ts.setCultivar_idcultivar(tc.getIdcultivar());
                     ts.setSafra(safra);
                     ts.setDatareceb(datareceb);
@@ -243,7 +239,10 @@ public class ServicosCultivar {
                     
 
                     tsr.setSafra_idsafra(BOFactory.inserir(new DAOSafra(), ts));
+                    tsr.setUnidademedida_idunidademedida(0);
                     tsr.setDestinacao_iddestinacao(0);
+                    
+                    
                     BOFactory.inserir(new DAOSafrarelatada(), tsr);
 
                     j.put("sucesso", true);

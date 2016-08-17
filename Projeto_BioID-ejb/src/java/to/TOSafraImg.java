@@ -19,6 +19,10 @@ public class TOSafraImg extends TOBase{
     private String imagem;
     
     private String usuario;
+    
+    private String descricao;
+    
+    private String valornutricional;
 
 
         
@@ -45,24 +49,44 @@ public class TOSafraImg extends TOBase{
     public void setUsuario(String usuario) {
         this.usuario = usuario;
     }
+
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
+
+    public String getValornutricional() {
+        return valornutricional;
+    }
+
+    public void setValornutricional(String valornutricional) {
+        this.valornutricional = valornutricional;
+    }
     
     
     public TOSafraImg() {
     }
 
-    public TOSafraImg(String nomecultivar, String imagem, String usuario) {
+    public TOSafraImg(String nomecultivar, String imagem, String usuario, String descricao, String valornutricional) {
         this.nomecultivar = nomecultivar;
         this.imagem = imagem;
         this.usuario = usuario;
+        this.descricao = descricao;
+        this.valornutricional = valornutricional;
     }
+
+    
     
     
     public TOSafraImg(ResultSet rs) throws Exception{
         
         this.nomecultivar = rs.getString("nomecultivar");
         this.imagem = rs.getString("imagem");
-        
-        
+        this.descricao = rs.getString("descricao");
+        this.valornutricional = rs.getString("valornutricional");
     }
 
     @Override
@@ -74,7 +98,8 @@ public class TOSafraImg extends TOBase{
        
         j.put("nomecultivar", nomecultivar);
         j.put("imagem", imagem);
-        
+        j.put("descricao", descricao);
+        j.put("valornutricional", valornutricional);
         return j;
     }
 }

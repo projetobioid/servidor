@@ -1,3 +1,9 @@
 /Projeto_BioID-war/dist/
 /dist/
 /Projeto_BioID-ejb/build/
+/build/
+/nbproject/private/
+/Projeto_BioID-war/nbproject/private/
+/Projeto_BioID-ejb/nbproject/private/
+/Projeto_BioID-ejb/dist/
+/Projeto_BioID-war/build/
