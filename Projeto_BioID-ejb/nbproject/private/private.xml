@@ -5,6 +5,8 @@
         <group>
             <file>file:/home/daniel/NetBeansProjects/Projeto_BioID/Projeto_BioID-ejb/src/java/dao/DAOSafrarelatada.java</file>
             <file>file:/home/daniel/NetBeansProjects/Projeto_BioID/Projeto_BioID-ejb/src/java/dao/DAOSafra.java</file>
+            <file>file:/home/daniel/NetBeansProjects/Projeto_BioID/Projeto_BioID-ejb/src/java/dao/DAOSafraImg.java</file>
+            <file>file:/home/daniel/NetBeansProjects/Projeto_BioID/Projeto_BioID-ejb/src/java/to/TOSafraImg.java</file>
             <file>file:/home/daniel/NetBeansProjects/Projeto_BioID/Projeto_BioID-ejb/src/java/to/TOSafra.java</file>
         </group>
     </open-files>
