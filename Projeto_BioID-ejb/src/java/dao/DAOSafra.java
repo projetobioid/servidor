@@ -97,18 +97,15 @@ public class DAOSafra implements DAOBase{
     public JSONArray listar(Connection c, TOBase t) throws Exception {
         JSONArray  ja = new JSONArray();
         
-        String sql = "SELECT s.idsafra, s.propriedade_idpropriedade, s.cultivar_idcultivar, s.safra, s.datareceb, s.qtdrecebida, uc.grandeza as grandeza_cultivar, d.descricao, us.grandeza as grandeza_safra, c.nomecultivar, pr.nomepropriedade "
+        String sql = "SELECT s.idsafra, s.propriedade_idpropriedade, s.cultivar_idcultivar, s.safra, s.datareceb, s.qtdrecebida, um.grandeza as grandeza_safra, c.nomecultivar, pr.nomepropriedade, umc.grandeza as grandeza_cultivar "
                 + "FROM login l "
                 + "INNER JOIN pessoa p ON( p.idpessoa = l.pessoa_idpessoa) "
                 + "INNER JOIN relacaopa r ON( r.agricultor_pessoa_idpessoa = p.idpessoa) "
                 + "INNER JOIN propriedade pr ON (pr.idpropriedade = r.propriedade_idpropriedade) "
                 + "INNER JOIN safra s ON (s.propriedade_idpropriedade = pr.idpropriedade) "
-                + "INNER JOIN cultivar c ON (idcultivar = cultivar_idcultivar) "
-                + "INNER JOIN safrarelatada sr ON (sr.safra_idsafra = s.idsafra ) "
-                + "INNER JOIN destinacao d ON (d.iddestinacao = sr.destinacao_iddestinacao) "
-                + "INNER JOIN unidademedida uc ON(uc.idunidademedida = c.unidademedida_idunidademedida) "
-                + "INNER JOIN unidademedida us ON(us.idunidademedida = s.unidademedida_idunidademedida) "
-                + "where l.usuario = ?";
+                + "INNER JOIN cultivar c ON (c.idcultivar = s.cultivar_idcultivar) "
+                + "INNER JOIN unidademedida um ON(um.idunidademedida = s.unidademedida_idunidademedida) "
+                + "INNER JOIN unidademedida umc ON(umc.idunidademedida = c.unidademedida_idunidademedida) where l.usuario = ?";
            
         
         

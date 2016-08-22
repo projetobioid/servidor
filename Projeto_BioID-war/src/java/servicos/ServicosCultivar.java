@@ -12,9 +12,6 @@ import dao.DAOSafra;
 import dao.DAOSafraImg;
 import dao.DAOSafrarelatada;
 import dao.DAOVersao;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
@@ -215,7 +212,7 @@ public class ServicosCultivar {
             //cria um objeto
             TOCultivar tc = new TOCultivar();
             TOPropriedade tpr = new TOPropriedade();
-            TOSafrarelatada tsr = new TOSafrarelatada();
+            
             
             tc.setNomecultivar(nomecultivar);
             tc.setBiofortificado(biofortificado);
@@ -238,13 +235,8 @@ public class ServicosCultivar {
                     ts.setQtdrecebida(qtdrecebida);
                     
 
-                    tsr.setSafra_idsafra(BOFactory.inserir(new DAOSafra(), ts));
-                    tsr.setUnidademedida_idunidademedida(0);
-                    tsr.setDestinacao_iddestinacao(0);
+                    BOFactory.inserir(new DAOSafra(), ts);
                     
-                    
-                    BOFactory.inserir(new DAOSafrarelatada(), tsr);
-
                     j.put("sucesso", true);
                     j.put("mensagem", "Distribuicao com sucesso!");
                 }else{
