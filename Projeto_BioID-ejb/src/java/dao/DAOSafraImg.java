@@ -48,15 +48,15 @@ public class DAOSafraImg implements DAOBase{
     public JSONArray listar(Connection c, TOBase t) throws Exception {
         JSONArray  ja = new JSONArray();
         
-        String sql = "SELECT DISTINCT c.nomecultivar, c.imagem, c.descricao, c.valornutricional FROM login l"
-                + " INNER JOIN pessoa p ON( p.idpessoa = l.pessoa_idpessoa)"
-                + " INNER JOIN relacaopa r ON( r.agricultor_pessoa_idpessoa = p.idpessoa)"
-                + " INNER JOIN propriedade pr ON (pr.idpropriedade = r.propriedade_idpropriedade)"
-                + " INNER JOIN safra s ON (s.propriedade_idpropriedade = pr.idpropriedade)"
-                + " INNER JOIN cultivar c ON (idcultivar = cultivar_idcultivar)"
-                + " INNER JOIN safrarelatada sr ON (sr.safra_idsafra = s.idsafra)"
-                + " INNER JOIN destinacao d ON (d.iddestinacao = sr.destinacao_iddestinacao)"
-                + " where l.usuario = ?";
+        String sql = "SELECT DISTINCT c.nomecultivar, c.imagem, c.descricao, c.valornutricional FROM login l "
+                + "INNER JOIN pessoa p ON( p.idpessoa = l.pessoa_idpessoa) "
+                + "INNER JOIN relacaopa r ON( r.agricultor_pessoa_idpessoa = p.idpessoa) "
+                + "INNER JOIN propriedade pr ON (pr.idpropriedade = r.propriedade_idpropriedade) "
+                + "INNER JOIN safra s ON (s.propriedade_idpropriedade = pr.idpropriedade) "
+                + "INNER JOIN cultivar c ON (idcultivar = cultivar_idcultivar) "
+                + "INNER JOIN safrarelatada sr ON (sr.safra_idsafra = s.idsafra) "
+                + "INNER JOIN destinacao d ON (d.safrarelatada_idsafrarelatada = sr.idsafrarelatada) "
+                + "where l.usuario = ?";
            
         
         

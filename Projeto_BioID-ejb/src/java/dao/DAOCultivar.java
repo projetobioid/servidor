@@ -125,7 +125,37 @@ public class DAOCultivar implements DAOBase {
 
     @Override
     public JSONArray listar(Connection c, TOBase t) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        JSONArray  ja = new JSONArray();
+        
+        String sql = "SELECT DISTINCT c.idcultivar, c.nomecultivar, c.imagem, c.descricao, c.biofortificado, um.grandeza as um_descricao, c.valornutricional, c.tempodecolheita FROM login l "
+                + "INNER JOIN pessoa p ON( p.idpessoa = l.pessoa_idpessoa) "
+                + "INNER JOIN relacaopa r ON( r.agricultor_pessoa_idpessoa = p.idpessoa) "
+                + "INNER JOIN propriedade pr ON (pr.idpropriedade = r.propriedade_idpropriedade) "
+                + "INNER JOIN safra s ON (s.propriedade_idpropriedade = pr.idpropriedade) "
+                + "INNER JOIN cultivar c ON (idcultivar = cultivar_idcultivar) "
+                + "INNER JOIN unidademedida um ON (idunidademedida = c.unidademedida_idunidademedida) "
+                + "where l.usuario = ?";
+           
+        
+        
+        ResultSet rs = null;
+        try{
+            //variavel com lista dos parametros
+            List<Object> u = new ArrayList<Object>();
+            
+            u.add(((TOCultivar) t).getUsuario());
+            
+            rs = Data.executeQuery(c, sql, u);
+            
+            while (rs.next()){
+                TOCultivar tc = new TOCultivar(rs);
+                ja.put(tc.getJson());
+            }
+            
+        }finally{
+            rs.close();
+        }
+        return ja;
     }
 
     

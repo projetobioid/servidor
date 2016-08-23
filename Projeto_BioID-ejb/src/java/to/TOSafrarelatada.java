@@ -6,7 +6,6 @@
 package to;
 
 import java.sql.ResultSet;
-import java.util.Date;
 import org.json.JSONObject;
 
 /**
@@ -18,13 +17,13 @@ public class TOSafrarelatada extends TOBase{
     
     public long safra_idsafra;
     
-    public long destinacao_iddestinacao;
-    
-    public Date datacolheita;
-    
-    public float quantidade;
-    
     public long unidademedida_idunidademedida;
+    
+    public String datacolheita;
+    
+    public float qtdcolhida;
+    
+    //public long destinacao_iddestinacao;
 
     public long getIdsafrarelatada() {
         return idsafrarelatada;
@@ -42,30 +41,6 @@ public class TOSafrarelatada extends TOBase{
         this.safra_idsafra = safra_idsafra;
     }
 
-    public long getDestinacao_iddestinacao() {
-        return destinacao_iddestinacao;
-    }
-
-    public void setDestinacao_iddestinacao(long destinacao_iddestinacao) {
-        this.destinacao_iddestinacao = destinacao_iddestinacao;
-    }
-
-    public Date getDatacolheita() {
-        return datacolheita;
-    }
-
-    public void setDatacolheita(Date datacolheita) {
-        this.datacolheita = datacolheita;
-    }
-
-    public float getQuantidade() {
-        return quantidade;
-    }
-
-    public void setQuantidade(float quantidade) {
-        this.quantidade = quantidade;
-    }
-
     public long getUnidademedida_idunidademedida() {
         return unidademedida_idunidademedida;
     }
@@ -74,26 +49,43 @@ public class TOSafrarelatada extends TOBase{
         this.unidademedida_idunidademedida = unidademedida_idunidademedida;
     }
 
+    public String getDatacolheita() {
+        return datacolheita;
+    }
+
+    public void setDatacolheita(String datacolheita) {
+        this.datacolheita = datacolheita;
+    }
+
+    public float getQtdcolhida() {
+        return qtdcolhida;
+    }
+
+    public void setQtdcolhida(float qtdcolhida) {
+        this.qtdcolhida = qtdcolhida;
+    }
+
+
     public TOSafrarelatada() {
     }
 
-    public TOSafrarelatada(long idsafrarelatada, long safra_idsafra, long destinacao_iddestinacao, Date datacolheita, float quantidade, long unidademedida_idunidademedida) {
+    public TOSafrarelatada(long idsafrarelatada, long safra_idsafra, long unidademedida_idunidademedida, String datacolheita, float qtdcolhida) {
         this.idsafrarelatada = idsafrarelatada;
         this.safra_idsafra = safra_idsafra;
-        this.destinacao_iddestinacao = destinacao_iddestinacao;
-        this.datacolheita = datacolheita;
-        this.quantidade = quantidade;
         this.unidademedida_idunidademedida = unidademedida_idunidademedida;
+        this.datacolheita = datacolheita;
+        this.qtdcolhida = qtdcolhida;
     }
+
+    
     
     public TOSafrarelatada(ResultSet rs) throws Exception{
         this.idsafrarelatada = rs.getLong("idsafrarelatada");
         this.safra_idsafra = rs.getLong("safra_idsafra");
-        this.destinacao_iddestinacao = rs.getLong("destinacao_iddestinacao");
-        this.datacolheita = rs.getDate("datacolheita");
-        this.quantidade = rs.getFloat("quantidade");
+        this.datacolheita = rs.getString("datacolheita");
+        this.qtdcolhida = rs.getFloat("qtdcolhida");
         this.unidademedida_idunidademedida = rs.getLong("unidademedida_idunidademedida");
-        
+        //this.destinacao_iddestinacao = rs.getLong("destinacao_iddestinacao");
     }
 
     @Override
@@ -104,9 +96,8 @@ public class TOSafrarelatada extends TOBase{
         //populando o objeto j
         j.put("idsafrarelatada", idsafrarelatada);
         j.put("safra_idsafra", safra_idsafra);
-        j.put("destinacao_iddestinacao", destinacao_iddestinacao);
         j.put("datacolheita", datacolheita);
-        j.put("quantidade", quantidade);
+        j.put("qtdcolhida", qtdcolhida);
         j.put("unidademedida_idunidademedida", unidademedida_idunidademedida);
         
         return j;

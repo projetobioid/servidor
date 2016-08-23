@@ -9,9 +9,8 @@ import bo.BOFactory;
 import dao.DAOCultivar;
 import dao.DAOPropriedade;
 import dao.DAOSafra;
-import dao.DAOSafraImg;
+import dao.DAODestinacao;
 import dao.DAOSafrarelatada;
-import dao.DAOVersao;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
@@ -26,9 +25,8 @@ import org.json.JSONObject;
 import to.TOCultivar;
 import to.TOPropriedade;
 import to.TOSafra;
-import to.TOSafraImg;
 import to.TOSafrarelatada;
-import to.TOVersao;
+import to.TODestinacao;
 
 /**
  * REST Web Service
@@ -80,7 +78,8 @@ public class ServicosCultivar {
             @FormParam("descricao") String descricao,
             @FormParam("biofortificado") boolean biofortificado,
             @FormParam("unidademedida_idunidademedida") long unidademedida_idunidademedida,
-            @FormParam("valornutricional") String valornutricional
+            @FormParam("valornutricional") String valornutricional,
+            @FormParam("tempodecolheita") int tempodecolheita
             
             ) throws Exception{
         
@@ -98,6 +97,7 @@ public class ServicosCultivar {
                 t.setDescricao(descricao);
                 t.setUnidademedida_idunidademedida(unidademedida_idunidademedida);
                 t.setValornutricional(valornutricional);
+                t.setTempodecolheita(tempodecolheita);
 
                 BOFactory.inserir(new DAOCultivar(), t);
 
@@ -233,7 +233,6 @@ public class ServicosCultivar {
                     ts.setSafra(safra);
                     ts.setDatareceb(datareceb);
                     ts.setQtdrecebida(qtdrecebida);
-                    
 
                     BOFactory.inserir(new DAOSafra(), ts);
                     
@@ -276,13 +275,13 @@ public class ServicosCultivar {
             t.setUsuario(usuario);
             JSONArray ja = BOFactory.listar(new DAOSafra(), t);
             
-            TOSafraImg ti = new TOSafraImg();
-            ti.setUsuario(usuario);
-            JSONArray ji = BOFactory.listarImg(new DAOSafraImg(), ti);
+            TOCultivar tc = new TOCultivar();
+            tc.setUsuario(usuario);
+            JSONArray jc = BOFactory.listar(new DAOCultivar(), tc);
             
             if(ja.length() > 0){
                 j.put("data", ja);
-                j.put("imagens", ji);
+                j.put("cultivares", jc);
                 j.put("sucesso", true);
             }else{
                 j.put("sucesso", false);
@@ -302,32 +301,45 @@ public class ServicosCultivar {
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.APPLICATION_JSON)
     public String relatar(
-            @FormParam("propriedade_idpropriedade") long propriedade_idpropriedade,
-            @FormParam("cultivar_idcultivar") long cultivar_idcultivar,
-            @FormParam("safra") String safra,
-            //@FormParam("datacolheita") Date datacolheita,
-            @FormParam("qtdconsumida") double qtdconsumida,
-            @FormParam("qtdreplantar") double qtdreplantar,
-            @FormParam("qtddestinada") double qtddestinada,
-            @FormParam("destino") String destino
+            @FormParam("safra_idsafra") long safra_idsafra,
+            @FormParam("umsafra") int umsafra,
+            @FormParam("datacolheita") String datacolheita,
+            @FormParam("qtdcolhida") float qtdcolhida,
+            
+            //tabela destinacao
+            @FormParam("qtddestinada") float qtddestinada,
+            @FormParam("umdestinacao") int umdestinacao,
+            @FormParam("datadestinacao") String datadestinacao,
+            @FormParam("destino") int destino
             
             ) throws Exception {
         
         JSONObject j = new JSONObject();
         
         try{    
-            //cria um objeto
-            TOSafra ts = new TOSafra();
+            //tabela safra relatada
+            TOSafrarelatada ts = new TOSafrarelatada();
             
-            ts.setPropriedade_idpropriedade(propriedade_idpropriedade);
-            ts.setCultivar_idcultivar(cultivar_idcultivar);
-            ts.setSafra(safra);
-            //ts.setDatacolheita(datacolheita);
+            ts.setSafra_idsafra(safra_idsafra);
+            ts.setUnidademedida_idunidademedida(umsafra);
+            ts.setDatacolheita(datacolheita);
+            ts.setQtdcolhida(qtdcolhida);
 
-            BOFactory.editar(new DAOSafra(), ts);
-                        
-               j.put("sucesso", true);
-               j.put("mensagem", "Cultivar relatado!");
+            
+            //tabela destinacao
+            TODestinacao td = new TODestinacao();
+            td.setSafrarelatada_idsafrarelatada(BOFactory.inserir(new DAOSafrarelatada(), ts));
+            td.setSafrarelatada_safra_idsafra(safra_idsafra);
+            
+            td.setQtddestinada(qtddestinada);
+            td.setUnidademedida_idunidademedida(umdestinacao);
+            td.setDatadestinada(datadestinacao);
+            td.setTipodestinacao_idtipodestinacao(destino);
+            
+            BOFactory.inserir(new DAODestinacao(), td);
+            
+            j.put("sucesso", true);
+            j.put("mensagem", "Cultivar relatado!");
             
         }catch(Exception e){
             j.put("sucesso", false);
@@ -338,41 +350,4 @@ public class ServicosCultivar {
         return j.toString();
     }
     
-    //metodo que verifica a versao do app
-    @Path("versao")
-    @POST
-    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    @Produces(MediaType.APPLICATION_JSON)
-    public String verificarversao(
-            @FormParam("versao") String versao
-            ) throws Exception {
-        
-        JSONObject j = new JSONObject();
-        
-            
-        try{
-            TOVersao t = new TOVersao();
-            t.setDescricao(versao);
-            t = (TOVersao) BOFactory.get(new DAOVersao(), t);
-            
-            if(t == null){
-                
-                JSONArray ja = BOFactory.listar(new DAOCultivar());
-                
-                
-                j.put("sucesso", true);
-               // j.put("versao", t.getDescricao());
-                j.put("data", ja);
-            }else{
-                j.put("sucesso", true);
-                j.put("versao", t.getDescricao());
-                j.put("menssage", "Versao atuazizada!");
-           }
-        }catch(Exception e){
-            j.put("sucesso", false);
-            j.put("mensagem", e.getMessage());
-        }
-        
-        return j.toString();
-    }
 }

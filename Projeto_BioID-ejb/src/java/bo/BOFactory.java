@@ -99,20 +99,5 @@ public class BOFactory {
     }
     
     
-     public static JSONArray listarImg(DAOBase d, TOBase t) throws Exception{
-        Connection c = null;
-        
-        try{
-            c =  Data.openConnection();
-            
-            return d.listar(c, t);
-        }finally{
-            c.close();
-        }
-    }   
-    
-    
-    
-    
     
 }
