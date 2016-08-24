@@ -123,7 +123,7 @@ public class DAOSafra implements DAOBase{
             
             while (rs.next()){
                 TOSafra ts = new TOSafra(rs);
-                ts.setRelatada(verificarRelatar(ts.getIdsafra(), ts.getTempodecolheita(), ts.getDatareceb()));
+                ts.setStatus(verificarRelatar(ts.getIdsafra(), ts.getTempodecolheita(), ts.getDatareceb()));
                 ja.put(ts.getJson());
             }
             
@@ -164,39 +164,28 @@ public class DAOSafra implements DAOBase{
     
     private boolean verificartempo(int n, String datareceb){
         
-        boolean retorno;
+        boolean retorno = false;
         
         try{
         SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
-        Calendar datarecebimento = Calendar.getInstance();
         
+        Calendar datarecebimento = Calendar.getInstance();
         Calendar diaAtual = Calendar.getInstance();
         
-        datarecebimento.setTime(format.parse(datareceb));
+        datarecebimento.setTime(format.parse(datareceb));       
+        datarecebimento.add(Calendar.DATE, n); //adicionando dois dias
         
-        datarecebimento.add(2, Calendar.DAY_OF_YEAR); //adicionando dois dias
         
-        
-        if(diaAtual == datarecebimento){
+        if(datarecebimento.getTimeInMillis() > diaAtual.getTimeInMillis()){
             retorno = true;
         }else{
             retorno = false;
         }
                 
-                /* Date entrada = new Date();
-        
-        String temp = datasaida.getText();
-        
-        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");    
-        Date dtsaida = new java.sql.Date(format.parse(temp).getTime());  
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");  
-        Calendar c = Calendar.getInstance();
-        c.setTime(dtsaida.getTime() - entrada.getTime()); 
-        totaldiarias.setText( String.valueOf(c.get(Calendar.DAY_OF_MONTH)) );*/
         }catch(Exception e){
-        
+            System.out.println(e);
         }
-        return true;
+        return retorno;
     }
 }
 

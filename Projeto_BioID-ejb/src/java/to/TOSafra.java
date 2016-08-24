@@ -27,7 +27,7 @@ public class TOSafra extends TOBase {
     
     private float qtdrecebida;
     
-    private String relatada;
+    private String status;
     
     //campos do result set
     
@@ -99,12 +99,12 @@ public class TOSafra extends TOBase {
         this.qtdrecebida = qtdrecebida;
     }
 
-    public String isRelatada() {
-        return relatada;
+    public String isStatus() {
+        return status;
     }
 
-    public void setRelatada(String relatada) {
-        this.relatada = relatada;
+    public void setStatus(String status) {
+        this.status = status;
     }
 
 
@@ -163,7 +163,7 @@ public class TOSafra extends TOBase {
     public TOSafra() {
     }
 
-    public TOSafra(long idsafra, long unidademedida_idunidademedida, long propriedade_idpropriedade, long cultivar_idcultivar, String safra, String datareceb, float qtdrecebida, String relatada, String grandeza_safra, String grandeza_cultivar, int tempodecolheita, String nomecultivar, String nomepropriedade, String usuario) {
+    public TOSafra(long idsafra, long unidademedida_idunidademedida, long propriedade_idpropriedade, long cultivar_idcultivar, String safra, String datareceb, float qtdrecebida, String status, String grandeza_safra, String grandeza_cultivar, int tempodecolheita, String nomecultivar, String nomepropriedade, String usuario) {
         this.idsafra = idsafra;
         this.unidademedida_idunidademedida = unidademedida_idunidademedida;
         this.propriedade_idpropriedade = propriedade_idpropriedade;
@@ -171,7 +171,7 @@ public class TOSafra extends TOBase {
         this.safra = safra;
         this.datareceb = datareceb;
         this.qtdrecebida = qtdrecebida;
-        this.relatada = relatada;
+        this.status = status;
         this.grandeza_safra = grandeza_safra;
         this.grandeza_cultivar = grandeza_cultivar;
         this.tempodecolheita = tempodecolheita;
@@ -208,7 +208,7 @@ public class TOSafra extends TOBase {
         j.put("safra", safra);
         j.put("datareceb", datareceb);
         j.put("qtdrecebida", qtdrecebida);
-        j.put("relatada", relatada);
+        j.put("status", status);
         j.put("grandeza_cultivar", grandeza_cultivar);
         j.put("grandeza_safra", grandeza_safra);
         j.put("nomecultivar", nomecultivar);
