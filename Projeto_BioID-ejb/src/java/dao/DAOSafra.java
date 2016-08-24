@@ -150,10 +150,26 @@ public class DAOSafra implements DAOBase{
             if(ja.length() > 0){
                 teste = "relatada";
             
-            }else if(verificartempo(tempodecolheita, datareceb)){
-                teste = "tempo expirado para relatar";
             }else{
-                teste = "não relatada"; 
+                SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+        
+                Calendar datarecebimento = Calendar.getInstance();
+                Calendar diaAtual = Calendar.getInstance();
+        
+                datarecebimento.setTime(format.parse(datareceb));
+                
+                datarecebimento.add(Calendar.DATE, +tempodecolheita);
+                
+                
+                
+                if(datarecebimento.getTimeInMillis() < diaAtual.getTimeInMillis()){
+                    teste = "tempo expirado para relatar";
+                }else{
+                    
+                    datarecebimento.add(Calendar.DATE, - diaAtual.get(Calendar.DAY_OF_MONTH));
+                    teste = datarecebimento.get(Calendar.DAY_OF_MONTH) +" dia(s) restando para relatadar"; 
+                }
+                                
             }
         }catch(Exception e){
             teste = "Erro em verificar a safra relatada - "+ e;
@@ -162,31 +178,7 @@ public class DAOSafra implements DAOBase{
         return teste;
     }
     
-    private boolean verificartempo(int n, String datareceb){
-        
-        boolean retorno = false;
-        
-        try{
-        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
-        
-        Calendar datarecebimento = Calendar.getInstance();
-        Calendar diaAtual = Calendar.getInstance();
-        
-        datarecebimento.setTime(format.parse(datareceb));       
-        datarecebimento.add(Calendar.DATE, n); //adicionando dois dias
-        
-        
-        if(datarecebimento.getTimeInMillis() > diaAtual.getTimeInMillis()){
-            retorno = true;
-        }else{
-            retorno = false;
-        }
-                
-        }catch(Exception e){
-            System.out.println(e);
-        }
-        return retorno;
-    }
+
 }
 
 
