@@ -10,7 +10,7 @@ import dao.DAOCultivar;
 import dao.DAOPropriedade;
 import dao.DAOSafra;
 import dao.DAODestinacao;
-import dao.DAOSafrarelatada;
+import dao.DAOColheita;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
@@ -25,7 +25,7 @@ import org.json.JSONObject;
 import to.TOCultivar;
 import to.TOPropriedade;
 import to.TOSafra;
-import to.TOSafrarelatada;
+import to.TOColheita;
 import to.TODestinacao;
 
 /**
@@ -201,7 +201,8 @@ public class ServicosCultivar {
             @FormParam("safra") String safra,
             @FormParam("datareceb") String datareceb,
             @FormParam("qtdrecebida") float qtdrecebida,
-            @FormParam("unidademedida_idunidademedida") long unidademedida_idunidademedida
+            @FormParam("unidademedida_idunidademedida") long unidademedida_idunidademedida,
+            @FormParam("statussafra_idstatussafra") long statussafra_idstatussafra
             
             
             ) throws Exception{
@@ -227,6 +228,7 @@ public class ServicosCultivar {
             if(tpr != null){
                 if(tc != null){
                     TOSafra ts = new TOSafra();
+                    ts.setStatussafra_idstatussafra(statussafra_idstatussafra);
                     ts.setUnidademedida_idunidademedida(unidademedida_idunidademedida);
                     ts.setPropriedade_idpropriedade(tpr.getIdpropriedade());
                     ts.setCultivar_idcultivar(tc.getIdcultivar());
@@ -318,7 +320,7 @@ public class ServicosCultivar {
         
         try{    
             //tabela safra relatada
-            TOSafrarelatada ts = new TOSafrarelatada();
+            TOColheita ts = new TOColheita();
             
             ts.setSafra_idsafra(safra_idsafra);
             ts.setUnidademedida_idunidademedida(umsafra);
@@ -328,7 +330,7 @@ public class ServicosCultivar {
             
             //tabela destinacao
             TODestinacao td = new TODestinacao();
-            td.setSafrarelatada_idsafrarelatada(BOFactory.inserir(new DAOSafrarelatada(), ts));
+            td.setSafrarelatada_idsafrarelatada(BOFactory.inserir(new DAOColheita(), ts));
             td.setSafrarelatada_safra_idsafra(safra_idsafra);
             
             td.setQtddestinada(qtddestinada);

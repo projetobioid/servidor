@@ -25,7 +25,7 @@ public class TOCultivar extends TOBase{
     //tipo da distribuicao do cultivar
     private long unidademedida_idunidademedida;
     
-    private String um_descricao;
+    private String grandeza;
 
     private String valornutricional;
     
@@ -83,12 +83,12 @@ public class TOCultivar extends TOBase{
         this.unidademedida_idunidademedida = unidademedida_idunidademedida;
     }
 
-    public String getUm_descricao() {
-        return um_descricao;
+    public String getGrandeza() {
+        return grandeza;
     }
 
-    public void setUm_descricao(String um_descricao) {
-        this.um_descricao = um_descricao;
+    public void setGrandeza(String grandeza) {
+        this.grandeza = grandeza;
     }
 
     public String getValornutricional() {
@@ -120,14 +120,14 @@ public class TOCultivar extends TOBase{
     public TOCultivar() {
     }
 
-    public TOCultivar(long idcultivar, String nomecultivar, String imagem, String descricao, boolean biofortificado, long unidademedida_idunidademedida, String um_descricao, String valornutricional, int tempodecolheita, String usuario) {
+    public TOCultivar(long idcultivar, String nomecultivar, String imagem, String descricao, boolean biofortificado, long unidademedida_idunidademedida, String grandeza, String valornutricional, int tempodecolheita, String usuario) {
         this.idcultivar = idcultivar;
         this.nomecultivar = nomecultivar;
         this.imagem = imagem;
         this.descricao = descricao;
         this.biofortificado = biofortificado;
         this.unidademedida_idunidademedida = unidademedida_idunidademedida;
-        this.um_descricao = um_descricao;
+        this.grandeza = grandeza;
         this.valornutricional = valornutricional;
         this.tempodecolheita = tempodecolheita;
         this.usuario = usuario;
@@ -141,7 +141,7 @@ public class TOCultivar extends TOBase{
         this.imagem = rs.getString("imagem");
         this.descricao = rs.getString("descricao");
         this.biofortificado = rs.getBoolean("biofortificado");
-        this.um_descricao = rs.getString("um_descricao");
+        this.grandeza = rs.getString("grandeza");
         this.valornutricional = rs.getString("valornutricional");
         this.tempodecolheita = rs.getInt("tempodecolheita");
     }
@@ -157,7 +157,7 @@ public class TOCultivar extends TOBase{
         j.put("imagem", imagem);
         j.put("descricao", descricao);
         j.put("biofortificado", biofortificado);
-        j.put("um_descricao", um_descricao);
+        j.put("grandeza", grandeza);
         j.put("valornutricional", valornutricional);
         j.put("tempodecolheita", tempodecolheita);
         

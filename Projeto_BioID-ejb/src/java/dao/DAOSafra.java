@@ -15,7 +15,7 @@ import java.util.List;
 import org.json.JSONArray;
 import to.TOBase;
 import to.TOSafra;
-import to.TOSafrarelatada;
+import to.TOColheita;
 
 /**
  *
@@ -25,11 +25,13 @@ public class DAOSafra implements DAOBase{
 
     @Override
     public long inserir(Connection c, TOBase t) throws Exception {
-        String sql = "INSERT INTO safra(unidademedida_idunidademedida, propriedade_idpropriedade, cultivar_idcultivar, safra, datareceb, qtdrecebida) VALUES (?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO safra(statussafra_idstatussafra, unidademedida_idunidademedida, propriedade_idpropriedade, cultivar_idcultivar, safra, datareceb, qtdrecebida) "
+                + "VALUES (?, ?, ?, ?, ?, ?, ?)";
         
         TOSafra to = (TOSafra)t;
         List<Object> p = new ArrayList<Object>();
         
+        p.add(to.getStatussafra_idstatussafra());
         p.add(to.getUnidademedida_idunidademedida());
         p.add(to.getPropriedade_idpropriedade());
         p.add(to.getCultivar_idcultivar());
@@ -100,7 +102,7 @@ public class DAOSafra implements DAOBase{
     public JSONArray listar(Connection c, TOBase t) throws Exception {
         JSONArray  ja = new JSONArray();
         
-        String sql = "SELECT s.idsafra, s.propriedade_idpropriedade, s.cultivar_idcultivar, s.safra, s.datareceb, s.qtdrecebida, um.grandeza as grandeza_safra, c.nomecultivar, pr.nomepropriedade, umc.grandeza as grandeza_cultivar, c.tempodecolheita "
+        String sql = "SELECT s.idsafra, s.propriedade_idpropriedade, s.cultivar_idcultivar, s.safra, s.datareceb, s.qtdrecebida, um.grandeza as grandeza_safra, c.nomecultivar, pr.nomepropriedade, umc.grandeza as grandeza_cultivar, c.tempodecolheita, sf.descricaostatus "
                 + "FROM login l "
                 + "INNER JOIN pessoa p ON( p.idpessoa = l.pessoa_idpessoa) "
                 + "INNER JOIN relacaopa r ON( r.agricultor_pessoa_idpessoa = p.idpessoa) "
@@ -108,7 +110,9 @@ public class DAOSafra implements DAOBase{
                 + "INNER JOIN safra s ON (s.propriedade_idpropriedade = pr.idpropriedade) "
                 + "INNER JOIN cultivar c ON (c.idcultivar = s.cultivar_idcultivar) "
                 + "INNER JOIN unidademedida um ON(um.idunidademedida = s.unidademedida_idunidademedida) "
-                + "INNER JOIN unidademedida umc ON(umc.idunidademedida = c.unidademedida_idunidademedida) where l.usuario = ?";
+                + "INNER JOIN unidademedida umc ON(umc.idunidademedida = c.unidademedida_idunidademedida) "
+                + "INNER JOIN statussafra sf ON(sf.idstatussafra = s.statussafra_idstatussafra)"
+                + " where l.usuario = ?";
            
         
         
@@ -123,7 +127,7 @@ public class DAOSafra implements DAOBase{
             
             while (rs.next()){
                 TOSafra ts = new TOSafra(rs);
-                ts.setStatus(verificarRelatar(ts.getIdsafra(), ts.getTempodecolheita(), ts.getDatareceb()));
+                //ts.setStatus(verificarRelatar(ts.getIdsafra(), ts.getTempodecolheita(), ts.getDatareceb()));
                 ja.put(ts.getJson());
             }
             
@@ -140,11 +144,11 @@ public class DAOSafra implements DAOBase{
         String teste = null;
         
         try{
-            TOSafrarelatada t = new TOSafrarelatada();
+            TOColheita t = new TOColheita();
         
             t.setSafra_idsafra(idsafra);
         
-            JSONArray ja = BOFactory.listar(new DAOSafrarelatada(), t);
+            JSONArray ja = BOFactory.listar(new DAOColheita(), t);
             
             
             if(ja.length() > 0){
@@ -163,11 +167,11 @@ public class DAOSafra implements DAOBase{
                 
                 
                 if(datarecebimento.getTimeInMillis() < diaAtual.getTimeInMillis()){
-                    teste = "tempo expirado para relatar";
+                    teste = "expirada";
                 }else{
                     
                     datarecebimento.add(Calendar.DATE, - diaAtual.get(Calendar.DAY_OF_MONTH));
-                    teste = datarecebimento.get(Calendar.DAY_OF_MONTH) +" dia(s) restando para relatadar"; 
+                    teste = datarecebimento.get(Calendar.DAY_OF_MONTH) +" dia(s) para relatadar"; 
                 }
                                 
             }
