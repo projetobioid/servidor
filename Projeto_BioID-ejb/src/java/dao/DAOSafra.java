@@ -126,7 +126,8 @@ public class DAOSafra implements DAOBase{
                 TOSafra ts = new TOSafra(rs);
                 //verifica o status da safra, se esta aberta ou dias restantes para relatar
                 //ts.setDesc_statuscolheita(verificarRelatar(ts.getIdsafra(), ts.getTempodecolheita(), ts.getDatareceb()));    
-                
+                ts.setPrazo_colheita(verificarColheita(ts.getTempodecolheita()));
+                ts.setPrazo_destinacao(verificarDestinacao(ts.getTempodestinacao()));
                 
                 ja.put(ts.getJson());
             }
@@ -182,7 +183,30 @@ public class DAOSafra implements DAOBase{
         return teste;
     }
 
-    
+    private String verificarDestinacao(int tempodestinacao) {
+        String teste = null;
+        
+        try{
+            
+            teste = "10 kilo(s) destinada(s)";
+        }catch(Exception e){
+            teste = "Erro em verificar a safra destinacao - "+ e;
+        }
+        return teste;
+    }
+
+    private String verificarColheita(int tempodecolheita) {
+        String teste = null;
+        
+        try{
+            
+            teste = "10 kilo(s) colhida(s)";
+        }catch(Exception e){
+            teste = "Erro em verificar a safra colheita - "+ e;
+        }
+        return teste;  
+    }
+
 
 }
 

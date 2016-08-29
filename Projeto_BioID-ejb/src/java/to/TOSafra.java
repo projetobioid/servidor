@@ -41,6 +41,11 @@ public class TOSafra extends TOBase {
 
     //campos de consulta
     private String usuario;
+    
+    //campos de informacao
+    private String prazo_colheita;
+    
+    private String prazo_destinacao;
 
     public long getIdsafra() {
         return idsafra;
@@ -145,13 +150,27 @@ public class TOSafra extends TOBase {
     public void setUsuario(String usuario) {
         this.usuario = usuario;
     }
-    
-    
-    
+
+    public String getPrazo_colheita() {
+        return prazo_colheita;
+    }
+
+    public void setPrazo_colheita(String prazo_colheita) {
+        this.prazo_colheita = prazo_colheita;
+    }
+
+    public String getPrazo_destinacao() {
+        return prazo_destinacao;
+    }
+
+    public void setPrazo_destinacao(String prazo_destinacao) {
+        this.prazo_destinacao = prazo_destinacao;
+    }
+        
     public TOSafra() {
     }
 
-    public TOSafra(long idsafra, long unidademedida_idunidademedida, long propriedade_idpropriedade, long cultivar_idcultivar, String safra, String datareceb, float qtdrecebida, String grandeza_safra, int tempodecolheita, int tempodestinacao, String nomecultivar, String nomepropriedade, String usuario) {
+    public TOSafra(long idsafra, long unidademedida_idunidademedida, long propriedade_idpropriedade, long cultivar_idcultivar, String safra, String datareceb, float qtdrecebida, String grandeza_safra, int tempodecolheita, int tempodestinacao, String nomecultivar, String nomepropriedade, String usuario, String prazo_colheita, String prazo_destinacao) {
         this.idsafra = idsafra;
         this.unidademedida_idunidademedida = unidademedida_idunidademedida;
         this.propriedade_idpropriedade = propriedade_idpropriedade;
@@ -165,10 +184,11 @@ public class TOSafra extends TOBase {
         this.nomecultivar = nomecultivar;
         this.nomepropriedade = nomepropriedade;
         this.usuario = usuario;
+        this.prazo_colheita = prazo_colheita;
+        this.prazo_destinacao = prazo_destinacao;
     }
 
-    
-             
+         
     public TOSafra(ResultSet rs) throws Exception{
         this.idsafra = rs.getLong("idsafra");
         this.propriedade_idpropriedade = rs.getLong("propriedade_idpropriedade");
@@ -198,8 +218,10 @@ public class TOSafra extends TOBase {
         j.put("grandeza_safra", grandeza_safra);
         j.put("nomecultivar", nomecultivar);
         j.put("nomepropriedade", nomepropriedade);
-        j.put("tempodecolheita", tempodecolheita);
-        j.put("tempodestinacao", tempodestinacao);
+        //j.put("tempodecolheita", tempodecolheita);
+        //j.put("tempodestinacao", tempodestinacao);
+        j.put("prazo_colheita", prazo_colheita);
+        j.put("prazo_destinacao", prazo_destinacao);
         
         return j;
     }
