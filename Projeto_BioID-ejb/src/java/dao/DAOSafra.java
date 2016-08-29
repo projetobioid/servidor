@@ -25,13 +25,11 @@ public class DAOSafra implements DAOBase{
 
     @Override
     public long inserir(Connection c, TOBase t) throws Exception {
-        String sql = "INSERT INTO safra(statussafra_idstatussafra, unidademedida_idunidademedida, propriedade_idpropriedade, cultivar_idcultivar, safra, datareceb, qtdrecebida) "
-                + "VALUES (?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO safra(unidademedida_idunidademedida, propriedade_idpropriedade, cultivar_idcultivar, safra, datareceb, qtdrecebida) VALUES (?, ?, ?, ?, ?, ?)";
         
         TOSafra to = (TOSafra)t;
         List<Object> p = new ArrayList<Object>();
-        
-        p.add(to.getStatussafra_idstatussafra());
+
         p.add(to.getUnidademedida_idunidademedida());
         p.add(to.getPropriedade_idpropriedade());
         p.add(to.getCultivar_idcultivar());
@@ -102,17 +100,16 @@ public class DAOSafra implements DAOBase{
     public JSONArray listar(Connection c, TOBase t) throws Exception {
         JSONArray  ja = new JSONArray();
         
-        String sql = "SELECT s.idsafra, s.propriedade_idpropriedade, s.cultivar_idcultivar, s.safra, s.datareceb, s.qtdrecebida, um.grandeza as grandeza_safra, c.nomecultivar, pr.nomepropriedade, umc.grandeza as grandeza_cultivar, c.tempodecolheita, sf.descricaostatus "
-                + "FROM login l "
-                + "INNER JOIN pessoa p ON( p.idpessoa = l.pessoa_idpessoa) "
-                + "INNER JOIN relacaopa r ON( r.agricultor_pessoa_idpessoa = p.idpessoa) "
-                + "INNER JOIN propriedade pr ON (pr.idpropriedade = r.propriedade_idpropriedade) "
-                + "INNER JOIN safra s ON (s.propriedade_idpropriedade = pr.idpropriedade) "
-                + "INNER JOIN cultivar c ON (c.idcultivar = s.cultivar_idcultivar) "
-                + "INNER JOIN unidademedida um ON(um.idunidademedida = s.unidademedida_idunidademedida) "
-                + "INNER JOIN unidademedida umc ON(umc.idunidademedida = c.unidademedida_idunidademedida) "
-                + "INNER JOIN statussafra sf ON(sf.idstatussafra = s.statussafra_idstatussafra)"
-                + " where l.usuario = ?";
+        String sql = "SELECT s.idsafra, s.propriedade_idpropriedade, s.cultivar_idcultivar, s.safra, s.datareceb, s.qtdrecebida, um.grandeza as grandeza_safra, c.nomecultivar, pr.nomepropriedade, umc.grandeza as grandeza_cultivar, c.tempodecolheita, c.tempodestinacao, co.qtdcolhida, d.qtddestinada FROM login l"
+                + " INNER JOIN pessoa p ON( p.idpessoa = l.pessoa_idpessoa)"
+                + " INNER JOIN relacaopa r ON( r.agricultor_pessoa_idpessoa = p.idpessoa)"
+                + " INNER JOIN propriedade pr ON (pr.idpropriedade = r.propriedade_idpropriedade)"
+                + " INNER JOIN safra s ON (s.propriedade_idpropriedade = pr.idpropriedade)"
+                + " INNER JOIN cultivar c ON (c.idcultivar = s.cultivar_idcultivar)"
+                + " INNER JOIN unidademedida um ON(um.idunidademedida = s.unidademedida_idunidademedida)"
+                + " INNER JOIN unidademedida umc ON(umc.idunidademedida = c.unidademedida_idunidademedida)"
+                + " LEFT JOIN colheita co ON(co.idcolheita = s.idsafra)"
+                + " LEFT JOIN destinacao d ON(d.iddestinacao = s.idsafra) where l.usuario = ?";
            
         
         
@@ -127,7 +124,10 @@ public class DAOSafra implements DAOBase{
             
             while (rs.next()){
                 TOSafra ts = new TOSafra(rs);
-                //ts.setStatus(verificarRelatar(ts.getIdsafra(), ts.getTempodecolheita(), ts.getDatareceb()));
+                //verifica o status da safra, se esta aberta ou dias restantes para relatar
+                //ts.setDesc_statuscolheita(verificarRelatar(ts.getIdsafra(), ts.getTempodecolheita(), ts.getDatareceb()));    
+                
+                
                 ja.put(ts.getJson());
             }
             
@@ -181,6 +181,7 @@ public class DAOSafra implements DAOBase{
         
         return teste;
     }
+
     
 
 }

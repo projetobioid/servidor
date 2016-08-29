@@ -201,8 +201,7 @@ public class ServicosCultivar {
             @FormParam("safra") String safra,
             @FormParam("datareceb") String datareceb,
             @FormParam("qtdrecebida") float qtdrecebida,
-            @FormParam("unidademedida_idunidademedida") long unidademedida_idunidademedida,
-            @FormParam("statussafra_idstatussafra") long statussafra_idstatussafra
+            @FormParam("unidademedida_idunidademedida") long unidademedida_idunidademedida
             
             
             ) throws Exception{
@@ -228,7 +227,7 @@ public class ServicosCultivar {
             if(tpr != null){
                 if(tc != null){
                     TOSafra ts = new TOSafra();
-                    ts.setStatussafra_idstatussafra(statussafra_idstatussafra);
+                    
                     ts.setUnidademedida_idunidademedida(unidademedida_idunidademedida);
                     ts.setPropriedade_idpropriedade(tpr.getIdpropriedade());
                     ts.setCultivar_idcultivar(tc.getIdcultivar());
