@@ -43,15 +43,6 @@ public class DAOColheita implements DAOBase{
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    @Override
-    public void excluir(Connection c, TOBase t) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public TOBase get(Connection c, TOBase t) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 
     @Override
     public JSONArray listar(Connection c) throws Exception {
@@ -62,10 +53,8 @@ public class DAOColheita implements DAOBase{
     public JSONArray listar(Connection c, TOBase t) throws Exception {
         JSONArray  ja = new JSONArray();
         
-        String sql = "SELECT * FROM safrarelatada WHERE safra_idsafra = ?";
+        String sql = "SELECT idcolheita, safra_idsafra, unidademedida_idunidademedida, datacolheita, qtdcolhida FROM colheita WHERE safra_idsafra IN(?)";
            
-        
-        
         ResultSet rs = null;
         try{
             //variavel com lista dos parametros
@@ -78,6 +67,7 @@ public class DAOColheita implements DAOBase{
             while (rs.next()){
                 TOColheita ts = new TOColheita(rs);
                 ja.put(ts.getJson());
+                
             }
             
                         
@@ -89,6 +79,16 @@ public class DAOColheita implements DAOBase{
 
     @Override
     public TOBase getLogin(Connection c, TOBase t) throws Exception {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public TOBase get(Connection c, TOBase t) throws Exception {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void excluir(Connection c, TOBase t) throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

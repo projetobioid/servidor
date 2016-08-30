@@ -13,24 +13,26 @@ import org.json.JSONObject;
  * @author daniel
  */
 public class TOColheita extends TOBase{
-    public long idsafrarelatada;
+    private long idcolheita;
     
-    public long safra_idsafra;
+    private long safra_idsafra;
     
-    public long unidademedida_idunidademedida;
+    private long unidademedida_idunidademedida;
     
-    public String datacolheita;
+    private String datacolheita;
     
-    public float qtdcolhida;
+    private float qtdcolhida;
     
-    //public long destinacao_iddestinacao;
+    //dados de amostragem
+    private String um_colhida;
+    
 
-    public long getIdsafrarelatada() {
-        return idsafrarelatada;
+    public long getIdcolheita() {
+        return idcolheita;
     }
 
-    public void setIdsafrarelatada(long idsafrarelatada) {
-        this.idsafrarelatada = idsafrarelatada;
+    public void setIdcolheita(long idcolheita) {
+        this.idcolheita = idcolheita;
     }
 
     public long getSafra_idsafra() {
@@ -65,27 +67,36 @@ public class TOColheita extends TOBase{
         this.qtdcolhida = qtdcolhida;
     }
 
+    public String getUm_colhida() {
+        return um_colhida;
+    }
+
+    public void setUm_colhida(String um_colhida) {
+        this.um_colhida = um_colhida;
+    }
+
+    
 
     public TOColheita() {
     }
 
-    public TOColheita(long idsafrarelatada, long safra_idsafra, long unidademedida_idunidademedida, String datacolheita, float qtdcolhida) {
-        this.idsafrarelatada = idsafrarelatada;
+    public TOColheita(long idcolheita, long safra_idsafra, long unidademedida_idunidademedida, String datacolheita, float qtdcolhida, String um_colhida) {
+        this.idcolheita = idcolheita;
         this.safra_idsafra = safra_idsafra;
         this.unidademedida_idunidademedida = unidademedida_idunidademedida;
         this.datacolheita = datacolheita;
         this.qtdcolhida = qtdcolhida;
+        this.um_colhida = um_colhida;
     }
+    
 
-    
-    
     public TOColheita(ResultSet rs) throws Exception{
-        this.idsafrarelatada = rs.getLong("idsafrarelatada");
+        this.idcolheita = rs.getLong("idcolheita");
         this.safra_idsafra = rs.getLong("safra_idsafra");
         this.datacolheita = rs.getString("datacolheita");
         this.qtdcolhida = rs.getFloat("qtdcolhida");
         this.unidademedida_idunidademedida = rs.getLong("unidademedida_idunidademedida");
-        //this.destinacao_iddestinacao = rs.getLong("destinacao_iddestinacao");
+
     }
 
     @Override
@@ -94,11 +105,12 @@ public class TOColheita extends TOBase{
         JSONObject j = new JSONObject();
         
         //populando o objeto j
-        j.put("idsafrarelatada", idsafrarelatada);
+        j.put("idcolheita", idcolheita);
         j.put("safra_idsafra", safra_idsafra);
         j.put("datacolheita", datacolheita);
         j.put("qtdcolhida", qtdcolhida);
-        j.put("unidademedida_idunidademedida", unidademedida_idunidademedida);
+        j.put("um_colhida", um_colhida);
+        
         
         return j;
     }

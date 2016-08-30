@@ -100,12 +100,9 @@ public class DAOSafra implements DAOBase{
     public JSONArray listar(Connection c, TOBase t) throws Exception {
         JSONArray  ja = new JSONArray();
         
-        String sql = "SELECT s.idsafra, s.propriedade_idpropriedade, s.cultivar_idcultivar, s.safra, s.datareceb, s.qtdrecebida, um.grandeza as grandeza_safra,"
-                + " c.nomecultivar, pr.nomepropriedade, umc.grandeza as grandeza_cultivar, c.tempodecolheita, c.tempodestinacao,"
-                + " (SELECT SUM(cs.qtdcolhida) AS qtdcolhida FROM colheita cs WHERE cs.safra_idsafra = s.idsafra),"
-                + " (SELECT SUM(ds.qtddestinada) AS qtddestinada FROM destinacao ds WHERE ds.safra_idsafra = s.idsafra) FROM login l"
-                + " INNER JOIN pessoa p ON( p.idpessoa = l.pessoa_idpessoa)"
-                + " INNER JOIN relacaopa r ON( r.agricultor_pessoa_idpessoa = p.idpessoa)"
+        String sql = "SELECT s.idsafra, s.propriedade_idpropriedade, s.cultivar_idcultivar, s.safra, s.datareceb, s.qtdrecebida,"
+                + " um.grandeza as grandeza_safra, c.nomecultivar, pr.nomepropriedade, c.tempodecolheita, c.tempodestinacao FROM login l"
+                + " INNER JOIN pessoa p ON( p.idpessoa = l.pessoa_idpessoa) INNER JOIN relacaopa r ON( r.agricultor_pessoa_idpessoa = p.idpessoa)"
                 + " INNER JOIN propriedade pr ON (pr.idpropriedade = r.propriedade_idpropriedade)"
                 + " INNER JOIN safra s ON (s.propriedade_idpropriedade = pr.idpropriedade)"
                 + " INNER JOIN cultivar c ON (c.idcultivar = s.cultivar_idcultivar)"
@@ -125,10 +122,15 @@ public class DAOSafra implements DAOBase{
             
             while (rs.next()){
                 TOSafra ts = new TOSafra(rs);
-                //verifica o status da safra, se esta aberta ou dias restantes para relatar
-                //ts.setDesc_statuscolheita(verificarRelatar(ts.getIdsafra(), ts.getTempodecolheita(), ts.getDatareceb()));    
-                //ts.setPrazo_colheita(verificarColheita(ts.getTempodecolheita()));
-                //ts.setPrazo_destinacao(verificarDestinacao(ts.getTempodestinacao()));
+   
+                //verifica quantidade colhida
+                ts.setQtdcolhida(verificaQtdColhida(ts.getIdsafra()));
+                ts.setUm_colhida("kilo(s)");
+                ts.setQtddestinada(verificaQtdDestinada(ts.getIdsafra()));
+                ts.setUm_destinada("kilo(s)");
+                
+                ts.setPrazo_colheita(verificarPrazoColheita(ts.getTempodecolheita(), ts.getDatareceb()));
+                ts.setPrazo_destinacao(verificarPrazoDestinacao(ts.getTempodestinacao(), ts.getDatareceb()));
                 
                 ja.put(ts.getJson());
             }
@@ -141,23 +143,39 @@ public class DAOSafra implements DAOBase{
     }
 
 
-
-    private String verificarRelatar(long idsafra, int tempodecolheita, String datareceb) throws Exception{
+    private String verificarPrazoDestinacao(int tempodestinacao, String datareceb) {
         String teste = null;
         
         try{
-            TOColheita t = new TOColheita();
+            SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
         
-            t.setSafra_idsafra(idsafra);
-        
-            JSONArray ja = BOFactory.listar(new DAOColheita(), t);
-            
-            
-            if(ja.length() > 0){
-                teste = "relatada";
-            
+            Calendar datarecebimento = Calendar.getInstance();
+            Calendar diaAtual = Calendar.getInstance();
+
+            datarecebimento.setTime(format.parse(datareceb));
+
+            datarecebimento.add(Calendar.DATE, +tempodestinacao);
+
+
+
+            if(datarecebimento.getTimeInMillis() < diaAtual.getTimeInMillis()){
+                teste = "expirada";
             }else{
-                SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+
+                datarecebimento.add(Calendar.DATE, - diaAtual.get(Calendar.DAY_OF_MONTH));
+                teste = datarecebimento.get(Calendar.DAY_OF_MONTH) +" dia(s) para relatadar"; 
+            }
+        }catch(Exception e){
+            teste = "Erro em verificar a safra destinacao - "+ e;
+        }
+        return teste;
+    }
+
+    private String verificarPrazoColheita(int tempodecolheita, String datareceb) {
+        String teste = null;
+        
+        try{
+            SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
         
                 Calendar datarecebimento = Calendar.getInstance();
                 Calendar diaAtual = Calendar.getInstance();
@@ -175,39 +193,41 @@ public class DAOSafra implements DAOBase{
                     datarecebimento.add(Calendar.DATE, - diaAtual.get(Calendar.DAY_OF_MONTH));
                     teste = datarecebimento.get(Calendar.DAY_OF_MONTH) +" dia(s) para relatadar"; 
                 }
-                                
-            }
-        }catch(Exception e){
-            teste = "Erro em verificar a safra relatada - "+ e;
-        }
-        
-        return teste;
-    }
-
-    private String verificarDestinacao(int tempodestinacao) {
-        String teste = null;
-        
-        try{
-            
-            teste = "10 kilo(s) destinada(s)";
-        }catch(Exception e){
-            teste = "Erro em verificar a safra destinacao - "+ e;
-        }
-        return teste;
-    }
-
-    private String verificarColheita(int tempodecolheita) {
-        String teste = null;
-        
-        try{
-            
-            teste = "10 kilo(s) colhida(s)";
         }catch(Exception e){
             teste = "Erro em verificar a safra colheita - "+ e;
         }
         return teste;  
     }
 
+    private float verificaQtdColhida(long idsafra) {
+        float qtdcolhida = 0f;
+        TOColheita c = new TOColheita();
+        c.setSafra_idsafra(idsafra);
+        try{    
+            JSONArray ja = BOFactory.listar(new DAOColheita(), c);
+            System.out.println(ja);
+            qtdcolhida = 350f;
+            
+        }catch(Exception e){
+            
+        }
+        return qtdcolhida;
+    }
+
+    private float verificaQtdDestinada(long idsafra) {
+        float qtddestinada = 0f;
+        TOColheita c = new TOColheita();
+        c.setSafra_idsafra(idsafra);
+        try{    
+
+          
+            qtddestinada = 250f;
+            
+        }catch(Exception e){
+            
+        }
+        return qtddestinada;
+    }
 
 }
 
