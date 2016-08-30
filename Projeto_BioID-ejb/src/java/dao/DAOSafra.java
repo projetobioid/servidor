@@ -100,16 +100,17 @@ public class DAOSafra implements DAOBase{
     public JSONArray listar(Connection c, TOBase t) throws Exception {
         JSONArray  ja = new JSONArray();
         
-        String sql = "SELECT s.idsafra, s.propriedade_idpropriedade, s.cultivar_idcultivar, s.safra, s.datareceb, s.qtdrecebida, um.grandeza as grandeza_safra, c.nomecultivar, pr.nomepropriedade, umc.grandeza as grandeza_cultivar, c.tempodecolheita, c.tempodestinacao, co.qtdcolhida, d.qtddestinada FROM login l"
+        String sql = "SELECT s.idsafra, s.propriedade_idpropriedade, s.cultivar_idcultivar, s.safra, s.datareceb, s.qtdrecebida, um.grandeza as grandeza_safra,"
+                + " c.nomecultivar, pr.nomepropriedade, umc.grandeza as grandeza_cultivar, c.tempodecolheita, c.tempodestinacao,"
+                + " (SELECT SUM(cs.qtdcolhida) AS qtdcolhida FROM colheita cs WHERE cs.safra_idsafra = s.idsafra),"
+                + " (SELECT SUM(ds.qtddestinada) AS qtddestinada FROM destinacao ds WHERE ds.safra_idsafra = s.idsafra) FROM login l"
                 + " INNER JOIN pessoa p ON( p.idpessoa = l.pessoa_idpessoa)"
                 + " INNER JOIN relacaopa r ON( r.agricultor_pessoa_idpessoa = p.idpessoa)"
                 + " INNER JOIN propriedade pr ON (pr.idpropriedade = r.propriedade_idpropriedade)"
                 + " INNER JOIN safra s ON (s.propriedade_idpropriedade = pr.idpropriedade)"
                 + " INNER JOIN cultivar c ON (c.idcultivar = s.cultivar_idcultivar)"
                 + " INNER JOIN unidademedida um ON(um.idunidademedida = s.unidademedida_idunidademedida)"
-                + " INNER JOIN unidademedida umc ON(umc.idunidademedida = c.unidademedida_idunidademedida)"
-                + " LEFT JOIN colheita co ON(co.idcolheita = s.idsafra)"
-                + " LEFT JOIN destinacao d ON(d.iddestinacao = s.idsafra) where l.usuario = ?";
+                + " INNER JOIN unidademedida umc ON(umc.idunidademedida = c.unidademedida_idunidademedida) where l.usuario = ?";
            
         
         
@@ -126,8 +127,8 @@ public class DAOSafra implements DAOBase{
                 TOSafra ts = new TOSafra(rs);
                 //verifica o status da safra, se esta aberta ou dias restantes para relatar
                 //ts.setDesc_statuscolheita(verificarRelatar(ts.getIdsafra(), ts.getTempodecolheita(), ts.getDatareceb()));    
-                ts.setPrazo_colheita(verificarColheita(ts.getTempodecolheita()));
-                ts.setPrazo_destinacao(verificarDestinacao(ts.getTempodestinacao()));
+                //ts.setPrazo_colheita(verificarColheita(ts.getTempodecolheita()));
+                //ts.setPrazo_destinacao(verificarDestinacao(ts.getTempodestinacao()));
                 
                 ja.put(ts.getJson());
             }

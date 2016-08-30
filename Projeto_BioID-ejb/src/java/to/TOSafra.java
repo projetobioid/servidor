@@ -30,22 +30,23 @@ public class TOSafra extends TOBase {
     //campos do result set
     
     private String grandeza_safra;
-        
+
+    private String nomecultivar;
+    
+    private String nomepropriedade;
+    
+    private String grandeza_cultivar;
+    
     private int tempodecolheita;
     
     private int tempodestinacao;
     
-    private String nomecultivar;
+    private float qtdcolhida;
     
-    private String nomepropriedade;
-
+    private float qtddestinada;
+    
     //campos de consulta
     private String usuario;
-    
-    //campos de informacao
-    private String prazo_colheita;
-    
-    private String prazo_destinacao;
 
     public long getIdsafra() {
         return idsafra;
@@ -111,22 +112,6 @@ public class TOSafra extends TOBase {
         this.grandeza_safra = grandeza_safra;
     }
 
-    public int getTempodecolheita() {
-        return tempodecolheita;
-    }
-
-    public void setTempodecolheita(int tempodecolheita) {
-        this.tempodecolheita = tempodecolheita;
-    }
-
-    public int getTempodestinacao() {
-        return tempodestinacao;
-    }
-
-    public void setTempodestinacao(int tempodestinacao) {
-        this.tempodestinacao = tempodestinacao;
-    }
-
     public String getNomecultivar() {
         return nomecultivar;
     }
@@ -143,6 +128,46 @@ public class TOSafra extends TOBase {
         this.nomepropriedade = nomepropriedade;
     }
 
+    public String getGrandeza_cultivar() {
+        return grandeza_cultivar;
+    }
+
+    public void setGrandeza_cultivar(String grandeza_cultivar) {
+        this.grandeza_cultivar = grandeza_cultivar;
+    }
+
+    public int getTempodecolheita() {
+        return tempodecolheita;
+    }
+
+    public void setTempodecolheita(int tempodecolheita) {
+        this.tempodecolheita = tempodecolheita;
+    }
+
+    public int getTempodestinacao() {
+        return tempodestinacao;
+    }
+
+    public void setTempodestinacao(int tempodestinacao) {
+        this.tempodestinacao = tempodestinacao;
+    }
+
+    public float getQtdcolhida() {
+        return qtdcolhida;
+    }
+
+    public void setQtdcolhida(float qtdcolhida) {
+        this.qtdcolhida = qtdcolhida;
+    }
+
+    public float getQtddestinada() {
+        return qtddestinada;
+    }
+
+    public void setQtddestinada(float qtddestinada) {
+        this.qtddestinada = qtddestinada;
+    }
+
     public String getUsuario() {
         return usuario;
     }
@@ -151,26 +176,11 @@ public class TOSafra extends TOBase {
         this.usuario = usuario;
     }
 
-    public String getPrazo_colheita() {
-        return prazo_colheita;
-    }
 
-    public void setPrazo_colheita(String prazo_colheita) {
-        this.prazo_colheita = prazo_colheita;
-    }
-
-    public String getPrazo_destinacao() {
-        return prazo_destinacao;
-    }
-
-    public void setPrazo_destinacao(String prazo_destinacao) {
-        this.prazo_destinacao = prazo_destinacao;
-    }
-        
     public TOSafra() {
     }
 
-    public TOSafra(long idsafra, long unidademedida_idunidademedida, long propriedade_idpropriedade, long cultivar_idcultivar, String safra, String datareceb, float qtdrecebida, String grandeza_safra, int tempodecolheita, int tempodestinacao, String nomecultivar, String nomepropriedade, String usuario, String prazo_colheita, String prazo_destinacao) {
+    public TOSafra(long idsafra, long unidademedida_idunidademedida, long propriedade_idpropriedade, long cultivar_idcultivar, String safra, String datareceb, float qtdrecebida, String grandeza_safra, String nomecultivar, String nomepropriedade, String grandeza_cultivar, int tempodecolheita, int tempodestinacao, float qtdcolhida, float qtddestinada, String usuario) {
         this.idsafra = idsafra;
         this.unidademedida_idunidademedida = unidademedida_idunidademedida;
         this.propriedade_idpropriedade = propriedade_idpropriedade;
@@ -179,16 +189,18 @@ public class TOSafra extends TOBase {
         this.datareceb = datareceb;
         this.qtdrecebida = qtdrecebida;
         this.grandeza_safra = grandeza_safra;
-        this.tempodecolheita = tempodecolheita;
-        this.tempodestinacao = tempodestinacao;
         this.nomecultivar = nomecultivar;
         this.nomepropriedade = nomepropriedade;
+        this.grandeza_cultivar = grandeza_cultivar;
+        this.tempodecolheita = tempodecolheita;
+        this.tempodestinacao = tempodestinacao;
+        this.qtdcolhida = qtdcolhida;
+        this.qtddestinada = qtddestinada;
         this.usuario = usuario;
-        this.prazo_colheita = prazo_colheita;
-        this.prazo_destinacao = prazo_destinacao;
     }
 
-         
+      
+    
     public TOSafra(ResultSet rs) throws Exception{
         this.idsafra = rs.getLong("idsafra");
         this.propriedade_idpropriedade = rs.getLong("propriedade_idpropriedade");
@@ -199,8 +211,11 @@ public class TOSafra extends TOBase {
         this.grandeza_safra = rs.getString("grandeza_safra");
         this.nomecultivar = rs.getString("nomecultivar");
         this.nomepropriedade = rs.getString("nomepropriedade");
+        this.grandeza_cultivar = rs.getString("grandeza_cultivar");
         this.tempodecolheita = rs.getInt("tempodecolheita");
         this.tempodestinacao = rs.getInt("tempodestinacao");
+        this.qtdcolhida = rs.getFloat("qtdcolhida");
+        this.qtddestinada = rs.getFloat("qtddestinada");
     }
 
     @Override
@@ -218,10 +233,11 @@ public class TOSafra extends TOBase {
         j.put("grandeza_safra", grandeza_safra);
         j.put("nomecultivar", nomecultivar);
         j.put("nomepropriedade", nomepropriedade);
-        //j.put("tempodecolheita", tempodecolheita);
-        //j.put("tempodestinacao", tempodestinacao);
-        j.put("prazo_colheita", prazo_colheita);
-        j.put("prazo_destinacao", prazo_destinacao);
+        j.put("grandeza_cultivar", grandeza_cultivar);
+        j.put("tempodecolheita", tempodecolheita);
+        j.put("tempodestinacao", tempodestinacao);
+        j.put("qtdcolhida", qtdcolhida);
+        j.put("qtddestinada", qtddestinada);
         
         return j;
     }
