@@ -11,19 +11,19 @@ import java.util.ArrayList;
 import java.util.List;
 import org.json.JSONArray;
 import to.TOBase;
-import to.TOColheita;
+import to.TOHistoricoColheita;
 
 /**
  *
  * @author daniel
  */
-public class DAOColheita implements DAOBase{
+public class DAOHistoricoColheita implements DAOBase{
 
     @Override
     public long inserir(Connection c, TOBase t) throws Exception {
         String sql = "INSERT INTO safrarelatada(safra_idsafra, unidademedida_idunidademedida, datacolheita, qtdcolhida) VALUES (?, ?, ?, ?)";
         
-        TOColheita to = (TOColheita)t;
+        TOHistoricoColheita to = (TOHistoricoColheita)t;
         
         List<Object> p = new ArrayList<Object>();
         
@@ -60,12 +60,12 @@ public class DAOColheita implements DAOBase{
             //variavel com lista dos parametros
             List<Object> u = new ArrayList<Object>();
             
-            u.add(((TOColheita) t).getSafra_idsafra());
+            u.add(((TOHistoricoColheita) t).getSafra_idsafra());
             
             rs = Data.executeQuery(c, sql, u);
             
             while (rs.next()){
-                TOColheita ts = new TOColheita(rs);
+                TOHistoricoColheita ts = new TOHistoricoColheita(rs);
                 ja.put(ts.getJson());
                 
             }

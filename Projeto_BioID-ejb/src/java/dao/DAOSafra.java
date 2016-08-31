@@ -15,7 +15,8 @@ import java.util.List;
 import org.json.JSONArray;
 import to.TOBase;
 import to.TOSafra;
-import to.TOColheita;
+import to.TOHistoricoColheita;
+import to.TOLogin;
 
 /**
  *
@@ -43,7 +44,7 @@ public class DAOSafra implements DAOBase{
 
     @Override
     public void editar(Connection c, TOBase t) throws Exception {
-        String sql = "UPDATE safra SET qtdconsumida=?, qtdreplatar=?, qtddestinada=?, destino=? WHERE propriedade_idpropriedade = ? and cultivar_idcultivar = ? and safra = ?";
+        String sql = "UPDATE safra SET qtdcolhida=?, ultimadatacolheita=? WHERE idsafra = ?";
 
         
         TOSafra to = (TOSafra)t;
@@ -51,9 +52,9 @@ public class DAOSafra implements DAOBase{
         List<Object> p = new ArrayList<Object>();
         
 
-        p.add(to.getPropriedade_idpropriedade());
-        p.add(to.getCultivar_idcultivar());
-        p.add(to.getSafra());
+        p.add(to.getQtdcolhida());
+        p.add(to.getUltimadatacolheita());
+        p.add(to.getIdsafra());
         
         
         //passa por parametros a conexao e a lista de objetos da insercao de um novo produto        
@@ -101,7 +102,7 @@ public class DAOSafra implements DAOBase{
         JSONArray  ja = new JSONArray();
         
         String sql = "SELECT s.idsafra, s.propriedade_idpropriedade, s.cultivar_idcultivar, s.safra, s.datareceb, s.qtdrecebida,"
-                + " um.grandeza as grandeza_safra, c.nomecultivar, pr.nomepropriedade, c.tempodecolheita, c.tempodestinacao FROM login l"
+                + " um.grandeza as grandeza_recebida, c.nomecultivar, pr.nomepropriedade, c.tempodecolheita, c.tempodestinacao, s.qtdcolhida, s.ultimadatacolheita FROM login l"
                 + " INNER JOIN pessoa p ON( p.idpessoa = l.pessoa_idpessoa) INNER JOIN relacaopa r ON( r.agricultor_pessoa_idpessoa = p.idpessoa)"
                 + " INNER JOIN propriedade pr ON (pr.idpropriedade = r.propriedade_idpropriedade)"
                 + " INNER JOIN safra s ON (s.propriedade_idpropriedade = pr.idpropriedade)"
@@ -116,21 +117,15 @@ public class DAOSafra implements DAOBase{
             //variavel com lista dos parametros
             List<Object> u = new ArrayList<Object>();
             
-            u.add(((TOSafra) t).getUsuario());
+            u.add(((TOLogin) t).getUsuario());
             
             rs = Data.executeQuery(c, sql, u);
             
             while (rs.next()){
                 TOSafra ts = new TOSafra(rs);
-   
-                //verifica quantidade colhida
-                ts.setQtdcolhida(verificaQtdColhida(ts.getIdsafra()));
-                ts.setUm_colhida("kilo(s)");
-                ts.setQtddestinada(verificaQtdDestinada(ts.getIdsafra()));
-                ts.setUm_destinada("kilo(s)");
                 
-                ts.setPrazo_colheita(verificarPrazoColheita(ts.getTempodecolheita(), ts.getDatareceb()));
-                ts.setPrazo_destinacao(verificarPrazoDestinacao(ts.getTempodestinacao(), ts.getDatareceb()));
+                //ts.setPrazo_colheita(verificarPrazoColheita(ts.getTempodecolheita(), ts.getDatareceb()));
+                //ts.setPrazo_destinacao(verificarPrazoDestinacao(ts.getTempodestinacao(), ts.getDatareceb()));
                 
                 ja.put(ts.getJson());
             }
@@ -201,10 +196,10 @@ public class DAOSafra implements DAOBase{
 
     private float verificaQtdColhida(long idsafra) {
         float qtdcolhida = 0f;
-        TOColheita c = new TOColheita();
+        TOHistoricoColheita c = new TOHistoricoColheita();
         c.setSafra_idsafra(idsafra);
         try{    
-            JSONArray ja = BOFactory.listar(new DAOColheita(), c);
+            JSONArray ja = BOFactory.listar(new DAOHistoricoColheita(), c);
             System.out.println(ja);
             qtdcolhida = 350f;
             
@@ -216,7 +211,7 @@ public class DAOSafra implements DAOBase{
 
     private float verificaQtdDestinada(long idsafra) {
         float qtddestinada = 0f;
-        TOColheita c = new TOColheita();
+        TOHistoricoColheita c = new TOHistoricoColheita();
         c.setSafra_idsafra(idsafra);
         try{    
 

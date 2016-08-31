@@ -73,7 +73,7 @@ public class DAOCultivar implements DAOBase {
 
     @Override
     public TOBase get(Connection c, TOBase t) throws Exception {
-        String sql = "SELECT c.idcultivar, um.grandeza, c.nomecultivar, c.imagem, c.descricao, c.biofortificado, c.valornutricional, c.tempodecolheita "
+        String sql = "SELECT c.idcultivar, um.grandeza, c.nomecultivar, c.imagem, c.descricao, c.biofortificado, c.valornutricional, c.tempodecolheita, c.peso_saca "
                 + "FROM cultivar c INNER JOIN unidademedida um ON(um.idunidademedida = c.unidademedida_idunidademedida)"
                 + " where LOWER(c.nomecultivar) = LOWER(?) and biofortificado = ?";
         
@@ -129,7 +129,7 @@ public class DAOCultivar implements DAOBase {
     public JSONArray listar(Connection c, TOBase t) throws Exception {
         JSONArray  ja = new JSONArray();
         
-        String sql = "SELECT DISTINCT c.idcultivar, c.nomecultivar, c.imagem, c.descricao, c.biofortificado, um.grandeza, c.valornutricional, c.tempodecolheita FROM login l "
+        String sql = "SELECT DISTINCT c.idcultivar, c.nomecultivar, c.imagem, c.descricao, c.biofortificado, um.grandeza, c.valornutricional, c.tempodecolheita, c.peso_saca FROM login l "
                 + "INNER JOIN pessoa p ON( p.idpessoa = l.pessoa_idpessoa) "
                 + "INNER JOIN relacaopa r ON( r.agricultor_pessoa_idpessoa = p.idpessoa) "
                 + "INNER JOIN propriedade pr ON (pr.idpropriedade = r.propriedade_idpropriedade) "

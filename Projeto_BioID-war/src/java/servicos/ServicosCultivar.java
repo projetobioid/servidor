@@ -10,7 +10,7 @@ import dao.DAOCultivar;
 import dao.DAOPropriedade;
 import dao.DAOSafra;
 import dao.DAODestinacao;
-import dao.DAOColheita;
+import dao.DAOHistoricoColheita;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
@@ -25,8 +25,9 @@ import org.json.JSONObject;
 import to.TOCultivar;
 import to.TOPropriedade;
 import to.TOSafra;
-import to.TOColheita;
+import to.TOHistoricoColheita;
 import to.TODestinacao;
+import to.TOLogin;
 
 /**
  * REST Web Service
@@ -272,7 +273,7 @@ public class ServicosCultivar {
         
         try{          
             
-            TOSafra t = new TOSafra();
+            TOLogin t = new TOLogin();
             t.setUsuario(usuario);
             JSONArray ja = BOFactory.listar(new DAOSafra(), t);
             
@@ -280,17 +281,9 @@ public class ServicosCultivar {
             tc.setUsuario(usuario);
             JSONArray jc = BOFactory.listar(new DAOCultivar(), tc);
             
-            ///
-            TOColheita c = new TOColheita();
-            c.setSafra_idsafra(t.getIdsafra());
-            JSONArray jco = BOFactory.listar(new DAOColheita(), c);
-            ///
-            
-            
             if(ja.length() > 0){
-                j.put("data", ja);
+                j.put("cultivaresrecebidos", ja);
                 j.put("cultivares", jc);
-                j.put("colheita", jco);
                 j.put("sucesso", true);
             }else{
                 j.put("sucesso", false);
@@ -305,47 +298,29 @@ public class ServicosCultivar {
     }
     
      //metodo que relata os cultivares recebido
-    @Path("relatar")
+    @Path("relatarcolheita")
     @POST
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.APPLICATION_JSON)
     public String relatar(
-            @FormParam("safra_idsafra") long safra_idsafra,
-            @FormParam("umsafra") int umsafra,
-            @FormParam("datacolheita") String datacolheita,
-            @FormParam("qtdcolhida") float qtdcolhida,
-            
-            //tabela destinacao
-            @FormParam("qtddestinada") float qtddestinada,
-            @FormParam("umdestinacao") int umdestinacao,
-            @FormParam("datadestinacao") String datadestinacao,
-            @FormParam("destino") int destino
+            @FormParam("idsafra") long idsafra,
+            @FormParam("ultimadatacolheita") String ultimadatacolheita,
+            @FormParam("qtdcolhida") float qtdcolhida
             
             ) throws Exception {
         
         JSONObject j = new JSONObject();
         
         try{    
-            //tabela safra relatada
-            TOColheita ts = new TOColheita();
+                
+            TOSafra ts = new TOSafra();
             
-            ts.setSafra_idsafra(safra_idsafra);
-            ts.setUnidademedida_idunidademedida(umsafra);
-            ts.setDatacolheita(datacolheita);
+            ts.setIdsafra(idsafra);
+            ts.setUltimadatacolheita(ultimadatacolheita);
             ts.setQtdcolhida(qtdcolhida);
 
             
-            //tabela destinacao
-            TODestinacao td = new TODestinacao();
-            td.setSafrarelatada_idsafrarelatada(BOFactory.inserir(new DAOColheita(), ts));
-            td.setSafrarelatada_safra_idsafra(safra_idsafra);
-            
-            td.setQtddestinada(qtddestinada);
-            td.setUnidademedida_idunidademedida(umdestinacao);
-            td.setDatadestinada(datadestinacao);
-            td.setTipodestinacao_idtipodestinacao(destino);
-            
-            BOFactory.inserir(new DAODestinacao(), td);
+            BOFactory.editar(new DAOSafra(), ts);
             
             j.put("sucesso", true);
             j.put("mensagem", "Cultivar relatado!");

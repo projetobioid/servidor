@@ -26,11 +26,14 @@ public class TOSafra extends TOBase {
     private String datareceb;
     
     private float qtdrecebida;
-     
-    //campos do result set
     
-    private String grandeza_safra;
-
+    private String ultimadatacolheita;
+    
+    private float qtdcolhida;
+    
+    //campo de amostragem
+    private String grandeza_recebida;
+    
     private String nomecultivar;
     
     private String nomepropriedade;
@@ -38,22 +41,6 @@ public class TOSafra extends TOBase {
     private int tempodecolheita;
     
     private int tempodestinacao;
-    
-    //campos de consulta
-    private String usuario;
-    
-    //campos de amostragem 
-    private String prazo_colheita;
-        
-    private float qtdcolhida;
-    
-    private String um_colhida;
-    
-    private String prazo_destinacao;
-    
-    private float qtddestinada;
-    
-    private String um_destinada;
 
     public long getIdsafra() {
         return idsafra;
@@ -111,12 +98,28 @@ public class TOSafra extends TOBase {
         this.qtdrecebida = qtdrecebida;
     }
 
-    public String getGrandeza_safra() {
-        return grandeza_safra;
+    public String getUltimadatacolheita() {
+        return ultimadatacolheita;
     }
 
-    public void setGrandeza_safra(String grandeza_safra) {
-        this.grandeza_safra = grandeza_safra;
+    public void setUltimadatacolheita(String ultimadatacolheita) {
+        this.ultimadatacolheita = ultimadatacolheita;
+    }
+
+    public float getQtdcolhida() {
+        return qtdcolhida;
+    }
+
+    public void setQtdcolhida(float qtdcolhida) {
+        this.qtdcolhida = qtdcolhida;
+    }
+
+    public String getGrandeza_recebida() {
+        return grandeza_recebida;
+    }
+
+    public void setGrandeza_recebida(String grandeza_recebida) {
+        this.grandeza_recebida = grandeza_recebida;
     }
 
     public String getNomecultivar() {
@@ -150,67 +153,12 @@ public class TOSafra extends TOBase {
     public void setTempodestinacao(int tempodestinacao) {
         this.tempodestinacao = tempodestinacao;
     }
-
-    public String getUsuario() {
-        return usuario;
-    }
-
-    public void setUsuario(String usuario) {
-        this.usuario = usuario;
-    }
-
-    public String getPrazo_colheita() {
-        return prazo_colheita;
-    }
-
-    public void setPrazo_colheita(String prazo_colheita) {
-        this.prazo_colheita = prazo_colheita;
-    }
-
-    public float getQtdcolhida() {
-        return qtdcolhida;
-    }
-
-    public void setQtdcolhida(float qtdcolhida) {
-        this.qtdcolhida = qtdcolhida;
-    }
-
-    public String getUm_colhida() {
-        return um_colhida;
-    }
-
-    public void setUm_colhida(String um_colhida) {
-        this.um_colhida = um_colhida;
-    }
-
-    public String getPrazo_destinacao() {
-        return prazo_destinacao;
-    }
-
-    public void setPrazo_destinacao(String prazo_destinacao) {
-        this.prazo_destinacao = prazo_destinacao;
-    }
-
-    public float getQtddestinada() {
-        return qtddestinada;
-    }
-
-    public void setQtddestinada(float qtddestinada) {
-        this.qtddestinada = qtddestinada;
-    }
-
-    public String getUm_destinada() {
-        return um_destinada;
-    }
-
-    public void setUm_destinada(String um_destinada) {
-        this.um_destinada = um_destinada;
-    }
-
+    
+    
     public TOSafra() {
     }
 
-    public TOSafra(long idsafra, long unidademedida_idunidademedida, long propriedade_idpropriedade, long cultivar_idcultivar, String safra, String datareceb, float qtdrecebida, String grandeza_safra, String nomecultivar, String nomepropriedade, int tempodecolheita, int tempodestinacao, String usuario, String prazo_colheita, float qtdcolhida, String um_colhida, String prazo_destinacao, float qtddestinada, String um_destinada) {
+    public TOSafra(long idsafra, long unidademedida_idunidademedida, long propriedade_idpropriedade, long cultivar_idcultivar, String safra, String datareceb, float qtdrecebida, String ultimadatacolheita, float qtdcolhida, String grandeza_recebida, String nomecultivar, String nomepropriedade, int tempodecolheita, int tempodestinacao) {
         this.idsafra = idsafra;
         this.unidademedida_idunidademedida = unidademedida_idunidademedida;
         this.propriedade_idpropriedade = propriedade_idpropriedade;
@@ -218,20 +166,15 @@ public class TOSafra extends TOBase {
         this.safra = safra;
         this.datareceb = datareceb;
         this.qtdrecebida = qtdrecebida;
-        this.grandeza_safra = grandeza_safra;
+        this.ultimadatacolheita = ultimadatacolheita;
+        this.qtdcolhida = qtdcolhida;
+        this.grandeza_recebida = grandeza_recebida;
         this.nomecultivar = nomecultivar;
         this.nomepropriedade = nomepropriedade;
         this.tempodecolheita = tempodecolheita;
         this.tempodestinacao = tempodestinacao;
-        this.usuario = usuario;
-        this.prazo_colheita = prazo_colheita;
-        this.qtdcolhida = qtdcolhida;
-        this.um_colhida = um_colhida;
-        this.prazo_destinacao = prazo_destinacao;
-        this.qtddestinada = qtddestinada;
-        this.um_destinada = um_destinada;
     }
-    
+
     
     public TOSafra(ResultSet rs) throws Exception{
         this.idsafra = rs.getLong("idsafra");
@@ -240,13 +183,14 @@ public class TOSafra extends TOBase {
         this.safra = rs.getString("safra");
         this.datareceb = rs.getString("datareceb");
         this.qtdrecebida = rs.getFloat("qtdrecebida");
-        this.grandeza_safra = rs.getString("grandeza_safra");
+        this.grandeza_recebida = rs.getString("grandeza_recebida");
+        this.ultimadatacolheita = rs.getString("ultimadatacolheita");
+        this.qtdcolhida = rs.getFloat("qtdcolhida");
         this.nomecultivar = rs.getString("nomecultivar");
         this.nomepropriedade = rs.getString("nomepropriedade");
         this.tempodecolheita = rs.getInt("tempodecolheita");
         this.tempodestinacao = rs.getInt("tempodestinacao");
-        //this.qtdcolhida = rs.getFloat("qtdcolhida");
-        //this.qtddestinada = rs.getFloat("qtddestinada");
+
     }
 
     @Override
@@ -261,16 +205,13 @@ public class TOSafra extends TOBase {
         j.put("safra", safra);
         j.put("datareceb", datareceb);
         j.put("qtdrecebida", qtdrecebida);
-        j.put("grandeza_safra", grandeza_safra);
+        j.put("grandeza_recebida", grandeza_recebida);
+        j.put("ultimadatacolheita", ultimadatacolheita);
+        j.put("qtdcolhida", qtdcolhida);
         j.put("nomecultivar", nomecultivar);
         j.put("nomepropriedade", nomepropriedade);
-        j.put("prazo_colheita", prazo_colheita);
-        j.put("prazo_destinacao", prazo_destinacao);
-        
-        j.put("qtdcolhida", qtdcolhida);
-        j.put("um_colhida", um_colhida);
-        j.put("qtddestinada", qtddestinada);
-        j.put("um_destinada", um_destinada);
+        j.put("tempodecolheita", tempodecolheita);
+        j.put("tempodestinacao", tempodestinacao);
         
         return j;
     }

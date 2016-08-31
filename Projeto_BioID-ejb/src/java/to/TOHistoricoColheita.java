@@ -12,7 +12,7 @@ import org.json.JSONObject;
  *
  * @author daniel
  */
-public class TOColheita extends TOBase{
+public class TOHistoricoColheita extends TOBase{
     private long idcolheita;
     
     private long safra_idsafra;
@@ -77,10 +77,10 @@ public class TOColheita extends TOBase{
 
     
 
-    public TOColheita() {
+    public TOHistoricoColheita() {
     }
 
-    public TOColheita(long idcolheita, long safra_idsafra, long unidademedida_idunidademedida, String datacolheita, float qtdcolhida, String um_colhida) {
+    public TOHistoricoColheita(long idcolheita, long safra_idsafra, long unidademedida_idunidademedida, String datacolheita, float qtdcolhida, String um_colhida) {
         this.idcolheita = idcolheita;
         this.safra_idsafra = safra_idsafra;
         this.unidademedida_idunidademedida = unidademedida_idunidademedida;
@@ -90,7 +90,7 @@ public class TOColheita extends TOBase{
     }
     
 
-    public TOColheita(ResultSet rs) throws Exception{
+    public TOHistoricoColheita(ResultSet rs) throws Exception{
         this.idcolheita = rs.getLong("idcolheita");
         this.safra_idsafra = rs.getLong("safra_idsafra");
         this.datacolheita = rs.getString("datacolheita");

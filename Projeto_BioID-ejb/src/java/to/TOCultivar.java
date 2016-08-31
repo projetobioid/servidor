@@ -12,17 +12,17 @@ import org.json.JSONObject;
  */
 
 public class TOCultivar extends TOBase{
-    //id do produto
+    
     private long idcultivar;
-    //nome do produto
+    
     private String nomecultivar;
     
     private String imagem;
-    //descricao do produto
+    
     private String descricao;
-    //tipo do produto se é bio ou não
+    
     private boolean biofortificado;
-    //tipo da distribuicao do cultivar
+    
     private long unidademedida_idunidademedida;
     
     private String grandeza;
@@ -30,6 +30,8 @@ public class TOCultivar extends TOBase{
     private String valornutricional;
     
     private int tempodecolheita;
+    
+    private float peso_saca;
     
     //para pesquisa no banco
     private String usuario;
@@ -115,12 +117,21 @@ public class TOCultivar extends TOBase{
     public void setUsuario(String usuario) {
         this.usuario = usuario;
     }
+
+    public float getPeso_saca() {
+        return peso_saca;
+    }
+
+    public void setPeso_saca(float peso_saca) {
+        this.peso_saca = peso_saca;
+    }
+    
     
     //construtor vazio
     public TOCultivar() {
     }
 
-    public TOCultivar(long idcultivar, String nomecultivar, String imagem, String descricao, boolean biofortificado, long unidademedida_idunidademedida, String grandeza, String valornutricional, int tempodecolheita, String usuario) {
+    public TOCultivar(long idcultivar, String nomecultivar, String imagem, String descricao, boolean biofortificado, long unidademedida_idunidademedida, String grandeza, String valornutricional, int tempodecolheita, float peso_saca, String usuario) {
         this.idcultivar = idcultivar;
         this.nomecultivar = nomecultivar;
         this.imagem = imagem;
@@ -130,8 +141,11 @@ public class TOCultivar extends TOBase{
         this.grandeza = grandeza;
         this.valornutricional = valornutricional;
         this.tempodecolheita = tempodecolheita;
+        this.peso_saca = peso_saca;
         this.usuario = usuario;
     }
+
+    
 
     
     //retorna consulta do banco de dados tipo resultset
@@ -144,6 +158,7 @@ public class TOCultivar extends TOBase{
         this.grandeza = rs.getString("grandeza");
         this.valornutricional = rs.getString("valornutricional");
         this.tempodecolheita = rs.getInt("tempodecolheita");
+        this.peso_saca = rs.getInt("peso_saca");
     }
     //classe sobrescrita de tobase
     @Override
@@ -160,6 +175,7 @@ public class TOCultivar extends TOBase{
         j.put("grandeza", grandeza);
         j.put("valornutricional", valornutricional);
         j.put("tempodecolheita", tempodecolheita);
+        j.put("peso_saca", peso_saca);
         
         return j;
     }
