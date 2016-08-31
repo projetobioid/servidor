@@ -109,7 +109,7 @@ public class TOColheita extends TOBase{
         j.put("safra_idsafra", safra_idsafra);
         j.put("datacolheita", datacolheita);
         j.put("qtdcolhida", qtdcolhida);
-        j.put("um_colhida", um_colhida);
+        j.put("unidademedida_idunidademedida", unidademedida_idunidademedida);
         
         
         return j;

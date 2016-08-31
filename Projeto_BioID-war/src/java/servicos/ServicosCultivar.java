@@ -270,7 +270,7 @@ public class ServicosCultivar {
         JSONObject j = new JSONObject();
         
         
-        try{
+        try{          
             
             TOSafra t = new TOSafra();
             t.setUsuario(usuario);
@@ -280,9 +280,17 @@ public class ServicosCultivar {
             tc.setUsuario(usuario);
             JSONArray jc = BOFactory.listar(new DAOCultivar(), tc);
             
+            ///
+            TOColheita c = new TOColheita();
+            c.setSafra_idsafra(t.getIdsafra());
+            JSONArray jco = BOFactory.listar(new DAOColheita(), c);
+            ///
+            
+            
             if(ja.length() > 0){
                 j.put("data", ja);
                 j.put("cultivares", jc);
+                j.put("colheita", jco);
                 j.put("sucesso", true);
             }else{
                 j.put("sucesso", false);
