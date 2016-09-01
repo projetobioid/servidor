@@ -282,9 +282,10 @@ public class ServicosCultivar {
             JSONArray jc = BOFactory.listar(new DAOCultivar(), tc);
             
             if(ja.length() > 0){
+                j.put("sucesso", true);
                 j.put("cultivaresrecebidos", ja);
                 j.put("cultivares", jc);
-                j.put("sucesso", true);
+                
             }else{
                 j.put("sucesso", false);
                 j.put("mensagem", "Nenhum cultivar recebido");
