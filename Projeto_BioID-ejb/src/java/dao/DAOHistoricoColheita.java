@@ -21,7 +21,7 @@ public class DAOHistoricoColheita implements DAOBase{
 
     @Override
     public long inserir(Connection c, TOBase t) throws Exception {
-        String sql = "INSERT INTO safrarelatada(safra_idsafra, unidademedida_idunidademedida, datacolheita, qtdcolhida) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO historicocolheita(safra_idsafra, datacolheita, qtdcolhida) VALUES ( ?, ?, ?)";
         
         TOHistoricoColheita to = (TOHistoricoColheita)t;
         
@@ -29,7 +29,6 @@ public class DAOHistoricoColheita implements DAOBase{
         
         
         p.add(to.getSafra_idsafra());
-        p.add(to.getUnidademedida_idunidademedida());
         p.add(to.getDatacolheita());
         p.add(to.getQtdcolhida());
         
@@ -84,7 +83,30 @@ public class DAOHistoricoColheita implements DAOBase{
 
     @Override
     public TOBase get(Connection c, TOBase t) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+         //string com o comando sql para editar o banco de dados
+        String sql = "SELECT SUM(qtdcolhida) AS somaqtdcolhida FROM historicocolheita WHERE safra_idsafra IN(?)";
+        
+        ResultSet rs = null;
+        
+        try{
+            //variavel sendo convertida para toUsuarios
+            TOHistoricoColheita to = (TOHistoricoColheita)t;
+            //variavel com lista dos parametros
+            List<Object> u = new ArrayList<Object>();
+            
+            u.add(to.getSafra_idsafra());
+            
+            rs = Data.executeQuery(c, sql, u);
+            
+            
+            if(rs.next()){
+                return new TOHistoricoColheita(rs);
+            }else{
+                return null;
+            }
+        }finally{
+            rs.close();
+        }
     }
 
     @Override

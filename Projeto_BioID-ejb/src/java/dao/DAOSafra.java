@@ -26,11 +26,13 @@ public class DAOSafra implements DAOBase{
 
     @Override
     public long inserir(Connection c, TOBase t) throws Exception {
-        String sql = "INSERT INTO safra(unidademedida_idunidademedida, propriedade_idpropriedade, cultivar_idcultivar, safra, datareceb, qtdrecebida) VALUES (?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO safra(statussafra_idstatussafra, unidademedida_idunidademedida, propriedade_idpropriedade, cultivar_idcultivar, safra,"
+                + " datareceb, qtdrecebida) VALUES (?, ?, ?, ?, ?, ?, ?)";
         
         TOSafra to = (TOSafra)t;
         List<Object> p = new ArrayList<Object>();
 
+        p.add(to.getStatussafra_idstatussafra());
         p.add(to.getUnidademedida_idunidademedida());
         p.add(to.getPropriedade_idpropriedade());
         p.add(to.getCultivar_idcultivar());
@@ -44,7 +46,7 @@ public class DAOSafra implements DAOBase{
 
     @Override
     public void editar(Connection c, TOBase t) throws Exception {
-        String sql = "UPDATE safra SET qtdcolhida=?, ultimadatacolheita=? WHERE idsafra = ?";
+        String sql = "UPDATE safra SET qtdcolhida=?, ultimadatacolheita=?, statussafra_idstatussafra=? WHERE idsafra = ?";
 
         
         TOSafra to = (TOSafra)t;
@@ -54,6 +56,7 @@ public class DAOSafra implements DAOBase{
 
         p.add(to.getQtdcolhida());
         p.add(to.getUltimadatacolheita());
+        p.add(to.getStatussafra_idstatussafra());
         p.add(to.getIdsafra());
         
         
@@ -69,13 +72,13 @@ public class DAOSafra implements DAOBase{
 
     @Override
     public TOBase get(Connection c, TOBase t) throws Exception {
-        String sql = "select * from safra where LOWER(safra) = LOWER(?)";
+        String sql = "select * from safra where idsafra IN(?)";
         
         ResultSet rs = null;
         
         try{
             TOSafra to = (TOSafra)t;
-            rs = Data.executeQuery(c, sql, to.getSafra());
+            rs = Data.executeQuery(c, sql, to.getIdsafra());
             
             if(rs.next()){
                 return new TOSafra(rs);
@@ -101,7 +104,7 @@ public class DAOSafra implements DAOBase{
     public JSONArray listar(Connection c, TOBase t) throws Exception {
         JSONArray  ja = new JSONArray();
         
-        String sql = "SELECT s.idsafra, s.propriedade_idpropriedade, s.cultivar_idcultivar, s.safra, s.datareceb, s.qtdrecebida,"
+        String sql = "SELECT s.idsafra, s.statussafra_idstatussafra, s.propriedade_idpropriedade, s.cultivar_idcultivar, s.safra, s.datareceb, s.qtdrecebida,"
                 + " um.grandeza as grandeza_recebida, c.nomecultivar, pr.nomepropriedade, c.tempodecolheita, c.tempodestinacao, s.qtdcolhida, s.ultimadatacolheita FROM login l"
                 + " INNER JOIN pessoa p ON( p.idpessoa = l.pessoa_idpessoa) INNER JOIN relacaopa r ON( r.agricultor_pessoa_idpessoa = p.idpessoa)"
                 + " INNER JOIN propriedade pr ON (pr.idpropriedade = r.propriedade_idpropriedade)"
@@ -109,9 +112,7 @@ public class DAOSafra implements DAOBase{
                 + " INNER JOIN cultivar c ON (c.idcultivar = s.cultivar_idcultivar)"
                 + " INNER JOIN unidademedida um ON(um.idunidademedida = s.unidademedida_idunidademedida)"
                 + " INNER JOIN unidademedida umc ON(umc.idunidademedida = c.unidademedida_idunidademedida) where l.usuario = ?";
-           
-        
-        
+  
         ResultSet rs = null;
         try{
             //variavel com lista dos parametros
@@ -122,10 +123,35 @@ public class DAOSafra implements DAOBase{
             rs = Data.executeQuery(c, sql, u);
             
             while (rs.next()){
-                TOSafra ts = new TOSafra(rs);
+                TOSafra ts = new TOSafra().retornoLista(rs);
+
+                switch ((int)ts.getStatussafra_idstatussafra()) {
+                    case 1:
+                        ts.setPrazo_colheita(verificarPrazoColheita(ts.getTempodecolheita(), ts.getDatareceb()));
+                        ts.setPrazo_destinacao(verificarPrazoDestinacao(ts.getTempodestinacao(), ts.getDatareceb()));
+                        break;
+                    case 2:
+                        ts.setPrazo_colheita("Colheita relatada");
+                        ts.setPrazo_destinacao("Destinação relatada");
+                        break;
+                    case 3:
+                        ts.setPrazo_colheita("Colheita expirada");
+                        ts.setPrazo_destinacao("Destinação expirada");
+                        break;
+                    case 4:
+                        ts.setPrazo_colheita("Colheita relatada");
+                        ts.setPrazo_destinacao(verificarPrazoDestinacao(ts.getTempodestinacao(), ts.getDatareceb()));
+                        break;
+                    case 5:
+                        ts.setPrazo_colheita("Colheita relatada");
+                        ts.setPrazo_destinacao("Destinação expirada");
+                        break;
+                    default:
+                        ts.setPrazo_colheita("Erro!");
+                        ts.setPrazo_destinacao("Erro!");
+                        break;
+                }
                 
-                //ts.setPrazo_colheita(verificarPrazoColheita(ts.getTempodecolheita(), ts.getDatareceb()));
-                //ts.setPrazo_destinacao(verificarPrazoDestinacao(ts.getTempodestinacao(), ts.getDatareceb()));
                 
                 ja.put(ts.getJson());
             }
@@ -154,7 +180,7 @@ public class DAOSafra implements DAOBase{
 
 
             if(datarecebimento.getTimeInMillis() < diaAtual.getTimeInMillis()){
-                teste = "expirada";
+                teste = "Colheita expirada";
             }else{
 
                 datarecebimento.add(Calendar.DATE, - diaAtual.get(Calendar.DAY_OF_MONTH));
@@ -182,7 +208,7 @@ public class DAOSafra implements DAOBase{
                 
                 
                 if(datarecebimento.getTimeInMillis() < diaAtual.getTimeInMillis()){
-                    teste = "expirada";
+                    teste = "Destinação expirada";
                 }else{
                     
                     datarecebimento.add(Calendar.DATE, - diaAtual.get(Calendar.DAY_OF_MONTH));
@@ -194,35 +220,6 @@ public class DAOSafra implements DAOBase{
         return teste;  
     }
 
-    private float verificaQtdColhida(long idsafra) {
-        float qtdcolhida = 0f;
-        TOHistoricoColheita c = new TOHistoricoColheita();
-        c.setSafra_idsafra(idsafra);
-        try{    
-            JSONArray ja = BOFactory.listar(new DAOHistoricoColheita(), c);
-            System.out.println(ja);
-            qtdcolhida = 350f;
-            
-        }catch(Exception e){
-            
-        }
-        return qtdcolhida;
-    }
-
-    private float verificaQtdDestinada(long idsafra) {
-        float qtddestinada = 0f;
-        TOHistoricoColheita c = new TOHistoricoColheita();
-        c.setSafra_idsafra(idsafra);
-        try{    
-
-          
-            qtddestinada = 250f;
-            
-        }catch(Exception e){
-            
-        }
-        return qtddestinada;
-    }
 
 }
 

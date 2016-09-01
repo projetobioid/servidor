@@ -20,17 +20,14 @@ public class DAODestinacao implements DAOBase{
 
     @Override
     public long inserir(Connection c, TOBase t) throws Exception {
-        String sql = "INSERT INTO destinacao(safrarelatada_safra_idsafra, safrarelatada_idsafrarelatada, unidademedida_idunidademedida, tipodestinacao_idtipodestinacao, datadestinada, qtddestinada) "
-                + "VALUES (?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO destinacao(safra_idsafra, tipodestinacao_idtipodestinacao, datadestinada, qtddestinada) VALUES (?, ?, ?, ?)";
         
         TODestinacao to = (TODestinacao)t;
         
         List<Object> p = new ArrayList<Object>();
         
         
-        p.add(to.getSafrarelatada_safra_idsafra());
-        p.add(to.getSafrarelatada_idsafrarelatada());
-        p.add(to.getUnidademedida_idunidademedida());
+        p.add(to.getSafra_idsafra());
         p.add(to.getTipodestinacao_idtipodestinacao());
         p.add(to.getDatadestinada());
         p.add(to.getQtddestinada());

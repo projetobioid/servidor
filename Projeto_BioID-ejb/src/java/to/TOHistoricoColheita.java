@@ -13,26 +13,22 @@ import org.json.JSONObject;
  * @author daniel
  */
 public class TOHistoricoColheita extends TOBase{
-    private long idcolheita;
+    private long idhistoricocolheita;
     
     private long safra_idsafra;
-    
-    private long unidademedida_idunidademedida;
     
     private String datacolheita;
     
     private float qtdcolhida;
     
-    //dados de amostragem
-    private String um_colhida;
-    
+    private float somaqtdcolhida;
 
-    public long getIdcolheita() {
-        return idcolheita;
+    public long getIdhistoricocolheita() {
+        return idhistoricocolheita;
     }
 
-    public void setIdcolheita(long idcolheita) {
-        this.idcolheita = idcolheita;
+    public void setIdhistoricocolheita(long idhistoricocolheita) {
+        this.idhistoricocolheita = idhistoricocolheita;
     }
 
     public long getSafra_idsafra() {
@@ -41,14 +37,6 @@ public class TOHistoricoColheita extends TOBase{
 
     public void setSafra_idsafra(long safra_idsafra) {
         this.safra_idsafra = safra_idsafra;
-    }
-
-    public long getUnidademedida_idunidademedida() {
-        return unidademedida_idunidademedida;
-    }
-
-    public void setUnidademedida_idunidademedida(long unidademedida_idunidademedida) {
-        this.unidademedida_idunidademedida = unidademedida_idunidademedida;
     }
 
     public String getDatacolheita() {
@@ -67,37 +55,39 @@ public class TOHistoricoColheita extends TOBase{
         this.qtdcolhida = qtdcolhida;
     }
 
-    public String getUm_colhida() {
-        return um_colhida;
+    public float getSomaqtdcolhida() {
+        return somaqtdcolhida;
     }
 
-    public void setUm_colhida(String um_colhida) {
-        this.um_colhida = um_colhida;
+    public void setSomaqtdcolhida(float somaqtdcolhida) {
+        this.somaqtdcolhida = somaqtdcolhida;
     }
 
-    
+        
 
     public TOHistoricoColheita() {
     }
 
-    public TOHistoricoColheita(long idcolheita, long safra_idsafra, long unidademedida_idunidademedida, String datacolheita, float qtdcolhida, String um_colhida) {
-        this.idcolheita = idcolheita;
+    public TOHistoricoColheita(long idhistoricocolheita, long safra_idsafra, String datacolheita, float qtdcolhida, float somaqtdcolhida) {
+        this.idhistoricocolheita = idhistoricocolheita;
         this.safra_idsafra = safra_idsafra;
-        this.unidademedida_idunidademedida = unidademedida_idunidademedida;
         this.datacolheita = datacolheita;
         this.qtdcolhida = qtdcolhida;
-        this.um_colhida = um_colhida;
+        this.somaqtdcolhida = somaqtdcolhida;
     }
-    
+
+ 
+
 
     public TOHistoricoColheita(ResultSet rs) throws Exception{
-        this.idcolheita = rs.getLong("idcolheita");
-        this.safra_idsafra = rs.getLong("safra_idsafra");
-        this.datacolheita = rs.getString("datacolheita");
-        this.qtdcolhida = rs.getFloat("qtdcolhida");
-        this.unidademedida_idunidademedida = rs.getLong("unidademedida_idunidademedida");
+        //this.idhistoricocolheita = rs.getLong("idhistoricocolheita");
+        //this.safra_idsafra = rs.getLong("safra_idsafra");
+        //this.datacolheita = rs.getString("datacolheita");
+        //this.qtdcolhida = rs.getFloat("qtdcolhida");
+        this.somaqtdcolhida = rs.getFloat("somaqtdcolhida");
 
     }
+
 
     @Override
     public JSONObject getJson() throws Exception {
@@ -105,11 +95,11 @@ public class TOHistoricoColheita extends TOBase{
         JSONObject j = new JSONObject();
         
         //populando o objeto j
-        j.put("idcolheita", idcolheita);
+        j.put("idhistoricocolheita", idhistoricocolheita);
         j.put("safra_idsafra", safra_idsafra);
         j.put("datacolheita", datacolheita);
         j.put("qtdcolhida", qtdcolhida);
-        j.put("unidademedida_idunidademedida", unidademedida_idunidademedida);
+        j.put("somaqtdcolhida", somaqtdcolhida);
         
         
         return j;

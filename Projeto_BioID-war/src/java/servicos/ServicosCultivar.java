@@ -228,7 +228,7 @@ public class ServicosCultivar {
             if(tpr != null){
                 if(tc != null){
                     TOSafra ts = new TOSafra();
-                    
+                    ts.setStatussafra_idstatussafra(1);
                     ts.setUnidademedida_idunidademedida(unidademedida_idunidademedida);
                     ts.setPropriedade_idpropriedade(tpr.getIdpropriedade());
                     ts.setCultivar_idcultivar(tc.getIdcultivar());
@@ -297,33 +297,92 @@ public class ServicosCultivar {
         return j.toString();
     }
     
-     //metodo que relata os cultivares recebido
+    //metodo que relata a colheita da safra
     @Path("relatarcolheita")
     @POST
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.APPLICATION_JSON)
-    public String relatar(
+    public String relatarcolheita(
             @FormParam("idsafra") long idsafra,
             @FormParam("ultimadatacolheita") String ultimadatacolheita,
-            @FormParam("qtdcolhida") float qtdcolhida
+            @FormParam("qtdcolhida") float qtdcolhida,
+            @FormParam("statussafra_idstatussafra") long statussafra_idstatussafra
+            
             
             ) throws Exception {
         
         JSONObject j = new JSONObject();
         
-        try{    
-                
-            TOSafra ts = new TOSafra();
+        try{
+            //cria um historico da nova colheita
+            TOHistoricoColheita th = new TOHistoricoColheita();
+            th.setSafra_idsafra(idsafra);
+            th.setDatacolheita(ultimadatacolheita);
+            th.setQtdcolhida(qtdcolhida);
+            BOFactory.inserir(new DAOHistoricoColheita(), th);
             
+            //tras o valor da soma das colheitas
+            th = (TOHistoricoColheita) BOFactory.get(new DAOHistoricoColheita(), th);
+            
+            //atualiza a tabela safra
+            TOSafra ts = new TOSafra();
             ts.setIdsafra(idsafra);
             ts.setUltimadatacolheita(ultimadatacolheita);
-            ts.setQtdcolhida(qtdcolhida);
-
-            
+            ts.setQtdcolhida(th.getSomaqtdcolhida());
+            ts.setStatussafra_idstatussafra(statussafra_idstatussafra);
             BOFactory.editar(new DAOSafra(), ts);
             
             j.put("sucesso", true);
-            j.put("mensagem", "Cultivar relatado!");
+            j.put("mensagem", "Colheita relatada!");
+            
+        }catch(Exception e){
+            j.put("sucesso", false);
+            j.put("mensagem", e.getMessage());
+        }
+        
+        
+        return j.toString();
+    }
+    
+    //metodo que relata a colheita da safra
+    @Path("relatardestinacao")
+    @POST
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @Produces(MediaType.APPLICATION_JSON)
+    public String relatardestinacao(
+            @FormParam("idsafra") long idsafra,
+            @FormParam("tipodestinacao_idtipodestinacao") long tipodestinacao_idtipodestinacao,
+            @FormParam("datadestinada") String datadestinada,
+            @FormParam("qtddestinada") float qtddestinada,
+            @FormParam("statussafra_idstatussafra") long statussafra_idstatussafra
+            
+   
+            ) throws Exception {
+        
+        JSONObject j = new JSONObject();
+        
+        try{
+            //cria um historico da nova colheita
+            TODestinacao td = new TODestinacao();
+            td.setSafra_idsafra(idsafra);
+            td.setTipodestinacao_idtipodestinacao(tipodestinacao_idtipodestinacao);
+            td.setDatadestinada(datadestinada);
+            td.setQtddestinada(qtddestinada);
+            
+            BOFactory.inserir(new DAODestinacao(), td);
+            
+            //atualiza o status da safra
+            TOSafra ts = new TOSafra();
+            
+            ts.setIdsafra(idsafra);
+            //tras o valor da soma das colheitas
+            ts = (TOSafra) BOFactory.get(new DAOSafra(), ts);
+            
+            ts.setStatussafra_idstatussafra(statussafra_idstatussafra);
+            BOFactory.editar(new DAOSafra(), ts);
+            
+            j.put("sucesso", true);
+            j.put("mensagem", "Destinacao relatada!");
             
         }catch(Exception e){
             j.put("sucesso", false);
