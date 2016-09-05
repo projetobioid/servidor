@@ -272,11 +272,12 @@ public class ServicosCultivar {
         
         
         try{          
-            
+            //lista os cultivares recebidos
             TOLogin t = new TOLogin();
             t.setUsuario(usuario);
             JSONArray ja = BOFactory.listar(new DAOSafra(), t);
             
+            //lista os dados cultivares
             TOCultivar tc = new TOCultivar();
             tc.setUsuario(usuario);
             JSONArray jc = BOFactory.listar(new DAOCultivar(), tc);

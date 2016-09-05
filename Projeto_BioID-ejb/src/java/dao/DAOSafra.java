@@ -128,23 +128,26 @@ public class DAOSafra implements DAOBase{
 
                 switch ((int)ts.getStatussafra_idstatussafra()) {
                     case 1:
+                    case 2:
+                    case 3:
                         ts.setPrazo_colheita(verificarPrazoColheita(ts));
                         ts.setPrazo_destinacao(verificarPrazoDestinacao(ts));
                         break;
-                    case 2:
-                        ts.setPrazo_colheita("Colheita relatada");
-                        ts.setPrazo_destinacao("Destinação relatada");
-                        break;
-                    case 3:
-                        ts.setPrazo_colheita("Colheita expirada");
-                        ts.setPrazo_destinacao("Destinação expirada");
-                        break;
                     case 4:
+                    case 5:
                         ts.setPrazo_colheita("Colheita relatada");
                         ts.setPrazo_destinacao(verificarPrazoDestinacao(ts));
                         break;
-                    case 5:
+                    case 6:
                         ts.setPrazo_colheita("Colheita relatada");
+                        ts.setPrazo_destinacao("Destinação relatada");
+                        break;
+                    case 7:
+                        ts.setPrazo_colheita("Colheita relatada");
+                        ts.setPrazo_destinacao("Destinação expirada");
+                        break;
+                    case 8:
+                        ts.setPrazo_colheita("Colheita expirada");
                         ts.setPrazo_destinacao("Destinação expirada");
                         break;
                     
@@ -159,46 +162,6 @@ public class DAOSafra implements DAOBase{
             rs.close();
         }
         return ja;
-    }
-
-
-    private String verificarPrazoDestinacao(TOSafra ts) {
-        String teste = null;
-
-        try{
-            SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
-        
-            Calendar datarecebimento = Calendar.getInstance();
-            Calendar diaAtual = Calendar.getInstance();
-
-            datarecebimento.setTime(format.parse(ts.getDatareceb()));
-
-            datarecebimento.add(Calendar.DATE, +ts.getTempodestinacao());
-
-
-
-            if(datarecebimento.getTimeInMillis() < diaAtual.getTimeInMillis()){
-                teste = "Destinação expirada";
-                //atualiza o status da safra
-                ts.setIdsafra(ts.getIdsafra());
-                        
-                if(ts.getStatussafra_idstatussafra() == 3){
-                    teste = "Destinação expirada";
-                }else{
-                    ts.setStatussafra_idstatussafra(3);
-                }
-                BOFactory.editar(new DAOSafra(), ts);
-                ////
-            }else{
-
-                datarecebimento.add(Calendar.DATE, - diaAtual.get(Calendar.DAY_OF_MONTH));
-                teste = datarecebimento.get(Calendar.DAY_OF_MONTH) +" dia(s) para relatadar"; 
-            }
-        }catch(Exception e){
-            teste = "Erro em verificar a safra destinacao - "+ e;
-        
-        }
-        return teste;
     }
 
     private String verificarPrazoColheita(TOSafra ts) {
@@ -218,14 +181,20 @@ public class DAOSafra implements DAOBase{
                 if(datarecebimento.getTimeInMillis() < diaAtual.getTimeInMillis()){
                     teste = "Colheita expirada";
                     //atualiza o status da safra
-                    ts.setIdsafra(ts.getIdsafra());
-                    ts.setStatussafra_idstatussafra(4);
+                    if(ts.getStatussafra_idstatussafra() == 1){
+                        ts.setStatussafra_idstatussafra(8);  
+                    }else if(ts.getStatussafra_idstatussafra() == 2){
+                        ts.setStatussafra_idstatussafra(4);
+                    }else if(ts.getStatussafra_idstatussafra() == 3){
+                        ts.setStatussafra_idstatussafra(5);
+                    }
+
                     BOFactory.editar(new DAOSafra(), ts);
-                    ////
+                   
                 }else{
 
                     datarecebimento.add(Calendar.DATE, - diaAtual.get(Calendar.DAY_OF_MONTH));
-                    teste = datarecebimento.get(Calendar.DAY_OF_MONTH) +" dia(s) para relatadar"; 
+                    teste = datarecebimento.get(Calendar.DAY_OF_MONTH) +" dia(s) para relatar"; 
                 }
         }catch(Exception e){
             teste = "Erro em verificar a safra colheita - "+ e;
@@ -234,6 +203,43 @@ public class DAOSafra implements DAOBase{
         return teste;  
     }
 
+    private String verificarPrazoDestinacao(TOSafra ts) {
+        String teste = null;
+
+        try{
+            SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+        
+            Calendar datarecebimento = Calendar.getInstance();
+            Calendar diaAtual = Calendar.getInstance();
+
+            datarecebimento.setTime(format.parse(ts.getDatareceb()));
+
+            datarecebimento.add(Calendar.DATE, +ts.getTempodestinacao());
+
+
+
+            if(datarecebimento.getTimeInMillis() < diaAtual.getTimeInMillis()){
+                teste = "Destinação expirada";
+                //atualiza o status da safra
+                        
+                if(ts.getStatussafra_idstatussafra() == 4){
+                    ts.setStatussafra_idstatussafra(7);
+                }else if(ts.getStatussafra_idstatussafra() == 5){
+                    ts.setStatussafra_idstatussafra(6);
+                }
+                BOFactory.editar(new DAOSafra(), ts);
+                ////
+            }else{
+
+                datarecebimento.add(Calendar.DATE, - diaAtual.get(Calendar.DAY_OF_MONTH));
+                teste = datarecebimento.get(Calendar.DAY_OF_MONTH) +" dia(s) para relatar"; 
+            }
+        }catch(Exception e){
+            teste = "Erro em verificar a safra destinacao - "+ e;
+        
+        }
+        return teste;
+    }
 
 }
 

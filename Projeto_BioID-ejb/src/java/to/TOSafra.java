@@ -261,7 +261,7 @@ public class TOSafra extends TOBase {
 
         //populando o objeto j
         j.put("idsafra", idsafra);
-        //j.put("statussafra_idstatussafra", statussafra_idstatussafra);
+        j.put("statussafra_idstatussafra", statussafra_idstatussafra);
         j.put("propriedade_idpropriedade", propriedade_idpropriedade);
         j.put("safra", safra);
         j.put("datareceb", datareceb);
