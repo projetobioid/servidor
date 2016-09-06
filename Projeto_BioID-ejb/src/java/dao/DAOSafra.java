@@ -15,7 +15,6 @@ import java.util.List;
 import org.json.JSONArray;
 import to.TOBase;
 import to.TOSafra;
-import to.TOHistoricoColheita;
 import to.TOLogin;
 
 /**
@@ -96,15 +95,17 @@ public class DAOSafra implements DAOBase{
     }
 
     @Override
-    public TOBase getLogin(Connection c, TOBase t) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
     public JSONArray listar(Connection c, TOBase t) throws Exception {
         JSONArray  ja = new JSONArray();
-        
-        String sql = "SELECT s.idsafra, s.statussafra_idstatussafra, s.propriedade_idpropriedade, s.safra, s.datareceb, s.qtdrecebida,"
+  
+        ResultSet rs = null;
+        try{
+            //variavel com lista dos parametros
+            List<Object> u = new ArrayList<Object>();
+            
+           
+            
+             String sql = "SELECT s.idsafra, s.statussafra_idstatussafra, s.propriedade_idpropriedade, s.safra, s.datareceb, s.qtdrecebida,"
                 + " (select SUM(d.qtddestinada) AS qtddestinada FROM destinacao d WHERE d.safra_idsafra IN(s.idsafra)),"
                 + " um.grandeza as grandeza_recebida, s.qtdcolhida, c.nomecultivar, pr.nomepropriedade, c.tempodecolheita, c.tempodestinacao FROM login l"
                 + " INNER JOIN pessoa p ON( p.idpessoa = l.pessoa_idpessoa)"
@@ -112,19 +113,14 @@ public class DAOSafra implements DAOBase{
                 + " INNER JOIN propriedade pr ON (pr.idpropriedade = r.propriedade_idpropriedade)"
                 + " INNER JOIN safra s ON (s.propriedade_idpropriedade = pr.idpropriedade)"
                 + " INNER JOIN cultivar c ON (c.idcultivar = s.cultivar_idcultivar)"
-                + " INNER JOIN unidademedida um ON(um.idunidademedida = s.unidademedida_idunidademedida) where l.usuario IN(?)";
-  
-        ResultSet rs = null;
-        try{
-            //variavel com lista dos parametros
-            List<Object> u = new ArrayList<Object>();
-            
+                + " INNER JOIN unidademedida um ON(um.idunidademedida = s.unidademedida_idunidademedida) where l.usuario IN(?) ORDER BY s.safra";
+             
             u.add(((TOLogin) t).getUsuario());
             
             rs = Data.executeQuery(c, sql, u);
             
             while (rs.next()){
-                TOSafra ts = new TOSafra().retornoLista(rs);
+                TOSafra ts = new TOSafra(rs);
 
                 switch ((int)ts.getStatussafra_idstatussafra()) {
                     case 1:
@@ -241,6 +237,7 @@ public class DAOSafra implements DAOBase{
         return teste;
     }
 
+    
 }
 
 

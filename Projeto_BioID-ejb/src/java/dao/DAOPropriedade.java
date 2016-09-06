@@ -100,7 +100,7 @@ public class DAOPropriedade implements DAOBase{
             rs = Data.executeQuery(c, sql, u);
             
             while (rs.next()){
-                TOSafra ts = new TOSafra(rs);
+                TOPropriedade ts = new TOPropriedade(rs);
                 ja.put(ts.getJson());
             }
         }finally{
@@ -111,29 +111,20 @@ public class DAOPropriedade implements DAOBase{
     }
 
     @Override
-    public TOBase getLogin(Connection c, TOBase t) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
     public JSONArray listar(Connection c, TOBase t) throws Exception {
         JSONArray  ja = new JSONArray();
-        
-        /*String sql = "SELECT nomepropriedade FROM login INNER JOIN pessoa "
-                + "ON( idpessoa = pessoa_idpessoa) INNER JOIN relacaopa "
-                + "ON( agricultor_pessoa_idpessoa = idpessoa) INNER JOIN propriedade "
-                + "ON (idpropriedade = propriedade_idpropriedade)where usuario = ?";
-        */
-        String sql = "SELECT p.idpropriedade, p.endereco_idendereco, p.unidade_idunidade, p.nomepropriedade,"
-                + " p.area, p.unidadedemedida, p.areautilizavel, p.unidadedemedidaau FROM propriedade p INNER "
-                + "JOIN relacaopa ON( propriedade_idpropriedade = idpropriedade) "
-                + "INNER JOIN pessoa ON( idpessoa = agricultor_pessoa_idpessoa)"
-                + "INNER JOIN login l ON( l.pessoa_idpessoa = idpessoa) where l.usuario = ?";
+
         ResultSet rs = null;
         
         try{
             //variavel com lista dos parametros
             List<Object> u = new ArrayList<Object>();
+            
+            String sql = "SELECT p.idpropriedade, p.endereco_idendereco, p.unidade_idunidade, p.nomepropriedade,"
+                + " p.area, p.unidadedemedida, p.areautilizavel, p.unidadedemedidaau FROM propriedade p INNER "
+                + "JOIN relacaopa ON( propriedade_idpropriedade = idpropriedade) "
+                + "INNER JOIN pessoa ON( idpessoa = agricultor_pessoa_idpessoa)"
+                + "INNER JOIN login l ON( l.pessoa_idpessoa = idpessoa) where l.usuario = ?";
             
             u.add(((TOPropriedade) t).getUsuario());
             
@@ -146,7 +137,6 @@ public class DAOPropriedade implements DAOBase{
         }finally{
             rs.close();
         }
-        return ja;}
-
-    
+        return ja;
+    }
 }

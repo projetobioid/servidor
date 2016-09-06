@@ -221,7 +221,7 @@ public class TOSafra extends TOBase {
         this.qtddestinada = qtddestinada;
     }
 
-     public TOSafra(ResultSet rs) throws Exception{
+    /* public TOSafra(ResultSet rs) throws Exception{
         this.idsafra = rs.getLong("idsafra");
         this.statussafra_idstatussafra = rs.getLong("statussafra_idstatussafra");   
         this.unidademedida_idunidademedida = rs.getLong("unidademedida_idunidademedida");   
@@ -234,9 +234,9 @@ public class TOSafra extends TOBase {
         this.qtdcolhida = rs.getFloat("qtdcolhida");
         
          
-    }
+    }*/
      
-    public TOSafra retornoLista(ResultSet rs) throws Exception{
+    public TOSafra(ResultSet rs) throws Exception{
         this.idsafra = rs.getLong("idsafra");
         this.statussafra_idstatussafra = rs.getLong("statussafra_idstatussafra");     
         this.propriedade_idpropriedade = rs.getLong("propriedade_idpropriedade");
@@ -250,8 +250,7 @@ public class TOSafra extends TOBase {
         this.nomepropriedade = rs.getString("nomepropriedade");
         this.tempodecolheita = rs.getInt("tempodecolheita");
         this.tempodestinacao = rs.getInt("tempodestinacao");
-            
-        return this;   
+           
     }
 
     @Override
@@ -277,8 +276,14 @@ public class TOSafra extends TOBase {
         return j;
     }
 
+    @Override
+    public JSONObject retornoListSafra() throws Exception {
+        //variavel para retorno do json contendo as informacoes do produto
+        JSONObject j = new JSONObject();
+        j.put("safra", safra);
+        
+        return j;
+    }
 
    
-    
-    
 }

@@ -77,11 +77,6 @@ public class DAOHistoricoColheita implements DAOBase{
     }
 
     @Override
-    public TOBase getLogin(Connection c, TOBase t) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
     public TOBase get(Connection c, TOBase t) throws Exception {
          //string com o comando sql para editar o banco de dados
         String sql = "SELECT SUM(qtdcolhida) AS somaqtdcolhida FROM historicocolheita WHERE safra_idsafra IN(?)";
@@ -113,6 +108,5 @@ public class DAOHistoricoColheita implements DAOBase{
     public void excluir(Connection c, TOBase t) throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
     
 }

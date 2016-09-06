@@ -25,6 +25,5 @@ public interface DAOBase {
     public JSONArray listar(Connection c) throws Exception;
     
     public JSONArray listar(Connection c, TOBase t) throws Exception;
-            
-    public TOBase getLogin(Connection c, TOBase t) throws  Exception;
+           
 }

@@ -18,34 +18,6 @@ import to.TOLogin;
  * @author daniel
  */
 public class DAOLogin implements DAOBase{
-    @Override
-    public TOBase getLogin(Connection c, TOBase t) throws Exception {
-        //string com o comando sql para editar o banco de dados
-        String sql = "SELECT * FROM login where usuario = ? and senha = ?";
-        
-        ResultSet rs = null;
-        
-        try{
-            //variavel sendo convertida para toUsuarios
-            TOLogin to = (TOLogin)t;
-            //variavel com lista dos parametros
-            List<Object> u = new ArrayList<Object>();
-            
-            u.add(to.getUsuario());
-            u.add(to.getSenha());
-            
-            rs = Data.executeQuery(c, sql, u);
-            
-            
-            if(rs.next()){
-                return new TOLogin(rs);
-            }else{
-                return null;
-            }
-        }finally{
-            rs.close();
-        }
-    }
 
     @Override
     public long inserir(Connection c, TOBase t) throws Exception {
@@ -78,13 +50,22 @@ public class DAOLogin implements DAOBase{
 
     @Override
     public TOBase get(Connection c, TOBase t) throws Exception {
-        String sql = "SELECT * FROM login where usuario = ?";
+         //string com o comando sql para editar o banco de dados
+        String sql = "SELECT * FROM login where usuario = ? and senha = ?";
         
         ResultSet rs = null;
         
         try{
+            //variavel sendo convertida para toUsuarios
             TOLogin to = (TOLogin)t;
-            rs = Data.executeQuery(c, sql, to.getUsuario());
+            //variavel com lista dos parametros
+            List<Object> u = new ArrayList<Object>();
+            
+            u.add(to.getUsuario());
+            u.add(to.getSenha());
+            
+            rs = Data.executeQuery(c, sql, u);
+            
             
             if(rs.next()){
                 return new TOLogin(rs);
@@ -101,8 +82,7 @@ public class DAOLogin implements DAOBase{
     public JSONArray listar(Connection c) throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
-
+    
     @Override
     public JSONArray listar(Connection c, TOBase t) throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.

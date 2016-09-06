@@ -437,7 +437,7 @@ public class ServicosPessoa {
             to.setSenha(senha);
             
             
-            to = (TOLogin) BOFactory.getLogin(new DAOLogin(), to);
+            to = (TOLogin) BOFactory.get(new DAOLogin(), to);
             
             if(to == null){
                 j.put("sucesso", false);
@@ -565,7 +565,8 @@ public class ServicosPessoa {
         try{
             TOPropriedade t = new TOPropriedade();
             t.setUsuario(usuario);
-        
+            
+            
             JSONArray ja = BOFactory.listar(new DAOPropriedade(), t) ;
             
             if(ja.length() > 0){

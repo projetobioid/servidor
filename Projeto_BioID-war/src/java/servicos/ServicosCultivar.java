@@ -21,6 +21,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 import to.TOCultivar;
 import to.TOPropriedade;
@@ -275,18 +276,23 @@ public class ServicosCultivar {
             //lista os cultivares recebidos
             TOLogin t = new TOLogin();
             t.setUsuario(usuario);
+            
             JSONArray ja = BOFactory.listar(new DAOSafra(), t);
+            
             
             //lista os dados cultivares
             TOCultivar tc = new TOCultivar();
             tc.setUsuario(usuario);
-            JSONArray jc = BOFactory.listar(new DAOCultivar(), tc);
             
+            JSONArray jc = BOFactory.listar(new DAOCultivar(), tc);
+
             if(ja.length() > 0){
                 j.put("sucesso", true);
                 j.put("cultivaresrecebidos", ja);
+
+               //j.put("safra", verificasSafra(ja));
                 j.put("cultivares", jc);
-                
+ 
             }else{
                 j.put("sucesso", false);
                 j.put("mensagem", "Nenhum cultivar recebido");
@@ -394,5 +400,21 @@ public class ServicosCultivar {
         
         return j.toString();
     }
+
+   /* private JSONArray verificasSafra(JSONArray ja) throws JSONException {
+                        
+        JSONArray js = new JSONArray();
+
+        js.put(ja.getJSONObject(0).getString("safra"));
+        for(int i = 1; i < ja.length(); i++){
+            if(!js.get(js.length()-1).equals(ja.getJSONObject(i).getString("safra"))){
+                js.put(ja.getJSONObject(i).getString("safra"));
+            }
+
+        }
+        return js;
+    }*/
+    
+    
     
 }

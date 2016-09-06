@@ -15,17 +15,6 @@ import dao.DAOBase;
  */
 public class BOFactory {
        
-    public static TOBase getLogin(DAOBase d, TOBase t) throws Exception{
-        Connection c = null;
-        
-        try{
-            c =  Data.openConnection();
-            
-            return d.getLogin(c, t);
-        }finally{
-            c.close();
-        }
-    }
     
     public static long inserir(DAOBase d, TOBase t) throws Exception{
         Connection c = null;
@@ -96,8 +85,7 @@ public class BOFactory {
         }finally{
             c.close();
         }
-    }
-    
+    }   
     
     
 }

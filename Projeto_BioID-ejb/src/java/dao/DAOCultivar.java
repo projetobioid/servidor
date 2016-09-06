@@ -121,15 +121,16 @@ public class DAOCultivar implements DAOBase {
     }
 
     @Override
-    public TOBase getLogin(Connection c, TOBase t) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
     public JSONArray listar(Connection c, TOBase t) throws Exception {
-        JSONArray  ja = new JSONArray();
+        JSONArray  ja = new JSONArray();           
         
-        String sql = "SELECT DISTINCT c.idcultivar, c.nomecultivar, c.imagem, c.descricao, c.biofortificado, um.grandeza, c.valornutricional, c.tempodecolheita, c.peso_saca FROM login l "
+        
+        ResultSet rs = null;
+        try{
+            //variavel com lista dos parametros
+            List<Object> u = new ArrayList<Object>();
+            
+            String sql = "SELECT DISTINCT c.idcultivar, c.nomecultivar, c.imagem, c.descricao, c.biofortificado, um.grandeza, c.valornutricional, c.tempodecolheita, c.peso_saca FROM login l "
                 + "INNER JOIN pessoa p ON( p.idpessoa = l.pessoa_idpessoa) "
                 + "INNER JOIN relacaopa r ON( r.agricultor_pessoa_idpessoa = p.idpessoa) "
                 + "INNER JOIN propriedade pr ON (pr.idpropriedade = r.propriedade_idpropriedade) "
@@ -137,13 +138,6 @@ public class DAOCultivar implements DAOBase {
                 + "INNER JOIN cultivar c ON (idcultivar = cultivar_idcultivar) "
                 + "INNER JOIN unidademedida um ON (idunidademedida = c.unidademedida_idunidademedida) "
                 + "where l.usuario = ?";
-           
-        
-        
-        ResultSet rs = null;
-        try{
-            //variavel com lista dos parametros
-            List<Object> u = new ArrayList<Object>();
             
             u.add(((TOCultivar) t).getUsuario());
             
@@ -160,5 +154,4 @@ public class DAOCultivar implements DAOBase {
         return ja;
     }
 
-    
 }
