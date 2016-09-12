@@ -16,7 +16,7 @@ import to.TODestinacao;
  *
  * @author Aimee
  */
-public class DAODestinacao implements DAOBase{
+public class DAODestinacao extends DAOBase{
 
     @Override
     public long inserir(Connection c, TOBase t) throws Exception {
@@ -37,28 +37,4 @@ public class DAODestinacao implements DAOBase{
         return Data.executeUpdate(c, sql, p);
     }
 
-    @Override
-    public void editar(Connection c, TOBase t) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void excluir(Connection c, TOBase t) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public TOBase get(Connection c, TOBase t) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); 
-    }
-
-    @Override
-    public JSONArray listar(Connection c) throws Exception {
-           throw new UnsupportedOperationException("Not supported yet.");  
-    }
-
-    @Override
-    public JSONArray listar(Connection c, TOBase t) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 }

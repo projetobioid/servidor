@@ -221,25 +221,15 @@ public class TOSafra extends TOBase {
         this.qtddestinada = qtddestinada;
     }
 
-    /* public TOSafra(ResultSet rs) throws Exception{
-        this.idsafra = rs.getLong("idsafra");
-        this.statussafra_idstatussafra = rs.getLong("statussafra_idstatussafra");   
-        this.unidademedida_idunidademedida = rs.getLong("unidademedida_idunidademedida");   
-        this.propriedade_idpropriedade = rs.getLong("propriedade_idpropriedade");
-        this.cultivar_idcultivar = rs.getLong("cultivar_idcultivar");
+    public TOSafra listarSafra(ResultSet rs) throws Exception{
         this.safra = rs.getString("safra");
-        this.datareceb = rs.getString("datareceb");
-        this.qtdrecebida = rs.getFloat("qtdrecebida");
-        this.ultimadatacolheita = rs.getString("ultimadatacolheita");
-        this.qtdcolhida = rs.getFloat("qtdcolhida");
-        
-         
-    }*/
+        return this;
+    }
      
     public TOSafra(ResultSet rs) throws Exception{
         this.idsafra = rs.getLong("idsafra");
         this.statussafra_idstatussafra = rs.getLong("statussafra_idstatussafra");     
-        this.propriedade_idpropriedade = rs.getLong("propriedade_idpropriedade");
+        //this.propriedade_idpropriedade = rs.getLong("propriedade_idpropriedade");
         this.safra = rs.getString("safra");
         this.datareceb = rs.getString("datareceb");
         this.qtdrecebida = rs.getFloat("qtdrecebida");
@@ -261,7 +251,7 @@ public class TOSafra extends TOBase {
         //populando o objeto j
         j.put("idsafra", idsafra);
         j.put("statussafra_idstatussafra", statussafra_idstatussafra);
-        j.put("propriedade_idpropriedade", propriedade_idpropriedade);
+        //j.put("propriedade_idpropriedade", propriedade_idpropriedade);
         j.put("safra", safra);
         j.put("datareceb", datareceb);
         j.put("qtdrecebida", qtdrecebida);
@@ -277,7 +267,7 @@ public class TOSafra extends TOBase {
     }
 
     @Override
-    public JSONObject retornoListSafra() throws Exception {
+    public JSONObject getJsonSimples() throws Exception {
         //variavel para retorno do json contendo as informacoes do produto
         JSONObject j = new JSONObject();
         j.put("safra", safra);

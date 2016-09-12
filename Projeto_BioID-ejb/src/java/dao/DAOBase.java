@@ -13,17 +13,34 @@ import to.TOBase;
  *
  * @author daniel
  */
-public interface DAOBase {
-    public long inserir(Connection c, TOBase t) throws Exception;
+public class DAOBase {
     
-    public void editar(Connection c, TOBase t) throws Exception;
-        
-    public void excluir(Connection c, TOBase t) throws Exception;
-            
-    public TOBase get(Connection c, TOBase t) throws Exception;
+    protected long idretorno;
+
+    public long inserir(Connection c, TOBase t) throws Exception{
+        return this.idretorno;
+    }
     
-    public JSONArray listar(Connection c) throws Exception;
+    public void editar(Connection c, TOBase t) throws Exception{
+    }
     
-    public JSONArray listar(Connection c, TOBase t) throws Exception;
-           
+    public void excluir(Connection c, TOBase t) throws Exception{
+    }
+    
+    public TOBase get(Connection c, TOBase t) throws Exception{
+        return null;
+    }
+    
+    public JSONArray listar(Connection c) throws Exception{
+        return null;
+    }
+    
+    public JSONArray listar(Connection c, TOBase t) throws Exception{
+        return null;
+    }
+    
+    public JSONArray listarSafra(Connection c, TOBase t) throws Exception{
+        return null;
+    }
+    
 }

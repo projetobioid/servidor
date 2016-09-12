@@ -17,7 +17,7 @@ import to.TOPessoa;
  *
  * @author daniel
  */
-public class DAOPessoa implements DAOBase{
+public class DAOPessoa extends DAOBase{
 
 
     @Override
@@ -49,16 +49,6 @@ public class DAOPessoa implements DAOBase{
     }
 
     @Override
-    public void editar(Connection c, TOBase t) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void excluir(Connection c, TOBase t) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
     public TOBase get(Connection c, TOBase t) throws Exception {
         String sql = "SELECT * FROM pessoa where cpf = ?";
         
@@ -76,16 +66,6 @@ public class DAOPessoa implements DAOBase{
         }finally{
             rs.close();
         }
-    }
-
-    @Override
-    public JSONArray listar(Connection c) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public JSONArray listar(Connection c, TOBase t) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }

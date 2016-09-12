@@ -16,7 +16,7 @@ public class TOBase {
         return null;
     }
     
-     public JSONObject retornoListSafra() throws Exception{
+     public JSONObject getJsonSimples() throws Exception{
         return null;
     }
 }

@@ -17,7 +17,7 @@ import to.TOUnidade;
  *
  * @author daniel
  */
-public class DAOUnidade implements DAOBase{
+public class DAOUnidade extends DAOBase{
 
     @Override
     public long inserir(Connection c, TOBase t) throws Exception {
@@ -39,16 +39,6 @@ public class DAOUnidade implements DAOBase{
         
         //passa por parametros a conexao e a lista de objetos da insercao de um novo produto
         return Data.executeUpdate(c, sql, p);
-    }
-
-    @Override
-    public void editar(Connection c, TOBase t) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void excluir(Connection c, TOBase t) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
@@ -74,14 +64,5 @@ public class DAOUnidade implements DAOBase{
         }
     }
 
-    @Override
-    public JSONArray listar(Connection c) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public JSONArray listar(Connection c, TOBase t) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
     
 }

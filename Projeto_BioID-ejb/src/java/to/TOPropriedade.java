@@ -131,11 +131,13 @@ public class TOPropriedade extends TOBase {
         this.usuario = usuario;
         this.cpf = cpf;
     }
-
     
 
+    public TOPropriedade listarNome(ResultSet rs) throws Exception{
+        this.nomepropriedade = rs.getString("nomepropriedade");
+        return this;
+    }
     
- 
     public TOPropriedade(ResultSet rs) throws Exception{
         this.idpropriedade = rs.getLong("idpropriedade");
         this.endereco_idendereco = rs.getLong("endereco_idendereco");
@@ -147,6 +149,7 @@ public class TOPropriedade extends TOBase {
         this.unidadedemedidaau = rs.getLong("unidadedemedidaau");
         
     }
+    
     @Override
     public JSONObject getJson() throws Exception {
          //variavel para retorno do json contendo as informacoes do produto
@@ -161,6 +164,17 @@ public class TOPropriedade extends TOBase {
         j.put("unidadedemedida", unidadedemedida);
         j.put("areautilizavel", areautilizavel);
         j.put("unidadedemedidaau", unidadedemedidaau);
+        
+        return j;
+    }
+
+    @Override
+    public JSONObject getJsonSimples() throws Exception {
+                 //variavel para retorno do json contendo as informacoes do produto
+        JSONObject j = new JSONObject();
+        
+        //populando o objeto j
+        j.put("nomepropriedade", nomepropriedade);
         
         return j;
     }

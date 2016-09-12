@@ -9,7 +9,6 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
-import org.json.JSONArray;
 import to.TOBase;
 import to.TOLogin;
 
@@ -17,7 +16,7 @@ import to.TOLogin;
  *
  * @author daniel
  */
-public class DAOLogin implements DAOBase{
+public class DAOLogin extends DAOBase{
 
     @Override
     public long inserir(Connection c, TOBase t) throws Exception {
@@ -38,16 +37,7 @@ public class DAOLogin implements DAOBase{
         return Data.executeUpdate(c, sql, u);
     }
 
-    @Override
-    public void editar(Connection c, TOBase t) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void excluir(Connection c, TOBase t) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
+   
     @Override
     public TOBase get(Connection c, TOBase t) throws Exception {
          //string com o comando sql para editar o banco de dados
@@ -78,15 +68,5 @@ public class DAOLogin implements DAOBase{
         
     }
 
-    @Override
-    public JSONArray listar(Connection c) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-    
-    @Override
-    public JSONArray listar(Connection c, TOBase t) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-
+   
 }

@@ -21,7 +21,7 @@ import to.TOLogin;
  *
  * @author Aimee
  */
-public class DAOSafra implements DAOBase{
+public class DAOSafra extends DAOBase{
 
     @Override
     public long inserir(Connection c, TOBase t) throws Exception {
@@ -65,11 +65,6 @@ public class DAOSafra implements DAOBase{
     }
 
     @Override
-    public void excluir(Connection c, TOBase t) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
     public TOBase get(Connection c, TOBase t) throws Exception {
         String sql = "select * from safra where idsafra IN(?)";
         
@@ -89,10 +84,6 @@ public class DAOSafra implements DAOBase{
         }
     }
 
-    @Override
-    public JSONArray listar(Connection c) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 
     @Override
     public JSONArray listar(Connection c, TOBase t) throws Exception {
@@ -103,9 +94,7 @@ public class DAOSafra implements DAOBase{
             //variavel com lista dos parametros
             List<Object> u = new ArrayList<Object>();
             
-           
-            
-             String sql = "SELECT s.idsafra, s.statussafra_idstatussafra, s.propriedade_idpropriedade, s.safra, s.datareceb, s.qtdrecebida,"
+            String sql = "SELECT s.idsafra, s.statussafra_idstatussafra, s.safra, s.datareceb, s.qtdrecebida,"
                 + " (select SUM(d.qtddestinada) AS qtddestinada FROM destinacao d WHERE d.safra_idsafra IN(s.idsafra)),"
                 + " um.grandeza as grandeza_recebida, s.qtdcolhida, c.nomecultivar, pr.nomepropriedade, c.tempodecolheita, c.tempodestinacao FROM login l"
                 + " INNER JOIN pessoa p ON( p.idpessoa = l.pessoa_idpessoa)"
@@ -131,20 +120,22 @@ public class DAOSafra implements DAOBase{
                         break;
                     case 4:
                     case 5:
-                        ts.setPrazo_colheita("Colheita relatada");
+                        ts.setPrazo_colheita("relatada");
                         ts.setPrazo_destinacao(verificarPrazoDestinacao(ts));
                         break;
+               
                     case 6:
-                        ts.setPrazo_colheita("Colheita relatada");
-                        ts.setPrazo_destinacao("Destinação relatada");
+               
+                        ts.setPrazo_colheita("relatada");
+                        ts.setPrazo_destinacao("relatada");
                         break;
                     case 7:
-                        ts.setPrazo_colheita("Colheita relatada");
-                        ts.setPrazo_destinacao("Destinação expirada");
+                        ts.setPrazo_colheita("relatada");
+                        ts.setPrazo_destinacao("expirada");
                         break;
                     case 8:
-                        ts.setPrazo_colheita("Colheita expirada");
-                        ts.setPrazo_destinacao("Destinação expirada");
+                        ts.setPrazo_colheita("expirada");
+                        ts.setPrazo_destinacao("expirada");
                         break;
                     
                 }
@@ -160,22 +151,60 @@ public class DAOSafra implements DAOBase{
         return ja;
     }
 
+    @Override
+    public JSONArray listarSafra(Connection c, TOBase t) throws Exception {
+        JSONArray  ja = new JSONArray();
+  
+        ResultSet rs = null;
+        try{
+            //variavel com lista dos parametros
+            List<Object> u = new ArrayList<Object>();
+            
+           
+            
+             String sql = "SELECT DISTINCT s.safra FROM login l"
+                + " INNER JOIN pessoa p ON( p.idpessoa = l.pessoa_idpessoa)"
+                + " INNER JOIN relacaopa r ON( r.agricultor_pessoa_idpessoa = p.idpessoa)"
+                + " INNER JOIN propriedade pr ON (pr.idpropriedade = r.propriedade_idpropriedade)"
+                + " INNER JOIN safra s ON (s.propriedade_idpropriedade = pr.idpropriedade)"
+                + " INNER JOIN cultivar c ON (c.idcultivar = s.cultivar_idcultivar)"
+                + " INNER JOIN unidademedida um ON(um.idunidademedida = s.unidademedida_idunidademedida) where l.usuario IN(?) ORDER BY s.safra";
+             
+            u.add(((TOLogin) t).getUsuario());
+            
+            rs = Data.executeQuery(c, sql, u);
+            
+            while (rs.next()){
+                TOSafra ts = new TOSafra().listarSafra(rs);
+                ja.put(ts.getJsonSimples());
+            }
+            
+                        
+        }finally{
+            rs.close();
+        }
+        return ja;
+    }
+
+    
+    
     private String verificarPrazoColheita(TOSafra ts) {
         String teste = null;
         
+               
         try{
-            SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+            SimpleDateFormat formatar = new SimpleDateFormat("dd/MM/yyyy");
 
                 Calendar datarecebimento = Calendar.getInstance();
                 Calendar diaAtual = Calendar.getInstance();
 
-                datarecebimento.setTime(format.parse(ts.getDatareceb()));
+                datarecebimento.setTime(formatar.parse(ts.getDatareceb()));
 
                 datarecebimento.add(Calendar.DATE, +ts.getTempodecolheita());
 
 
                 if(datarecebimento.getTimeInMillis() < diaAtual.getTimeInMillis()){
-                    teste = "Colheita expirada";
+                    teste = "expirada";
                     //atualiza o status da safra
                     if(ts.getStatussafra_idstatussafra() == 1){
                         ts.setStatussafra_idstatussafra(8);  
@@ -189,8 +218,7 @@ public class DAOSafra implements DAOBase{
                    
                 }else{
 
-                    datarecebimento.add(Calendar.DATE, - diaAtual.get(Calendar.DAY_OF_MONTH));
-                    teste = datarecebimento.get(Calendar.DAY_OF_MONTH) +" dia(s) para relatar"; 
+                    teste = formatar.format(datarecebimento.getTime()); 
                 }
         }catch(Exception e){
             teste = "Erro em verificar a safra colheita - "+ e;
@@ -203,19 +231,19 @@ public class DAOSafra implements DAOBase{
         String teste = null;
 
         try{
-            SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+            SimpleDateFormat formatar = new SimpleDateFormat("dd/MM/yyyy");
         
             Calendar datarecebimento = Calendar.getInstance();
             Calendar diaAtual = Calendar.getInstance();
 
-            datarecebimento.setTime(format.parse(ts.getDatareceb()));
+            datarecebimento.setTime(formatar.parse(ts.getDatareceb()));
 
             datarecebimento.add(Calendar.DATE, +ts.getTempodestinacao());
 
 
 
             if(datarecebimento.getTimeInMillis() < diaAtual.getTimeInMillis()){
-                teste = "Destinação expirada";
+                teste = "expirada";
                 //atualiza o status da safra
                         
                 if(ts.getStatussafra_idstatussafra() == 4){
@@ -227,8 +255,7 @@ public class DAOSafra implements DAOBase{
                 ////
             }else{
 
-                datarecebimento.add(Calendar.DATE, - diaAtual.get(Calendar.DAY_OF_MONTH));
-                teste = datarecebimento.get(Calendar.DAY_OF_MONTH) +" dia(s) para relatar"; 
+                teste = formatar.format(datarecebimento.getTime());
             }
         }catch(Exception e){
             teste = "Erro em verificar a safra destinacao - "+ e;

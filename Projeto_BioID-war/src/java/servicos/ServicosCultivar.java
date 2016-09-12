@@ -21,7 +21,6 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 import to.TOCultivar;
 import to.TOPropriedade;
@@ -276,22 +275,25 @@ public class ServicosCultivar {
             //lista os cultivares recebidos
             TOLogin t = new TOLogin();
             t.setUsuario(usuario);
-            
+            //lista os cultivares recebidos
             JSONArray ja = BOFactory.listar(new DAOSafra(), t);
-            
-            
-            //lista os dados cultivares
+            //lista somente as safras
+            JSONArray js = BOFactory.listarSafra(new DAOSafra(), t);
+           
             TOCultivar tc = new TOCultivar();
             tc.setUsuario(usuario);
-            
+            //lista dados dos cultivares
             JSONArray jc = BOFactory.listar(new DAOCultivar(), tc);
 
+            //lista as propriedades do agricultor
+            JSONArray jp = BOFactory.listar(new DAOPropriedade(), t);
+            
             if(ja.length() > 0){
                 j.put("sucesso", true);
                 j.put("cultivaresrecebidos", ja);
-
-               //j.put("safra", verificasSafra(ja));
+                j.put("safras", js);
                 j.put("cultivares", jc);
+                j.put("propriedades", jp);
  
             }else{
                 j.put("sucesso", false);

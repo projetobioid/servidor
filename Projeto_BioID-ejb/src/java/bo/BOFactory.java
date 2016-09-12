@@ -87,5 +87,17 @@ public class BOFactory {
         }
     }   
     
+    public static JSONArray listarSafra(DAOBase d, TOBase t) throws Exception{
+        Connection c = null;
+        
+        try{
+            c =  Data.openConnection();
+            
+            return d.listarSafra(c, t);
+        }finally{
+            c.close();
+        }
+    }   
+    
     
 }
