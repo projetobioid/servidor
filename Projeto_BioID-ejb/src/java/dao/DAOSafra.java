@@ -102,7 +102,7 @@ public class DAOSafra extends DAOBase{
                 + " INNER JOIN propriedade pr ON (pr.idpropriedade = r.propriedade_idpropriedade)"
                 + " INNER JOIN safra s ON (s.propriedade_idpropriedade = pr.idpropriedade)"
                 + " INNER JOIN cultivar c ON (c.idcultivar = s.cultivar_idcultivar)"
-                + " INNER JOIN unidademedida um ON(um.idunidademedida = s.unidademedida_idunidademedida) where l.usuario IN(?) ORDER BY s.safra";
+                + " INNER JOIN unidademedida um ON(um.idunidademedida = s.unidademedida_idunidademedida) where l.usuario IN(?) ORDER BY s.safra DESC";
              
             u.add(((TOLogin) t).getUsuario());
             
@@ -168,7 +168,7 @@ public class DAOSafra extends DAOBase{
                 + " INNER JOIN propriedade pr ON (pr.idpropriedade = r.propriedade_idpropriedade)"
                 + " INNER JOIN safra s ON (s.propriedade_idpropriedade = pr.idpropriedade)"
                 + " INNER JOIN cultivar c ON (c.idcultivar = s.cultivar_idcultivar)"
-                + " INNER JOIN unidademedida um ON(um.idunidademedida = s.unidademedida_idunidademedida) where l.usuario IN(?) ORDER BY s.safra";
+                + " INNER JOIN unidademedida um ON(um.idunidademedida = s.unidademedida_idunidademedida) where l.usuario IN(?) ORDER BY s.safra DESC";
              
             u.add(((TOLogin) t).getUsuario());
             

@@ -288,12 +288,16 @@ public class ServicosCultivar {
             //lista as propriedades do agricultor
             JSONArray jp = BOFactory.listar(new DAOPropriedade(), t);
             
+            //lista as perguntas da propriedade
+            //JSONArray jper = BOFactory.listar(new DAOPerguntas(), t);
+            
             if(ja.length() > 0){
                 j.put("sucesso", true);
                 j.put("cultivaresrecebidos", ja);
                 j.put("safras", js);
                 j.put("cultivares", jc);
                 j.put("propriedades", jp);
+                //j.put("perguntas", jper);
  
             }else{
                 j.put("sucesso", false);
