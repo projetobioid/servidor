@@ -99,5 +99,16 @@ public class BOFactory {
         }
     }   
     
+    public static JSONArray listarAgricultoresUnidade(DAOBase d, TOBase t) throws Exception{
+        Connection c = null;
+        
+        try{
+            c =  Data.openConnection();
+            
+            return d.listarAgricultoresUnidade(c, t);
+        }finally{
+            c.close();
+        }
+    }
     
 }

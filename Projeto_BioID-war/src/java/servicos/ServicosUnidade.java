@@ -7,6 +7,9 @@ package servicos;
 
 import bo.BOFactory;
 import dao.DAOEndereco;
+import dao.DAOEstoque;
+import dao.DAOIOEstoque;
+import dao.DAOPessoa;
 import dao.DAOUnidade;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
@@ -16,8 +19,11 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.MediaType;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import to.TOEndereco;
+import to.TOEstoque;
+import to.TOIOEstoque;
 import to.TOUnidade;
 
 /**
@@ -106,4 +112,145 @@ public class ServicosUnidade {
         
         return j.toString(); 
     }
+    
+    
+    
+    //inseri dados no estoque
+    @Path("ioestoque")
+    @POST
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @Produces(MediaType.APPLICATION_JSON)
+    public String editarEstoque(
+            //tabela endereco
+            @FormParam("idunidade") long idunidade,
+            @FormParam("idcultivar") long idcultivar,
+            @FormParam("um") long um,
+            @FormParam("qtd") float qtd,
+            @FormParam("data_io") String data_io,
+            @FormParam("operacao") int operacao
+            ) throws Exception{
+        
+                
+        JSONObject j = new JSONObject();
+        
+        try{    
+            //cria um objeto          
+            TOEstoque te = new TOEstoque();
+            
+            te.setUnidade_idunidade(idunidade);
+            te.setCultivar_idcultivar(idcultivar);
+            te.setUnidademedida_idunidademedida(um);
+            te.setQuantidade(qtd);
+            
+            TOEstoque t = new TOEstoque();
+            
+             t = (TOEstoque) BOFactory.get(new DAOEstoque(), te);
+            
+            //se nao existe, cria uma nova tabela
+            if(t == null){
+
+                BOFactory.inserir(new DAOEstoque(), te);
+
+            //update na tabela estoque
+            }else{
+                                //operacao de entrada de estoque
+                if(operacao == 1){
+                    te.setQuantidade(t.getQuantidade() + qtd);
+                //operacao de saida de estoque    
+                }else{
+                    te.setQuantidade(t.getQuantidade() - qtd);
+                }
+                
+                BOFactory.editar(new DAOEstoque(), te);
+
+                j.put("sucesso", true);
+                j.put("mensagem", "Estoque atualizado!");
+            }
+            
+            //cria um historico de io do estoque
+            TOIOEstoque tio = new TOIOEstoque();
+            tio.setUnidade_idunidade(idunidade);
+            tio.setCultivar_idcultivar(idcultivar);
+            tio.setUnidademedida_idunidademedida(um);
+            tio.setQuantidade(qtd);
+            tio.setData_io(data_io);
+            tio.setOperacao(operacao);
+
+            BOFactory.inserir(new DAOIOEstoque(), tio);
+            
+        }catch(Exception e){
+            j.put("sucesso", false);
+            j.put("erro", "erro atualização estoque da unidade!");
+            j.put("mensagem", e.getMessage());
+        }
+        
+        return j.toString(); 
+    }
+    
+        //metodo que lista todos os cultivares recebido
+    @Path("listarestoque")
+    @POST
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @Produces(MediaType.APPLICATION_JSON)
+    public String listarrecebido(
+            @FormParam("idunidade") long idunidade
+            ) throws Exception {
+        
+        JSONObject j = new JSONObject();
+        
+        
+        try{          
+            //lista os cultivares recebidos
+            TOEstoque t = new TOEstoque();
+            t.setUnidade_idunidade(idunidade);
+            //lista do estoque
+            JSONArray ja = BOFactory.listar(new DAOEstoque(), t);
+            
+            if(ja.length() > 0){
+                j.put("sucesso", true);
+                j.put("estoque", ja);
+ 
+            }else{
+                j.put("sucesso", false);
+                j.put("mensagem", "Estoque vazio!");
+            }
+        }catch(Exception e){
+            j.put("sucesso", false);
+            j.put("mensagem", e.getMessage());
+        }
+        
+        return j.toString();
+    }
+    
+    @Path("listarAgricultoresUnidade")
+    @POST
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @Produces(MediaType.APPLICATION_JSON)
+    public String listarPropriedades(
+            @FormParam("idunidade") long idunidade
+            )throws Exception{
+        
+        JSONObject j = new JSONObject();
+ 
+        try{
+            TOUnidade t = new TOUnidade();
+            t.setIdunidade(idunidade);
+            
+            
+            JSONArray ja = BOFactory.listarAgricultoresUnidade(new DAOPessoa(), t) ;
+            
+            if(ja.length() > 0){
+                j.put("listaAgricultores", ja);
+                j.put("sucesso", true);
+            }else{
+                j.put("sucesso", false);
+                j.put("mensagem", "Sem agricultores na unidade");
+            }
+        }catch(Exception e){
+            j.put("sucesso", false);
+            j.put("mensagem", e.getMessage());
+        }
+        
+        return j.toString();
+    } 
 }

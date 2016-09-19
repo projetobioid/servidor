@@ -10,7 +10,7 @@ function validacaoLogin(){
     
     var data = "usuario="+$("#usuario").val()+"&senha="+$("#senha").val();
    
-    $.post("http://localhost:8080/Projeto_BioID-war/servico/usuario/login", data, function(dados){
+    $.post("http://187.19.101.252:8082/Projeto_BioID-war/servico/pessoa/validacao", data, function(dados){
         //teste da requisicao no banco esta correta
         if(dados.sucesso){
             $("#msgLogado").show();

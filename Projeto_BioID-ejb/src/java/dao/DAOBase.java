@@ -43,4 +43,8 @@ public class DAOBase {
         return null;
     }
     
+    public JSONArray listarAgricultoresUnidade(Connection c, TOBase t) throws Exception{
+        return null;
+    }
+    
 }

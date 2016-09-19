@@ -418,13 +418,9 @@ public class ServicosPessoa {
         
     }
     
-
-    
     //login
     @Path("validacao")
     @POST
-    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    @Produces(MediaType.APPLICATION_JSON)
     public String login(@FormParam("usuario") String usuario,
                         @FormParam("senha") String senha) throws Exception{
         
@@ -447,6 +443,7 @@ public class ServicosPessoa {
                 
                 j.put("usuario", to.getUsuario());
                 j.put("papel", to.getPapel());
+                j.put("idunidade", to.getUnidade_idunidade());
                 //retorna uma senha
                 SecureRandom random = new SecureRandom();
                 j.put("idSession", new BigInteger(130, random).toString(32));
@@ -458,6 +455,7 @@ public class ServicosPessoa {
             j.put("messangem", e.getMessage());
         }
         
+//        return j.toString();
         return j.toString();
     }
     
@@ -583,7 +581,7 @@ public class ServicosPessoa {
         
         return j.toString();
     } 
-    
+
     
     
 }

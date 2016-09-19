@@ -213,4 +213,26 @@ public class TOPessoa extends TOBase{
         return j;
    
     }
+
+    
+    
+    public TOPessoa listarAgricultoresUnidade(ResultSet rs) throws Exception{
+        this.nome = rs.getString("nome");
+        this.sobrenome = rs.getString("sobrenome");
+        
+        return this;  
+    }
+
+    @Override
+    public JSONObject getJsonSimples() throws Exception {
+        //variavel tipo json para retornar no metodo
+        JSONObject j = new JSONObject();
+        
+        j.put("nome", nome);
+        j.put("sobrenome", sobrenome);
+        
+        return j;
+    }
+    
+    
 }

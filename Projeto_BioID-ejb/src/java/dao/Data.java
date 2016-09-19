@@ -14,7 +14,7 @@ public class Data {
     
     //abre uma conexao banco de dados
     public static Connection openConnection () throws Exception{
-        return openConnectionPostgre("localhost", "bioID", "postgres", "admin");
+        return openConnectionPostgre("10.1.2.52", "bioid", "postgres", "78917072");
     }
 
     //abrir a conexao banco de dados

@@ -12,6 +12,7 @@ import java.util.List;
 import org.json.JSONArray;
 import to.TOBase;
 import to.TOPessoa;
+import to.TOUnidade;
 
 /**
  *
@@ -68,4 +69,36 @@ public class DAOPessoa extends DAOBase{
         }
     }
 
+    @Override
+    public JSONArray listarAgricultoresUnidade(Connection c, TOBase t) throws Exception {
+        JSONArray  ja = new JSONArray();
+  
+        ResultSet rs = null;
+        try{
+            //variavel com lista dos parametros
+            List<Object> u = new ArrayList<Object>();
+            
+            String sql = "SELECT p.nome, p.sobrenome FROM pessoa p "
+                     + "INNER JOIN login l ON(l.pessoa_idpessoa = p.idpessoa) "
+                     + "INNER JOIN agricultor a ON(a.pessoa_idpessoa = p.idpessoa) "
+                     + "where l.unidade_idunidade IN(?) AND a.pessoa_idpessoa IN(p.idpessoa)";
+             
+            u.add(((TOUnidade) t).getIdunidade());
+            
+            rs = Data.executeQuery(c, sql, u);
+            
+            while (rs.next()){
+                TOPessoa ts = new TOPessoa().listarAgricultoresUnidade(rs);
+                ja.put(ts.getJsonSimples());
+            }
+            
+                        
+        }finally{
+            rs.close();
+        }
+        return ja;
+    }
+
+    
+    
 }
