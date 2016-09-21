@@ -439,16 +439,25 @@ public class ServicosPessoa {
                 j.put("sucesso", false);
                 j.put("messangem", "Usuário não encontrado");
             }else{
+                SecureRandom random = new SecureRandom();
+                String sessao = new BigInteger(130, random).toString(32);
+                
+                to.setSessao(sessao);
+                
+                BOFactory.sessao(new DAOLogin(), to);
+                
+                
                 j.put("sucesso", true);
                 
                 j.put("usuario", to.getUsuario());
                 j.put("papel", to.getPapel());
                 j.put("idunidade", to.getUnidade_idunidade());
-                //retorna uma senha
-                SecureRandom random = new SecureRandom();
-                j.put("idSession", new BigInteger(130, random).toString(32));
+                j.put("idSession", sessao);
+                
                 //retorna a data de login que espirará em um tempo determinado
                 j.put("logTempo", ((730 * Float.parseFloat(getData("M"))) - (730 - (Float.parseFloat(getData("d"))*24)))+168 );
+                
+                
             }
         }catch (Exception e){
             j.put("sucesso", false);

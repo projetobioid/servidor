@@ -421,6 +421,46 @@ public class ServicosCultivar {
         return js;
     }*/
     
-    
+    //metodo que lista todos os cultivares recebido
+    @Path("backupentrevista")
+    @POST
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @Produces(MediaType.APPLICATION_JSON)
+    public String backupentrevista(
+            @FormParam("idpessoa") long idusuario,
+            @FormParam("idunidade") long idunidade
+            ) throws Exception {
+        
+        JSONObject j = new JSONObject();
+        
+        
+        try{          
+            //lista os cultivares recebidos
+            TOLogin t = new TOLogin();
+            t.setPessoa_idpessoa(idusuario);
+            t.setUnidade_idunidade(idunidade);
+            
+            
+            //lista os cultivares recebidos
+            JSONArray ja = BOFactory.backupentrevista(new DAOPropriedade(), t);
+
+            JSONArray jp = BOFactory.listar(new DAOPropriedade(), t);
+            
+            if(ja.length() > 0){
+                j.put("sucesso", true);
+                j.put("itementrevista", ja);
+                j.put("propriedades", jp);
+ 
+            }else{
+                j.put("sucesso", false);
+                j.put("mensagem", "Nenhum usuario encontrado!");
+            }
+        }catch(Exception e){
+            j.put("sucesso", false);
+            j.put("mensagem", e.getMessage());
+        }
+        
+        return j.toString();
+    }
     
 }
