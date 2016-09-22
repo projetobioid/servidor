@@ -68,5 +68,21 @@ public class DAOLogin extends DAOBase{
         
     }
 
+    @Override
+    public void editar(Connection c, TOBase t) throws Exception {
+        String sql = "update login set sessao = ? where idlogin = ? ";
+        
+        TOLogin to = (TOLogin)t;
+        
+        List<Object> p = new ArrayList<Object>();
+        
+        p.add(to.getSessao());
+        p.add(to.getIdlogin());
+        
+       
+        //passa por parametros a conexao e a lista de objetos da insercao de um novo produto        
+        Data.executeUpdate(c, sql, p);
+    }
+
    
 }

@@ -178,8 +178,7 @@ public class TOCultivar extends TOBase{
         j.put("peso_saca", peso_saca);
         
         return j;
-    }
-    
+    }    
     
 
     

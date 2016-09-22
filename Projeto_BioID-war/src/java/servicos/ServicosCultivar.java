@@ -427,7 +427,7 @@ public class ServicosCultivar {
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.APPLICATION_JSON)
     public String backupentrevista(
-            @FormParam("idpessoa") long idusuario,
+            @FormParam("usuario") String usuario,
             @FormParam("idunidade") long idunidade
             ) throws Exception {
         
@@ -437,7 +437,7 @@ public class ServicosCultivar {
         try{          
             //lista os cultivares recebidos
             TOLogin t = new TOLogin();
-            t.setPessoa_idpessoa(idusuario);
+            t.setUsuario(usuario);
             t.setUnidade_idunidade(idunidade);
             
             

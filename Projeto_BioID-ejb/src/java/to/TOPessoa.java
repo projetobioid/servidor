@@ -27,6 +27,11 @@ public class TOPessoa extends TOBase{
     private String telefone1;
     private String telefone2;
     private String email;
+    
+    
+    private String usuario;
+    
+    
 
     public long getIdpessoa() {
         return idpessoa;
@@ -142,13 +147,22 @@ public class TOPessoa extends TOBase{
         this.email = email;
     }
 
+    public String getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(String usuario) {
+        this.usuario = usuario;
+    }
+
+    
 
     
     
     public TOPessoa() {
     }
 
-    public TOPessoa(long idpessoa, long endereco_idendereco, long escolaridade_idescolaridade, long estadocivil_idestadocivil, String nome, String sobrenome, String apelido, String cpf, String rg, String datanascimento, String sexo, String telefone1, String telefone2, String email) {
+    public TOPessoa(String usuario, long idpessoa, long endereco_idendereco, long escolaridade_idescolaridade, long estadocivil_idestadocivil, String nome, String sobrenome, String apelido, String cpf, String rg, String datanascimento, String sexo, String telefone1, String telefone2, String email) {
         this.idpessoa = idpessoa;
         this.endereco_idendereco = endereco_idendereco;
         this.escolaridade_idescolaridade = escolaridade_idescolaridade;
@@ -163,6 +177,7 @@ public class TOPessoa extends TOBase{
         this.telefone1 = telefone1;
         this.telefone2 = telefone2;
         this.email = email;
+        this.usuario = usuario;
     }
 
    
@@ -219,6 +234,7 @@ public class TOPessoa extends TOBase{
     public TOPessoa listarAgricultoresUnidade(ResultSet rs) throws Exception{
         this.nome = rs.getString("nome");
         this.sobrenome = rs.getString("sobrenome");
+        this.usuario = rs.getString("usuario");
         
         return this;  
     }
@@ -230,6 +246,7 @@ public class TOPessoa extends TOBase{
         
         j.put("nome", nome);
         j.put("sobrenome", sobrenome);
+        j.put("usuario", usuario);
         
         return j;
     }

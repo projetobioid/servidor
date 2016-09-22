@@ -13,6 +13,7 @@ import org.json.JSONArray;
 import to.TOBase;
 import to.TOLogin;
 import to.TOPropriedade;
+import to.TOSafra;
 
 /**
  *
@@ -75,10 +76,11 @@ public class DAOPropriedade extends DAOBase{
     public JSONArray listar(Connection c, TOBase t) throws Exception {
         JSONArray  ja = new JSONArray();
         
-        String sql = "SELECT nomepropriedade FROM login INNER JOIN pessoa "
-                + "ON( idpessoa = pessoa_idpessoa) INNER JOIN relacaopa "
-                + "ON( agricultor_pessoa_idpessoa = idpessoa) INNER JOIN propriedade "
-                + "ON (idpropriedade = propriedade_idpropriedade) WHERE usuario IN(?)";
+        String sql = "SELECT nomepropriedade, usuario FROM login"
+                + " INNER JOIN pessoa ON( idpessoa = pessoa_idpessoa)"
+                + " INNER JOIN relacaopa ON( agricultor_pessoa_idpessoa = idpessoa)"
+                + " INNER JOIN propriedade ON (idpropriedade = propriedade_idpropriedade)"
+                + " WHERE usuario IN(?)";
         
         ResultSet rs = null;
         
@@ -101,4 +103,39 @@ public class DAOPropriedade extends DAOBase{
     
     }
 
+    @Override
+    public JSONArray backupentrevista(Connection c, TOBase t) throws Exception {
+        JSONArray  ja = new JSONArray();
+        
+        String sql = "SELECT p.nomepropriedade, s.idsafra, s.safra, c.nomecultivar, s.qtdrecebida, um.grandeza as grandeza_recebida, s.datareceb "
+                + "FROM login l "
+                + "INNER JOIN propriedade p ON( p.unidade_idunidade = l.unidade_idunidade) "
+                + "INNER JOIN safra s ON( s.propriedade_idpropriedade = p.idpropriedade) "
+                + "INNER JOIN cultivar c ON( c.idcultivar = s.cultivar_idcultivar) "
+                + "INNER JOIN unidademedida um ON( um.idunidademedida = s.unidademedida_idunidademedida)  "
+                + "WHERE l.usuario IN(?) and l.unidade_idunidade IN(?)";
+        
+        ResultSet rs = null;
+        
+        try{
+            //variavel com lista dos parametros
+            List<Object> u = new ArrayList<Object>();
+            TOLogin to = (TOLogin)t;
+            u.add(to.getUsuario());
+            u.add(to.getUnidade_idunidade());
+            
+            rs = Data.executeQuery(c, sql, u);
+            
+            while (rs.next()){
+                TOSafra ts = new TOSafra().backupentrevista(rs);
+                ja.put(ts.getJson());
+            }
+        }finally{
+            rs.close();
+        }
+        return ja;
+    }
+
+    
+    
 }

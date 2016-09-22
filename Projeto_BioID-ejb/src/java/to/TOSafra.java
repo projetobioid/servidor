@@ -243,6 +243,18 @@ public class TOSafra extends TOBase {
            
     }
 
+    public TOSafra backupentrevista(ResultSet rs) throws Exception{
+        this.nomepropriedade = rs.getString("nomepropriedade");
+        this.idsafra = rs.getLong("idsafra");
+        this.nomecultivar = rs.getString("nomecultivar");
+        this.safra = rs.getString("safra");
+        this.qtdrecebida = rs.getFloat("qtdrecebida");
+        this.grandeza_recebida = rs.getString("grandeza_recebida");
+        this.datareceb = rs.getString("datareceb");
+        
+        return this;
+    }
+    
     @Override
     public JSONObject getJson() throws Exception {
          //variavel para retorno do json contendo as informacoes do produto
@@ -275,5 +287,7 @@ public class TOSafra extends TOBase {
         return j;
     }
 
-   
+
+
+
 }

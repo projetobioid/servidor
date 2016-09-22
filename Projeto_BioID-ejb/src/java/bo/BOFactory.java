@@ -8,6 +8,9 @@ import to.TOBase;
 import java.sql.Connection;
 import org.json.JSONArray;
 import dao.DAOBase;
+import dao.DAOLogin;
+import dao.DAOPropriedade;
+import to.TOLogin;
 
 /**
  *
@@ -110,5 +113,31 @@ public class BOFactory {
             c.close();
         }
     }
+
+    public static JSONArray backupentrevista(DAOBase d, TOBase t) throws Exception{
+        Connection c = null;
+        
+        try{
+            c =  Data.openConnection();
+            
+            return d.backupentrevista(c, t);
+        }finally{
+            c.close();
+        }
+    }
+
+    public static void sessao(DAOBase d, TOBase t) throws Exception{
+        Connection c = null;
+        
+        try{
+            c =  Data.openConnection();
+            d.editar(c, t);
+        }finally{
+            c.close();
+        }
+    }
+
+ 
+    
     
 }
