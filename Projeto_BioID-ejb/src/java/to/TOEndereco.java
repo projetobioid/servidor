@@ -30,6 +30,8 @@ public class TOEndereco extends TOBase{
     
     private String cep;
     
+    private String nomecidade;
+    
     public long getCidade_idcidade() {
         return cidade_idcidade;
     }
@@ -92,6 +94,14 @@ public class TOEndereco extends TOBase{
 
     public void setCep(String cep) {
         this.cep = cep;
+    }
+
+    public String getNomecidade() {
+        return nomecidade;
+    }
+
+    public void setNomecidade(String nomecidade) {
+        this.nomecidade = nomecidade;
     }
    
     

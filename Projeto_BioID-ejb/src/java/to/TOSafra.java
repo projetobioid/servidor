@@ -33,6 +33,9 @@ public class TOSafra extends TOBase {
     
     private float qtdcolhida;
     
+    private long idpropriedade;
+    
+    
     //campo de amostragem
     private String grandeza_recebida;
     
@@ -49,6 +52,8 @@ public class TOSafra extends TOBase {
     private String prazo_destinacao;
     
     private float qtddestinada; 
+    
+    private TOEndereco TOEndereco;
     
 
     public long getIdsafra() {
@@ -195,6 +200,15 @@ public class TOSafra extends TOBase {
         this.qtddestinada = qtddestinada;
     }
 
+    public long getIdpropriedade() {
+        return idpropriedade;
+    }
+
+    public void setIdpropriedade(long idpropriedade) {
+        this.idpropriedade = idpropriedade;
+    }
+
+
     
     
     public TOSafra() {
@@ -221,11 +235,6 @@ public class TOSafra extends TOBase {
         this.qtddestinada = qtddestinada;
     }
 
-    public TOSafra listarSafra(ResultSet rs) throws Exception{
-        this.safra = rs.getString("safra");
-        return this;
-    }
-     
     public TOSafra(ResultSet rs) throws Exception{
         this.idsafra = rs.getLong("idsafra");
         this.statussafra_idstatussafra = rs.getLong("statussafra_idstatussafra");     
@@ -244,10 +253,10 @@ public class TOSafra extends TOBase {
     }
 
     public TOSafra backupentrevista(ResultSet rs) throws Exception{
-        this.nomepropriedade = rs.getString("nomepropriedade");
+        this.idpropriedade = rs.getLong("nomepropriedade");
         this.idsafra = rs.getLong("idsafra");
-        this.nomecultivar = rs.getString("nomecultivar");
         this.safra = rs.getString("safra");
+        this.nomecultivar = rs.getString("nomecultivar");
         this.qtdrecebida = rs.getFloat("qtdrecebida");
         this.grandeza_recebida = rs.getString("grandeza_recebida");
         this.datareceb = rs.getString("datareceb");
@@ -278,16 +287,26 @@ public class TOSafra extends TOBase {
         return j;
     }
 
+
     @Override
-    public JSONObject getJsonSimples() throws Exception {
-        //variavel para retorno do json contendo as informacoes do produto
+    public JSONObject getJsonConsulta() throws Exception {
+        
         JSONObject j = new JSONObject();
+
+        
+        j.put("nomepropriedade", idpropriedade);
+        j.put("idsafra", idsafra);
         j.put("safra", safra);
+        j.put("nomecultivar", nomecultivar);
+        j.put("qtdrecebida", qtdrecebida);
+        j.put("grandeza_recebida", grandeza_recebida);
+        j.put("datareceb", datareceb);
+
         
         return j;
     }
 
-
+    
 
 
 }

@@ -11,6 +11,7 @@ import javax.ejb.Stateless;
 import org.json.JSONArray;
 import to.TOBase;
 import to.TOCultivar;
+import to.TOLogin;
 
 /**
  *
@@ -130,16 +131,17 @@ public class DAOCultivar extends DAOBase {
             //variavel com lista dos parametros
             List<Object> u = new ArrayList<Object>();
             
-            String sql = "SELECT DISTINCT c.idcultivar, c.nomecultivar, c.imagem, c.descricao, c.biofortificado, um.grandeza, c.valornutricional, c.tempodecolheita, c.peso_saca FROM login l "
+            String sql = "SELECT DISTINCT c.idcultivar, c.nomecultivar, c.imagem, c.descricao, c.biofortificado, um.grandeza, c.valornutricional, c.tempodecolheita, c.peso_saca "
+                + "FROM login l "
                 + "INNER JOIN pessoa p ON( p.idpessoa = l.pessoa_idpessoa) "
                 + "INNER JOIN relacaopa r ON( r.agricultor_pessoa_idpessoa = p.idpessoa) "
                 + "INNER JOIN propriedade pr ON (pr.idpropriedade = r.propriedade_idpropriedade) "
                 + "INNER JOIN safra s ON (s.propriedade_idpropriedade = pr.idpropriedade) "
                 + "INNER JOIN cultivar c ON (idcultivar = cultivar_idcultivar) "
                 + "INNER JOIN unidademedida um ON (idunidademedida = c.unidademedida_idunidademedida) "
-                + "where l.usuario = ?";
+                + "where l.pessoa_idpessoa = ?";
             
-            u.add(((TOCultivar) t).getUsuario());
+            u.add(((TOLogin) t).getPessoa_idpessoa());
             
             rs = Data.executeQuery(c, sql, u);
             

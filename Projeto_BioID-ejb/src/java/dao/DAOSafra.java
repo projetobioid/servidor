@@ -102,9 +102,9 @@ public class DAOSafra extends DAOBase{
                 + " INNER JOIN propriedade pr ON (pr.idpropriedade = r.propriedade_idpropriedade)"
                 + " INNER JOIN safra s ON (s.propriedade_idpropriedade = pr.idpropriedade)"
                 + " INNER JOIN cultivar c ON (c.idcultivar = s.cultivar_idcultivar)"
-                + " INNER JOIN unidademedida um ON(um.idunidademedida = s.unidademedida_idunidademedida) where l.usuario IN(?) ORDER BY s.safra DESC";
+                + " INNER JOIN unidademedida um ON(um.idunidademedida = s.unidademedida_idunidademedida) where l.pessoa_idpessoa IN(?) ORDER BY s.safra DESC";
              
-            u.add(((TOLogin) t).getUsuario());
+            u.add(((TOLogin) t).getPessoa_idpessoa());
             
             rs = Data.executeQuery(c, sql, u);
             
@@ -151,43 +151,7 @@ public class DAOSafra extends DAOBase{
         return ja;
     }
 
-    @Override
-    public JSONArray listarSafra(Connection c, TOBase t) throws Exception {
-        JSONArray  ja = new JSONArray();
-  
-        ResultSet rs = null;
-        try{
-            //variavel com lista dos parametros
-            List<Object> u = new ArrayList<Object>();
-            
-           
-            
-             String sql = "SELECT DISTINCT s.safra FROM login l"
-                + " INNER JOIN pessoa p ON( p.idpessoa = l.pessoa_idpessoa)"
-                + " INNER JOIN relacaopa r ON( r.agricultor_pessoa_idpessoa = p.idpessoa)"
-                + " INNER JOIN propriedade pr ON (pr.idpropriedade = r.propriedade_idpropriedade)"
-                + " INNER JOIN safra s ON (s.propriedade_idpropriedade = pr.idpropriedade)"
-                + " INNER JOIN cultivar c ON (c.idcultivar = s.cultivar_idcultivar)"
-                + " INNER JOIN unidademedida um ON(um.idunidademedida = s.unidademedida_idunidademedida) where l.usuario IN(?) ORDER BY s.safra DESC";
-             
-            u.add(((TOLogin) t).getUsuario());
-            
-            rs = Data.executeQuery(c, sql, u);
-            
-            while (rs.next()){
-                TOSafra ts = new TOSafra().listarSafra(rs);
-                ja.put(ts.getJsonSimples());
-            }
-            
-                        
-        }finally{
-            rs.close();
-        }
-        return ja;
-    }
 
-    
-    
     private String verificarPrazoColheita(TOSafra ts) {
         String teste = null;
         
@@ -264,7 +228,30 @@ public class DAOSafra extends DAOBase{
         return teste;
     }
 
-    
+    @Override
+    public JSONArray backupentrevista(Connection c, TOBase t) throws Exception {
+        JSONArray  ja = new JSONArray();
+        
+        
+        String sql = "SELECT pr.nomepropriedade, s.idsafra, s.safra, c.nomecultivar, s.qtdrecebida, um.grandeza as grandeza_recebida, s.datareceb FROM safra s INNER JOIN propriedade pr ON(pr.idpropriedade = s.propriedade_idpropriedade) INNER JOIN relacaopa rpa ON(rpa.propriedade_idpropriedade = pr.idPropriedade) INNER JOIN pessoa p ON(p.idpessoa = rpa.agricultor_pessoa_idpessoa) INNER JOIN cultivar c ON(c.idcultivar = s.cultivar_idcultivar) INNER JOIN unidademedida um ON(um.idunidademedida = s.unidademedida_idunidademedida) WHERE p.idpessoa IN(?) AND s.status_entrevistador IN(9);";
+        ResultSet rs = null;
+        
+        try{
+            //variavel com lista dos parametros
+            List<Object> u = new ArrayList<Object>();
+            TOLogin to = (TOLogin)t;
+            u.add(to.getPessoa_idpessoa());
+            
+            rs = Data.executeQuery(c, sql, u);
+            while (rs.next()){
+                TOSafra ts = new TOSafra().backupentrevista(rs);
+                ja.put(ts.getJsonConsulta());
+            }
+        }finally{
+            rs.close();
+        }
+        return ja;
+    }
 }
 
 

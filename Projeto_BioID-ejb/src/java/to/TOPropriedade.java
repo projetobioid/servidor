@@ -32,6 +32,8 @@ public class TOPropriedade extends TOBase {
     private String usuario;
     
     private String cpf;
+    
+    private TOEndereco endereco;
 
     public long getIdpropriedade() {
         return idpropriedade;
@@ -133,7 +135,17 @@ public class TOPropriedade extends TOBase {
     }
     
 
-    public TOPropriedade listarNome(ResultSet rs) throws Exception{
+    public TOPropriedade listarPropriedadeEndereco(ResultSet rs) throws Exception{
+        this.endereco = new TOEndereco();
+        
+        this.endereco.setNomecidade(rs.getString("nomecidade"));
+        this.endereco.setRua(rs.getString("rua"));
+        this.endereco.setNumero(rs.getInt("numero"));
+        this.endereco.setBairro(rs.getString("bairro"));
+        this.endereco.setCep(rs.getString("cep"));
+        this.endereco.setComplemento(rs.getString("complemento"));
+        this.endereco.setGps_lat(rs.getInt("gps_lat"));
+        this.endereco.setGps_long(rs.getInt("gps_long"));
         this.nomepropriedade = rs.getString("nomepropriedade");
         return this;
     }
@@ -174,7 +186,16 @@ public class TOPropriedade extends TOBase {
         JSONObject j = new JSONObject();
         
         //populando o objeto j
+        j.put("nomecidade", endereco.getNomecidade());
+        j.put("rua", endereco.getRua());
+        j.put("numero", endereco.getNumero());
+        j.put("bairro", endereco.getBairro());
+        j.put("cep", endereco.getCep());
+        j.put("complemento", endereco.getComplemento());
+        j.put("gps_lat", endereco.getGps_lat());
+        j.put("gps_long", endereco.getGps_long());
         j.put("nomepropriedade", nomepropriedade);
+        
         
         return j;
     }

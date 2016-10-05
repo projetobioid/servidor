@@ -265,7 +265,7 @@ public class ServicosCultivar {
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.APPLICATION_JSON)
     public String listarrecebido(
-            @FormParam("usuario") String usuario
+            @FormParam("idpessoa") long idpessoa
             ) throws Exception {
         
         JSONObject j = new JSONObject();
@@ -274,19 +274,16 @@ public class ServicosCultivar {
         try{          
             //lista os cultivares recebidos
             TOLogin t = new TOLogin();
-            t.setUsuario(usuario);
+            t.setPessoa_idpessoa(idpessoa);
+            
             //lista os cultivares recebidos
-            JSONArray ja = BOFactory.listar(new DAOSafra(), t);
-            //lista somente as safras
-            JSONArray js = BOFactory.listarSafra(new DAOSafra(), t);
-           
-            TOCultivar tc = new TOCultivar();
-            tc.setUsuario(usuario);
-            //lista dados dos cultivares
-            JSONArray jc = BOFactory.listar(new DAOCultivar(), tc);
+            JSONArray ja = BOFactory.listar(new DAOSafra(), t);           
+            
 
-            //lista as propriedades do agricultor
-            JSONArray jp = BOFactory.listar(new DAOPropriedade(), t);
+            //lista dados dos cultivares
+            JSONArray jc = BOFactory.listar(new DAOCultivar(), t);
+
+            
             
             //lista as perguntas da propriedade
             //JSONArray jper = BOFactory.listar(new DAOPerguntas(), t);
@@ -294,10 +291,7 @@ public class ServicosCultivar {
             if(ja.length() > 0){
                 j.put("sucesso", true);
                 j.put("cultivaresrecebidos", ja);
-                j.put("safras", js);
                 j.put("cultivares", jc);
-                j.put("propriedades", jp);
-                //j.put("perguntas", jper);
  
             }else{
                 j.put("sucesso", false);
@@ -421,14 +415,13 @@ public class ServicosCultivar {
         return js;
     }*/
     
-    //metodo que lista todos os cultivares recebido
+    //metodo listar os dados da propriedade 
     @Path("backupentrevista")
     @POST
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.APPLICATION_JSON)
     public String backupentrevista(
-            @FormParam("usuario") String usuario,
-            @FormParam("idunidade") long idunidade
+            @FormParam("idpessoa") long idpessoa
             ) throws Exception {
         
         JSONObject j = new JSONObject();
@@ -437,23 +430,27 @@ public class ServicosCultivar {
         try{          
             //lista os cultivares recebidos
             TOLogin t = new TOLogin();
-            t.setUsuario(usuario);
-            t.setUnidade_idunidade(idunidade);
+            t.setPessoa_idpessoa(idpessoa);
             
-            
-            //lista os cultivares recebidos
-            JSONArray ja = BOFactory.backupentrevista(new DAOPropriedade(), t);
-
+            //lista as propriedades
             JSONArray jp = BOFactory.listar(new DAOPropriedade(), t);
             
-            if(ja.length() > 0){
-                j.put("sucesso", true);
-                j.put("itementrevista", ja);
-                j.put("propriedades", jp);
- 
+            //lista os cultivares recebidos
+            JSONArray ja = BOFactory.backupentrevista(new DAOSafra(), t);
+            
+            
+            if(jp.length() > 0){
+                if(ja.length() > 0){
+                    j.put("sucesso", true);
+                    j.put("propriedades", jp);
+                    j.put("cultivaresarelatar", ja);
+                }else{
+                    j.put("sucesso", false);
+                    j.put("mensagem", "Nenhuma cultivar para relatar!"); 
+                }
             }else{
                 j.put("sucesso", false);
-                j.put("mensagem", "Nenhum usuario encontrado!");
+                j.put("mensagem", "Nenhuma propriedade encontrada!");
             }
         }catch(Exception e){
             j.put("sucesso", false);

@@ -449,7 +449,7 @@ public class ServicosPessoa {
                 
                 j.put("sucesso", true);
                 
-                j.put("usuario", to.getUsuario());
+                j.put("idpessoa", to.getPessoa_idpessoa());
                 j.put("papel", to.getPapel());
                 j.put("idunidade", to.getUnidade_idunidade());
                 j.put("idSession", sessao);
@@ -565,13 +565,13 @@ public class ServicosPessoa {
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.APPLICATION_JSON)
     public String listarPropriedades(
-            @FormParam("usuario") String usuario)throws Exception{
+            @FormParam("idpessoa") long idpessoa)throws Exception{
         
         JSONObject j = new JSONObject();
  
         try{
-            TOPropriedade t = new TOPropriedade();
-            t.setUsuario(usuario);
+            TOLogin t = new TOLogin();
+            t.setPessoa_idpessoa(idpessoa);
             
             
             JSONArray ja = BOFactory.listar(new DAOPropriedade(), t) ;

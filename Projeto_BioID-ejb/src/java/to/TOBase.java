@@ -16,7 +16,11 @@ public class TOBase {
         return null;
     }
     
-     public JSONObject getJsonSimples() throws Exception{
+    public JSONObject getJsonSimples() throws Exception{
+        return null;
+    }
+    
+    public JSONObject getJsonConsulta() throws Exception{
         return null;
     }
 }

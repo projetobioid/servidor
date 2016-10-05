@@ -39,10 +39,6 @@ public class DAOBase {
         return null;
     }
     
-    public JSONArray listarSafra(Connection c, TOBase t) throws Exception{
-        return null;
-    }
-    
     public JSONArray listarAgricultoresUnidade(Connection c, TOBase t) throws Exception{
         return null;
     }
@@ -50,5 +46,6 @@ public class DAOBase {
     public JSONArray backupentrevista(Connection c, TOBase t) throws Exception{
         return null;
     }
+    
     
 }

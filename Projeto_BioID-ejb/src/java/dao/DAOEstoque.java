@@ -102,7 +102,7 @@ public class DAOEstoque extends DAOBase{
             
             while (rs.next()){
                 TOEstoque tc = new TOEstoque(rs);
-                ja.put(tc.getJson());
+                ja.put(tc.getJsonSimples());
             }
             
         }finally{
@@ -110,6 +110,8 @@ public class DAOEstoque extends DAOBase{
         }
         return ja;
     }
+    
+    
     
     
 }

@@ -234,7 +234,7 @@ public class TOPessoa extends TOBase{
     public TOPessoa listarAgricultoresUnidade(ResultSet rs) throws Exception{
         this.nome = rs.getString("nome");
         this.sobrenome = rs.getString("sobrenome");
-        this.usuario = rs.getString("usuario");
+        this.idpessoa = rs.getLong("idpessoa");
         
         return this;  
     }
@@ -246,7 +246,7 @@ public class TOPessoa extends TOBase{
         
         j.put("nome", nome);
         j.put("sobrenome", sobrenome);
-        j.put("usuario", usuario);
+        j.put("idpessoa", idpessoa);
         
         return j;
     }
