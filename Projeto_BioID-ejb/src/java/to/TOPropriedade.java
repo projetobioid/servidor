@@ -147,6 +147,7 @@ public class TOPropriedade extends TOBase {
         this.endereco.setGps_lat(rs.getInt("gps_lat"));
         this.endereco.setGps_long(rs.getInt("gps_long"));
         this.nomepropriedade = rs.getString("nomepropriedade");
+        this.idpropriedade = rs.getLong("idpropriedade");
         return this;
     }
     
@@ -195,6 +196,7 @@ public class TOPropriedade extends TOBase {
         j.put("gps_lat", endereco.getGps_lat());
         j.put("gps_long", endereco.getGps_long());
         j.put("nomepropriedade", nomepropriedade);
+        j.put("idpropriedade", idpropriedade);
         
         
         return j;

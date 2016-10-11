@@ -440,12 +440,14 @@ public class ServicosCultivar {
             
             
             if(jp.length() > 0){
+                j.put("sucesso", true);
+                j.put("propriedades", jp);
                 if(ja.length() > 0){
-                    j.put("sucesso", true);
-                    j.put("propriedades", jp);
+                    j.put("aberto", true);
                     j.put("cultivaresarelatar", ja);
                 }else{
-                    j.put("sucesso", false);
+                    
+                    j.put("aberto", false);
                     j.put("mensagem", "Nenhuma cultivar para relatar!"); 
                 }
             }else{

@@ -253,7 +253,7 @@ public class TOSafra extends TOBase {
     }
 
     public TOSafra backupentrevista(ResultSet rs) throws Exception{
-        this.idpropriedade = rs.getLong("nomepropriedade");
+        this.nomepropriedade = rs.getString("nomepropriedade");
         this.idsafra = rs.getLong("idsafra");
         this.safra = rs.getString("safra");
         this.nomecultivar = rs.getString("nomecultivar");
@@ -294,7 +294,7 @@ public class TOSafra extends TOBase {
         JSONObject j = new JSONObject();
 
         
-        j.put("nomepropriedade", idpropriedade);
+        j.put("nomepropriedade", nomepropriedade);
         j.put("idsafra", idsafra);
         j.put("safra", safra);
         j.put("nomecultivar", nomecultivar);
