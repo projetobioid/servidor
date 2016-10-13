@@ -233,7 +233,7 @@ public class DAOSafra extends DAOBase{
         JSONArray  ja = new JSONArray();
         
         
-        String sql = "SELECT pr.nomepropriedade, s.idsafra, s.safra, c.nomecultivar, s.qtdrecebida, um.grandeza as grandeza_recebida, s.datareceb FROM safra s INNER JOIN propriedade pr ON(pr.idpropriedade = s.propriedade_idpropriedade) INNER JOIN relacaopa rpa ON(rpa.propriedade_idpropriedade = pr.idPropriedade) INNER JOIN pessoa p ON(p.idpessoa = rpa.agricultor_pessoa_idpessoa) INNER JOIN cultivar c ON(c.idcultivar = s.cultivar_idcultivar) INNER JOIN unidademedida um ON(um.idunidademedida = s.unidademedida_idunidademedida) WHERE p.idpessoa IN(?) AND s.status_entrevistador IN(9);";
+        String sql = "SELECT s.idsafra, s.safra, c.nomecultivar, s.qtdrecebida, s.propriedade_idpropriedade, um.grandeza as grandeza_recebida, s.datareceb FROM safra s INNER JOIN propriedade pr ON(pr.idpropriedade = s.propriedade_idpropriedade) INNER JOIN relacaopa rpa ON(rpa.propriedade_idpropriedade = pr.idPropriedade) INNER JOIN pessoa p ON(p.idpessoa = rpa.agricultor_pessoa_idpessoa) INNER JOIN cultivar c ON(c.idcultivar = s.cultivar_idcultivar) INNER JOIN unidademedida um ON(um.idunidademedida = s.unidademedida_idunidademedida) WHERE p.idpessoa IN(?) AND s.status_entrevistador IN(9);";
         ResultSet rs = null;
         
         try{

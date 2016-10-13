@@ -33,8 +33,6 @@ public class TOSafra extends TOBase {
     
     private float qtdcolhida;
     
-    private long idpropriedade;
-    
     
     //campo de amostragem
     private String grandeza_recebida;
@@ -200,15 +198,6 @@ public class TOSafra extends TOBase {
         this.qtddestinada = qtddestinada;
     }
 
-    public long getIdpropriedade() {
-        return idpropriedade;
-    }
-
-    public void setIdpropriedade(long idpropriedade) {
-        this.idpropriedade = idpropriedade;
-    }
-
-
     
     
     public TOSafra() {
@@ -253,7 +242,7 @@ public class TOSafra extends TOBase {
     }
 
     public TOSafra backupentrevista(ResultSet rs) throws Exception{
-        this.nomepropriedade = rs.getString("nomepropriedade");
+        this.propriedade_idpropriedade = rs.getLong("propriedade_idpropriedade");
         this.idsafra = rs.getLong("idsafra");
         this.safra = rs.getString("safra");
         this.nomecultivar = rs.getString("nomecultivar");
@@ -294,7 +283,7 @@ public class TOSafra extends TOBase {
         JSONObject j = new JSONObject();
 
         
-        j.put("nomepropriedade", nomepropriedade);
+        j.put("idpropriedade", propriedade_idpropriedade);
         j.put("idsafra", idsafra);
         j.put("safra", safra);
         j.put("nomecultivar", nomecultivar);
