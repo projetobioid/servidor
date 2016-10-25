@@ -415,13 +415,13 @@ public class ServicosCultivar {
         return js;
     }*/
     
-    //metodo listar os dados da propriedade 
+    //metodo listar cultivares para relatar da propriedade 
     @Path("backupentrevista")
     @POST
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.APPLICATION_JSON)
     public String backupentrevista(
-            @FormParam("idpessoa") long idpessoa
+            @FormParam("idpropriedade") long idpropriedade
             ) throws Exception {
         
         JSONObject j = new JSONObject();
@@ -429,31 +429,28 @@ public class ServicosCultivar {
         
         try{          
             //lista os cultivares recebidos
-            TOLogin t = new TOLogin();
-            t.setPessoa_idpessoa(idpessoa);
+            //TOLogin t = new TOLogin();
+            //t.setPessoa_idpessoa(idpropriedade);
+            TOSafra t = new TOSafra();
+            t.setPropriedade_idpropriedade(idpropriedade);
             
             //lista as propriedades
-            JSONArray jp = BOFactory.listar(new DAOPropriedade(), t);
+            //JSONArray jp = BOFactory.listar(new DAOPropriedade(), t);
             
             //lista os cultivares recebidos
             JSONArray ja = BOFactory.backupentrevista(new DAOSafra(), t);
             
             
-            if(jp.length() > 0){
+       
+            if(ja.length() > 0){
                 j.put("sucesso", true);
-                j.put("propriedades", jp);
-                if(ja.length() > 0){
-                    j.put("aberto", true);
-                    j.put("cultivaresarelatar", ja);
-                }else{
-                    
-                    j.put("aberto", false);
-                    j.put("mensagem", "Nenhuma cultivar para relatar!"); 
-                }
+                j.put("cultivaresarelatar", ja);
             }else{
+
                 j.put("sucesso", false);
-                j.put("mensagem", "Nenhuma propriedade encontrada!");
+                j.put("mensagem", "Nenhuma cultivar para relatar!"); 
             }
+
         }catch(Exception e){
             j.put("sucesso", false);
             j.put("mensagem", e.getMessage());

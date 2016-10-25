@@ -577,7 +577,7 @@ public class ServicosPessoa {
             JSONArray ja = BOFactory.listar(new DAOPropriedade(), t) ;
             
             if(ja.length() > 0){
-                j.put("data", ja);
+                j.put("propriedades", ja);
                 j.put("sucesso", true);
             }else{
                 j.put("sucesso", false);
