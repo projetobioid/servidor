@@ -26,7 +26,7 @@ public class DAOSafra extends DAOBase{
     @Override
     public long inserir(Connection c, TOBase t) throws Exception {
         String sql = "INSERT INTO safra(statussafra_idstatussafra, unidademedida_idunidademedida, propriedade_idpropriedade, cultivar_idcultivar, safra,"
-                + " datareceb, qtdrecebida) VALUES (?, ?, ?, ?, ?, ?, ?)";
+                + " datareceb, qtdrecebida, status_entrevistador) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         
         TOSafra to = (TOSafra)t;
         List<Object> p = new ArrayList<Object>();
@@ -38,6 +38,7 @@ public class DAOSafra extends DAOBase{
         p.add(to.getSafra());
         p.add(to.getDatareceb());
         p.add(to.getQtdrecebida());
+        p.add(9);
         
         //passa por parametros a conexao e a lista de objetos da insercao de um novo produto
         return Data.executeUpdate(c, sql, p);

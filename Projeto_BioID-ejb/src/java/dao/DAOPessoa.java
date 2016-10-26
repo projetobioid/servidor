@@ -78,10 +78,14 @@ public class DAOPessoa extends DAOBase{
             //variavel com lista dos parametros
             List<Object> u = new ArrayList<Object>();
             
-            String sql = "SELECT p.nome, p.sobrenome, p.idpessoa FROM pessoa p "
-                     + "INNER JOIN login l ON(l.pessoa_idpessoa = p.idpessoa) "
-                     + "INNER JOIN agricultor a ON(a.pessoa_idpessoa = p.idpessoa) "
-                     + "where l.unidade_idunidade IN(?) AND a.pessoa_idpessoa IN(p.idpessoa)";
+            String sql = "SELECT DISTINCT p.nome, p.sobrenome, p.idpessoa "
+                    + "FROM pessoa p "
+                    + "INNER JOIN login l ON(l.pessoa_idpessoa = p.idpessoa) "
+                    + "INNER JOIN agricultor a ON(a.pessoa_idpessoa = p.idpessoa) "
+                    + "INNER JOIN relacaopa rpa ON(rpa.agricultor_pessoa_idpessoa = a.pessoa_idpessoa) "
+                    + "INNER JOIN propriedade pr ON(pr.idpropriedade = rpa.propriedade_idpropriedade) "
+                    + "INNER JOIN safra s ON(s.propriedade_idpropriedade = pr.idpropriedade) "
+                    + "where l.unidade_idunidade IN(?) AND a.pessoa_idpessoa IN(p.idpessoa)";
              
             u.add(((TOUnidade) t).getIdunidade());
             

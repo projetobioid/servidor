@@ -33,6 +33,8 @@ public class TOSafra extends TOBase {
     
     private float qtdcolhida;
     
+    private long status_entrevistador;
+    
     
     //campo de amostragem
     private String grandeza_recebida;
@@ -196,6 +198,14 @@ public class TOSafra extends TOBase {
 
     public void setQtddestinada(float qtddestinada) {
         this.qtddestinada = qtddestinada;
+    }
+
+    public long getStatus_entrevistador() {
+        return status_entrevistador;
+    }
+
+    public void setStatus_entrevistador(long status_entrevistador) {
+        this.status_entrevistador = status_entrevistador;
     }
 
     
