@@ -11,6 +11,7 @@ import dao.DAOEstoque;
 import dao.DAOIOEstoque;
 import dao.DAOPessoa;
 import dao.DAOUnidade;
+import fw.VerificarSessao;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.Consumes;
@@ -64,8 +65,8 @@ public class ServicosUnidade {
             @FormParam("email") String email,
             @FormParam("cnpj") String cnpj,
             @FormParam("razao_social") String razao_social,
-            @FormParam("nome_fanta") String nome_fanta
-            
+            @FormParam("nome_fanta") String nome_fanta,
+            @FormParam("sessao") String sessao
             ) throws Exception{
         
                 
@@ -127,57 +128,67 @@ public class ServicosUnidade {
             @FormParam("um") long um,
             @FormParam("qtd") float qtd,
             @FormParam("data_io") String data_io,
-            @FormParam("operacao") int operacao
+            @FormParam("operacao") int operacao,
+            @FormParam("sessao") String sessao
             ) throws Exception{
         
                 
         JSONObject j = new JSONObject();
         
         try{    
-            //cria um objeto          
-            TOEstoque te = new TOEstoque();
+            //verificar sessao
+            JSONObject js = new VerificarSessao().VerificarSessao(sessao);
             
-            te.setUnidade_idunidade(idunidade);
-            te.setCultivar_idcultivar(idcultivar);
-            te.setUnidademedida_idunidademedida(um);
-            te.setQuantidade(qtd);
             
-            TOEstoque t = new TOEstoque();
-            
-             t = (TOEstoque) BOFactory.get(new DAOEstoque(), te);
-            
-            //se nao existe, cria uma nova tabela
-            if(t == null){
+            if((boolean) js.get("sucesso") == false){
+                j.put("sucesso", false);
+                j.put("mensangem", "Sessao não encontrada!");
+            }else{ 
+                //cria um objeto          
+                TOEstoque te = new TOEstoque();
 
-                BOFactory.inserir(new DAOEstoque(), te);
+                te.setUnidade_idunidade(idunidade);
+                te.setCultivar_idcultivar(idcultivar);
+                te.setUnidademedida_idunidademedida(um);
+                te.setQuantidade(qtd);
 
-            //update na tabela estoque
-            }else{
-                                //operacao de entrada de estoque
-                if(operacao == 1){
-                    te.setQuantidade(t.getQuantidade() + qtd);
-                //operacao de saida de estoque    
+                TOEstoque t = new TOEstoque();
+
+                 t = (TOEstoque) BOFactory.get(new DAOEstoque(), te);
+
+                //se nao existe, cria uma nova tabela
+                if(t == null){
+
+                    BOFactory.inserir(new DAOEstoque(), te);
+
+                //update na tabela estoque
                 }else{
-                    te.setQuantidade(t.getQuantidade() - qtd);
+                    //operacao de entrada de estoque
+                    if(operacao == 1){
+                        te.setQuantidade(t.getQuantidade() + qtd);
+                    //operacao de saida de estoque    
+                    }else{
+                        te.setQuantidade(t.getQuantidade() - qtd);
+                    }
+
+                    BOFactory.editar(new DAOEstoque(), te);
+
+                    j.put("sucesso", true);
+                    j.put("mensagem", "Estoque atualizado!");
+                    j.put("sessao", js.get("sessao"));
                 }
-                
-                BOFactory.editar(new DAOEstoque(), te);
 
-                j.put("sucesso", true);
-                j.put("mensagem", "Estoque atualizado!");
+                //cria um historico de io do estoque
+                TOIOEstoque tio = new TOIOEstoque();
+                tio.setUnidade_idunidade(idunidade);
+                tio.setCultivar_idcultivar(idcultivar);
+                tio.setUnidademedida_idunidademedida(um);
+                tio.setQuantidade(qtd);
+                tio.setData_io(data_io);
+                tio.setOperacao(operacao);
+
+                BOFactory.inserir(new DAOIOEstoque(), tio);
             }
-            
-            //cria um historico de io do estoque
-            TOIOEstoque tio = new TOIOEstoque();
-            tio.setUnidade_idunidade(idunidade);
-            tio.setCultivar_idcultivar(idcultivar);
-            tio.setUnidademedida_idunidademedida(um);
-            tio.setQuantidade(qtd);
-            tio.setData_io(data_io);
-            tio.setOperacao(operacao);
-
-            BOFactory.inserir(new DAOIOEstoque(), tio);
-            
         }catch(Exception e){
             j.put("sucesso", false);
             j.put("erro", "erro atualização estoque da unidade!");
@@ -192,28 +203,44 @@ public class ServicosUnidade {
     @POST
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.APPLICATION_JSON)
-    public String listarrecebido(
-            @FormParam("idunidade") long idunidade
+    public String listarestoque(
+            @FormParam("idunidade") long idunidade,
+            @FormParam("sessao") String sessao
+            
             ) throws Exception {
         
         JSONObject j = new JSONObject();
         
         
-        try{          
-            //lista os cultivares recebidos
-            TOEstoque t = new TOEstoque();
-            t.setUnidade_idunidade(idunidade);
-            //lista do estoque
-            JSONArray ja = BOFactory.listar(new DAOEstoque(), t);
+        try{ 
+            //verificar sessao
+            JSONObject js = new VerificarSessao().VerificarSessao(sessao);
             
-            if(ja.length() > 0){
-                j.put("sucesso", true);
-                j.put("estoque", ja);
- 
-            }else{
+            
+            if((boolean) js.get("sucesso") == false){
                 j.put("sucesso", false);
-                j.put("mensagem", "Estoque vazio!");
+                j.put("mensangem", "Sessao não encontrada!");
+            }else{
+                
+                //lista os cultivares recebidos
+                TOEstoque t = new TOEstoque();
+                t.setUnidade_idunidade(idunidade);
+                //lista do estoque
+                JSONArray ja = BOFactory.listar(new DAOEstoque(), t);
+
+                if(ja.length() > 0){
+                    j.put("sucesso", true);
+                    j.put("estoque", ja);
+                    j.put("sessao", js.get("sessao"));
+                    
+
+                }else{
+                    j.put("sucesso", false);
+                    j.put("mensagem", "Estoque vazio!");
+                    j.put("sessao", js.get("sessao"));
+                }
             }
+            
         }catch(Exception e){
             j.put("sucesso", false);
             j.put("mensagem", e.getMessage());
@@ -227,24 +254,37 @@ public class ServicosUnidade {
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.APPLICATION_JSON)
     public String listarPropriedades(
-            @FormParam("idunidade") long idunidade
-            )throws Exception{
+                        @FormParam("idunidade") long idunidade,
+                        @FormParam("sessao") String sessao
+                        ) throws Exception{
         
         JSONObject j = new JSONObject();
  
         try{
-            TOUnidade t = new TOUnidade();
-            t.setIdunidade(idunidade);
+            //verificar sessao
+            JSONObject js = new VerificarSessao().VerificarSessao(sessao);
             
             
-            JSONArray ja = BOFactory.listarAgricultoresUnidade(new DAOPessoa(), t) ;
-            
-            if(ja.length() > 0){
-                j.put("listaAgricultores", ja);
-                j.put("sucesso", true);
-            }else{
+            if((boolean) js.get("sucesso") == false){
                 j.put("sucesso", false);
-                j.put("mensagem", "Sem agricultores na unidade");
+                j.put("mensangem", "Sessao não encontrada!");
+            }else{
+                
+                TOUnidade t = new TOUnidade();
+                t.setIdunidade(idunidade);
+
+
+                JSONArray ja = BOFactory.listarAgricultoresUnidade(new DAOPessoa(), t) ;
+
+                if(ja.length() > 0){
+                    j.put("listaAgricultores", ja);
+                    j.put("sucesso", true);
+                    j.put("sessao", js.get("sessao"));
+                }else{
+                    j.put("sucesso", false);
+                    j.put("mensagem", "Sem agricultores na unidade");
+                    j.put("sessao", js.get("sessao"));
+                }
             }
         }catch(Exception e){
             j.put("sucesso", false);

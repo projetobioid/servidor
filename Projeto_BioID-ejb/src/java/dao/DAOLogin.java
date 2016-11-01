@@ -76,7 +76,7 @@ public class DAOLogin extends DAOBase{
         
         List<Object> p = new ArrayList<Object>();
         
-        p.add(to.getSessao());
+        //p.add(to.getSessao());
         p.add(to.getIdlogin());
         
        

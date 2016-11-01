@@ -11,6 +11,7 @@ import dao.DAOPropriedade;
 import dao.DAOSafra;
 import dao.DAODestinacao;
 import dao.DAOHistoricoColheita;
+import fw.VerificarSessao;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
@@ -80,8 +81,8 @@ public class ServicosCultivar {
             @FormParam("biofortificado") boolean biofortificado,
             @FormParam("unidademedida_idunidademedida") long unidademedida_idunidademedida,
             @FormParam("valornutricional") String valornutricional,
-            @FormParam("tempodecolheita") int tempodecolheita
-            
+            @FormParam("tempodecolheita") int tempodecolheita,
+            @FormParam("sessao") String sessao
             ) throws Exception{
         
                 
@@ -125,7 +126,9 @@ public class ServicosCultivar {
             @FormParam("nome") String nome,
             @FormParam("descricao") String descricao,
             @FormParam("biofortificado") boolean biofortificado,
-            @FormParam("tipo") String tipo) throws Exception{
+            @FormParam("tipo") String tipo,
+            @FormParam("sessao") String sessao
+            ) throws Exception{
         
                 
         JSONObject j = new JSONObject();
@@ -163,7 +166,9 @@ public class ServicosCultivar {
     @Path("excluir")
     @POST
     public String excluir(
-            @FormParam("id") int id)throws Exception{
+                        @FormParam("id") int id,
+                        @FormParam("sessao") String sessao
+                        ) throws Exception{
         
         JSONObject j = new JSONObject();
         
@@ -202,55 +207,65 @@ public class ServicosCultivar {
             @FormParam("safra") String safra,
             @FormParam("datareceb") String datareceb,
             @FormParam("qtdrecebida") float qtdrecebida,
-            @FormParam("unidademedida_idunidademedida") long unidademedida_idunidademedida
-            
-            
+            @FormParam("unidademedida_idunidademedida") long unidademedida_idunidademedida,
+            @FormParam("sessao") String sessao
             ) throws Exception{
         
         JSONObject j = new JSONObject();
         
-        try{    
-            //cria um objeto
-            TOCultivar tc = new TOCultivar();
-            TOPropriedade tpr = new TOPropriedade();
+        try{ 
+            //verificar sessao
+            JSONObject js = new VerificarSessao().VerificarSessao(sessao);
             
             
-            tc.setNomecultivar(nomecultivar);
-            tc.setBiofortificado(biofortificado);
-            tpr.setNomepropriedade(nomepropriedade);
-            tpr.setCpf(cpf);
-            
-            
-            tc = (TOCultivar) BOFactory.get(new DAOCultivar(), tc);
-            tpr = (TOPropriedade) BOFactory.get(new DAOPropriedade(), tpr);
+            if((boolean) js.get("sucesso") == false){
+                j.put("sucesso", false);
+                j.put("mensangem", "Sessao não encontrada!");
+            }else{
+                //cria um objeto
+                TOCultivar tc = new TOCultivar();
+                TOPropriedade tpr = new TOPropriedade();
 
-            
-            if(tpr != null){
-                if(tc != null){
-                    TOSafra ts = new TOSafra();
-                    ts.setStatussafra_idstatussafra(1);
-                    ts.setUnidademedida_idunidademedida(unidademedida_idunidademedida);
-                    ts.setPropriedade_idpropriedade(tpr.getIdpropriedade());
-                    ts.setCultivar_idcultivar(tc.getIdcultivar());
-                    ts.setSafra(safra);
-                    ts.setDatareceb(datareceb);
-                    ts.setQtdrecebida(qtdrecebida);
 
-                    BOFactory.inserir(new DAOSafra(), ts);
-                    
-                    j.put("sucesso", true);
-                    j.put("mensagem", "Distribuicao com sucesso!");
+                tc.setNomecultivar(nomecultivar);
+                tc.setBiofortificado(biofortificado);
+                tpr.setNomepropriedade(nomepropriedade);
+                tpr.setCpf(cpf);
+
+
+                tc = (TOCultivar) BOFactory.get(new DAOCultivar(), tc);
+                tpr = (TOPropriedade) BOFactory.get(new DAOPropriedade(), tpr);
+
+
+                if(tpr != null){
+                    if(tc != null){
+                        TOSafra ts = new TOSafra();
+                        ts.setStatussafra_idstatussafra(1);
+                        ts.setUnidademedida_idunidademedida(unidademedida_idunidademedida);
+                        ts.setPropriedade_idpropriedade(tpr.getIdpropriedade());
+                        ts.setCultivar_idcultivar(tc.getIdcultivar());
+                        ts.setSafra(safra);
+                        ts.setDatareceb(datareceb);
+                        ts.setQtdrecebida(qtdrecebida);
+
+                        BOFactory.inserir(new DAOSafra(), ts);
+
+                        j.put("sucesso", true);
+                        j.put("mensagem", "Distribuicao com sucesso!");
+                        j.put("sessao", js.get("sessao"));
+                    }else{
+                        j.put("sucesso", false);
+                        j.put("erro", 1);
+                        j.put("mensagem", "Cultivar nao encontrado!");
+                        j.put("sessao", js.get("sessao"));
+                    }
                 }else{
                     j.put("sucesso", false);
-                    j.put("erro", 1);
-                    j.put("mensagem", "Cultivar nao encontrado!");
+                    j.put("erro", 2);
+                    j.put("mensagem", "Propriedade e cpf nao encontrado!");
+                    j.put("sessao", js.get("sessao"));
                 }
-            }else{
-                j.put("sucesso", false);
-                j.put("erro", 2);
-                j.put("mensagem", "Propriedade e cpf nao encontrado!");
             }
-
         }catch(Exception e){
             j.put("sucesso", false);
             j.put("mensagem", e.getMessage());
@@ -265,37 +280,49 @@ public class ServicosCultivar {
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.APPLICATION_JSON)
     public String listarrecebido(
-            @FormParam("idpessoa") long idpessoa
-            ) throws Exception {
+                        @FormParam("idpessoa") long idpessoa,
+                        @FormParam("sessao") String sessao
+                        ) throws Exception{
         
         JSONObject j = new JSONObject();
         
         
-        try{          
-            //lista os cultivares recebidos
-            TOLogin t = new TOLogin();
-            t.setPessoa_idpessoa(idpessoa);
-            
-            //lista os cultivares recebidos
-            JSONArray ja = BOFactory.listar(new DAOSafra(), t);           
-            
-
-            //lista dados dos cultivares
-            JSONArray jc = BOFactory.listar(new DAOCultivar(), t);
-
+        try{ 
+            //verificar sessao
+            JSONObject js = new VerificarSessao().VerificarSessao(sessao);
             
             
-            //lista as perguntas da propriedade
-            //JSONArray jper = BOFactory.listar(new DAOPerguntas(), t);
-            
-            if(ja.length() > 0){
-                j.put("sucesso", true);
-                j.put("cultivaresrecebidos", ja);
-                j.put("cultivares", jc);
- 
-            }else{
+            if((boolean) js.get("sucesso") == false){
                 j.put("sucesso", false);
-                j.put("mensagem", "Nenhum cultivar recebido");
+                j.put("mensangem", "Sessao não encontrada!");
+            }else{
+                //lista os cultivares recebidos
+                TOLogin t = new TOLogin();
+                t.setPessoa_idpessoa(idpessoa);
+
+                //lista os cultivares recebidos
+                JSONArray ja = BOFactory.listar(new DAOSafra(), t);           
+
+
+                //lista dados dos cultivares
+                JSONArray jc = BOFactory.listar(new DAOCultivar(), t);
+
+
+
+                //lista as perguntas da propriedade
+                //JSONArray jper = BOFactory.listar(new DAOPerguntas(), t);
+
+                if(ja.length() > 0){
+                    j.put("sucesso", true);
+                    j.put("cultivaresrecebidos", ja);
+                    j.put("cultivares", jc);
+                    j.put("sessao", js.get("sessao"));
+
+                }else{
+                    j.put("sucesso", false);
+                    j.put("mensagem", "Nenhum cultivar recebido");
+                    j.put("sessao", js.get("sessao"));
+                }
             }
         }catch(Exception e){
             j.put("sucesso", false);
@@ -314,10 +341,9 @@ public class ServicosCultivar {
             @FormParam("idsafra") long idsafra,
             @FormParam("ultimadatacolheita") String ultimadatacolheita,
             @FormParam("qtdcolhida") float qtdcolhida,
-            @FormParam("statussafra_idstatussafra") long statussafra_idstatussafra
-            
-            
-            ) throws Exception {
+            @FormParam("statussafra_idstatussafra") long statussafra_idstatussafra,
+            @FormParam("sessao") String sessao
+            ) throws Exception{
         
         JSONObject j = new JSONObject();
         
@@ -362,10 +388,9 @@ public class ServicosCultivar {
             @FormParam("tipodestinacao_idtipodestinacao") long tipodestinacao_idtipodestinacao,
             @FormParam("datadestinada") String datadestinada,
             @FormParam("qtddestinada") float qtddestinada,
-            @FormParam("statussafra_idstatussafra") long statussafra_idstatussafra
-            
-   
-            ) throws Exception {
+            @FormParam("statussafra_idstatussafra") long statussafra_idstatussafra,
+            @FormParam("sessao") String sessao
+            ) throws Exception{
         
         JSONObject j = new JSONObject();
         
@@ -421,8 +446,9 @@ public class ServicosCultivar {
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.APPLICATION_JSON)
     public String backupentrevista(
-            @FormParam("idpropriedade") long idpropriedade
-            ) throws Exception {
+                        @FormParam("idpropriedade") long idpropriedade,
+                        @FormParam("sessao") String sessao
+                        ) throws Exception{
         
         JSONObject j = new JSONObject();
         

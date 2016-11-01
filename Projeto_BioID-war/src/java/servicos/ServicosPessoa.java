@@ -12,6 +12,8 @@ import dao.DAOLogin;
 import dao.DAOPessoa;
 import dao.DAOPropriedade;
 import dao.DAORelacaopa;
+import dao.DAOSessao;
+import fw.VerificarSessao;
 import java.math.BigInteger;
 import java.security.SecureRandom;
 import java.text.DateFormat;
@@ -34,6 +36,7 @@ import to.TOLogin;
 import to.TOPessoa;
 import to.TOPropriedade;
 import to.TORelacaopa;
+import to.TOSessao;
 
 /**
  * REST Web Service
@@ -108,9 +111,8 @@ public class ServicosPessoa {
             @FormParam("usuario") String usuario,
             @FormParam("senha") String senha,
             @FormParam("papel") String papel,
-            @FormParam("unidade_idunidade") long unidade_idunidade
-            
-
+            @FormParam("unidade_idunidade") long unidade_idunidade,
+            @FormParam("sessao") String sessao
             ) throws Exception{
 
         
@@ -118,68 +120,79 @@ public class ServicosPessoa {
         JSONObject j = new JSONObject();
         
         try{
+            //verificar sessao
+            JSONObject js = new VerificarSessao().VerificarSessao(sessao);
             
-            //cria objetos
-            TOPessoa t = new TOPessoa();
-            TOLogin tl = new TOLogin();
             
-            //popula objetos e verifica se existe o cpf e usuario cadastrados no banco
-            t.setCpf(cpf);
-            tl.setUsuario(usuario);
-            
-            //se nao existe cpf nem usuario eh cadastrado no banco
-            if(BOFactory.get(new DAOPessoa(), t) == null ){
-                if(BOFactory.get(new DAOLogin(), tl) == null ){
-                   
-                    //objeto TOEndereco
-                    TOEndereco te = new TOEndereco();
-                    te.setCidade_idcidade(cidade_idcidade);
-                    te.setRua(rua);
-                    te.setGps_lat(gps_lat);
-                    te.setGps_long(gps_long);
-                    te.setBairro(bairro);
-                    te.setComplemento(complemento);
-                    te.setCep(cep);
-                    te.setNumero(numero);
+            if((boolean) js.get("sucesso") == false){
+                j.put("sucesso", false);
+                j.put("mensangem", "Sessao não encontrada!");
+            }else{
+                //cria objetos
+                TOPessoa t = new TOPessoa();
+                TOLogin tl = new TOLogin();
 
-                    //popula a classe TOPessoa
-                    t.setEndereco_idendereco(BOFactory.inserir(new DAOEndereco(), te));
-                    t.setEscolaridade_idescolaridade(escolaridade_idescolaridade);
-                    t.setEstadocivil_idestadocivil(estadocivil_idestadocivil);
-                    t.setNome(nome);
-                    t.setSobrenome(sobrenome);
-                    t.setApelido(apelido);
-                    t.setRg(rg);
-                    t.setDatanascimento(datanascimento);
-                    t.setSexo(sexo);
-                    t.setTelefone1(telefone1);
-                    t.setTelefone2(telefone2);
-                    t.setEmail(email);
+                //popula objetos e verifica se existe o cpf e usuario cadastrados no banco
+                t.setCpf(cpf);
+                tl.setUsuario(usuario);
+
+                //se nao existe cpf nem usuario eh cadastrado no banco
+                if(BOFactory.get(new DAOPessoa(), t) == null ){
+                    if(BOFactory.get(new DAOLogin(), tl) == null ){
+
+                        //objeto TOEndereco
+                        TOEndereco te = new TOEndereco();
+                        te.setCidade_idcidade(cidade_idcidade);
+                        te.setRua(rua);
+                        te.setGps_lat(gps_lat);
+                        te.setGps_long(gps_long);
+                        te.setBairro(bairro);
+                        te.setComplemento(complemento);
+                        te.setCep(cep);
+                        te.setNumero(numero);
+
+                        //popula a classe TOPessoa
+                        t.setEndereco_idendereco(BOFactory.inserir(new DAOEndereco(), te));
+                        t.setEscolaridade_idescolaridade(escolaridade_idescolaridade);
+                        t.setEstadocivil_idestadocivil(estadocivil_idestadocivil);
+                        t.setNome(nome);
+                        t.setSobrenome(sobrenome);
+                        t.setApelido(apelido);
+                        t.setRg(rg);
+                        t.setDatanascimento(datanascimento);
+                        t.setSexo(sexo);
+                        t.setTelefone1(telefone1);
+                        t.setTelefone2(telefone2);
+                        t.setEmail(email);
 
 
-                    //popula a classe TOLogin
-                    tl.setPessoa_idpessoa(BOFactory.inserir(new DAOPessoa(), t));
-                    tl.setUnidade_idunidade(unidade_idunidade);
-                    tl.setSenha(senha);
-                    tl.setPapel(papel);
-                    //grava no banco de dados os dados da classe TOLogin
-                    BOFactory.inserir(new DAOLogin(), tl);
+                        //popula a classe TOLogin
+                        tl.setPessoa_idpessoa(BOFactory.inserir(new DAOPessoa(), t));
+                        tl.setUnidade_idunidade(unidade_idunidade);
+                        tl.setSenha(senha);
+                        tl.setPapel(papel);
+                        //grava no banco de dados os dados da classe TOLogin
+                        BOFactory.inserir(new DAOLogin(), tl);
 
-                        
 
-                    j.put("sucesso", true);
-                    j.put("mensagem", "Usuario cadastrado!");
-                //mensagen de cpf ja existente
+
+                        j.put("sucesso", true);
+                        j.put("mensagem", "Usuario cadastrado!");
+                        j.put("sessao", js.get("sessao"));
+                    //mensagen de cpf ja existente
+                    }else{
+                        j.put("sucesso", false);
+                        j.put("erro", 1);
+                        j.put("mensagem", "Usuario ja existe no sistema!");
+                        j.put("sessao", js.get("sessao"));
+                    }
+                //mensagen de usuario ja existente
                 }else{
                     j.put("sucesso", false);
-                    j.put("erro", 1);
-                    j.put("mensagem", "Usuario ja existe no sistema!");
+                    j.put("erro", 3);
+                    j.put("mensagem", "CPF ja cadastrado!");
+                    j.put("sessao", js.get("sessao"));
                 }
-            //mensagen de usuario ja existente
-            }else{
-                j.put("sucesso", false);
-                j.put("erro", 3);
-                j.put("mensagem", "CPF ja cadastrado!");
             }
         }catch(Exception e){
             j.put("sucesso", false);
@@ -233,7 +246,8 @@ public class ServicosPessoa {
             @FormParam("area") float area,
             @FormParam("unidadedemedida") long unidadedemedida,
             @FormParam("areautilizavel") float areautilizavel,
-            @FormParam("unidadedemedidaau") long unidadedemedidaau
+            @FormParam("unidadedemedidaau") long unidadedemedidaau,
+            @FormParam("sessao") String sessao
             ) throws Exception{
 
         
@@ -359,7 +373,9 @@ public class ServicosPessoa {
     public String editar(@FormParam("id") long id,
             @FormParam("usuario") String usuario,
             @FormParam("senha") String senha,
-            @FormParam("email") String email) throws Exception{
+            @FormParam("email") String email,
+            @FormParam("sessao") String sessao
+            ) throws Exception{
         
         JSONObject j = new JSONObject();
         
@@ -391,7 +407,9 @@ public class ServicosPessoa {
     //exclui usuario do banco de dados
     @Path("excluir")
     @POST
-    public String excluir(@FormParam("id") long id) throws Exception{
+    public String excluir(@FormParam("id") long id,
+                          @FormParam("sessao") String sessao
+                          ) throws Exception{
         //objeto de retorno da requisicao
         JSONObject j = new JSONObject();
         
@@ -422,7 +440,9 @@ public class ServicosPessoa {
     @Path("validacao")
     @POST
     public String login(@FormParam("usuario") String usuario,
-                        @FormParam("senha") String senha) throws Exception{
+                        @FormParam("senha") String senha,
+                        @FormParam("sessao") String sessao
+                        ) throws Exception{
         
         //objeto de retorno da requisicao
         JSONObject j = new JSONObject();
@@ -439,23 +459,31 @@ public class ServicosPessoa {
                 j.put("sucesso", false);
                 j.put("messangem", "Usuário não encontrado");
             }else{
+                //gera um idsessao e cria um novo registro
+                TOSessao ts = new TOSessao();
                 SecureRandom random = new SecureRandom();
-                String sessao = new BigInteger(130, random).toString(32);
+//                DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+//                Date date = new Date();
+        
+                ts.setLogin_idlogin(to.getIdlogin());
+                ts.setSessao(new BigInteger(130, random).toString(32));
+                //ts.setDatalogin(dateFormat.format(date));
+//                ts.setDatalogin(date.getTime());
                 
-                to.setSessao(sessao);
                 
-                BOFactory.sessao(new DAOLogin(), to);
+                BOFactory.inserir(new DAOSessao(), ts);
                 
-                
-                j.put("sucesso", true);
-                
+                //retorna valores do login
+     
                 j.put("idpessoa", to.getPessoa_idpessoa());
                 j.put("papel", to.getPapel());
                 j.put("idunidade", to.getUnidade_idunidade());
-                j.put("idSession", sessao);
+                j.put("sessao", ts.getSessao());
+                //j.put("tempoLogin", ts.getDatalogin());
                 
+                j.put("sucesso", true);
                 //retorna a data de login que espirará em um tempo determinado
-                j.put("logTempo", ((730 * Float.parseFloat(getData("M"))) - (730 - (Float.parseFloat(getData("d"))*24)))+168 );
+                //j.put("logTempo", ((730 * Float.parseFloat(getData("M"))) - (730 - (Float.parseFloat(getData("d"))*24)))+168 );
                 
                 
             }
@@ -502,9 +530,9 @@ public class ServicosPessoa {
             @FormParam("unidadedemedida") long unidadedemedida,
             @FormParam("areautilizavel") float areautilizavel,
             @FormParam("unidadedemedidaau") long unidadedemedidaau,
-            @FormParam("cpf") String cpf
-            
-            )throws Exception{
+            @FormParam("cpf") String cpf,
+            @FormParam("sessao") String sessao
+            ) throws Exception{
         
         JSONObject j = new JSONObject();
         try{
@@ -565,7 +593,9 @@ public class ServicosPessoa {
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.APPLICATION_JSON)
     public String listarPropriedades(
-            @FormParam("idpessoa") long idpessoa)throws Exception{
+                        @FormParam("idpessoa") long idpessoa,
+                        @FormParam("sessao") String sessao
+                        ) throws Exception{
         
         JSONObject j = new JSONObject();
  

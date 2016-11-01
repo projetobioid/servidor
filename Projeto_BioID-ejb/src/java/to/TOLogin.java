@@ -25,7 +25,6 @@ public class TOLogin extends TOBase{
     
     private String papel;
     
-    private String sessao;
 
     
     public long getIdlogin() {
@@ -77,25 +76,18 @@ public class TOLogin extends TOBase{
         this.papel = papel;
     }
 
-    public String getSessao() {
-        return sessao;
-    }
 
-    public void setSessao(String sessao) {
-        this.sessao = sessao;
-    }
 
     public TOLogin() {
     }
 
-    public TOLogin(long idlogin, long pessoa_idpessoa, long unidade_idunidade, String usuario, String senha, String papel, String sessao) {
+    public TOLogin(long idlogin, long pessoa_idpessoa, long unidade_idunidade, String usuario, String senha, String papel) {
         this.idlogin = idlogin;
         this.pessoa_idpessoa = pessoa_idpessoa;
         this.unidade_idunidade = unidade_idunidade;
         this.usuario = usuario;
         this.senha = senha;
         this.papel = papel;
-        this.sessao = sessao;
     }
 
      
@@ -107,7 +99,6 @@ public class TOLogin extends TOBase{
         this.usuario = rs.getString("usuario");
         this.senha = rs.getString("senha");
         this.papel = rs.getString("papel");
-        this.sessao = rs.getString("sessao");
        
     }
 
@@ -122,7 +113,6 @@ public class TOLogin extends TOBase{
         j.put("usuario", usuario);
         j.put("senha", senha);
         j.put("papel", papel);
-        j.put("sessao", sessao);
         
         return j;
     }
