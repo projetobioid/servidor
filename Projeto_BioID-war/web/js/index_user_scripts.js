@@ -91,9 +91,8 @@
     $(document).on("click", ".uib_w_3", function(evt)
     {
          /*global activate_page */
-         activate_page("#page_1");
-         $('.uib_w_7').hide();
-         $('.uib_w_7').fadeIn(100);
+        $(this).hide();
+        //window.open('recuperarsenha.html');
 
 
          return false;

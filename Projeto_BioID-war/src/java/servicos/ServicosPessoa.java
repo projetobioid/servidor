@@ -246,8 +246,7 @@ public class ServicosPessoa {
             @FormParam("area") float area,
             @FormParam("unidadedemedida") long unidadedemedida,
             @FormParam("areautilizavel") float areautilizavel,
-            @FormParam("unidadedemedidaau") long unidadedemedidaau,
-            @FormParam("sessao") String sessao
+            @FormParam("unidadedemedidaau") long unidadedemedidaau
             ) throws Exception{
 
         
