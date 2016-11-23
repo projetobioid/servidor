@@ -55,6 +55,46 @@ public class ServicosPessoa {
     public ServicosPessoa() {
     }
 
+    @Path("listaragricultores")
+    @POST
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @Produces(MediaType.APPLICATION_JSON)
+    public String listarPropriedades(
+                        @FormParam("sessao") String sessao
+                        ) throws Exception{
+        
+        JSONObject j = new JSONObject();
+ 
+        try{
+            //verificar sessao
+            JSONObject js = new VerificarSessao().VerificarSessao(sessao);
+            
+            
+            if((boolean) js.get("sucesso") == false){
+                j.put("sucesso", false);
+                j.put("mensangem", "Sessao não encontrada!");
+            }else{
+                
+                JSONArray ja = BOFactory.listar(new DAOPessoa()) ;
+
+                if(ja.length() > 0){
+                    j.put("listaAgricultores", ja);
+                    j.put("sucesso", true);
+                    j.put("sessao", js.get("sessao"));
+                }else{
+                    j.put("sucesso", false);
+                    j.put("mensagem", "Sem agricultores");
+                    j.put("sessao", js.get("sessao"));
+                }
+            }
+        }catch(Exception e){
+            j.put("sucesso", false);
+            j.put("mensagem", e.getMessage());
+        }
+        
+        return j.toString();
+    } 
+    
     
     //serviço de listar os usuarios
     @Path("listar")
@@ -439,8 +479,7 @@ public class ServicosPessoa {
     @Path("validacao")
     @POST
     public String login(@FormParam("usuario") String usuario,
-                        @FormParam("senha") String senha,
-                        @FormParam("sessao") String sessao
+                        @FormParam("senha") String senha
                         ) throws Exception{
         
         //objeto de retorno da requisicao

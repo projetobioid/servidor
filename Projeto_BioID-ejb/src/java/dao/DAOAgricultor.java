@@ -6,6 +6,7 @@
 package dao;
 
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 import org.json.JSONArray;
@@ -35,5 +36,7 @@ public class DAOAgricultor extends DAOBase{
         //passa por parametros a conexao e a lista de objetos da insercao de um novo produto
         return Data.executeUpdate(c, sql, p);
     }
+    
+    
 
 }

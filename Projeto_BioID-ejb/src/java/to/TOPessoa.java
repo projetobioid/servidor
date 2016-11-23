@@ -30,7 +30,7 @@ public class TOPessoa extends TOBase{
     
     
     private String usuario;
-    
+    private String nomeunidade;
     
 
     public long getIdpessoa() {
@@ -155,6 +155,14 @@ public class TOPessoa extends TOBase{
         this.usuario = usuario;
     }
 
+    public String getNomeunidade() {
+        return nomeunidade;
+    }
+
+    public void setNomeunidade(String nomeunidade) {
+        this.nomeunidade = nomeunidade;
+    }
+
     
 
     
@@ -224,6 +232,7 @@ public class TOPessoa extends TOBase{
         j.put("telefone1", telefone1);
         j.put("telefone2", telefone2);
         j.put("email", email);
+        j.put("nomeunidade", nomeunidade);
         
         return j;
    
@@ -238,18 +247,19 @@ public class TOPessoa extends TOBase{
         
         return this;  
     }
-
-    @Override
-    public JSONObject getJsonSimples() throws Exception {
-        //variavel tipo json para retornar no metodo
-        JSONObject j = new JSONObject();
+    
+    public TOPessoa listarAgricultores(ResultSet rs) throws Exception{
+        this.idpessoa = rs.getLong("idpessoa");
+        this.nome = rs.getString("nome");
+        this.sobrenome = rs.getString("sobrenome");
+        this.cpf = rs.getString("cpf");
+        this.rg = rs.getString("rg");
+        this.telefone1 = rs.getString("telefone1");
+        this.nomeunidade = rs.getString("nomeunidade");
         
-        j.put("nome", nome);
-        j.put("sobrenome", sobrenome);
-        j.put("idpessoa", idpessoa);
-        
-        return j;
+        return this;  
     }
+
     
     
 }

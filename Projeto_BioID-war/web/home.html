@@ -4,18 +4,18 @@ To change this license header, choose License Headers in Project Properties.
 To change this template file, choose Tools | Templates
 and open the template in the editor.
 -->
-<html>
+<html lang="pt-br">
     <head>
         <title>BioID</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
         <link href="css/bootstrap.min.css" rel="stylesheet">
         <link href="css/dashboard.css" rel="stylesheet">
+        <link rel="stylesheet" href="css/font-awesome.min.css">
         
         <script type="application/javascript" src="js/jquery.js"></script>
         <script src="js/bootstrap.min.js"></script>
-        <script type="text/javascript" src="js/teste.js"></script>
+        <script type="text/javascript" src="js/eventosHome.js"></script>
         
     </head>
     <body>      
@@ -57,10 +57,10 @@ and open the template in the editor.
           </ul>
           <ul class="nav nav-sidebar">
             <li class="active"><a href="#">Cadastros: <span class="sr-only">(current)</span></a></li>
-            <li><a class="a" href="#">Agricultores</a></li>
-            <li><a class="a" href="#">Cultivares</a></li>
-            <li><a class="a" href="#">Unidades</a></li>
-            <li><a class="a" href="#">Usuários</a></li>
+            <li><a class="a" href="#" id="painelAgricultores" >Agricultores</a></li>
+            <li><a class="a" href="#" id="painelCultivares">Cultivares</a></li>
+            <li><a class="a" href="#" id="painelUnidades">Unidades</a></li>
+            <li><a class="a" href="#" id="painelUsuarios">Usuários</a></li>
           </ul>
           <ul class="nav nav-sidebar">
             <li class="active"><a href="#">Unidade: <span class="sr-only">(current)</span></a></li>
@@ -70,147 +70,94 @@ and open the template in the editor.
           </ul>
         </div>
           
-        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-          <h1 class="page-header">Cultivares</h1>
 
-          <div class="row placeholders">
-              <div class="col-xs-6 col-sm-3 placeholder" id="pesquisarCultivar">
-                <h1 class=" pesquisar e"><span class="glyphicon glyphicon-search"></span></h1>
-                <h4 class="e"> Pesquisar</h4>
-                <h5 class="text-muted e">Pesquise um cultivar...</h5>
-            </div>
-              <div class="col-xs-6 col-sm-3 placeholder" id="novoCultivar">
-              <!--img src="data:image/png;base64,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" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail"-->
-              <h1 class="novo e"><span class="glyphicon glyphicon-plus"></span></h1>
-              <h4 class="e"> Novo Cultivar</h4>
-              <h5 class="text-muted e">Cadastre um novo cultivar...</h5>
-            </div>
-              <div class="col-xs-6 col-sm-3 placeholder" id="editarCultivar">
-              <!--img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail"-->
-              <h1 class="editar e"><span class="glyphicon glyphicon-edit"></span></h1>
-              <h4 class="e"> Editar Cultivar</h4>
-              <h5 class="text-muted e">Editar informações do cultivar...</h5>
-            </div>
-            <div class="col-xs-6 col-sm-3 placeholder">
-              <h1 class="excluir e"><span class="glyphicon glyphicon-remove"></span></h1>
-                <h4 class="e"> Excluir Cultivar</h4>
-                <h5 class="text-muted e">Excluir cultivar do programa bioFort ...</h5>
-            </div>
-            
-          </div>
+          
+        <div id="msgInicio" >  
+            <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
 
-          <h2 class="sub-header">Lista</h2>
-          <div class="table-responsive">
-            <table class="table table-hover">
-              <thead>
-                <tr>
-                  <th>ID</th>
-                  <th>Nome do cultivar</th>
-                  <th>Unidade de medida</th>
-                  <th>Valor Nutricional</th>
-                  <th>Descrição</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>1</td>
-                  <td>Batata Doce</td>
-                  <td>Rama(s)</td>
-                  <td>10g Sodio</td>
-                  <td>batata doce</td>
-                </tr>
-                <tr>
-                  <td>2</td>
-                  <td>Mandioca</td>
-                  <td>Maniva(s)</td>
-                  <td>25g fosforo</td>
-                  <td>mandioca</td>
-                </tr>
-                <tr>
-                  <td>3</td>
-                  <td>Trigo</td>
-                  <td>Semente(s)</td>
-                  <td>48g magnesio</td>
-                  <td>trigo</td>
-                </tr>
-                <tr>
-                  <td>4</td>
-                  <td>Feijão</td>
-                  <td>Semente(s)</td>
-                  <td>78g ferro</td>
-                  <td>feijão</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+              <div class="row placeholders">
+                  <img style="opacity: 0.1;" src="images/logo-grande.png" width="416" height="436" alt="background2"/>
+
+              </div>
+
+            </div>  
+            <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" >
+                <h1 class="page-header" >Seja bem vindo ...</h1>
+
+              <div class="row placeholders">
+                <div class="col-xs-6 col-sm-3 placeholder">
+                    <h1 class=" laranja e"><span class="fa fa-gears"></span></h1>
+                    <h4 class="e"> Atalho 1</h4>
+                </div>
+                  <div class="col-xs-6 col-sm-3 placeholder" >
+                  <h1 class="amarelo e"><span class="fa fa-gears"></span></h1>
+                  <h4 class="e"> Atalho 2</h4>
+                </div>
+                  <div class="col-xs-6 col-sm-3 placeholder" >
+                  <h1 class="verde e"><span class="fa fa-gears"></span></h1>
+                  <h4 class="e"> Atalho 3</h4>
+                </div>
+                  <div class="col-xs-6 col-sm-3 placeholder" >
+                  <h1 class="vermelho e"><span class="fa fa-gears"></span></h1>
+                    <h4 class="e"> Atalho 4 </h4>
+                </div>
+
+              </div>
+
+            </div>
+           
         </div>
+
+
+
+        
+        <!--menu-->
+        <div hidden="" id="page" >  
+            <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" >
+                <h1 class="page-header" id="identificacaoPage">...</h1>
+
+              <div class="row placeholders">
+                <div class="col-xs-6 col-sm-3 placeholder" id="listar">
+                    <h1 class="laranja e"><span class="fa fa-sort-numeric-asc"></span></h1>
+                    <h4 class="e"> Listar</h4>
+                    <h5 class="text-muted e">Listar...</h5>
+                </div>
+                  <div class="col-xs-6 col-sm-3 placeholder" id="novo">
+                  <h1 class="amarelo e"><span class="fa fa-plus"></span></h1>
+                  <h4 class="e"> Novo</h4>
+                  <h5 class="text-muted e">Cadastre um novo...</h5>
+                </div>
+                  <div class="col-xs-6 col-sm-3 placeholder" id="editar">
+                  <h1 class="verde e"><span class="fa fa-edit"></span></h1>
+                  <h4 class="e"> Editar</h4>
+                  <h5 class="text-muted e">Editar informações do...</h5>
+                </div>
+                  <div class="col-xs-6 col-sm-3 placeholder" id="excluir">
+                  <h1 class="vermelho e"><span class="fa fa-remove"></span></h1>
+                    <h4 class="e"> Excluir </h4>
+                    <h5 class="text-muted e">Excluir o registro do...</h5>
+                </div>
+
+              </div>
+
+                <div class="alert alert-warning alert-dismissible" hidden="" id="Alertar">
+                <a href="#" class="close">&times;</a>
+                <strong>Alerta!</strong> &nbsp;<span>...</span>
+            </div>
+
+            <!--tabela de lista-->
+            <div id="divItens" hidden="">
+              
+            </div>
+
+
+            </div>
+        </div> <!--pageCadastroCultivar-->
+        
       </div>
     </div>
-        
        
-        
-        
-    <div class="modal fade" id="modalAddCultivar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-              <div class="modal-header bg-success">
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-              <h4 class="modal-title" id="exampleModalLabel">Novo Cultivar</h4>
-            </div>
-            <div class="modal-body">
-              <form>
-                <div class="form-group">
-                  <label for="nomeNovoCultivar" class="control-label">Nome cultivar:</label>
-                  <input type="text" class="form-control" id="nomeNovoCultivar">
-                </div>
-                <div class="form-group">
-                  <label for="umNovoCultivar" class="control-label">Unidade de Medida:</label>
-                  <select class="form-control " id="umNovoCultivar">
-                    <option>Kilo(s)</option>
-                    <option>Tonelada(s)</option>
-                    <option>Saca(s)</option>
-                  </select>
-                </div>
-
-                  
-                <div class="form-group">
-                  <label for="descNovoCultivar" class="control-label">Descrição:</label>
-                  <textarea class="form-control" id="descNovoCultivar"></textarea>
-                </div>
-              </form>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-warning" data-dismiss="modal">Cancelar</button>
-              <button type="button" class="btn btn-warning">Salvar</button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="modal fade" id="modalPesquisarCultivar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-              <div class="modal-header bg-success">
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-              <h4 class="modal-title" id="exampleModalLabel">Pesquisar Cultivar</h4>
-            </div>
-            <div class="modal-body">
-              <form>
-                <div class="form-group">
-                  <label for="nomePesquisarCultivar" class="control-label">Nome cultivar:</label>
-                  <input type="text" class="form-control" id="nomePesquisarCultivar">
-                </div>
-                
-              </form>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-warning" data-dismiss="modal">Cancelar</button>
-              <button type="button" class="btn btn-warning">Pesquisar</button>
-            </div>
-          </div>
-        </div>
-      </div> 
-        
+<!--        
     <div class="modal fade" id="modalEditarCultivar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
         <div class="modal-dialog" role="document">
           <div class="modal-content">
@@ -233,7 +180,7 @@ and open the template in the editor.
             </div>
           </div>
         </div>
-      </div> 
+      </div> -->
         
         
 

@@ -16,7 +16,6 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.FormParam;
-import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -47,19 +46,79 @@ public class ServicosCultivar {
     public ServicosCultivar() {
     }
 
+    @Path("buscar")
+    @POST
+    public String buscar(
+                        @FormParam("nomecultivar") String nomecultivar,
+                        @FormParam("biofortificado") boolean biofortificado,
+                        @FormParam("sessao") String sessao
+                        ) throws Exception{
+        
+        JSONObject j = new JSONObject();
+        
+        try{               
+             //verificar sessao
+            JSONObject js = new VerificarSessao().VerificarSessao(sessao);
+            
+            
+            if((boolean) js.get("sucesso") == false){
+                j.put("sucesso", false);
+                j.put("mensangem", "Sessao não encontrada!");
+            }else{
+                TOCultivar p = new TOCultivar();
+                p.setNomecultivar(nomecultivar);
+                p.setBiofortificado(biofortificado);
+                p = (TOCultivar) BOFactory.get(new DAOCultivar(), p);
+
+                if(p == null){
+                    j.put("sucesso", false);
+                    j.put("mensagem", "Cultivar não encontrado");
+                }else{
+                    j.put("cultivar", p.getJson());
+                    j.put("sessao", js.get("sessao"));
+                    j.put("sucesso", true);
+                }
+            }
+        }catch(Exception e){
+            j.put("sucesso", false);
+            j.put("mensagem", e.getMessage());
+        }
+        
+        return j.toString(); 
+        
+    }
+    
     //metodo que lista todos os produtos do banco de dados
     @Path("listar")
-    @GET
-    //@Produces({MediaType.APPLICATION_XML})//, MediaType.APPLICATION_JSON})
-    public String listar() throws Exception {
+    @POST
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @Produces(MediaType.APPLICATION_JSON)
+    public String listar(
+            @FormParam("sessao") String sessao
+            ) throws Exception{
         
         JSONObject j = new JSONObject();
         
         try{
-            JSONArray ja = BOFactory.listar(new DAOCultivar());
+            
+            //verificar sessao
+            JSONObject js = new VerificarSessao().VerificarSessao(sessao);
+            
+            
+            if((boolean) js.get("sucesso") == false){
+                j.put("sucesso", false);
+                j.put("mensangem", "Sessao não encontrada!");
+            }else{
+//                TOUnidade t = new TOUnidade();
+//                t.setIdunidade(idunidade);
+                JSONArray ja = BOFactory.listar(new DAOCultivar());
         
-            j.put("data", ja);
-            j.put("sucesso", true);
+                j.put("cultivares", ja);
+                j.put("sessao", js.get("sessao"));
+                j.put("sucesso", true);
+                
+            }
+            
         
         }catch(Exception e){
             j.put("sucesso", false);

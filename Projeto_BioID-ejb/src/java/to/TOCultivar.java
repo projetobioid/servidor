@@ -31,6 +31,8 @@ public class TOCultivar extends TOBase{
     
     private int tempodecolheita;
     
+    private int tempodestinacao;
+    
     private float peso_saca;
     
     //para pesquisa no banco
@@ -125,6 +127,15 @@ public class TOCultivar extends TOBase{
     public void setPeso_saca(float peso_saca) {
         this.peso_saca = peso_saca;
     }
+
+    public int getTempodestinacao() {
+        return tempodestinacao;
+    }
+
+    public void setTempodestinacao(int tempodestinacao) {
+        this.tempodestinacao = tempodestinacao;
+    }
+    
     
     
     //construtor vazio
@@ -158,6 +169,7 @@ public class TOCultivar extends TOBase{
         this.grandeza = rs.getString("grandeza");
         this.valornutricional = rs.getString("valornutricional");
         this.tempodecolheita = rs.getInt("tempodecolheita");
+        this.tempodestinacao = rs.getInt("tempodestinacao");
         this.peso_saca = rs.getInt("peso_saca");
     }
     //classe sobrescrita de tobase
@@ -175,6 +187,7 @@ public class TOCultivar extends TOBase{
         j.put("grandeza", grandeza);
         j.put("valornutricional", valornutricional);
         j.put("tempodecolheita", tempodecolheita);
+        j.put("tempodestinacao", tempodestinacao);
         j.put("peso_saca", peso_saca);
         
         return j;

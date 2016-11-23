@@ -177,16 +177,6 @@ public class TOPropriedade extends TOBase {
         j.put("unidadedemedida", unidadedemedida);
         j.put("areautilizavel", areautilizavel);
         j.put("unidadedemedidaau", unidadedemedidaau);
-        
-        return j;
-    }
-
-    @Override
-    public JSONObject getJsonSimples() throws Exception {
-                 //variavel para retorno do json contendo as informacoes do produto
-        JSONObject j = new JSONObject();
-        
-        //populando o objeto j
         j.put("nomecidade", endereco.getNomecidade());
         j.put("rua", endereco.getRua());
         j.put("numero", endereco.getNumero());
@@ -195,12 +185,9 @@ public class TOPropriedade extends TOBase {
         j.put("complemento", endereco.getComplemento());
         j.put("gps_lat", endereco.getGps_lat());
         j.put("gps_long", endereco.getGps_long());
-        j.put("nomepropriedade", nomepropriedade);
-        j.put("idpropriedade", idpropriedade);
-        
-        
         return j;
     }
+
     
     
 }

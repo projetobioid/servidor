@@ -107,26 +107,9 @@ body {
   border-radius: 50%;
 }
 
-.novo{
-    color : #007A61;
-    
-}
-.editar{
-    color : #FFCC00;
-    
-}
-.excluir{
-    color : #FF0000;
-    
-}
-.pesquisar{
-    color : #EC751A;
-    
-}
-
 .placeholder:hover .e{
-  color: #23527c;
-  transform: scale(1.3);
-  
+ // color: #000;
+  transform: scale(1.5);
+  cursor: pointer;
   
 }

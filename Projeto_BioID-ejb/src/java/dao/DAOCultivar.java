@@ -74,7 +74,7 @@ public class DAOCultivar extends DAOBase {
 
     @Override
     public TOBase get(Connection c, TOBase t) throws Exception {
-        String sql = "SELECT c.idcultivar, um.grandeza, c.nomecultivar, c.imagem, c.descricao, c.biofortificado, c.valornutricional, c.tempodecolheita, c.peso_saca "
+        String sql = "SELECT c.idcultivar, um.grandeza, c.nomecultivar, c.imagem, c.descricao, c.biofortificado, c.valornutricional, c.tempodecolheita, c.tempodestinacao, c.peso_saca "
                 + "FROM cultivar c INNER JOIN unidademedida um ON(um.idunidademedida = c.unidademedida_idunidademedida)"
                 + " where LOWER(c.nomecultivar) = LOWER(?) and biofortificado = ?";
         
@@ -104,7 +104,9 @@ public class DAOCultivar extends DAOBase {
     public JSONArray listar(Connection c) throws Exception {
         JSONArray  ja = new JSONArray();
         
-        String sql = "select * from cultivar where biofortificado = true order by nomecultivar";
+        String sql = "select c.idcultivar, um.grandeza, c.nomecultivar, c.imagem, c.descricao, c.biofortificado, c.valornutricional, c.tempodecolheita, c.tempodestinacao, c.peso_saca from cultivar c "
+                + "INNER JOIN unidademedida um ON (um.idunidademedida = c.unidademedida_idunidademedida) "
+                + "where c.biofortificado = true order by c.nomecultivar";
         
         ResultSet rs = null;
         

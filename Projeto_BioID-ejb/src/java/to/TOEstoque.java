@@ -123,19 +123,7 @@ public class TOEstoque extends TOBase{
         j.put("nomecultivar", nomecultivar);
         return j;
                 
-    }
-
-    @Override
-    public JSONObject getJsonSimples() throws Exception {
-        JSONObject j = new JSONObject();
-
-        j.put("grandeza", grandeza);
-        j.put("quantidade", quantidade);
-        j.put("nomecultivar", nomecultivar);
-        
-        return j;
-    }
-    
+    } 
     
     
 }

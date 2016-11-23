@@ -96,7 +96,7 @@ public class DAOPropriedade extends DAOBase{
             
             while (rs.next()){
                 TOPropriedade ts = new TOPropriedade().listarPropriedadeEndereco(rs);
-                ja.put(ts.getJsonSimples());
+                ja.put(ts.getJson());
             }
         }finally{
             rs.close();

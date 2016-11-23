@@ -43,6 +43,50 @@ public class ServicosUnidade {
      */
     public ServicosUnidade() {
     }
+    
+    //metodo buscar uma unidade especifica
+    @Path("buscar")
+    @POST
+    public String buscar(
+        @FormParam("nomeunidade") String nomeunidade,
+        @FormParam("cnpj") String cnpj,
+        @FormParam("sessao") String sessao
+        ) throws Exception{
+        
+        JSONObject j = new JSONObject();
+        
+        try{               
+             //verificar sessao
+            JSONObject js = new VerificarSessao().VerificarSessao(sessao);
+            
+            
+            if((boolean) js.get("sucesso") == false){
+                j.put("sucesso", false);
+                j.put("mensangem", "Sessao não encontrada!");
+            }else{
+                TOUnidade p = new TOUnidade();
+                p.setNomeunidade(nomeunidade);
+                p.setCnpj(cnpj);
+                p = (TOUnidade) BOFactory.get(new DAOUnidade(), p);
+
+                if(p == null){
+                    j.put("sucesso", false);
+                    j.put("mensagem", "Unidade não encontrada");
+                }else{
+                    j.put("unidade", p.getJson());
+                    j.put("sessao", js.get("sessao"));
+                    j.put("sucesso", true);
+                }
+            }
+        }catch(Exception e){
+            j.put("sucesso", false);
+            j.put("mensagem", e.getMessage());
+        }
+        
+        return j.toString(); 
+        
+    }
+    
     //metodo que insere no banco de dados
     @Path("inserir")
     @POST
@@ -114,7 +158,45 @@ public class ServicosUnidade {
         return j.toString(); 
     }
     
-    
+    //metodo que lista todas as unidades do banco de dados
+    @Path("listar")
+    @POST
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @Produces(MediaType.APPLICATION_JSON)
+    public String listar(
+            @FormParam("sessao") String sessao
+            ) throws Exception{
+        
+        JSONObject j = new JSONObject();
+        
+        try{
+            
+            //verificar sessao
+            JSONObject js = new VerificarSessao().VerificarSessao(sessao);
+            
+            
+            if((boolean) js.get("sucesso") == false){
+                j.put("sucesso", false);
+                j.put("mensangem", "Sessao não encontrada!");
+            }else{
+//                TOUnidade t = new TOUnidade();
+//                t.setIdunidade(idunidade);
+                JSONArray ja = BOFactory.listar(new DAOUnidade());
+        
+                j.put("unidades", ja);
+                j.put("sessao", js.get("sessao"));
+                j.put("sucesso", true);
+                
+            }
+            
+        
+        }catch(Exception e){
+            j.put("sucesso", false);
+            j.put("mensagem", e.getMessage());
+        }
+        
+        return j.toString();
+    }
     
     //inseri dados no estoque
     @Path("ioestoque")
@@ -249,7 +331,7 @@ public class ServicosUnidade {
         return j.toString();
     }
     
-    @Path("listarAgricultoresUnidade")
+    @Path("listaragricultoresunidade")
     @POST
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.APPLICATION_JSON)

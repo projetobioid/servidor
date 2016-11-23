@@ -20,6 +20,31 @@ import to.TOUnidade;
  */
 public class DAOPessoa extends DAOBase{
 
+    
+    @Override
+    public JSONArray listar(Connection c) throws Exception {
+        JSONArray  ja = new JSONArray();
+        
+        String sql = "SELECT p.idpessoa, p.nome, p.sobrenome, p.cpf, p.rg, p.telefone1, u.nomeunidade FROM pessoa p "
+                + "INNER JOIN agricultor a ON (a.pessoa_idpessoa = p.idpessoa) "
+                + "INNER JOIN relacaopa rpa ON (rpa.agricultor_pessoa_idpessoa = p.idpessoa) "
+                + "INNER JOIN propriedade pd ON (pd.idpropriedade = rpa.propriedade_idpropriedade) "
+                + "INNER JOIN unidade u ON (u.idunidade = pd.idpropriedade)";
+        
+        ResultSet rs = null;
+        
+        try{
+            rs = Data.executeQuery(c, sql);
+            
+            while (rs.next()){
+                TOPessoa t = new TOPessoa().listarAgricultores(rs);
+                ja.put(t.getJson());
+            }
+        }finally{
+            rs.close();
+        }
+        return ja;
+    }
 
     @Override
     public long inserir(Connection c, TOBase t) throws Exception {
@@ -93,7 +118,7 @@ public class DAOPessoa extends DAOBase{
             
             while (rs.next()){
                 TOPessoa ts = new TOPessoa().listarAgricultoresUnidade(rs);
-                ja.put(ts.getJsonSimples());
+                ja.put(ts.getJson());
             }
             
                         

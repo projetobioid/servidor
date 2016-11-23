@@ -21,6 +21,13 @@ public class TOUnidade extends TOBase{
     private String cnpj;
     private String razao_social;
     private String nome_fanta;
+    
+    //amostragem
+    private String nomecidade;
+    private String nomeestado;
+    private String nomepais;
+    
+
 
     public long getIdunidade() {
         return idunidade;
@@ -93,6 +100,30 @@ public class TOUnidade extends TOBase{
     public void setNome_fanta(String nome_fanta) {
         this.nome_fanta = nome_fanta;
     }
+
+    public String getNomecidade() {
+        return nomecidade;
+    }
+
+    public void setNomecidade(String nomecidade) {
+        this.nomecidade = nomecidade;
+    }
+
+    public String getNomeestado() {
+        return nomeestado;
+    }
+
+    public void setNomeestado(String nomeestado) {
+        this.nomeestado = nomeestado;
+    }
+
+    public String getNomepais() {
+        return nomepais;
+    }
+
+    public void setNomepais(String nomepais) {
+        this.nomepais = nomepais;
+    }
     
     
     
@@ -117,7 +148,9 @@ public class TOUnidade extends TOBase{
     //retorna consulta do banco de dados tipo resultset
     public TOUnidade (ResultSet rs) throws Exception{
         this.idunidade = rs.getLong("idunidade");
-        this.endereco_idendereco = rs.getLong("endereco_idendereco");
+        this.nomecidade = rs.getString("nomecidade");
+        this.nomeestado = rs.getString("nomeestado");
+        this.nomepais = rs.getString("nomepais");
         this.nomeunidade = rs.getString("nomeunidade");
         this.telefone1 = rs.getString("telefone1");
         this.telefone2 = rs.getString("telefone2");
@@ -136,7 +169,9 @@ public class TOUnidade extends TOBase{
         
         //populando o objeto j
         j.put("idunidade", idunidade);
-        j.put("endereco_idendereco", endereco_idendereco);
+        j.put("nomecidade", nomecidade);
+        j.put("nomeestado", nomeestado);
+        j.put("nomepais", nomepais);
         j.put("nomeunidade", nomeunidade);
         j.put("telefone1", telefone1);
         j.put("telefone2", telefone2);

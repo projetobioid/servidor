@@ -43,7 +43,13 @@ public class DAOUnidade extends DAOBase{
 
     @Override
     public TOBase get(Connection c, TOBase t) throws Exception {
-        String sql = "SELECT * FROM unidade where LOWER(nomeunidade) = LOWER(?) OR cnpj = ?";
+        String sql = "SELECT u.idunidade, c.nomecidade, u.nomeunidade, es.nomeestado, p.nomepais, u.telefone1, u.telefone2, u.email, u.cnpj, u.razao_social, u.nome_fanta "
+                + "FROM unidade u "
+                + "INNER JOIN endereco e ON (e.idendereco = u.endereco_idendereco) "
+                + "INNER JOIN cidade c ON (c.idcidade= e.cidade_idcidade) "
+                + "INNER JOIN estado es ON (es.idestado = c.estado_idestado) "
+                + "INNER JOIN pais p ON (p.idpais= es.pais_idpais) "
+                + "where LOWER(nomeunidade) = LOWER(?) OR cnpj = ?";
         
         ResultSet rs = null;
         List<Object> p = new ArrayList<Object>();
@@ -62,6 +68,32 @@ public class DAOUnidade extends DAOBase{
         }finally{
             rs.close();
         }
+    }
+    
+    @Override
+    public JSONArray listar(Connection c) throws Exception {
+        JSONArray  ja = new JSONArray();
+        
+        String sql = "SELECT u.idunidade, c.nomecidade, u.nomeunidade, es.nomeestado, p.nomepais, u.telefone1, u.telefone2, u.email, u.cnpj, u.razao_social, u.nome_fanta "
+                + "FROM unidade u "
+                + "INNER JOIN endereco e ON (e.idendereco = u.endereco_idendereco) "
+                + "INNER JOIN cidade c ON (c.idcidade= e.cidade_idcidade) "
+                + "INNER JOIN estado es ON (es.idestado = c.estado_idestado) "
+                + "INNER JOIN pais p ON (p.idpais= es.pais_idpais)";
+        
+        ResultSet rs = null;
+        
+        try{
+            rs = Data.executeQuery(c, sql);
+            
+            while (rs.next()){
+                TOUnidade t = new TOUnidade(rs);
+                ja.put(t.getJson());
+            }
+        }finally{
+            rs.close();
+        }
+        return ja;
     }
 
     
