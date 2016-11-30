@@ -25,6 +25,8 @@ public class TOLogin extends TOBase{
     
     private String papel;
     
+    private String nome;
+    
 
     
     public long getIdlogin() {
@@ -76,6 +78,14 @@ public class TOLogin extends TOBase{
         this.papel = papel;
     }
 
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
 
 
     public TOLogin() {
@@ -97,9 +107,8 @@ public class TOLogin extends TOBase{
         this.pessoa_idpessoa = rs.getLong("pessoa_idpessoa");
         this.unidade_idunidade = rs.getLong("unidade_idunidade");
         this.usuario = rs.getString("usuario");
-        this.senha = rs.getString("senha");
         this.papel = rs.getString("papel");
-       
+        this.nome = rs.getString("nome");
     }
 
     @Override
@@ -111,8 +120,8 @@ public class TOLogin extends TOBase{
         j.put("idlogin", idlogin);
         j.put("unidade_idunidade", unidade_idunidade);
         j.put("usuario", usuario);
-        j.put("senha", senha);
         j.put("papel", papel);
+        j.put("nome", nome);
         
         return j;
     }

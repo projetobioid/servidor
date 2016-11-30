@@ -42,26 +42,26 @@ public class DAOUnidade extends DAOBase{
     }
 
     @Override
-    public TOBase get(Connection c, TOBase t) throws Exception {
-        String sql = "SELECT u.idunidade, c.nomecidade, u.nomeunidade, es.nomeestado, p.nomepais, u.telefone1, u.telefone2, u.email, u.cnpj, u.razao_social, u.nome_fanta "
+    public TOBase get(Connection c, TOBase t, String metodo) throws Exception {
+        String sql = "SELECT u.idunidade, c.nomecidade, u.nomeunidade, e.rua, e.bairro, e.numero, e.complemento, e.gps_lat, e.gps_long, es.nomeestado, p.nomepais, u.telefone1, u.telefone2, u.email, u.cnpj, u.razao_social, u.nome_fanta "
                 + "FROM unidade u "
                 + "INNER JOIN endereco e ON (e.idendereco = u.endereco_idendereco) "
                 + "INNER JOIN cidade c ON (c.idcidade= e.cidade_idcidade) "
                 + "INNER JOIN estado es ON (es.idestado = c.estado_idestado) "
                 + "INNER JOIN pais p ON (p.idpais= es.pais_idpais) "
-                + "where LOWER(nomeunidade) = LOWER(?) OR cnpj = ?";
+                + "WHERE idunidade IN(?)";
+                //+ "where LOWER(nomeunidade) = LOWER(?) OR cnpj = ?";
         
         ResultSet rs = null;
         List<Object> p = new ArrayList<Object>();
         
         try{
             TOUnidade to = (TOUnidade)t;
-            p.add(to.getNomeunidade());
-            p.add(to.getCnpj());
+            p.add(to.getIdunidade());
             rs = Data.executeQuery(c, sql, p);
             
             if(rs.next()){
-                return new TOUnidade(rs);
+                return new TOUnidade(rs, metodo);
             }else{
                 return null;
             }
@@ -74,7 +74,7 @@ public class DAOUnidade extends DAOBase{
     public JSONArray listar(Connection c) throws Exception {
         JSONArray  ja = new JSONArray();
         
-        String sql = "SELECT u.idunidade, c.nomecidade, u.nomeunidade, es.nomeestado, p.nomepais, u.telefone1, u.telefone2, u.email, u.cnpj, u.razao_social, u.nome_fanta "
+        String sql = "SELECT u.idunidade, c.nomecidade, u.nomeunidade, es.nomeestado, p.nomepais, u.telefone1, u.telefone2, u.email, u.cnpj "
                 + "FROM unidade u "
                 + "INNER JOIN endereco e ON (e.idendereco = u.endereco_idendereco) "
                 + "INNER JOIN cidade c ON (c.idcidade= e.cidade_idcidade) "
@@ -88,7 +88,7 @@ public class DAOUnidade extends DAOBase{
             
             while (rs.next()){
                 TOUnidade t = new TOUnidade(rs);
-                ja.put(t.getJson());
+                ja.put(t.getJson("todas"));
             }
         }finally{
             rs.close();

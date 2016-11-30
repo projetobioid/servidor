@@ -16,7 +16,7 @@ public class TOBase {
         return null;
     }
         
-    public JSONObject getJsonConsulta() throws Exception{
+    public JSONObject getJson(String metodo) throws Exception{
         return null;
     }
 }

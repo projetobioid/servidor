@@ -8,6 +8,7 @@ package dao;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import org.json.JSONArray;
 import to.TOBase;
@@ -22,7 +23,7 @@ public class DAOSessao extends DAOBase{
     @Override
     public long inserir(Connection c, TOBase t) throws Exception {
        //string com o comando sql para editar o banco de dados
-        String sql = "INSERT INTO sessao(login_idlogin, sessao) VALUES (?, ?)";
+        String sql = "INSERT INTO sessao(login_idlogin, sessao, datarequisicao) VALUES (?, ?, ?)";
         //variavel sendo convertida para toUsuarios
         TOSessao to = (TOSessao)t;
         //variavel com lista dos parametros
@@ -30,7 +31,7 @@ public class DAOSessao extends DAOBase{
         
         u.add(to.getLogin_idlogin());
         u.add(to.getSessao());
-        //u.add(to.getDatalogin());
+        u.add(new Date().toString());
         //passa por parametros a conexao e a lista de objetos da insercao de um novo produto
         return Data.executeUpdate(c, sql, u);
     }
@@ -44,7 +45,7 @@ public class DAOSessao extends DAOBase{
     @Override
     public TOBase get(Connection c, TOBase t) throws Exception {
          //string com o comando sql para editar o banco de dados
-        String sql = "SELECT * FROM sessao where sessao IN(?)";
+        String sql = "SELECT idsessao, login_idlogin, sessao, datarequisicao FROM sessao where sessao IN(?) AND login_idlogin IN(?)";
         
         ResultSet rs = null;
         
@@ -55,6 +56,8 @@ public class DAOSessao extends DAOBase{
             List<Object> u = new ArrayList<Object>();
             
             u.add(to.getSessao());
+            u.add(to.getLogin_idlogin());
+           
             
             rs = Data.executeQuery(c, sql, u);
             
@@ -76,14 +79,15 @@ public class DAOSessao extends DAOBase{
 
     @Override
     public void editar(Connection c, TOBase t) throws Exception {
-        String sql = "update sessao set sessao = ? where sessao IN(?)";
+        String sql = "update sessao set sessao = ?, datarequisicao = ? where idsessao IN(?)";
         
         TOSessao to = (TOSessao)t;
         
         List<Object> p = new ArrayList<Object>();
         
         p.add(to.getNewSessao());
-        p.add(to.getSessao());
+        p.add(new Date().toString());
+        p.add(to.getIdsessao());
         
        
         //passa por parametros a conexao e a lista de objetos da insercao de um novo produto        

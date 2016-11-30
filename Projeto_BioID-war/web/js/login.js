@@ -1,4 +1,6 @@
 var ipServidor = "localhost:8080";
+//var ipServidor = "10.1.2.52:8080";
+//var ipServidor = "187.19.101.252:8082";
 
 
 /* button carregar page entrar*/
@@ -48,13 +50,17 @@ $(document).on("click", "#entrar", function(evt)
                 sessao: dados.sessao,
                // tempoLogin: dados.tempoLogin,
                 papel: dados.papel,
-                idunidade: dados.idunidade
+                idunidade: dados.idunidade,
+                nome: dados.nome
             });
+            
+            
             
             localStorage.setItem("logSessao", logSessao);
 
             window.location.href = 'home.html';
-
+//            $("#bemVindo").val(dados.nome);
+            
             //informa se o usuario ou senha esta incorreta
             }else if($("#inputUsuario").val()=== ""){
                 alert('O campo usuário não pode ser vazio!');

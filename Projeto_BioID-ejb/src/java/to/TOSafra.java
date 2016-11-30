@@ -287,23 +287,23 @@ public class TOSafra extends TOBase {
     }
 
 
-    @Override
-    public JSONObject getJsonConsulta() throws Exception {
-        
-        JSONObject j = new JSONObject();
-
-        
-        j.put("idpropriedade", propriedade_idpropriedade);
-        j.put("idsafra", idsafra);
-        j.put("safra", safra);
-        j.put("nomecultivar", nomecultivar);
-        j.put("qtdrecebida", qtdrecebida);
-        j.put("grandeza_recebida", grandeza_recebida);
-        j.put("datareceb", datareceb);
-
-        
-        return j;
-    }
+//    @Override
+//    public JSONObject getJsonConsulta() throws Exception {
+//        
+//        JSONObject j = new JSONObject();
+//
+//        
+//        j.put("idpropriedade", propriedade_idpropriedade);
+//        j.put("idsafra", idsafra);
+//        j.put("safra", safra);
+//        j.put("nomecultivar", nomecultivar);
+//        j.put("qtdrecebida", qtdrecebida);
+//        j.put("grandeza_recebida", grandeza_recebida);
+//        j.put("datareceb", datareceb);
+//
+//        
+//        return j;
+//    }
 
     
 

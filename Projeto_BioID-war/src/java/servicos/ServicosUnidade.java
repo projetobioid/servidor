@@ -48,8 +48,9 @@ public class ServicosUnidade {
     @Path("buscar")
     @POST
     public String buscar(
-        @FormParam("nomeunidade") String nomeunidade,
-        @FormParam("cnpj") String cnpj,
+        @FormParam("metodo") String metodo,
+        @FormParam("idunidade") long idunidade,
+        @FormParam("id") long id,
         @FormParam("sessao") String sessao
         ) throws Exception{
         
@@ -57,7 +58,7 @@ public class ServicosUnidade {
         
         try{               
              //verificar sessao
-            JSONObject js = new VerificarSessao().VerificarSessao(sessao);
+            JSONObject js = new VerificarSessao().VerificarSessao(id, sessao);
             
             
             if((boolean) js.get("sucesso") == false){
@@ -65,15 +66,14 @@ public class ServicosUnidade {
                 j.put("mensangem", "Sessao não encontrada!");
             }else{
                 TOUnidade p = new TOUnidade();
-                p.setNomeunidade(nomeunidade);
-                p.setCnpj(cnpj);
-                p = (TOUnidade) BOFactory.get(new DAOUnidade(), p);
+                p.setIdunidade(idunidade);
+                p = (TOUnidade) BOFactory.get(new DAOUnidade(), p, metodo);
 
                 if(p == null){
                     j.put("sucesso", false);
                     j.put("mensagem", "Unidade não encontrada");
                 }else{
-                    j.put("unidade", p.getJson());
+                    j.put("data", p.getJson(metodo));
                     j.put("sessao", js.get("sessao"));
                     j.put("sucesso", true);
                 }
@@ -164,6 +164,7 @@ public class ServicosUnidade {
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.APPLICATION_JSON)
     public String listar(
+            @FormParam("id") long id,
             @FormParam("sessao") String sessao
             ) throws Exception{
         
@@ -172,7 +173,7 @@ public class ServicosUnidade {
         try{
             
             //verificar sessao
-            JSONObject js = new VerificarSessao().VerificarSessao(sessao);
+            JSONObject js = new VerificarSessao().VerificarSessao(id, sessao);
             
             
             if((boolean) js.get("sucesso") == false){
@@ -183,7 +184,7 @@ public class ServicosUnidade {
 //                t.setIdunidade(idunidade);
                 JSONArray ja = BOFactory.listar(new DAOUnidade());
         
-                j.put("unidades", ja);
+                j.put("data", ja);
                 j.put("sessao", js.get("sessao"));
                 j.put("sucesso", true);
                 
@@ -211,6 +212,7 @@ public class ServicosUnidade {
             @FormParam("qtd") float qtd,
             @FormParam("data_io") String data_io,
             @FormParam("operacao") int operacao,
+            @FormParam("id") long id,
             @FormParam("sessao") String sessao
             ) throws Exception{
         
@@ -219,7 +221,7 @@ public class ServicosUnidade {
         
         try{    
             //verificar sessao
-            JSONObject js = new VerificarSessao().VerificarSessao(sessao);
+            JSONObject js = new VerificarSessao().VerificarSessao(id, sessao);
             
             
             if((boolean) js.get("sucesso") == false){
@@ -287,6 +289,7 @@ public class ServicosUnidade {
     @Produces(MediaType.APPLICATION_JSON)
     public String listarestoque(
             @FormParam("idunidade") long idunidade,
+            @FormParam("id") long id,
             @FormParam("sessao") String sessao
             
             ) throws Exception {
@@ -296,7 +299,7 @@ public class ServicosUnidade {
         
         try{ 
             //verificar sessao
-            JSONObject js = new VerificarSessao().VerificarSessao(sessao);
+            JSONObject js = new VerificarSessao().VerificarSessao(id, sessao);
             
             
             if((boolean) js.get("sucesso") == false){
@@ -337,6 +340,7 @@ public class ServicosUnidade {
     @Produces(MediaType.APPLICATION_JSON)
     public String listarPropriedades(
                         @FormParam("idunidade") long idunidade,
+                        @FormParam("id") long id,
                         @FormParam("sessao") String sessao
                         ) throws Exception{
         
@@ -344,7 +348,7 @@ public class ServicosUnidade {
  
         try{
             //verificar sessao
-            JSONObject js = new VerificarSessao().VerificarSessao(sessao);
+            JSONObject js = new VerificarSessao().VerificarSessao(id, sessao);
             
             
             if((boolean) js.get("sucesso") == false){
@@ -356,7 +360,7 @@ public class ServicosUnidade {
                 t.setIdunidade(idunidade);
 
 
-                JSONArray ja = BOFactory.listarAgricultoresUnidade(new DAOPessoa(), t) ;
+                JSONArray ja = BOFactory.listar(new DAOPessoa(), t) ;
 
                 if(ja.length() > 0){
                     j.put("listaAgricultores", ja);

@@ -26,6 +26,7 @@ public class TOUnidade extends TOBase{
     private String nomecidade;
     private String nomeestado;
     private String nomepais;
+    private TOEndereco endereco;
     
 
 
@@ -147,6 +148,23 @@ public class TOUnidade extends TOBase{
     
     //retorna consulta do banco de dados tipo resultset
     public TOUnidade (ResultSet rs) throws Exception{
+        this.endereco = new TOEndereco();
+        
+        this.idunidade = rs.getLong("idunidade");
+        this.nomecidade = rs.getString("nomecidade");
+        this.nomeestado = rs.getString("nomeestado");
+        this.nomepais = rs.getString("nomepais");
+        this.nomeunidade = rs.getString("nomeunidade");
+        this.telefone1 = rs.getString("telefone1");
+        this.telefone2 = rs.getString("telefone2");
+        this.email = rs.getString("email");
+        this.cnpj = rs.getString("cnpj");
+    }
+    
+    //retorna consulta do banco de dados tipo resultset
+    public TOUnidade (ResultSet rs, String metodo) throws Exception{
+        this.endereco = new TOEndereco();
+        
         this.idunidade = rs.getLong("idunidade");
         this.nomecidade = rs.getString("nomecidade");
         this.nomeestado = rs.getString("nomeestado");
@@ -157,28 +175,54 @@ public class TOUnidade extends TOBase{
         this.email = rs.getString("email");
         this.cnpj = rs.getString("cnpj");
         this.razao_social = rs.getString("razao_social");
-        this.nome_fanta = rs.getString("email");
+        this.nome_fanta = rs.getString("nome_fanta");
+        this.endereco.setRua(rs.getString("rua"));
+        this.endereco.setBairro(rs.getString("bairro"));
+        this.endereco.setComplemento(rs.getString("complemento"));
+        this.endereco.setNumero(rs.getInt("numero"));
+        this.endereco.setGps_lat(rs.getInt("gps_lat"));
+        this.endereco.setGps_long(rs.getInt("gps_long"));
     }
 
 
     //retorna um json
     @Override
-    public JSONObject getJson() throws Exception {
+    public JSONObject getJson(String metodo) throws Exception {
         //variavel tipo json para retornar no metodo
         JSONObject j = new JSONObject();
+        if(metodo.equals("buscarunidade")){
+            //populando o objeto j
+            j.put("idunidade", idunidade);
+            j.put("nomecidade", nomecidade);
+            j.put("nomeestado", nomeestado);
+            j.put("nomepais", nomepais);
+            j.put("nomeunidade", nomeunidade);
+            j.put("telefone1", telefone1);
+            j.put("telefone2", telefone2);
+            j.put("email", email);
+            j.put("cnpj", cnpj);
+            j.put("razao_social", razao_social);
+            j.put("nome_fanta", nome_fanta);
+            j.put("rua", endereco.getRua());
+            j.put("bairro", endereco.getBairro());
+            j.put("numero", endereco.getNumero());
+            j.put("complemento", endereco.getComplemento());
+            j.put("gps_lat", endereco.getGps_lat());
+            j.put("gps_long", endereco.getGps_long());
+        }else{
+            //populando o objeto j
+            j.put("idunidade", idunidade);
+            j.put("nomecidade", nomecidade);
+            j.put("nomeestado", nomeestado);
+            j.put("nomepais", nomepais);
+            j.put("nomeunidade", nomeunidade);
+            j.put("telefone1", telefone1);
+            j.put("telefone2", telefone2);
+            j.put("email", email);
+            j.put("cnpj", cnpj);
+        }
         
-        //populando o objeto j
-        j.put("idunidade", idunidade);
-        j.put("nomecidade", nomecidade);
-        j.put("nomeestado", nomeestado);
-        j.put("nomepais", nomepais);
-        j.put("nomeunidade", nomeunidade);
-        j.put("telefone1", telefone1);
-        j.put("telefone2", telefone2);
-        j.put("email", email);
-        j.put("cnpj", cnpj);
-        j.put("razao_social", razao_social);
-        j.put("nome_fanta", nome_fanta);
+        
         
         return j;
    

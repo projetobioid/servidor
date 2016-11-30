@@ -229,30 +229,30 @@ public class DAOSafra extends DAOBase{
         return teste;
     }
 
-    @Override
-    public JSONArray backupentrevista(Connection c, TOBase t) throws Exception {
-        JSONArray  ja = new JSONArray();
-        
-        
-        String sql = "SELECT s.idsafra, s.safra, c.nomecultivar, s.qtdrecebida, s.propriedade_idpropriedade, um.grandeza as grandeza_recebida, s.datareceb FROM safra s INNER JOIN cultivar c ON(c.idcultivar = s.cultivar_idcultivar) INNER JOIN unidademedida um ON(um.idunidademedida = s.unidademedida_idunidademedida) WHERE s.propriedade_idpropriedade IN(?) AND s.status_entrevistador IN(9);";
-        ResultSet rs = null;
-        
-        try{
-            //variavel com lista dos parametros
-            List<Object> u = new ArrayList<Object>();
-            TOSafra to = (TOSafra)t;
-            u.add(to.getPropriedade_idpropriedade());
-            
-            rs = Data.executeQuery(c, sql, u);
-            while (rs.next()){
-                TOSafra ts = new TOSafra().backupentrevista(rs);
-                ja.put(ts.getJsonConsulta());
-            }
-        }finally{
-            rs.close();
-        }
-        return ja;
-    }
+//    @Override
+//    public JSONArray backupentrevista(Connection c, TOBase t) throws Exception {
+//        JSONArray  ja = new JSONArray();
+//        
+//        
+//        String sql = "SELECT s.idsafra, s.safra, c.nomecultivar, s.qtdrecebida, s.propriedade_idpropriedade, um.grandeza as grandeza_recebida, s.datareceb FROM safra s INNER JOIN cultivar c ON(c.idcultivar = s.cultivar_idcultivar) INNER JOIN unidademedida um ON(um.idunidademedida = s.unidademedida_idunidademedida) WHERE s.propriedade_idpropriedade IN(?) AND s.status_entrevistador IN(9);";
+//        ResultSet rs = null;
+//        
+//        try{
+//            //variavel com lista dos parametros
+//            List<Object> u = new ArrayList<Object>();
+//            TOSafra to = (TOSafra)t;
+//            u.add(to.getPropriedade_idpropriedade());
+//            
+//            rs = Data.executeQuery(c, sql, u);
+//            while (rs.next()){
+//                TOSafra ts = new TOSafra().backupentrevista(rs);
+//                ja.put(ts.getJsonConsulta());
+//            }
+//        }finally{
+//            rs.close();
+//        }
+//        return ja;
+//    }
 }
 
 

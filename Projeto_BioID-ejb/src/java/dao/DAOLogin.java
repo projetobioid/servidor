@@ -41,7 +41,10 @@ public class DAOLogin extends DAOBase{
     @Override
     public TOBase get(Connection c, TOBase t) throws Exception {
          //string com o comando sql para editar o banco de dados
-        String sql = "SELECT * FROM login where usuario = ? and senha = ?";
+        String sql = "SELECT l.idlogin, l.pessoa_idpessoa, l.unidade_idunidade, l.usuario, l.papel, p.nome "
+                + "FROM login l "
+                + "INNER JOIN pessoa p ON(p.idpessoa = l.pessoa_idpessoa) "
+                + "WHERE usuario IN(?) AND senha IN(?)";
         
         ResultSet rs = null;
         

@@ -31,6 +31,9 @@ public class TOPessoa extends TOBase{
     
     private String usuario;
     private String nomeunidade;
+    private String escolaridade;
+    private String estadocivil;
+    private TOAgricultor agricultor;
     
 
     public long getIdpessoa() {
@@ -163,6 +166,22 @@ public class TOPessoa extends TOBase{
         this.nomeunidade = nomeunidade;
     }
 
+    public String getEscolaridade() {
+        return escolaridade;
+    }
+
+    public void setEscolaridade(String escolaridade) {
+        this.escolaridade = escolaridade;
+    }
+
+    public String getEstadocivil() {
+        return estadocivil;
+    }
+
+    public void setEstadocivil(String estadocivil) {
+        this.estadocivil = estadocivil;
+    }
+
     
 
     
@@ -190,74 +209,144 @@ public class TOPessoa extends TOBase{
 
    
     
-     //retorna consulta do banco de dados tipo resultset
-    public TOPessoa (ResultSet rs) throws Exception{
-        this.idpessoa = rs.getLong("idpessoa");
-        this.endereco_idendereco = rs.getLong("endereco_idendereco");
-        this.escolaridade_idescolaridade = rs.getLong("escolaridade_idescolaridade");
-        this.estadocivil_idestadocivil = rs.getLong("estadocivil_idestadocivil");
-        this.nome = rs.getString("nome");
-        this.sobrenome = rs.getString("sobrenome");
-        this.apelido = rs.getString("apelido");
-        this.cpf = rs.getString("cpf");
-        this.rg = rs.getString("rg");
-        this.datanascimento = rs.getString("datanascimento");
-        this.sexo = rs.getString("sexo");
-        this.telefone1 = rs.getString("telefone1");
-        this.telefone2 = rs.getString("telefone2");
-        this.email = rs.getString("email");
-    }
+//     //retorna consulta do banco de dados tipo resultset
+//    public TOPessoa (ResultSet rs) throws Exception{
+//        this.idpessoa = rs.getLong("idpessoa");
+//        this.endereco_idendereco = rs.getLong("endereco_idendereco");
+//        this.escolaridade_idescolaridade = rs.getLong("escolaridade_idescolaridade");
+//        this.estadocivil_idestadocivil = rs.getLong("estadocivil_idestadocivil");
+//        this.nome = rs.getString("nome");
+//        this.sobrenome = rs.getString("sobrenome");
+//        this.apelido = rs.getString("apelido");
+//        this.cpf = rs.getString("cpf");
+//        this.rg = rs.getString("rg");
+//        this.datanascimento = rs.getString("datanascimento");
+//        this.sexo = rs.getString("sexo");
+//        this.telefone1 = rs.getString("telefone1");
+//        this.telefone2 = rs.getString("telefone2");
+//        this.email = rs.getString("email");
+//    }
 
 
-    
-    
     
     //retorna um json
     @Override
-    public JSONObject getJson() throws Exception {
+    public JSONObject getJson(String metodo) throws Exception {
         //variavel tipo json para retornar no metodo
         JSONObject j = new JSONObject();
         
-        //populando o objeto j
-        j.put("idpessoa", idpessoa);
-        j.put("endereco_idendereco", endereco_idendereco);
-        j.put("estadocivil_idestadocivil", escolaridade_idescolaridade);
-        j.put("nome", nome);
-        j.put("sobrenome", sobrenome);
-        j.put("apelido", apelido);
-        j.put("cpf", cpf);
-        j.put("rg", rg);
-        j.put("datanascimento", datanascimento);
-        j.put("sexo", sexo);
-        j.put("telefone1", telefone1);
-        j.put("telefone2", telefone2);
-        j.put("email", email);
-        j.put("nomeunidade", nomeunidade);
+        if(metodo.equals("listaragricultores") || metodo.equals("listarusuarios")){
+            //populando o objeto j
+            j.put("idpessoa", idpessoa);
+            j.put("nome", nome);
+            j.put("sobrenome", sobrenome);
+            j.put("cpf", cpf);
+            j.put("rg", rg);
+            j.put("telefone1", telefone1);
+            j.put("nomeunidade", nomeunidade);
+            
+        }else if(metodo.equals("buscaragricultor")){
+             
+            //populando o objeto j
+            j.put("idpessoa", idpessoa);
+            j.put("nome", nome);
+            j.put("sobrenome", sobrenome);
+            j.put("apelido", apelido);
+            j.put("cpf", cpf);
+            j.put("rg", rg);
+            j.put("datanascimento", datanascimento);
+            j.put("sexo", sexo);
+            j.put("telefone1", telefone1);
+            j.put("telefone2", telefone2);
+            j.put("email", email);
+            j.put("qtdintegrantes", this.agricultor.getQtdedeintegrantes());
+            j.put("qtdecriancas", this.agricultor.getQtdedecriancas());
+            j.put("qtdgravidas", this.agricultor.getQtdedegravidas());
+            j.put("estadocivil", estadocivil);
+            j.put("escolaridade", escolaridade);
+            
+        }else if(metodo.equals("buscarusuario")){
+             //populando o objeto j
+            j.put("idpessoa", idpessoa);
+            j.put("endereco_idendereco", endereco_idendereco);
+            j.put("estadocivil_idestadocivil", escolaridade_idescolaridade);
+            j.put("nome", nome);
+            j.put("sobrenome", sobrenome);
+            j.put("apelido", apelido);
+            j.put("cpf", cpf);
+            j.put("rg", rg);
+            j.put("datanascimento", datanascimento);
+            j.put("sexo", sexo);
+            j.put("telefone1", telefone1);
+            j.put("telefone2", telefone2);
+            j.put("email", email);
+            j.put("nomeunidade", nomeunidade);
+        }
         
         return j;
    
     }
 
-    
-    
-    public TOPessoa listarAgricultoresUnidade(ResultSet rs) throws Exception{
-        this.nome = rs.getString("nome");
-        this.sobrenome = rs.getString("sobrenome");
-        this.idpessoa = rs.getLong("idpessoa");
+//    
+//    public TOPessoa listarUsuarios(ResultSet rs) throws Exception{
+//        this.idpessoa = rs.getLong("idpessoa");
+//        this.nome = rs.getString("nome");
+//        this.sobrenome = rs.getString("sobrenome");
+//        this.cpf = rs.getString("cpf");
+//        this.rg = rs.getString("rg");
+//        this.telefone1 = rs.getString("telefone1");
+//        this.nomeunidade = rs.getString("nomeunidade");
+//        
+//        return this;  
+//    }
+//    
+    public TOPessoa(ResultSet rs, String metodo) throws Exception{
         
-        return this;  
-    }
-    
-    public TOPessoa listarAgricultores(ResultSet rs) throws Exception{
-        this.idpessoa = rs.getLong("idpessoa");
-        this.nome = rs.getString("nome");
-        this.sobrenome = rs.getString("sobrenome");
-        this.cpf = rs.getString("cpf");
-        this.rg = rs.getString("rg");
-        this.telefone1 = rs.getString("telefone1");
-        this.nomeunidade = rs.getString("nomeunidade");
+        if(metodo.equals("buscaragricultor")){
+            this.agricultor = new TOAgricultor();
+            
+            this.idpessoa = rs.getLong("idpessoa");
+            this.nome = rs.getString("nome");
+            this.sobrenome = rs.getString("sobrenome");
+            this.apelido = rs.getString("apelido");
+            this.cpf = rs.getString("cpf");
+            this.rg = rs.getString("rg");
+            this.datanascimento = rs.getString("datanascimento");
+            this.sexo = rs.getString("sexo");
+            this.telefone1 = rs.getString("telefone1");
+            this.telefone2 = rs.getString("telefone2");
+            this.email = rs.getString("email");
+            this.agricultor.setQtdedecriancas(rs.getInt("qtdcriancas"));
+            this.agricultor.setQtdedeintegrantes(rs.getInt("qtdintegrantes"));
+            this.agricultor.setQtdedegravidas(rs.getInt("qtdgravidas"));
+            this.estadocivil = rs.getString("estadocivil");
+            this.escolaridade = rs.getString("escolaridade");
+  
+        }else if(metodo.equals("buscarusuario")){
+            this.idpessoa = rs.getLong("idpessoa");
+            this.nome = rs.getString("nome");
+            this.sobrenome = rs.getString("sobrenome");
+            this.apelido = rs.getString("apelido");
+            this.cpf = rs.getString("cpf");
+            this.rg = rs.getString("rg");
+            this.datanascimento = rs.getString("datanascimento");
+            this.sexo = rs.getString("sexo");
+            this.telefone1 = rs.getString("telefone1");
+            this.telefone2 = rs.getString("telefone2");
+            this.email = rs.getString("email");
+            this.estadocivil = rs.getString("estadocivil");
+            this.escolaridade = rs.getString("escolaridade");
+            
+        }else if(metodo.equals("listaragricultores") || metodo.equals("listarusuarios")){
+            this.idpessoa = rs.getLong("idpessoa");
+            this.nome = rs.getString("nome");
+            this.sobrenome = rs.getString("sobrenome");
+            this.cpf = rs.getString("cpf");
+            this.rg = rs.getString("rg");
+            this.telefone1 = rs.getString("telefone1");
+            this.nomeunidade = rs.getString("nomeunidade");
+        }
         
-        return this;  
     }
 
     

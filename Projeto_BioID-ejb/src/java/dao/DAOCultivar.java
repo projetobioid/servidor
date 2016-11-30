@@ -73,10 +73,11 @@ public class DAOCultivar extends DAOBase {
     } 
 
     @Override
-    public TOBase get(Connection c, TOBase t) throws Exception {
+    public TOBase get(Connection c, TOBase t, String metodo) throws Exception {
         String sql = "SELECT c.idcultivar, um.grandeza, c.nomecultivar, c.imagem, c.descricao, c.biofortificado, c.valornutricional, c.tempodecolheita, c.tempodestinacao, c.peso_saca "
                 + "FROM cultivar c INNER JOIN unidademedida um ON(um.idunidademedida = c.unidademedida_idunidademedida)"
-                + " where LOWER(c.nomecultivar) = LOWER(?) and biofortificado = ?";
+                + " where c.idcultivar IN(?)";
+                //+ " where LOWER(c.nomecultivar) = LOWER(?) and biofortificado = ?";
         
         ResultSet rs = null;
         List<Object> p = new ArrayList<Object>();
@@ -85,13 +86,12 @@ public class DAOCultivar extends DAOBase {
         
         try{
             TOCultivar to = (TOCultivar)t;
-            p.add(to.getNomecultivar());
-            p.add(to.isBiofortificado());
+            p.add(to.getIdcultivar());
             
             rs = Data.executeQuery(c, sql, p);
             
             if(rs.next()){
-                return new TOCultivar(rs);
+                return new TOCultivar(rs, metodo);
             }else{
                 return null;
             }
@@ -101,21 +101,26 @@ public class DAOCultivar extends DAOBase {
     }
     
     @Override
-    public JSONArray listar(Connection c) throws Exception {
+    public JSONArray listar(Connection c, String metodo) throws Exception {
         JSONArray  ja = new JSONArray();
-        
-        String sql = "select c.idcultivar, um.grandeza, c.nomecultivar, c.imagem, c.descricao, c.biofortificado, c.valornutricional, c.tempodecolheita, c.tempodestinacao, c.peso_saca from cultivar c "
-                + "INNER JOIN unidademedida um ON (um.idunidademedida = c.unidademedida_idunidademedida) "
-                + "where c.biofortificado = true order by c.nomecultivar";
-        
+        String sql = null;
         ResultSet rs = null;
         
         try{
+        
+            if(metodo.equals("listarcultivares")){
+                sql = "select c.idcultivar, um.grandeza, c.nomecultivar, c.imagem, c.descricao, c.biofortificado, c.valornutricional, c.tempodecolheita, c.tempodestinacao, c.peso_saca from cultivar c "
+                    + "INNER JOIN unidademedida um ON (um.idunidademedida = c.unidademedida_idunidademedida) "
+                    + "order by c.nomecultivar";
+
+
+            }
+
             rs = Data.executeQuery(c, sql);
-            
+
             while (rs.next()){
-                TOCultivar t = new TOCultivar(rs);
-                ja.put(t.getJson());
+                TOCultivar t = new TOCultivar(rs, metodo);
+                ja.put(t.getJson(metodo));
             }
         }finally{
             rs.close();
@@ -123,39 +128,39 @@ public class DAOCultivar extends DAOBase {
         return ja;
     }
 
-    @Override
-    public JSONArray listar(Connection c, TOBase t) throws Exception {
-        JSONArray  ja = new JSONArray();           
-        
-        
-        ResultSet rs = null;
-        try{
-            //variavel com lista dos parametros
-            List<Object> u = new ArrayList<Object>();
-            
-            String sql = "SELECT DISTINCT c.idcultivar, c.nomecultivar, c.imagem, c.descricao, c.biofortificado, um.grandeza, c.valornutricional, c.tempodecolheita, c.peso_saca "
-                + "FROM login l "
-                + "INNER JOIN pessoa p ON( p.idpessoa = l.pessoa_idpessoa) "
-                + "INNER JOIN relacaopa r ON( r.agricultor_pessoa_idpessoa = p.idpessoa) "
-                + "INNER JOIN propriedade pr ON (pr.idpropriedade = r.propriedade_idpropriedade) "
-                + "INNER JOIN safra s ON (s.propriedade_idpropriedade = pr.idpropriedade) "
-                + "INNER JOIN cultivar c ON (idcultivar = cultivar_idcultivar) "
-                + "INNER JOIN unidademedida um ON (idunidademedida = c.unidademedida_idunidademedida) "
-                + "where l.pessoa_idpessoa = ?";
-            
-            u.add(((TOLogin) t).getPessoa_idpessoa());
-            
-            rs = Data.executeQuery(c, sql, u);
-            
-            while (rs.next()){
-                TOCultivar tc = new TOCultivar(rs);
-                ja.put(tc.getJson());
-            }
-            
-        }finally{
-            rs.close();
-        }
-        return ja;
-    }
+//    @Override
+//    public JSONArray listar(Connection c, TOBase t) throws Exception {
+//        JSONArray  ja = new JSONArray();           
+//        
+//        
+//        ResultSet rs = null;
+//        try{
+//            //variavel com lista dos parametros
+//            List<Object> u = new ArrayList<Object>();
+//            
+//            String sql = "SELECT DISTINCT c.idcultivar, c.nomecultivar, c.imagem, c.descricao, c.biofortificado, um.grandeza, c.valornutricional, c.tempodecolheita, c.peso_saca "
+//                + "FROM login l "
+//                + "INNER JOIN pessoa p ON( p.idpessoa = l.pessoa_idpessoa) "
+//                + "INNER JOIN relacaopa r ON( r.agricultor_pessoa_idpessoa = p.idpessoa) "
+//                + "INNER JOIN propriedade pr ON (pr.idpropriedade = r.propriedade_idpropriedade) "
+//                + "INNER JOIN safra s ON (s.propriedade_idpropriedade = pr.idpropriedade) "
+//                + "INNER JOIN cultivar c ON (idcultivar = cultivar_idcultivar) "
+//                + "INNER JOIN unidademedida um ON (idunidademedida = c.unidademedida_idunidademedida) "
+//                + "where l.pessoa_idpessoa = ?";
+//            
+//            u.add(((TOLogin) t).getPessoa_idpessoa());
+//            
+//            rs = Data.executeQuery(c, sql, u);
+//            
+//            while (rs.next()){
+//                TOCultivar tc = new TOCultivar(rs);
+//                ja.put(tc.getJson());
+//            }
+//            
+//        }finally{
+//            rs.close();
+//        }
+//        return ja;
+//    }
 
 }

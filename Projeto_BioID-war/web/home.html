@@ -16,7 +16,14 @@ and open the template in the editor.
         <script type="application/javascript" src="js/jquery.js"></script>
         <script src="js/bootstrap.min.js"></script>
         <script type="text/javascript" src="js/eventosHome.js"></script>
+        <script type="text/javascript">
+            window.onload = function(){
+                $("#bemVindo").text("Seja bem-vindo "+getSessao().nome);
+            };
+        </script>
         
+        <link rel="stylesheet" href="css/t.css">
+        <script type="application/javascript" src="js/t.js"></script>
     </head>
     <body>      
   
@@ -51,23 +58,23 @@ and open the template in the editor.
           <ul class="nav nav-sidebar">
             <li class="active"><a href="#">Gerenciamento: <span class="sr-only">(current)</span></a></li>
             <li><a class="a" href="#">Distribuir cultivares</a></li>
-            <li><a class="a" href="#">Editar agricultores</a></li>
             <li><a class="a" href="#">Estoque da unidade</a></li>
+            <li><a class="a" href="#">Relatar safra</a></li>
             <li><a class="a" href="#">Sincronizar app</a></li>
           </ul>
           <ul class="nav nav-sidebar">
             <li class="active"><a href="#">Cadastros: <span class="sr-only">(current)</span></a></li>
-            <li><a class="a" href="#" id="painelAgricultores" >Agricultores</a></li>
-            <li><a class="a" href="#" id="painelCultivares">Cultivares</a></li>
-            <li><a class="a" href="#" id="painelUnidades">Unidades</a></li>
-            <li><a class="a" href="#" id="painelUsuarios">Usuários</a></li>
+            <li><a class="a" href="#" >Agricultores</a></li>
+            <li><a class="a" href="#" >Cultivares</a></li>
+            <li><a class="a" href="#" >Unidades</a></li>
+            <li><a class="a" href="#" >Usuários</a></li>
           </ul>
-          <ul class="nav nav-sidebar">
+<!--          <ul class="nav nav-sidebar">
             <li class="active"><a href="#">Unidade: <span class="sr-only">(current)</span></a></li>
             <li><a class="a" href="">Estoque</a></li>
             <li><a class="a" href="">Agricultores</a></li>
             <li><a class="a" href="">Usuários</a></li>
-          </ul>
+          </ul>-->
         </div>
           
 
@@ -76,13 +83,13 @@ and open the template in the editor.
             <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
 
               <div class="row placeholders">
-                  <img style="opacity: 0.1;" src="images/logo-grande.png" width="416" height="436" alt="background2"/>
+                  <img src="images/logo-grande.png" width="416" height="436" alt="background2"/>
 
               </div>
 
             </div>  
             <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" >
-                <h1 class="page-header" >Seja bem vindo ...</h1>
+                <h1 class="page-header" id="bemVindo">...</h1>
 
               <div class="row placeholders">
                 <div class="col-xs-6 col-sm-3 placeholder">
@@ -112,76 +119,310 @@ and open the template in the editor.
 
         
         <!--menu-->
-        <div hidden="" id="page" >  
+        <div hidden="" id="page" > 
             <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" >
-                <h1 class="page-header" id="identificacaoPage">...</h1>
+                <h1 class="page-header" id="identificacaoPage"></h1>
+               <!--atalhos gerenciamento-->
+               <div class="itensPaginas" id="atalhosCadastro" hidden="">
+                    <div id="menuCadastro" class="row placeholders">
+                        <div class="col-xs-6 col-sm-3 placeholder" id="listar">
+                            <h1 class="laranja e"><span class="fa fa-sort-numeric-asc"></span></h1>
+                            <h4 class="e"> Listar</h4>
+                            <h5 class="text-muted e">Listar...</h5>
+                        </div>
+                          <div class="col-xs-6 col-sm-3 placeholder" id="novo">
+                          <h1 class="amarelo e"><span class="fa fa-plus"></span></h1>
+                          <h4 class="e"> Novo</h4>
+                          <h5 class="text-muted e">Cadastre um novo...</h5>
+                        </div>
+                          <div class="col-xs-6 col-sm-3 placeholder" id="editar">
+                          <h1 class="verde e"><span class="fa fa-edit"></span></h1>
+                          <h4 class="e"> Editar</h4>
+                          <h5 class="text-muted e">Editar informações do...</h5>
+                        </div>
+                          <div class="col-xs-6 col-sm-3 placeholder" id="excluir">
+                          <h1 class="vermelho e"><span class="fa fa-remove"></span></h1>
+                            <h4 class="e"> Excluir </h4>
+                            <h5 class="text-muted e">Excluir o registro do...</h5>
+                        </div>
 
-              <div class="row placeholders">
-                <div class="col-xs-6 col-sm-3 placeholder" id="listar">
-                    <h1 class="laranja e"><span class="fa fa-sort-numeric-asc"></span></h1>
-                    <h4 class="e"> Listar</h4>
-                    <h5 class="text-muted e">Listar...</h5>
-                </div>
-                  <div class="col-xs-6 col-sm-3 placeholder" id="novo">
-                  <h1 class="amarelo e"><span class="fa fa-plus"></span></h1>
-                  <h4 class="e"> Novo</h4>
-                  <h5 class="text-muted e">Cadastre um novo...</h5>
-                </div>
-                  <div class="col-xs-6 col-sm-3 placeholder" id="editar">
-                  <h1 class="verde e"><span class="fa fa-edit"></span></h1>
-                  <h4 class="e"> Editar</h4>
-                  <h5 class="text-muted e">Editar informações do...</h5>
-                </div>
-                  <div class="col-xs-6 col-sm-3 placeholder" id="excluir">
-                  <h1 class="vermelho e"><span class="fa fa-remove"></span></h1>
-                    <h4 class="e"> Excluir </h4>
-                    <h5 class="text-muted e">Excluir o registro do...</h5>
-                </div>
+                    </div>
 
-              </div>
+                    <div class="itensPaginas alert alert-warning alert-dismissible" hidden="" id="Alertar">
+                        <a href="#" class="close">&times;</a>
+                        <strong>Alerta!</strong> &nbsp;<span>...</span>
+                    </div>
+                </div><!--atalhos gerenciamento-->
+                
+                
+                
+                <div class="itensPaginas" hidden="" id="distribuicaoCultivares">
+                    <div class="row">
+                        <section>
+                            <div class="wizard">
+                                <div class="wizard-inner">
+                                    <div class="connecting-line"></div>
+                                    <ul class="nav nav-tabs" role="tablist">
 
-                <div class="alert alert-warning alert-dismissible" hidden="" id="Alertar">
-                <a href="#" class="close">&times;</a>
-                <strong>Alerta!</strong> &nbsp;<span>...</span>
-            </div>
+                                        <li role="presentation" class="active">
+                                            <a href="#step1" data-toggle="tab" aria-controls="step1" role="tab" title="Agricultor">
+                                                <span class="round-tab">
+                                                    <i class="fa fa-user"></i>
+                                                </span>
+                                            </a>
+                                        </li>
 
-            <!--tabela de lista-->
+                                        <li role="presentation" class="disabled">
+                                            <a href="#step2" data-toggle="tab" aria-controls="step2" role="tab" title="Cultivar">
+                                                <span class="round-tab">
+                                                    <i class="fa fa-envira"></i>
+                                                </span>
+                                            </a>
+                                        </li>
+                                        <li role="presentation" class="disabled">
+                                            <a href="#step3" data-toggle="tab" aria-controls="step3" role="tab" title="Quantidade">
+                                                <span class="round-tab">
+                                                    <i class="fa fa-shopping-basket"></i>
+                                                </span>
+                                            </a>
+                                        </li>
+
+                                        <li role="presentation" class="disabled">
+                                            <a href="#complete" data-toggle="tab" aria-controls="complete" role="tab" title="Distribuir">
+                                                <span class="round-tab">
+                                                    <i class="fa fa-save"></i>
+                                                </span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+
+                                <form role="form">
+                                    <div class="tab-content">
+                                        <div class="tab-pane active" role="tabpanel" id="step1">
+                                            <h3>Agricultor</h3>
+
+                                            <div class="form-group">
+                                                <label for="nomeAgricultor" class="control-label">Nome ou CPF ou RG...</label>
+                                                <input type="text" class="form-control" id="nomeAgricultor" placeholder="Digite os dados do agricultor...">
+                                            </div>
+
+                                            <ul class="list-inline pull-right">
+
+                                                <li><button type="button" class="btn btn-warning next-step">Continuar</button></li>
+                                            </ul>
+                                        </div>
+                                        <div class="tab-pane" role="tabpanel" id="step2">
+                                            <h3>Cultivar</h3>
+
+                                            <div class="form-group"><label for="cultivares" class="control-label">Selecione um cultivar...</label>
+                                                <select class="form-control " id="cultivares" >
+                                                    <option>Batata doce</option>
+                                                    <option>Mandioca</option>
+                                                    <option>Milho</option>
+                                                    <option>Trigo</option>
+                                                    <option>Feijão</option>
+                                                </select>
+                                            </div>
+
+                                            <ul class="list-inline pull-right">
+                                                <li><button type="button" class="btn btn-warning prev-step">Voltar</button></li>
+                                                <li><button type="button" class="btn btn-warning next-step">Continuar</button></li>
+                                            </ul>
+                                        </div>
+                                        <div class="tab-pane" role="tabpanel" id="step3">
+                                            <h3>Quantidade</h3>
+
+                                            <div class="form-group">
+                                                <label for="qtd" class="control-label">Informe a quantidade...</label>
+                                                <input type="number" class="form-control" id="qtd" placeholder="Digite a quantidade..." min="0">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="umCultivar" class="control-label">Selecione uma unidade de medida...</label>
+                                                <select class="form-control " id="umCultivar">
+                                                    <option>Kilo(s)</option>
+                                                    <option>Maniva(s)</option>
+                                                    <option>Rama(s)</option>
+                                                </select>
+                                            </div>
+                                            <ul class="list-inline pull-right">
+                                                <li><button type="button" class="btn btn-warning prev-step">Voltar</button></li>
+                                                <li><button type="button" class="btn btn-warning next-step">Continuar</button></li>
+                                                <li><button type="button" class="btn btn-warning btn-info-full next-step">Continuar e salvar</button></li>
+                                            </ul>
+                                        </div>
+                                        <div class="tab-pane" role="tabpanel" id="complete">
+                                            <h3>Completo</h3>
+                                            <p>A distribuição foi bem sucedida!</p>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                </form>
+                            </div>
+                        </section>
+                   </div>
+                </div><!--distribuicao de cultivares-->
+                
+                <div class="itensPaginas" hidden="" id="estoqueUnidade">
+                    <h3>Em construção...</h3>
+                </div>
+                
+                <div class="itensPaginas" hidden="" id="relatarSafra">
+                    <h3>Em construção...</h3>
+                </div>
+                
+                <div class="itensPaginas" hidden="" id="sincronizarApp">
+                    <h3>Em construção...</h3>
+                </div>
+                
             <div id="divItens" hidden="">
               
             </div>
 
+                
 
             </div>
-        </div> <!--pageCadastroCultivar-->
+                
+        </div><!-- page-->
+<!--        
+        <div hidden="" id="pageDistribuir" class="container">
+	<h1 class="page-header" id="identificac">Distribuição de cultivares</h1>
+        <div class="row">
+		<section>
+        <div class="wizard">
+            <div class="wizard-inner">
+                <div class="connecting-line"></div>
+                <ul class="nav nav-tabs" role="tablist">
+
+                    <li role="presentation" class="active">
+                        <a href="#step1" data-toggle="tab" aria-controls="step1" role="tab" title="Agricultor">
+                            <span class="round-tab">
+                                <i class="fa fa-user"></i>
+                            </span>
+                        </a>
+                    </li>
+
+                    <li role="presentation" class="disabled">
+                        <a href="#step2" data-toggle="tab" aria-controls="step2" role="tab" title="Cultivar">
+                            <span class="round-tab">
+                                <i class="fa fa-envira"></i>
+                            </span>
+                        </a>
+                    </li>
+                    <li role="presentation" class="disabled">
+                        <a href="#step3" data-toggle="tab" aria-controls="step3" role="tab" title="Quantidade">
+                            <span class="round-tab">
+                                <i class="fa fa-shopping-basket"></i>
+                            </span>
+                        </a>
+                    </li>
+
+                    <li role="presentation" class="disabled">
+                        <a href="#complete" data-toggle="tab" aria-controls="complete" role="tab" title="Distribuir">
+                            <span class="round-tab">
+                                <i class="fa fa-save"></i>
+                            </span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <form role="form">
+                <div class="tab-content">
+                    <div class="tab-pane active" role="tabpanel" id="step1">
+                        <h3>Agricultor</h3>
+                        
+                        <div class="form-group">
+                            <label for="nomeAgricultor" class="control-label">Nome ou CPF ou RG...</label>
+                            <input type="text" class="form-control" id="nomeAgricultor" placeholder="Digite os dados do agricultor...">
+                        </div>
+                        
+                        <ul class="list-inline pull-right">
+                            
+                            <li><button type="button" class="btn btn-warning next-step">Continuar</button></li>
+                        </ul>
+                    </div>
+                    <div class="tab-pane" role="tabpanel" id="step2">
+                        <h3>Cultivar</h3>
+                        
+                        <div class="form-group"><label for="cultivares" class="control-label">Selecione um cultivar...</label>
+                            <select class="form-control " id="cultivares" >
+                                <option>Batata doce</option>
+                                <option>Mandioca</option>
+                                <option>Milho</option>
+                                <option>Trigo</option>
+                                <option>Feijão</option>
+                            </select>
+                        </div>
+                        
+                        <ul class="list-inline pull-right">
+                            <li><button type="button" class="btn btn-warning prev-step">Voltar</button></li>
+                            <li><button type="button" class="btn btn-warning next-step">Continuar</button></li>
+                        </ul>
+                    </div>
+                    <div class="tab-pane" role="tabpanel" id="step3">
+                        <h3>Quantidade</h3>
+                        
+                        <div class="form-group">
+                            <label for="qtd" class="control-label">Informe a quantidade...</label>
+                            <input type="number" class="form-control" id="qtd" placeholder="Digite a quantidade..." min="0">
+                        </div>
+                        <div class="form-group">
+                            <label for="umCultivar" class="control-label">Selecione uma unidade de medida...</label>
+                            <select class="form-control " id="umCultivar">
+                                <option>Kilo(s)</option>
+                                <option>Maniva(s)</option>
+                                <option>Rama(s)</option>
+                            </select>
+                        </div>
+                        <ul class="list-inline pull-right">
+                            <li><button type="button" class="btn btn-warning prev-step">Voltar</button></li>
+                            <li><button type="button" class="btn btn-warning next-step">Continuar</button></li>
+                            <li><button type="button" class="btn btn-warning btn-info-full next-step">Continuar e salvar</button></li>
+                        </ul>
+                    </div>
+                    <div class="tab-pane" role="tabpanel" id="complete">
+                        <h3>Completo</h3>
+                        <p>A distribuição foi bem sucedida!</p>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </form>
+        </div>
+    </section>
+   </div>
+</div>
+        -->
+        
+        
+        
         
       </div>
     </div>
        
-<!--        
-    <div class="modal fade" id="modalEditarCultivar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+        
+    <div class="modal fade" id="modalApresentacao" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
         <div class="modal-dialog" role="document">
           <div class="modal-content">
               <div class="modal-header bg-success">
               <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-              <h4 class="modal-title" id="exampleModalLabel">Editar Cultivar</h4>
+              <h4 class="modal-title" id="exampleModalLabel">Apresentação em construção...</h4>
             </div>
             <div class="modal-body">
-              <form>
+<!--              <form>
                 <div class="form-group">
                   <label for="nomePesquisarCultivar" class="control-label">Nome ou ID do cultivar:</label>
                   <input type="text" class="form-control" id="nomePesquisarCultivar">
                 </div>
                 
-              </form>
+              </form>-->
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-warning" data-dismiss="modal">Cancelar</button>
-              <button type="button" class="btn btn-warning">Buscar</button>
+              <button type="button" class="btn btn-warning" data-dismiss="modal">Sair</button>
             </div>
           </div>
-        </div>
+        </div><!--
       </div> -->
-        
         
 
     <!-- Bootstrap core JavaScript

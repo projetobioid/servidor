@@ -8,7 +8,6 @@ package dao;
 import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
-import org.json.JSONArray;
 import to.TOBase;
 import to.TOEndereco;
 
@@ -19,7 +18,7 @@ import to.TOEndereco;
 public class DAOEndereco extends DAOBase{
 
     @Override
-    public long inserir(Connection c, TOBase t) throws Exception {
+    public long inserir(Connection c, TOBase t ) throws Exception {
         //string com o comando sql para editar o banco de dados
         String sql = "INSERT INTO endereco(cidade_idcidade, rua, gps_lat, gps_long, bairro, complemento, cep, numero) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         //variavel sendo convertida para toUsuarios

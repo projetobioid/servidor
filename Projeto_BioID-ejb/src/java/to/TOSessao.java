@@ -6,6 +6,7 @@
 package to;
 
 import java.sql.ResultSet;
+import java.util.Date;
 import org.json.JSONObject;
 
 /**
@@ -20,7 +21,7 @@ public class TOSessao extends TOBase{
     
     public String sessao;
     
-    //public long datalogin;
+    public String datarequisicao;
     
     public String newSessao;
 
@@ -48,13 +49,15 @@ public class TOSessao extends TOBase{
         this.sessao = sessao;
     }
 
-//    public long getDatalogin() {
-//        return datalogin;
-//    }
-//
-//    public void setDatalogin(long datalogin) {
-//        this.datalogin = datalogin;
-//    }
+    public String getDatarequisicao() {
+        return datarequisicao;
+    }
+
+    public void setDatarequisicao(String datarequisicao) {
+        this.datarequisicao = datarequisicao;
+    }
+
+
 
     public String getNewSessao() {
         return newSessao;
@@ -67,11 +70,11 @@ public class TOSessao extends TOBase{
     public TOSessao() {
     }
 
-    public TOSessao(long idsessao, long login_idlogin, String sessao, String newSessao) {
+    public TOSessao(long idsessao, long login_idlogin, String sessao, String newSessao, String datalogin) {
         this.idsessao = idsessao;
         this.login_idlogin = login_idlogin;
         this.sessao = sessao;
-        //this.datalogin = datalogin;
+        this.datarequisicao = datalogin;
         this.newSessao = newSessao;
     }
     
@@ -79,7 +82,7 @@ public class TOSessao extends TOBase{
         this.idsessao = rs.getLong("idsessao");
         this.login_idlogin = rs.getLong("login_idlogin");
         this.sessao = rs.getString("sessao");
-       // this.datalogin = rs.getLong("datalogin");
+        this.datarequisicao = rs.getString("datarequisicao");
        
     }
     
@@ -92,7 +95,7 @@ public class TOSessao extends TOBase{
         j.put("idsessao", idsessao);
         j.put("login_idlogin", login_idlogin);
         j.put("sessao", sessao);
-        //j.put("datalogin", datalogin);
+        j.put("datarequisicao", datarequisicao);
         
         return j;
     }

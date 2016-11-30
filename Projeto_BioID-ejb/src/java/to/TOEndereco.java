@@ -32,6 +32,10 @@ public class TOEndereco extends TOBase{
     
     private String nomecidade;
     
+    private String nomeestado;
+    
+    private String nomepais;
+    
     public long getCidade_idcidade() {
         return cidade_idcidade;
     }
@@ -102,6 +106,22 @@ public class TOEndereco extends TOBase{
 
     public void setNomecidade(String nomecidade) {
         this.nomecidade = nomecidade;
+    }
+
+    public String getNomeestado() {
+        return nomeestado;
+    }
+
+    public void setNomeestado(String nomeestado) {
+        this.nomeestado = nomeestado;
+    }
+
+    public String getNomepais() {
+        return nomepais;
+    }
+
+    public void setNomepais(String nomepais) {
+        this.nomepais = nomepais;
     }
    
     

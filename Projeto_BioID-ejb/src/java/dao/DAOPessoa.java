@@ -22,30 +22,47 @@ public class DAOPessoa extends DAOBase{
 
     
     @Override
-    public JSONArray listar(Connection c) throws Exception {
+    public JSONArray listar(Connection c, String metodo) throws Exception {
         JSONArray  ja = new JSONArray();
-        
-        String sql = "SELECT p.idpessoa, p.nome, p.sobrenome, p.cpf, p.rg, p.telefone1, u.nomeunidade FROM pessoa p "
-                + "INNER JOIN agricultor a ON (a.pessoa_idpessoa = p.idpessoa) "
-                + "INNER JOIN relacaopa rpa ON (rpa.agricultor_pessoa_idpessoa = p.idpessoa) "
-                + "INNER JOIN propriedade pd ON (pd.idpropriedade = rpa.propriedade_idpropriedade) "
-                + "INNER JOIN unidade u ON (u.idunidade = pd.idpropriedade)";
-        
+        String sql = null;
         ResultSet rs = null;
         
         try{
-            rs = Data.executeQuery(c, sql);
             
+            if(metodo.equals("listaragricultores")){
+                sql = "SELECT p.idpessoa, p.nome, p.sobrenome, p.cpf, p.rg, p.telefone1, u.nomeunidade "
+                    + "FROM pessoa p "
+                    + "INNER JOIN agricultor a ON (a.pessoa_idpessoa = p.idpessoa) "
+                    + "INNER JOIN relacaopa rpa ON (rpa.agricultor_pessoa_idpessoa = p.idpessoa) "
+                    + "INNER JOIN propriedade pd ON (pd.idpropriedade = rpa.propriedade_idpropriedade) "
+                    + "INNER JOIN unidade u ON (u.idunidade = pd.idpropriedade) "
+                    + "INNER JOIN login l ON (l.pessoa_idpessoa = p.idpessoa) "
+                    + "WHERE l.papel IN('a')";
+
+            }else if(metodo.equals("listarusuarios")){
+                sql = "SELECT p.idpessoa, p.nome, p.sobrenome, p.cpf, p.rg, p.telefone1, u.nomeunidade "
+                    + "FROM pessoa p "
+                    + "INNER JOIN login l ON (l.pessoa_idpessoa = p.idpessoa) "
+                    + "INNER JOIN unidade u ON (u.idunidade = l.unidade_idunidade) "
+                    + "WHERE l.papel IN('x') OR l.papel IN('e') OR l.papel IN('g')";
+            }    
+            
+            rs = Data.executeQuery(c, sql);
+
             while (rs.next()){
-                TOPessoa t = new TOPessoa().listarAgricultores(rs);
-                ja.put(t.getJson());
+                TOPessoa t = new TOPessoa(rs, metodo);
+                ja.put(t.getJson(metodo));
             }
+                
+            
+            
         }finally{
             rs.close();
         }
         return ja;
     }
 
+    
     @Override
     public long inserir(Connection c, TOBase t) throws Exception {
         //string com o comando sql para editar o banco de dados
@@ -75,58 +92,82 @@ public class DAOPessoa extends DAOBase{
     }
 
     @Override
-    public TOBase get(Connection c, TOBase t) throws Exception {
-        String sql = "SELECT * FROM pessoa where cpf = ?";
-        
+    public TOBase get(Connection c, TOBase t, String metodo) throws Exception {
         ResultSet rs = null;
+        String sql = null;
+        TOPessoa to = (TOPessoa)t;
         
         try{
-            TOPessoa to = (TOPessoa)t;
-            rs = Data.executeQuery(c, sql, to.getCpf());
+            
+            if(metodo.equals("buscaragricultor")){
+                sql = "SELECT p.idpessoa, p.nome, p.sobrenome, p.apelido, p.cpf, p.rg, p.datanascimento, p.sexo, p.telefone1, p.telefone2, p.email, a.qtdintegrantes, a.qtdcriancas, a.qtdgravidas, est.descricao as estadocivil, esc.descricao as escolaridade "
+                        + "FROM pessoa p "
+                        + "INNER JOIN agricultor a ON(a.pessoa_idpessoa = p.idpessoa) "
+                        + "INNER JOIN estadocivil est ON(est.idestadocivil = p.estadocivil_idestadocivil) "
+                        + "INNER JOIN escolaridade esc ON(esc.idescolaridade = p.escolaridade_idescolaridade) "
+                        + "WHERE p.idpessoa IN(?)";  
+                rs = Data.executeQuery(c, sql, to.getIdpessoa());
+
+                
+            }else if(metodo.equals("buscarusuario")){
+                sql = "SELECT p.idpessoa, p.nome, p.sobrenome, p.apelido, p.cpf, p.rg, p.datanascimento, p.sexo, p.telefone1, p.telefone2, p.email, est.descricao as estadocivil, esc.descricao as escolaridade "
+                        + "FROM pessoa p "
+                        + "INNER JOIN estadocivil est ON(est.idestadocivil = p.estadocivil_idestadocivil) "
+                        + "INNER JOIN escolaridade esc ON(esc.idescolaridade = p.escolaridade_idescolaridade) "
+                        + "WHERE p.idpessoa IN(?)";  
+                rs = Data.executeQuery(c, sql, to.getIdpessoa());
+
+            }
             
             if(rs.next()){
-                return new TOPessoa(rs);
+                return new TOPessoa(rs, metodo);
             }else{
                 return null;
             }
+        
+        
+        
+            
+            
         }finally{
             rs.close();
         }
     }
-
-    @Override
-    public JSONArray listarAgricultoresUnidade(Connection c, TOBase t) throws Exception {
-        JSONArray  ja = new JSONArray();
-  
-        ResultSet rs = null;
-        try{
-            //variavel com lista dos parametros
-            List<Object> u = new ArrayList<Object>();
-            
-            String sql = "SELECT DISTINCT p.nome, p.sobrenome, p.idpessoa "
-                    + "FROM pessoa p "
-                    + "INNER JOIN login l ON(l.pessoa_idpessoa = p.idpessoa) "
-                    + "INNER JOIN agricultor a ON(a.pessoa_idpessoa = p.idpessoa) "
-                    + "INNER JOIN relacaopa rpa ON(rpa.agricultor_pessoa_idpessoa = a.pessoa_idpessoa) "
-                    + "INNER JOIN propriedade pr ON(pr.idpropriedade = rpa.propriedade_idpropriedade) "
-                    + "INNER JOIN safra s ON(s.propriedade_idpropriedade = pr.idpropriedade) "
-                    + "where l.unidade_idunidade IN(?) AND a.pessoa_idpessoa IN(p.idpessoa)";
-             
-            u.add(((TOUnidade) t).getIdunidade());
-            
-            rs = Data.executeQuery(c, sql, u);
-            
-            while (rs.next()){
-                TOPessoa ts = new TOPessoa().listarAgricultoresUnidade(rs);
-                ja.put(ts.getJson());
-            }
-            
-                        
-        }finally{
-            rs.close();
-        }
-        return ja;
-    }
+//
+//    @Override
+//    public JSONArray listar(Connection c, TOBase t, String metodo) throws Exception {
+//        JSONArray  ja = new JSONArray();
+//        String sql;
+//        ResultSet rs = null;
+//        try{
+//            //variavel com lista dos parametros
+//            List<Object> u = new ArrayList<Object>();
+//            
+//                sql = "SELECT DISTINCT p.idpessoa, p.nome, p.sobrenome, p.cpf, p.rg, p.telefone1, u.nomeunidade "
+//                    + "FROM pessoa p "
+//                    + "INNER JOIN login l ON(l.pessoa_idpessoa = p.idpessoa) "
+//                    + "INNER JOIN agricultor a ON(a.pessoa_idpessoa = p.idpessoa) "
+//                    + "INNER JOIN relacaopa rpa ON(rpa.agricultor_pessoa_idpessoa = a.pessoa_idpessoa) "
+//                    + "INNER JOIN propriedade pr ON(pr.idpropriedade = rpa.propriedade_idpropriedade) "
+//                    + "INNER JOIN safra s ON(s.propriedade_idpropriedade = pr.idpropriedade) "
+//                    + "INNER JOIN unidade u ON(u.idunidade = l.unidade_idunidade) "
+//                    + "WHERE l.unidade_idunidade IN(?) AND a.pessoa_idpessoa IN(p.idpessoa) AND l.papel IN('a')";
+//             
+//            u.add(((TOUnidade) t).getIdunidade());
+//            
+//            rs = Data.executeQuery(c, sql, u);
+//            
+//            while (rs.next()){
+//                TOPessoa ts = new TOPessoa(rs);
+//                ja.put(ts.getJson());
+//            }
+//            
+//                        
+//        }finally{
+//            rs.close();
+//        }
+//        return ja;
+//    }
 
     
     

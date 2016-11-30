@@ -49,8 +49,9 @@ public class ServicosCultivar {
     @Path("buscar")
     @POST
     public String buscar(
-                        @FormParam("nomecultivar") String nomecultivar,
-                        @FormParam("biofortificado") boolean biofortificado,
+                        @FormParam("idcultivar") long idcultivar,
+                        @FormParam("metodo") String metodo,
+                        @FormParam("id") long id,
                         @FormParam("sessao") String sessao
                         ) throws Exception{
         
@@ -58,7 +59,7 @@ public class ServicosCultivar {
         
         try{               
              //verificar sessao
-            JSONObject js = new VerificarSessao().VerificarSessao(sessao);
+            JSONObject js = new VerificarSessao().VerificarSessao(id, sessao);
             
             
             if((boolean) js.get("sucesso") == false){
@@ -66,15 +67,14 @@ public class ServicosCultivar {
                 j.put("mensangem", "Sessao não encontrada!");
             }else{
                 TOCultivar p = new TOCultivar();
-                p.setNomecultivar(nomecultivar);
-                p.setBiofortificado(biofortificado);
-                p = (TOCultivar) BOFactory.get(new DAOCultivar(), p);
+                p.setIdcultivar(idcultivar);
+                p = (TOCultivar) BOFactory.get(new DAOCultivar(), p, metodo);
 
                 if(p == null){
                     j.put("sucesso", false);
                     j.put("mensagem", "Cultivar não encontrado");
                 }else{
-                    j.put("cultivar", p.getJson());
+                    j.put("data", p.getJson(metodo));
                     j.put("sessao", js.get("sessao"));
                     j.put("sucesso", true);
                 }
@@ -94,7 +94,10 @@ public class ServicosCultivar {
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.APPLICATION_JSON)
     public String listar(
+            @FormParam("metodo") String metodo,
+            @FormParam("id") long id,
             @FormParam("sessao") String sessao
+            
             ) throws Exception{
         
         JSONObject j = new JSONObject();
@@ -102,20 +105,26 @@ public class ServicosCultivar {
         try{
             
             //verificar sessao
-            JSONObject js = new VerificarSessao().VerificarSessao(sessao);
+            JSONObject js = new VerificarSessao().VerificarSessao(id, sessao);
             
             
             if((boolean) js.get("sucesso") == false){
                 j.put("sucesso", false);
                 j.put("mensangem", "Sessao não encontrada!");
             }else{
-//                TOUnidade t = new TOUnidade();
-//                t.setIdunidade(idunidade);
-                JSONArray ja = BOFactory.listar(new DAOCultivar());
-        
-                j.put("cultivares", ja);
-                j.put("sessao", js.get("sessao"));
-                j.put("sucesso", true);
+
+                JSONArray ja = BOFactory.listar(new DAOCultivar(), metodo);
+                
+                
+                if(ja.length() > 0){
+                    j.put("data", ja);
+                    j.put("sucesso", true);
+                    j.put("sessao", js.get("sessao"));
+                }else{
+                    j.put("sucesso", false);
+                    j.put("mensagem", "Sem "+ metodo);
+                    j.put("sessao", js.get("sessao"));
+                }
                 
             }
             
@@ -141,34 +150,50 @@ public class ServicosCultivar {
             @FormParam("unidademedida_idunidademedida") long unidademedida_idunidademedida,
             @FormParam("valornutricional") String valornutricional,
             @FormParam("tempodecolheita") int tempodecolheita,
+            @FormParam("id") long id,
             @FormParam("sessao") String sessao
             ) throws Exception{
         
                 
         JSONObject j = new JSONObject();
         
-        try{    
-            //cria um objeto
-            TOCultivar t = new TOCultivar();
-            t.setNomecultivar(nomecultivar);
-            t.setBiofortificado(biofortificado);
+        try{
             
-            if(BOFactory.get(new DAOCultivar(), t)== null){
-                t.setImagem(imagem);
-                t.setDescricao(descricao);
-                t.setUnidademedida_idunidademedida(unidademedida_idunidademedida);
-                t.setValornutricional(valornutricional);
-                t.setTempodecolheita(tempodecolheita);
-
-                BOFactory.inserir(new DAOCultivar(), t);
-
-                j.put("sucesso", true);
-                j.put("mensagem", "Cultivar cadastrado!");
+             //verificar sessao
+            JSONObject js = new VerificarSessao().VerificarSessao(id, sessao);
+            
+            
+            if((boolean) js.get("sucesso") == false){
+                j.put("sucesso", false);
+                j.put("mensangem", "Sessao não encontrada!");
             }else{
-               j.put("sucesso", false);
-               j.put("erro", 1);
-               j.put("mensagem", "Cultivar ja cadastrado!");
+            
+            
+                //cria um objeto
+                TOCultivar t = new TOCultivar();
+                t.setNomecultivar(nomecultivar);
+                t.setBiofortificado(biofortificado);
+
+                if(BOFactory.get(new DAOCultivar(), t)== null){
+                    t.setImagem(imagem);
+                    t.setDescricao(descricao);
+                    t.setUnidademedida_idunidademedida(unidademedida_idunidademedida);
+                    t.setValornutricional(valornutricional);
+                    t.setTempodecolheita(tempodecolheita);
+
+                    BOFactory.inserir(new DAOCultivar(), t);
+
+                    j.put("sucesso", true);
+                    j.put("mensagem", "Cultivar cadastrado!");
+                }else{
+                   j.put("sucesso", false);
+                   j.put("erro", 1);
+                   j.put("mensagem", "Cultivar ja cadastrado!");
+                }
+            
+            
             }
+            
         }catch(Exception e){
             j.put("sucesso", false);
             j.put("mensagem", e.getMessage());
@@ -267,6 +292,7 @@ public class ServicosCultivar {
             @FormParam("datareceb") String datareceb,
             @FormParam("qtdrecebida") float qtdrecebida,
             @FormParam("unidademedida_idunidademedida") long unidademedida_idunidademedida,
+            @FormParam("id") long id,
             @FormParam("sessao") String sessao
             ) throws Exception{
         
@@ -274,7 +300,7 @@ public class ServicosCultivar {
         
         try{ 
             //verificar sessao
-            JSONObject js = new VerificarSessao().VerificarSessao(sessao);
+            JSONObject js = new VerificarSessao().VerificarSessao(id, sessao);
             
             
             if((boolean) js.get("sucesso") == false){
@@ -340,6 +366,7 @@ public class ServicosCultivar {
     @Produces(MediaType.APPLICATION_JSON)
     public String listarrecebido(
                         @FormParam("idpessoa") long idpessoa,
+                        @FormParam("id") long id,
                         @FormParam("sessao") String sessao
                         ) throws Exception{
         
@@ -348,7 +375,7 @@ public class ServicosCultivar {
         
         try{ 
             //verificar sessao
-            JSONObject js = new VerificarSessao().VerificarSessao(sessao);
+            JSONObject js = new VerificarSessao().VerificarSessao(id, sessao);
             
             
             if((boolean) js.get("sucesso") == false){
@@ -523,7 +550,7 @@ public class ServicosCultivar {
             //JSONArray jp = BOFactory.listar(new DAOPropriedade(), t);
             
             //lista os cultivares recebidos
-            JSONArray ja = BOFactory.backupentrevista(new DAOSafra(), t);
+            JSONArray ja = BOFactory.listar(new DAOSafra(), t);
             
             
        

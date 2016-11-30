@@ -9,7 +9,7 @@ import bo.BOFactory;
 import dao.DAOSessao;
 import java.math.BigInteger;
 import java.security.SecureRandom;
-import org.json.JSONArray;
+import java.util.Date;
 import org.json.JSONException;
 import org.json.JSONObject;
 import to.TOSessao;
@@ -20,13 +20,14 @@ import to.TOSessao;
  */
 public class VerificarSessao {
 
-    public JSONObject VerificarSessao(String sessao) throws JSONException {
+    public JSONObject VerificarSessao(long id, String sessao) throws JSONException {
         
         JSONObject j = new JSONObject();
         try{ 
             //verificar sessao
             TOSessao ts = new TOSessao();
             ts.setSessao(sessao);
+            ts.setLogin_idlogin(id);
             
             ts = (TOSessao) BOFactory.get(new DAOSessao(), ts);
             
@@ -36,7 +37,6 @@ public class VerificarSessao {
                 SecureRandom random = new SecureRandom();
                 
                 ts.setNewSessao(new BigInteger(130, random).toString(32));
-                
                 BOFactory.editar(new DAOSessao(), ts);
                 
                 j.put("sucesso", true);
