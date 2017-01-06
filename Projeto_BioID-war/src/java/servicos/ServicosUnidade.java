@@ -47,18 +47,19 @@ public class ServicosUnidade {
     //metodo buscar uma unidade especifica
     @Path("buscar")
     @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
     public String buscar(
-        @FormParam("metodo") String metodo,
-        @FormParam("idunidade") long idunidade,
-        @FormParam("id") long id,
-        @FormParam("sessao") String sessao
+            String dataJson
         ) throws Exception{
         
         JSONObject j = new JSONObject();
+        JSONObject k = new JSONObject(dataJson);
         
-        try{               
-             //verificar sessao
-            JSONObject js = new VerificarSessao().VerificarSessao(id, sessao);
+        try{
+            
+            //verificar sessao
+            JSONObject js = new VerificarSessao().VerificarSessao(k.getLong("id"), k.getString("sessao"));
             
             
             if((boolean) js.get("sucesso") == false){
@@ -66,14 +67,14 @@ public class ServicosUnidade {
                 j.put("mensangem", "Sessao não encontrada!");
             }else{
                 TOUnidade p = new TOUnidade();
-                p.setIdunidade(idunidade);
-                p = (TOUnidade) BOFactory.get(new DAOUnidade(), p, metodo);
+                p.setIdunidade(k.getLong("idunidade"));
+                p = (TOUnidade) BOFactory.get(new DAOUnidade(), p, k.getString("metodo"));
 
                 if(p == null){
                     j.put("sucesso", false);
                     j.put("mensagem", "Unidade não encontrada");
                 }else{
-                    j.put("data", p.getJson(metodo));
+                    j.put("data", p.getJson(k.getString("metodo")));
                     j.put("sessao", js.get("sessao"));
                     j.put("sucesso", true);
                 }
@@ -161,19 +162,19 @@ public class ServicosUnidade {
     //metodo que lista todas as unidades do banco de dados
     @Path("listar")
     @POST
-    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public String listar(
-            @FormParam("id") long id,
-            @FormParam("sessao") String sessao
+            String dadosJson
             ) throws Exception{
         
         JSONObject j = new JSONObject();
+        JSONObject k = new JSONObject(dadosJson);
         
         try{
             
             //verificar sessao
-            JSONObject js = new VerificarSessao().VerificarSessao(id, sessao);
+            JSONObject js = new VerificarSessao().VerificarSessao(k.getLong("id"), k.getString("sessao"));
             
             
             if((boolean) js.get("sucesso") == false){

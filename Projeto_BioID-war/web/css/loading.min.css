@@ -1,0 +1,94 @@
+
+.painelCarregando {
+  width: 100%;
+  height: 100%;
+  
+  
+  top: 0px;
+  bottom: 0px;
+
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  background: rgba(0, 0, 0, 0.6);
+  
+  position: fixed;
+  
+  z-index: 2000;
+}
+.painelCarregando .part {
+  width: 40px;
+  height: 40px;
+  margin-left: 45px;
+  -webkit-transform: rotate(45deg);
+          transform: rotate(45deg);
+  background: #EC751A;
+  border-radius: 4px;
+  border: 2px solid #FFCC00;
+  -webkit-transition: background 100ms linear;
+  transition: background 100ms linear;
+  -webkit-animation: change 950ms linear infinite;
+          animation: change 950ms linear infinite;
+}
+.painelCarregando .part:nth-child(1) {
+  -webkit-animation-delay: 100ms;
+          animation-delay: 100ms;
+}
+.painelCarregando .part:nth-child(2) {
+  -webkit-animation-delay: 200ms;
+          animation-delay: 200ms;
+}
+.painelCarregando .part:nth-child(3) {
+  -webkit-animation-delay: 300ms;
+          animation-delay: 300ms;
+}
+.painelCarregando .part:nth-child(4) {
+  -webkit-animation-delay: 400ms;
+          animation-delay: 400ms;
+}
+.painelCarregando .part:nth-child(5) {
+  -webkit-animation-delay: 500ms;
+          animation-delay: 500ms;
+}
+@-webkit-keyframes change {
+  0% {
+    border-radius: 4px;
+  }
+  17.5% {
+    border-radius: 4px;
+  }
+  50% {
+    border-radius: 100%;
+    background: rgba(255,255,255,0.4);
+  }
+  93.5% {
+    border-radius: 4px;
+  }
+  100% {
+    border-radius: 4px;
+  }
+}
+@keyframes change {
+  0% {
+    border-radius: 4px;
+  }
+  17.5% {
+    border-radius: 4px;
+  }
+  50% {
+    border-radius: 100%;
+    background: #007A61;
+  }
+  93.5% {
+    border-radius: 4px;
+  }
+  100% {
+    border-radius: 4px;
+  }
+}

@@ -11,7 +11,6 @@ import javax.ejb.Stateless;
 import org.json.JSONArray;
 import to.TOBase;
 import to.TOCultivar;
-import to.TOLogin;
 
 /**
  *
@@ -22,7 +21,7 @@ public class DAOCultivar extends DAOBase {
 
     @Override
     public long inserir(Connection c, TOBase t) throws Exception {
-        String sql = "INSERT INTO cultivar(nomecultivar, imagem, descricao, biofortificado, unidademedida, valornutricional) VALUES (?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO cultivar(nomecultivar, imagem, descricao, biofortificado, unidademedida_idunidademedida, valornutricional, tempodecolheita, tempodestinacao, peso_saca) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
         
         TOCultivar to = (TOCultivar)t;
         
@@ -35,6 +34,9 @@ public class DAOCultivar extends DAOBase {
         p.add(to.isBiofortificado());
         p.add(to.getUnidademedida_idunidademedida());
         p.add(to.getValornutricional());
+        p.add(to.getTempodecolheita());
+        p.add(to.getTempodestinacao());
+        p.add(to.getPeso_saca());
         
         //passa por parametros a conexao e a lista de objetos da insercao de um novo produto
         return Data.executeUpdate(c, sql, p);

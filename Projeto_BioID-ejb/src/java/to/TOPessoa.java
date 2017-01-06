@@ -260,7 +260,7 @@ public class TOPessoa extends TOBase{
             j.put("telefone2", telefone2);
             j.put("email", email);
             j.put("qtdintegrantes", this.agricultor.getQtdedeintegrantes());
-            j.put("qtdecriancas", this.agricultor.getQtdedecriancas());
+            j.put("qtdcriancas", this.agricultor.getQtdedecriancas());
             j.put("qtdgravidas", this.agricultor.getQtdedegravidas());
             j.put("estadocivil", estadocivil);
             j.put("escolaridade", escolaridade);
@@ -269,7 +269,7 @@ public class TOPessoa extends TOBase{
              //populando o objeto j
             j.put("idpessoa", idpessoa);
             j.put("endereco_idendereco", endereco_idendereco);
-            j.put("estadocivil_idestadocivil", escolaridade_idescolaridade);
+            j.put("escolaridade", escolaridade);
             j.put("nome", nome);
             j.put("sobrenome", sobrenome);
             j.put("apelido", apelido);
@@ -281,6 +281,7 @@ public class TOPessoa extends TOBase{
             j.put("telefone2", telefone2);
             j.put("email", email);
             j.put("nomeunidade", nomeunidade);
+            j.put("estadocivil", estadocivil);
         }
         
         return j;

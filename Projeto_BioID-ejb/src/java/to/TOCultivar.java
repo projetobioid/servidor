@@ -33,7 +33,7 @@ public class TOCultivar extends TOBase{
     
     private int tempodestinacao;
     
-    private float peso_saca;
+    private double peso_saca;
     
     //para pesquisa no banco
     private String usuario;
@@ -120,11 +120,11 @@ public class TOCultivar extends TOBase{
         this.usuario = usuario;
     }
 
-    public float getPeso_saca() {
+    public double getPeso_saca() {
         return peso_saca;
     }
 
-    public void setPeso_saca(float peso_saca) {
+    public void setPeso_saca(double peso_saca) {
         this.peso_saca = peso_saca;
     }
 

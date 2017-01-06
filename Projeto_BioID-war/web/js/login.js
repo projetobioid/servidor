@@ -1,5 +1,5 @@
-var ipServidor = "localhost:8080";
-//var ipServidor = "10.1.2.52:8080";
+var ipServidor = 'localhost:8080';
+//var ipServidor = '10.1.2.52:8080';
 //var ipServidor = "187.19.101.252:8082";
 
 
@@ -39,48 +39,67 @@ $(document).on("click", "#voltarInicio", function(evt)
 $(document).on("click", "#entrar", function(evt)
 {
 
-    var data = 'usuario='+$("#inputUsuario").val()+'&senha='+$("#inputSenha").val();
-    $.post("http://"+ipServidor+"/Projeto_BioID-war/servico/pessoa/validacao", data, function(dados){
+    
+    
+    if($("#inputUsuario").val()=== ""){
+        alert('O campo usuário não pode ser vazio!');
+        $("#inputUsuario").focus();
 
-        if(dados.sucesso){
+    }else if($("#inputSenha").val()=== ""){
+        alert('O campo senha não pode ser vazio!');
+        $("#inputSenha").focus();
+    }else{
 
-            //guarda dados do usuario no local storge
-            var logSessao = JSON.stringify({
-                idpessoa:  dados.idpessoa,
-                sessao: dados.sessao,
-               // tempoLogin: dados.tempoLogin,
-                papel: dados.papel,
-                idunidade: dados.idunidade,
-                nome: dados.nome
-            });
-            
-            
-            
-            localStorage.setItem("logSessao", logSessao);
+        var data = JSON.stringify({usuario: $("#inputUsuario").val(),
+            senha: $("#inputSenha").val()
+        });
 
-            window.location.href = 'home.html';
-//            $("#bemVindo").val(dados.nome);
-            
-            //informa se o usuario ou senha esta incorreta
-            }else if($("#inputUsuario").val()=== ""){
-                alert('O campo usuário não pode ser vazio!');
-                $("#inputUsuario").focus();
-
-            }else if($("#inputSenha").val()=== ""){
-                alert('O campo senha não pode ser vazio!');
-                $("#inputSenha").focus();
-            }else{
-                alert('Usuário ou Senha incorretos!');
-                $("#inputUsuario").focus();
+        
+        $.ajax({
+            type: 'POST',
+            url: "http://"+ipServidor+"/Projeto_BioID-war/servico/pessoa/validacao",
+            data: data,
+            headers: { 
+            'Accept': 'application/json',
+            'Content-Type': 'application/json' 
             }
-        
-        
-    }, "json")
-    //Tratamento de erro da requisicao servico RESt login
-    .fail(function(){
-        alert("Erro na requisição!");
-    });
+        }).done(function(dados) {
+            if(dados.sucesso){
 
+                //guarda dados do usuario no local storge
+                var logSessao = JSON.stringify({
+                    idpessoa:  JSON.stringify(dados.idpessoa),
+                    sessao: dados.sessao,
+                   // tempoLogin: dados.tempoLogin,
+                    papel: dados.papel,
+                    idunidade: dados.idunidade,
+                    nome: dados.nome
+                });
+
+
+
+                localStorage.setItem("logSessao", logSessao);
+
+                window.location.href = 'home.html';
+                //$("#bemVindo").val(dados.nome);
+
+                //informa se o usuario ou senha esta incorreta
+                }else{
+                alert('Usuário ou Senha incorretos!');
+                   
+                    $("#inputUsuario").focus();
+                }
+        }).fail(function(){
+            alert("Erro de requisição!");
+        });
+        
+       
+    }
 
          return false;
     });
+    
+function alerta(msg){
+    $("#itensModal").empty().append(msg);
+    $('#modalApresentacao').modal('toggle');
+}

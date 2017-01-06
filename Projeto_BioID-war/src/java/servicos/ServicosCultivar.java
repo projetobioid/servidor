@@ -18,7 +18,9 @@ import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -48,18 +50,18 @@ public class ServicosCultivar {
 
     @Path("buscar")
     @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
     public String buscar(
-                        @FormParam("idcultivar") long idcultivar,
-                        @FormParam("metodo") String metodo,
-                        @FormParam("id") long id,
-                        @FormParam("sessao") String sessao
+            String dataJson
                         ) throws Exception{
         
         JSONObject j = new JSONObject();
+        JSONObject k = new JSONObject(dataJson);
         
         try{               
              //verificar sessao
-            JSONObject js = new VerificarSessao().VerificarSessao(id, sessao);
+            JSONObject js = new VerificarSessao().VerificarSessao(k.getLong("id"), k.getString("sessao"));
             
             
             if((boolean) js.get("sucesso") == false){
@@ -67,14 +69,14 @@ public class ServicosCultivar {
                 j.put("mensangem", "Sessao não encontrada!");
             }else{
                 TOCultivar p = new TOCultivar();
-                p.setIdcultivar(idcultivar);
-                p = (TOCultivar) BOFactory.get(new DAOCultivar(), p, metodo);
+                p.setIdcultivar(k.getLong("idcultivar"));
+                p = (TOCultivar) BOFactory.get(new DAOCultivar(), p, k.getString("metodo"));
 
                 if(p == null){
                     j.put("sucesso", false);
                     j.put("mensagem", "Cultivar não encontrado");
                 }else{
-                    j.put("data", p.getJson(metodo));
+                    j.put("data", p.getJson(k.getString("metodo")));
                     j.put("sessao", js.get("sessao"));
                     j.put("sucesso", true);
                 }
@@ -91,21 +93,20 @@ public class ServicosCultivar {
     //metodo que lista todos os produtos do banco de dados
     @Path("listar")
     @POST
-    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public String listar(
-            @FormParam("metodo") String metodo,
-            @FormParam("id") long id,
-            @FormParam("sessao") String sessao
+            String dataJson
             
             ) throws Exception{
         
         JSONObject j = new JSONObject();
+        JSONObject k = new JSONObject(dataJson);
         
         try{
             
             //verificar sessao
-            JSONObject js = new VerificarSessao().VerificarSessao(id, sessao);
+            JSONObject js = new VerificarSessao().VerificarSessao(k.getLong("id"), k.getString("sessao"));
             
             
             if((boolean) js.get("sucesso") == false){
@@ -113,7 +114,7 @@ public class ServicosCultivar {
                 j.put("mensangem", "Sessao não encontrada!");
             }else{
 
-                JSONArray ja = BOFactory.listar(new DAOCultivar(), metodo);
+                JSONArray ja = BOFactory.listar(new DAOCultivar(), k.getString("metodo"));
                 
                 
                 if(ja.length() > 0){
@@ -122,7 +123,7 @@ public class ServicosCultivar {
                     j.put("sessao", js.get("sessao"));
                 }else{
                     j.put("sucesso", false);
-                    j.put("mensagem", "Sem "+ metodo);
+                    j.put("mensagem", "Sem "+ k.getString("metodo"));
                     j.put("sessao", js.get("sessao"));
                 }
                 
@@ -140,27 +141,21 @@ public class ServicosCultivar {
     //metodo que insere no banco de dados
     @Path("inserir")
     @POST
-    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public String inserir(
-            @FormParam("nomecultivar") String nomecultivar,
-            @FormParam("imagem") String imagem,
-            @FormParam("descricao") String descricao,
-            @FormParam("biofortificado") boolean biofortificado,
-            @FormParam("unidademedida_idunidademedida") long unidademedida_idunidademedida,
-            @FormParam("valornutricional") String valornutricional,
-            @FormParam("tempodecolheita") int tempodecolheita,
-            @FormParam("id") long id,
-            @FormParam("sessao") String sessao
+            String dataJson
             ) throws Exception{
         
+       
                 
         JSONObject j = new JSONObject();
+        JSONObject k = new JSONObject(dataJson);
         
         try{
             
              //verificar sessao
-            JSONObject js = new VerificarSessao().VerificarSessao(id, sessao);
+            JSONObject js = new VerificarSessao().VerificarSessao(k.getLong("id"), k.getString("sessao"));
             
             
             if((boolean) js.get("sucesso") == false){
@@ -171,23 +166,25 @@ public class ServicosCultivar {
             
                 //cria um objeto
                 TOCultivar t = new TOCultivar();
-                t.setNomecultivar(nomecultivar);
-                t.setBiofortificado(biofortificado);
+                t.setNomecultivar(k.getString("nomecultivar"));
+                t.setBiofortificado(k.getBoolean("biofortificado"));
 
                 if(BOFactory.get(new DAOCultivar(), t)== null){
-                    t.setImagem(imagem);
-                    t.setDescricao(descricao);
-                    t.setUnidademedida_idunidademedida(unidademedida_idunidademedida);
-                    t.setValornutricional(valornutricional);
-                    t.setTempodecolheita(tempodecolheita);
+                    t.setImagem(k.getString("imagem"));
+                    t.setDescricao(k.getString("descricao"));
+                    t.setUnidademedida_idunidademedida(k.getLong("unidademedida_idunidademedida"));
+                    t.setValornutricional(k.getString("valornutricional"));
+                    t.setTempodecolheita(k.getInt("tempodecolheita"));
+                    t.setTempodestinacao(k.getInt("tempodestinacao"));
+                    t.setPeso_saca(k.getDouble("pesoSaca"));
 
                     BOFactory.inserir(new DAOCultivar(), t);
 
                     j.put("sucesso", true);
-                    j.put("mensagem", "Cultivar cadastrado!");
+                    j.put("data", "Cultivar cadastrado com sucesso!");
+                    j.put("sessao", js.get("sessao"));
                 }else{
                    j.put("sucesso", false);
-                   j.put("erro", 1);
                    j.put("mensagem", "Cultivar ja cadastrado!");
                 }
             
@@ -362,20 +359,21 @@ public class ServicosCultivar {
     //metodo que lista todos os cultivares recebido
     @Path("listarrecebidos")
     @POST
-    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public String listarrecebido(
-                        @FormParam("idpessoa") long idpessoa,
-                        @FormParam("id") long id,
-                        @FormParam("sessao") String sessao
+                        String dataJson
                         ) throws Exception{
         
         JSONObject j = new JSONObject();
         
+        JSONObject k = new JSONObject(dataJson);
+        
+         
         
         try{ 
             //verificar sessao
-            JSONObject js = new VerificarSessao().VerificarSessao(id, sessao);
+            JSONObject js = new VerificarSessao().VerificarSessao(k.getLong("id"), k.getString("sessao"));
             
             
             if((boolean) js.get("sucesso") == false){
@@ -384,7 +382,7 @@ public class ServicosCultivar {
             }else{
                 //lista os cultivares recebidos
                 TOLogin t = new TOLogin();
-                t.setPessoa_idpessoa(idpessoa);
+                t.setPessoa_idpessoa(k.getLong("idpessoa"));
 
                 //lista os cultivares recebidos
                 JSONArray ja = BOFactory.listar(new DAOSafra(), t);           
