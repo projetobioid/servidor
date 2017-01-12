@@ -21,7 +21,7 @@ public class DAOAgricultor extends DAOBase{
 
     @Override
     public long inserir(Connection c, TOBase t) throws Exception {
-        String sql = "INSERT INTO agricultor(pessoa_idpessoa, qtdedeintegrantes, qtdedecriancas, qtdedegravidas)VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO agricultor(pessoa_idpessoa, qtdintegrantes, qtdcriancas, qtdgravidas)VALUES (?, ?, ?, ?)";
         
         TOAgricultor to = (TOAgricultor)t;
         
@@ -29,9 +29,9 @@ public class DAOAgricultor extends DAOBase{
         
         
         p.add(to.getPessoa_idpessoa());
-        p.add(to.getQtdedeintegrantes());
-        p.add(to.getQtdedecriancas());
-        p.add(to.getQtdedegravidas());
+        p.add(to.getQtdIntegrantes());
+        p.add(to.getQtdCriancas());
+        p.add(to.getQtdGravidas());
         
         //passa por parametros a conexao e a lista de objetos da insercao de um novo produto
         return Data.executeUpdate(c, sql, p);
@@ -40,7 +40,7 @@ public class DAOAgricultor extends DAOBase{
     
     @Override
     public TOBase get(Connection c, TOBase t) throws Exception {
-        String sql = "SELECT a.pessoa_idpessoa, a.qtdedeintegrantes, a.qtdedecriancas, a.qtdedegravidas, e.descricao as estadocivil, es.descricao as escolaridade, p.nome, p.sobrenome, p.apelido, p.cpf, p.rg, p.datanascimento, p.sexo, p.telefone1, p.telefone2, p.email "
+        String sql = "SELECT a.pessoa_idpessoa, a.qtdintegrantes, a.qtdcriancas, a.qtdgravidas, e.descricao as estadocivil, es.descricao as escolaridade, p.nome, p.sobrenome, p.apelido, p.cpf, p.rg, p.datanascimento, p.sexo, p.telefone1, p.telefone2, p.email "
                 + "FROM agricultor a "
                 + "INNER JOIN pessoa p ON(p.idpessoa = a.pessoa_idpessoa) "
                 + "INNER JOIN estadocivil e ON(e.idestadocivil = p.estadocivil_idestadocivil) "

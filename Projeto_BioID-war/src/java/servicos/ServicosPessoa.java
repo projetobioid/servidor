@@ -6,6 +6,7 @@
 package servicos;
 
 import bo.BOFactory;
+import dao.DAOAgricultor;
 import dao.DAOEndereco;
 import dao.DAOLogin;
 import dao.DAOPessoa;
@@ -145,68 +146,48 @@ public class ServicosPessoa {
         return j.toString();
     } 
     
+  
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    @Path("listarusuarios")
-    @POST
-    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    @Produces(MediaType.APPLICATION_JSON)
-    public String listarUsuarios(
-                        @FormParam("id") long id,
-                        @FormParam("sessao") String sessao
-                        ) throws Exception{
-        
-        JSONObject j = new JSONObject();
- 
-        try{
-            //verificar sessao
-            JSONObject js = new VerificarSessao().VerificarSessao(id, sessao);
-            
-            
-            if((boolean) js.get("sucesso") == false){
-                j.put("sucesso", false);
-                j.put("mensangem", "Sessao não encontrada!");
-            }else{
-                
-                JSONArray ja = BOFactory.listar(new DAOPessoa(), "listarusuarios") ;
-
-                if(ja.length() > 0){
-                    j.put("usuarios", ja);
-                    j.put("sucesso", true);
-                    j.put("sessao", js.get("sessao"));
-                }else{
-                    j.put("sucesso", false);
-                    j.put("mensagem", "Sem usuarios");
-                    j.put("sessao", js.get("sessao"));
-                }
-            }
-        }catch(Exception e){
-            j.put("sucesso", false);
-            j.put("mensagem", e.getMessage());
-        }
-        
-        return j.toString();
-    } 
+//    @Path("listarusuarios")
+//    @POST
+//    @Consumes(MediaType.APPLICATION_JSON)
+//    @Produces(MediaType.APPLICATION_JSON)
+//    public String listarUsuarios(
+//                        @FormParam("id") long id,
+//                        @FormParam("sessao") String sessao
+//                        ) throws Exception{
+//        
+//        JSONObject j = new JSONObject();
+// 
+//        try{
+//            //verificar sessao
+//            JSONObject js = new VerificarSessao().VerificarSessao(id, sessao);
+//            
+//            
+//            if((boolean) js.get("sucesso") == false){
+//                j.put("sucesso", false);
+//                j.put("mensangem", "Sessao não encontrada!");
+//            }else{
+//                
+//                JSONArray ja = BOFactory.listar(new DAOPessoa(), "listarusuarios") ;
+//
+//                if(ja.length() > 0){
+//                    j.put("usuarios", ja);
+//                    j.put("sucesso", true);
+//                    j.put("sessao", js.get("sessao"));
+//                }else{
+//                    j.put("sucesso", false);
+//                    j.put("mensagem", "Sem usuarios");
+//                    j.put("sessao", js.get("sessao"));
+//                }
+//            }
+//        }catch(Exception e){
+//            j.put("sucesso", false);
+//            j.put("mensagem", e.getMessage());
+//        }
+//        
+//        return j.toString();
+//    } 
     
 //    //serviço de listar os usuarios
 //    @Path("listar")
@@ -363,46 +344,6 @@ public class ServicosPessoa {
     @Produces(MediaType.APPLICATION_JSON)
     public String inserir(
             String dataJson
-//            //tabela endereco
-//            @FormParam("cidade_idcidade") long cidade_idcidade,
-//            @FormParam("rua") String rua,
-//            @FormParam("gps_lat") int gps_lat,
-//            @FormParam("gps_long") int gps_long,
-//            @FormParam("bairro") String bairro,
-//            @FormParam("complemento") String complemento,
-//            @FormParam("cep") String cep,
-//            @FormParam("numero") int numero,
-//            
-//            //tabela pessoa
-//            @FormParam("escolaridade_idescolaridade") long escolaridade_idescolaridade,
-//            @FormParam("estadocivil_idestadocivil") long estadocivil_idestadocivil,
-//            @FormParam("nome") String nome,
-//            @FormParam("sobrenome") String sobrenome,
-//            @FormParam("apelido") String apelido,
-//            @FormParam("cpf") String cpf,
-//            @FormParam("rg") String rg,
-//            @FormParam("datanascimento") String datanascimento,
-//            @FormParam("sexo") String sexo,
-//            @FormParam("telefone1") String telefone1,
-//            @FormParam("telefone2") String telefone2,
-//            @FormParam("email") String email,
-//            
-//            //tabela agricultor
-//            @FormParam("qtdedeintegrantes") int qtdedeintegrantes,
-//            @FormParam("qtdedecriancas") int qtdedecriancas,
-//            @FormParam("qtdedegravidas") int qtdedegravidas,
-//            
-//            //tabela login
-//            @FormParam("usuario") String usuario,
-//            @FormParam("senha") String senha,
-//            @FormParam("unidade_idunidade") long unidade_idunidade,
-//            
-//            //tabela propriedade
-//            @FormParam("nomepropriedade") String nomepropriedade,
-//            @FormParam("area") float area,
-//            @FormParam("unidadedemedida") long unidadedemedida,
-//            @FormParam("areautilizavel") float areautilizavel,
-//            @FormParam("unidadedemedidaau") long unidadedemedidaau
             ) throws Exception{
 
         
@@ -478,11 +419,11 @@ public class ServicosPessoa {
 
                         //tabela agricultores
                         ta.setPessoa_idpessoa(idGeradoPessoa);
-                        ta.setQtdedeintegrantes(k.getInt("qtdedeintegrantes"));
-                        ta.setQtdedecriancas(k.getInt("qtdedecriancas"));
-                        ta.setQtdedegravidas(k.getInt("qtdedegravidas"));
+                        ta.setQtdIntegrantes(k.getInt("qtdIntegrantes"));
+                        ta.setQtdCriancas(k.getInt("qtdCriancas"));
+                        ta.setQtdGravidas(k.getInt("qtdGravidas"));
 
-                        BOFactory.inserir(new DAORelacaopa(), ta);
+                        BOFactory.inserir(new DAOAgricultor(), ta);
 
                         //tabela propriedade
                         tp.setEndereco_idendereco(idGeradoEndereco);
@@ -497,7 +438,7 @@ public class ServicosPessoa {
                         trpa.setPropriedade_idpropriedade(BOFactory.inserir(new DAOPropriedade(), tp));
                         trpa.setAgricultor_pessoa_idpessoa(idGeradoPessoa);
                         //grava no banco de dados a propriedade e popula a classe Relacaopa
-                        BOFactory.inserir(new DAORelacaopa(), trpa, "agricultor");
+                        BOFactory.inserir(new DAORelacaopa(), trpa);
 
 
                         j.put("sucesso", true);

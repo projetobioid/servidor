@@ -15,11 +15,11 @@ import org.json.JSONObject;
 public class TOAgricultor extends TOBase{
     private long pessoa_idpessoa;
     
-    private int qtdedeintegrantes;
+    private int qtdIntegrantes;
     
-    private int qtdedecriancas;
+    private int qtdCriancas;
     
-    private int qtdedegravidas;
+    private int qtdGravidas;
   
     
     //private TOEndereco endereco;
@@ -32,39 +32,33 @@ public class TOAgricultor extends TOBase{
         this.pessoa_idpessoa = pessoa_idpessoa;
     }
 
-    public int getQtdedeintegrantes() {
-        return qtdedeintegrantes;
+    public int getQtdIntegrantes() {
+        return qtdIntegrantes;
     }
 
-    public void setQtdedeintegrantes(int qtdedeintegrantes) {
-        this.qtdedeintegrantes = qtdedeintegrantes;
+    public void setQtdIntegrantes(int qtdIntegrantes) {
+        this.qtdIntegrantes = qtdIntegrantes;
     }
 
-    public int getQtdedecriancas() {
-        return qtdedecriancas;
+    public int getQtdCriancas() {
+        return qtdCriancas;
     }
 
-    public void setQtdedecriancas(int qtdedecriancas) {
-        this.qtdedecriancas = qtdedecriancas;
+    public void setQtdCriancas(int qtdCriancas) {
+        this.qtdCriancas = qtdCriancas;
     }
 
-    public int getQtdedegravidas() {
-        return qtdedegravidas;
+    public int getQtdGravidas() {
+        return qtdGravidas;
     }
 
-    public void setQtdedegravidas(int qtdedegravidas) {
-        this.qtdedegravidas = qtdedegravidas;
+    public void setQtdGravidas(int qtdGravidas) {
+        this.qtdGravidas = qtdGravidas;
     }
 
     public TOAgricultor() {
     }
 
-    public TOAgricultor(long pessoa_idpessoa, int qtdedeintegrantes, int qtdedecriancas, int qtdedegravida) {
-        this.pessoa_idpessoa = pessoa_idpessoa;
-        this.qtdedeintegrantes = qtdedeintegrantes;
-        this.qtdedecriancas = qtdedecriancas;
-        this.qtdedegravidas = qtdedegravida;
-    }
 //    
 ////    
 ////    //retorna consulta do banco de dados tipo resultset

@@ -259,9 +259,9 @@ public class TOPessoa extends TOBase{
             j.put("telefone1", telefone1);
             j.put("telefone2", telefone2);
             j.put("email", email);
-            j.put("qtdintegrantes", this.agricultor.getQtdedeintegrantes());
-            j.put("qtdcriancas", this.agricultor.getQtdedecriancas());
-            j.put("qtdgravidas", this.agricultor.getQtdedegravidas());
+            j.put("qtdintegrantes", this.agricultor.getQtdIntegrantes());
+            j.put("qtdcriancas", this.agricultor.getQtdCriancas());
+            j.put("qtdgravidas", this.agricultor.getQtdGravidas());
             j.put("estadocivil", estadocivil);
             j.put("escolaridade", escolaridade);
             
@@ -317,9 +317,9 @@ public class TOPessoa extends TOBase{
             this.telefone1 = rs.getString("telefone1");
             this.telefone2 = rs.getString("telefone2");
             this.email = rs.getString("email");
-            this.agricultor.setQtdedecriancas(rs.getInt("qtdcriancas"));
-            this.agricultor.setQtdedeintegrantes(rs.getInt("qtdintegrantes"));
-            this.agricultor.setQtdedegravidas(rs.getInt("qtdgravidas"));
+            this.agricultor.setQtdCriancas(rs.getInt("qtdcriancas"));
+            this.agricultor.setQtdIntegrantes(rs.getInt("qtdintegrantes"));
+            this.agricultor.setQtdGravidas(rs.getInt("qtdgravidas"));
             this.estadocivil = rs.getString("estadocivil");
             this.escolaridade = rs.getString("escolaridade");
   
