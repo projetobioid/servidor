@@ -18,9 +18,7 @@ import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -66,7 +64,7 @@ public class ServicosCultivar {
             
             if((boolean) js.get("sucesso") == false){
                 j.put("sucesso", false);
-                j.put("mensangem", "Sessao não encontrada!");
+                j.put("mensagem", "Sessao não encontrada!");
             }else{
                 TOCultivar p = new TOCultivar();
                 p.setIdcultivar(k.getLong("idcultivar"));
@@ -111,7 +109,7 @@ public class ServicosCultivar {
             
             if((boolean) js.get("sucesso") == false){
                 j.put("sucesso", false);
-                j.put("mensangem", "Sessao não encontrada!");
+                j.put("mensagem", "Sessao não encontrada!");
             }else{
 
                 JSONArray ja = BOFactory.listar(new DAOCultivar(), k.getString("metodo"));
@@ -160,7 +158,7 @@ public class ServicosCultivar {
             
             if((boolean) js.get("sucesso") == false){
                 j.put("sucesso", false);
-                j.put("mensangem", "Sessao não encontrada!");
+                j.put("mensagem", "Sessao não encontrada!");
             }else{
             
             
@@ -181,11 +179,11 @@ public class ServicosCultivar {
                     BOFactory.inserir(new DAOCultivar(), t);
 
                     j.put("sucesso", true);
-                    j.put("data", "Cultivar cadastrado com sucesso!");
+                    j.put("mensagem", "Cultivar cadastrado com sucesso!");
                     j.put("sessao", js.get("sessao"));
                 }else{
                    j.put("sucesso", false);
-                   j.put("mensagem", "Cultivar ja cadastrado!");
+                   j.put("mensagem", "Cultivar já cadastrado!");
                 }
             
             
@@ -302,7 +300,7 @@ public class ServicosCultivar {
             
             if((boolean) js.get("sucesso") == false){
                 j.put("sucesso", false);
-                j.put("mensangem", "Sessao não encontrada!");
+                j.put("mensagem", "Sessao não encontrada!");
             }else{
                 //cria um objeto
                 TOCultivar tc = new TOCultivar();
@@ -378,7 +376,7 @@ public class ServicosCultivar {
             
             if((boolean) js.get("sucesso") == false){
                 j.put("sucesso", false);
-                j.put("mensangem", "Sessao não encontrada!");
+                j.put("mensagem", "Sessao não encontrada!");
             }else{
                 //lista os cultivares recebidos
                 TOLogin t = new TOLogin();

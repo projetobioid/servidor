@@ -1,6 +1,6 @@
-//var ipServidor = 'localhost:8080';
-var ipServidor = "187.19.101.252:8082";
-
+var ipServidor = 'localhost:8080';
+//var ipServidor = "187.19.101.252:8082";
+//var ipServidor = "10.1.2.52:8080";
 
 /* button carregar page entrar*/
 $(document).on("click", "#goPagEntrar", function(evt)
@@ -65,7 +65,7 @@ $(document).on("click", "#entrar", function(evt)
         }).done(function(dados) {
             if(dados.sucesso){
 
-                //guarda dados do usuario no local storge
+                //guarda dados do usuario no session storge
                 var logSessao = JSON.stringify({
                     idpessoa:  JSON.stringify(dados.idpessoa),
                     sessao: dados.sessao,

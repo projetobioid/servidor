@@ -64,7 +64,7 @@ public class ServicosUnidade {
             
             if((boolean) js.get("sucesso") == false){
                 j.put("sucesso", false);
-                j.put("mensangem", "Sessao não encontrada!");
+                j.put("mensagem", "Sessao não encontrada!");
             }else{
                 TOUnidade p = new TOUnidade();
                 p.setIdunidade(k.getLong("idunidade"));
@@ -91,65 +91,59 @@ public class ServicosUnidade {
     //metodo que insere no banco de dados
     @Path("inserir")
     @POST
-    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public String inserir(
-            //tabela endereco
-            @FormParam("cidade_idcidade") long cidade_idcidade,
-            @FormParam("rua") String rua,
-            @FormParam("gps_lat") int gps_lat,
-            @FormParam("gps_log") int gps_log,
-            @FormParam("bairro") String bairro,
-            @FormParam("complemento") String complemento,
-            @FormParam("cep") String cep,
-            @FormParam("numero") int numero,
-            //tabela unidade
-            @FormParam("nomeunidade") String nomeunidade,
-            @FormParam("telefone1") String telefone1,
-            @FormParam("telefone2") String telefone2,
-            @FormParam("email") String email,
-            @FormParam("cnpj") String cnpj,
-            @FormParam("razao_social") String razao_social,
-            @FormParam("nome_fanta") String nome_fanta,
-            @FormParam("sessao") String sessao
+            String dataJson
             ) throws Exception{
         
-                
         JSONObject j = new JSONObject();
+        JSONObject k = new JSONObject(dataJson);
         
-        try{    
-            //cria um objeto          
-            TOUnidade t = new TOUnidade();
-            t.setCnpj(cnpj);
+        try{
             
-            if(BOFactory.get(new DAOUnidade(), t)== null){
-                //objeto TOEndereco
-                TOEndereco te = new TOEndereco();
-                te.setCidade_idcidade(cidade_idcidade);
-                te.setRua(rua);
-                te.setGps_lat(gps_lat);
-                te.setGps_long(gps_log);
-                te.setBairro(bairro);
-                te.setComplemento(complemento);
-                te.setCep(cep);
-                te.setNumero(numero);
-                //grava no banco de dados os dados da classe TOLogin e retorna o id gerado
-                t.setEndereco_idendereco(BOFactory.inserir(new DAOEndereco(), te));
-                t.setNomeunidade(nomeunidade);
-                t.setTelefone1(telefone1);
-                t.setTelefone2(telefone2);
-                t.setEmail(email);
-                t.setRazao_social(razao_social);
-                t.setNome_fanta(nome_fanta);
+            //verificar sessao
+            JSONObject js = new VerificarSessao().VerificarSessao(k.getLong("id"), k.getString("sessao"));
+            
+            
+            if((boolean) js.get("sucesso") == false){
+                j.put("sucesso", false);
+                j.put("mensagem", "Sessao não encontrada!");
+            }else{    
+                //cria um objeto          
+                TOUnidade t = new TOUnidade();
+                t.setCnpj(k.getString("cnpj"));
 
-                BOFactory.inserir(new DAOUnidade(), t);
+                if(BOFactory.get(new DAOUnidade(), t)== null){
+                    //objeto TOEndereco
+                    TOEndereco te = new TOEndereco();
+                    te.setCidade_idcidade(k.getLong("cidade_idcidade"));
+                    te.setRua(k.getString("rua"));
+                    te.setGps_lat(k.getInt("gps_lat"));
+                    te.setGps_long(k.getInt("gps_long"));
+                    te.setBairro(k.getString("bairro"));
+                    te.setComplemento(k.getString("complemento"));
+                    te.setCep(k.getString("cep"));
+                    te.setNumero(k.getInt("numero"));
+                    //grava no banco de dados os dados da classe TOLogin e retorna o id gerado
+                    t.setEndereco_idendereco(BOFactory.inserir(new DAOEndereco(), te));
+                    t.setNomeunidade(k.getString("nomeunidade"));
+                    t.setTelefone1(k.getString("telefone1"));
+                    t.setTelefone2(k.getString("telefone2"));
+                    t.setEmail(k.getString("email"));
+                    t.setRazao_social(k.getString("razao_social"));
+                    t.setNome_fanta(k.getString("nome_fanta"));
 
-                j.put("sucesso", true);
-                j.put("mensagem", "Unidade cadastrada!");
-            }else{
-               j.put("sucesso", false);
-               j.put("erro", 1);
-               j.put("mensagem", "Unidade ja cadastrada!");
+                    BOFactory.inserir(new DAOUnidade(), t);
+
+                    j.put("sucesso", true);
+                    j.put("mensagem", "Unidade cadastrada!");
+                    j.put("sessao", js.get("sessao"));
+                }else{
+                   j.put("sucesso", false);
+                   //j.put("erro", 1);
+                   j.put("mensagem", "Unidade já cadastrada!");
+                }
             }
         }catch(Exception e){
             j.put("sucesso", false);
@@ -179,7 +173,7 @@ public class ServicosUnidade {
             
             if((boolean) js.get("sucesso") == false){
                 j.put("sucesso", false);
-                j.put("mensangem", "Sessao não encontrada!");
+                j.put("mensagem", "Sessao não encontrada!");
             }else{
 //                TOUnidade t = new TOUnidade();
 //                t.setIdunidade(idunidade);
@@ -227,7 +221,7 @@ public class ServicosUnidade {
             
             if((boolean) js.get("sucesso") == false){
                 j.put("sucesso", false);
-                j.put("mensangem", "Sessao não encontrada!");
+                j.put("mensagem", "Sessao não encontrada!");
             }else{ 
                 //cria um objeto          
                 TOEstoque te = new TOEstoque();
@@ -305,7 +299,7 @@ public class ServicosUnidade {
             
             if((boolean) js.get("sucesso") == false){
                 j.put("sucesso", false);
-                j.put("mensangem", "Sessao não encontrada!");
+                j.put("mensagem", "Sessao não encontrada!");
             }else{
                 
                 //lista os cultivares recebidos
@@ -354,7 +348,7 @@ public class ServicosUnidade {
             
             if((boolean) js.get("sucesso") == false){
                 j.put("sucesso", false);
-                j.put("mensangem", "Sessao não encontrada!");
+                j.put("mensagem", "Sessao não encontrada!");
             }else{
                 
                 TOUnidade t = new TOUnidade();
