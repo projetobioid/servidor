@@ -5,9 +5,6 @@
  */
 package to;
 
-import java.sql.ResultSet;
-import org.json.JSONObject;
-
 /**
  *
  * @author Aimee

@@ -2,6 +2,37 @@ var ipServidor = 'localhost:8080';
 //var ipServidor = "187.19.101.252:8082";
 //var ipServidor = "10.1.2.52:8080";
 
+
+
+
+
+
+
+$(document).on("keypress", "#cpfAgricultor", function(evt){
+//    alert("asd");
+//        $('.numeroInt').mask('000000000000000');
+        $('#cpfAgricultor').mask('000.000.000-00');//,{'translation': {'u': {pattern: /[0123456789.-]/, optional: true, recursive: true}}};
+
+//        $('#irg').mask('00000.000-0', {reverse: true});
+//        $('#icep').mask('00000-000', {reverse: true});
+//        $('.telefone').mask('(00) #0000-0000');
+//        $('#inome').mask('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',{'translation': {'a': {pattern: /[A-Za-zçÇãÃâÂáÁàÀéÉíÍõÕôÔúÚ]/}}});
+//        $(".palavras").mask('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',{'translation': {'a': {pattern: /[A-Za-zçÇãÃâÂáÁàÀéÉíÍõÕôÔúÚ\s]/}}});
+//        $("#iusuario").mask('aaaaaaaaaaaaaaa',{'translation': {'a': {pattern: /[A-Za-z0-9_-]/, optional: true, recursive: true}}});
+//        $("#irua").mask('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',{'translation': {'a': {pattern: /[A-Za-z0-9çÇãÃâÂáÁàÀéÉíÍõÕôÔúÚ'\s]/, optional: true, recursive: true}}});
+//        //$("#iemail").mask('a',{'translation': {'a': {pattern: /[A-Za-z@-_.0-9]/}}});
+//        $("#iemail").mask('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',{'translation': {'a': {pattern: /[A-Za-z@-_.0-9]/, optional: true, recursive: true}}});
+
+     });
+
+
+
+
+
+
+
+
+
 function getSessao(){
     var logSessao = JSON.parse(localStorage.getItem("logSessao"));
     return logSessao;
@@ -338,6 +369,15 @@ function testeListar(){
       
 }
 
+function formatandoCampo(mascara, documento){   
+                var i = documento.value.length;   
+                var saida = mascara.substring(0,1);   
+                var texto = mascara.substring(i);     
+             if (texto.substring(0,1) !== saida){
+                documento.value += texto.substring(0,1);
+             }
+         }
+ 
 //novo
 //icone novo, escolhe qual o item será adicionado atraves de qual aba esta aberta, novo agricultor, novo cultivar, nova unidade, novo usuario
 $(document).on("click", "#novo", function(evt)
@@ -361,19 +401,24 @@ $(document).on("click", "#novo", function(evt)
                                                    <li role="presentation" class="disabled"><a href="#progresso4" data-toggle="tab" aria-controls="progresso4" role="tab" title="Dados da conta"><span class="round-tab"><i class="fa fa-sign-in"></i></span></a></li>\n\
                                                    <li role="presentation" class="disabled"><a href="#completo" data-toggle="tab" aria-controls="completo" role="tab" title="Salvar"><span class="round-tab"><i class="fa fa-save"></i></span></a></li>');
 
-                $("#formProgresso").empty().append('<div class="tab-pane active" role="tabpanel" id="progresso1"><div class="form-group"><label for="nomeAgricultor" class="control-label">Nome:</label><input type="text" class="form-control inputsDadosPessoais" id="nomeAgricultor" placeholder="Digite o nome do agricultor..." ></div><div class="form-group"><label for="sobrenomeAgricultor" class="control-label">Sobrenome:</label><input type="text" class="form-control inputsDadosPessoais" id="sobrenomeAgricultor" placeholder="Digite o sobrenome do agricultor..." ></div><div class="form-group"><label for="rgAgricultor" class="control-label">RG:</label><input type="text" class="form-control inputsDadosPessoais" id="rgAgricultor" placeholder="Digite o rg do agricultor..."></div><div class="form-group"><label for="cpfAgricultor" class="control-label">CPF:</label><input type="text" class="form-control inputDadosPessoais" id="cpfAgricultor" placeholder="Digite o cpf do agricultor..." ></div><div class="form-group"><label for="apelidoAgricultor" class="control-label">Apelido:</label><input type="text" class="form-control" id="apelidoAgricultor" placeholder="Digite o apelido do agricultor..." ></div><div class="form-group"><label for="dataNascAgricultor" class="control-label">Data de nascimento:</label><input type="date" class="form-control inputDadosPessoais" id="dataNascAgricultor" placeholder="Digite a data de nascimento do agricultor..." ></div><div class="form-group" id="genero"><input type="radio" name="genero" value="m" checked> Masculino<br><input type="radio" name="genero" value="f"> Feminino<br> <br></div><div class="form-group"><label for="telefone1Agricultor" class="control-label">Telefone 1:</label><input type="text" class="form-control inputDadosPessoais" id="telefone1Agricultor" placeholder="Digite o telefone 1 do agricultor..." ></div><div class="form-group"><label for="telefone2Agricultor" class="control-label">Telefone 2:</label><input type="text" class="form-control inputDadosPessoais" id="telefone2Agricultor" placeholder="Digite o telefone 2 do agricultor..." ></div><div class="form-group"><label for="emailAgricultor" class="control-label">Email:</label><input type="text" class="form-control inputDadosPessoais" id="emailAgricultor" placeholder="Digite o email do agricultor..." ></div><div class="form-group"><label for="escolaridadeAgricultor" class="control-label">Escolaridade:</label><select class="form-control inputDadosPessoais" id="escolaridadeAgricultor"><option>Ensino fundamental</option><option>Ensino fundamental incompleto</option><option>Ensino médio</option><option>Ensino médio incompleto</option><option>Ensino superior</option><option>Ensino superior incompleto</option><option>Pós-graduação</option><option>Pós-graduação incompleta</option><option>Sem escolaridade</option></select></div><div class="form-group"><label for="estadocivilAgricultor" class="control-label">Estado civil:</label><select class="form-control inputDadosPessoais" id="estadocivilAgricultor"><option>Solteiro(a)</option><option>Casado(a)</option><option>Divorciado(a)</option><option>Viúvo(a)</option><option>Separado(a)</option><option>Companheiro(a)</option></select></div></div>\n\
-                                                   <div class="tab-pane"  id="progresso2"><div class="form-group"><label for="qtdIntegrantes" class="control-label">Quantidade de integrantes na família:</label><input type="number" class="form-control inputsDadosFamilia" id="qtdIntegrantes" placeholder="Digite a quantidade de integrantes..." min="0"></div><div class="form-group"><label for="qtdCriancas" class="control-label">Quantidade de crianças na família:</label><input type="number" class="form-control inputsDadosFamilia" id="qtdCriancas" placeholder="Digite a quantidade de crianças..." min="0"></div><div class="form-group"><label for="qtdGravidas" class="control-label">Quantidade de grávidas na familia:</label><input type="number" class="form-control inputsDadosFamilia" id="qtdGravidas" placeholder="Digite a quantidade de grávidas..." min="0"></div></div>\n\
-                                                   <div class="tab-pane"  id="progresso3"><div class="form-group"><label for="nomePropriedade" class="control-label">Nome da propriedade:</label><input type="text" class="form-control inputsDadosPropriedade" id="nomePropriedade" placeholder="Digite o nome da propriedade..." ></div><div class="form-group"><label for="rua" class="control-label">Rua:</label><input type="text" class="form-control inputsDadosPropriedade" id="rua" placeholder="Digite o nome da rua..." ></div><div class="form-group"><label for="numero" class="control-label">Número:</label><input type="number" min="0" class="form-control inputsDadosPropriedade" id="numero" placeholder="Digite o número..." ></div><div class="form-group"><label for="bairro" class="control-label">Bairro:</label><input type="text" class="form-control inputsDadosPropriedade" id="bairro" placeholder="Digite o nome do bairro..." ></div><div class="form-group"><label for="complemento" class="control-label">Complemento:</label><input type="text" class="form-control" id="complemento" placeholder="Digite o complemento..." ></div><div class="form-group"><label for="cep" class="control-label">Cep:</label><input type="text" class="form-control inputsDadosPropriedade" id="cep" placeholder="Digite o cep da propriedade..." ></div><div class="form-group"><label for="gps_lat" class="control-label">Latitude:</label><input type="text" class="form-control inputsDadosPropriedade" id="gps_lat" placeholder="Digite a latitude..." ></div><div class="form-group"><label for="gps_long" class="control-label">Longitude:</label><input type="text" class="form-control inputsDadosPropriedade" id="gps_long" placeholder="Digite a longitude..." ></div><div class="form-group"><label for="paisAgricultor" class="control-label">País:</label><select class="form-control inputsDadosPropriedade" id="paisAgricultor"><option></option><option>Brasil</option></select></div><div class="form-group"><label for="estadoAgricultor" class="control-label">Estado:</label><select class="form-control inputsDadosPropriedade" id="estadoAgricultor"><option></option><option>Paraná</option></select></div><div class="form-group"><label for="cidadeAgricultor" class="control-label">Cidade:</label><select class="form-control inputsDadosPropriedade" id="cidadeAgricultor"><option></option><option value="1">Cascavel</option></select></div><div class="form-group"><label for="unidade" class="control-label">Unidade:</label><select class="form-control inputsDadosPropriedade" id="unidade"><option></option><option>Fundetec</option></select></div><div class="form-group"><label for="area" class="control-label">Área da propriedade:</label><input type="number" min="0" class="form-control inputsDadosPropriedade" id="area" placeholder="Digite a área..." ></div><div class="form-group"><label for="unidademedida" class="control-label">Unidade de medida:</label><select class="form-control inputsDadosPropriedade" id="unidademedida"><option value="3">Metros quadrados</option><option value="1">Alqueire</option><option value="2">Hectare</option></select></div><div class="form-group"><label for="areautilizavel" class="control-label">Área utilizada:</label><input type="number" class="form-control inputsDadosPropriedade" id="areautilizavel" min="0" placeholder="Digite a área utilizada..." ></div><div class="form-group"><label for="unidadedemedidaau" class="control-label">Unidade de medida:</label><select class="form-control inputsDadosPropriedade" id="unidadedemedidaau"><option value="3">Metros quadrados</option><option value="1">Alqueire</option><option value="2">Hectare</option></select></div></div>\n\
-                                                   <div class="tab-pane"  id="progresso4"><div class="form-group"><label for="usuarioAgricultor" class="control-label">Usuário:</label><input type="text" class="form-control inputsDadosConta" id="usuarioAgricultor" placeholder="Digite o usuário..." ></div><div class="form-group"><label for="senhaAgricultor" class="control-label">Senha:</label><input type="text" class="form-control inputsDadosConta" id="senhaAgricultor" placeholder="Digite a senha..." ></div><div class="form-group"><label for="RsenhaAgricultor" class="control-label">Repita a senha:</label><input type="text" class="form-control inputsDadosConta" id="RsenhaAgricultor" placeholder="Digite novamente a senha..." ></div></div>\n\
-                                                   <div class="tab-pane"  id="completo"><h3>Deseja realmente salvar o agricultor?</h3></div><div class="clearfix"></div>');
-                
+                $("#formProgresso").empty().append('<div class="tab-pane active" role="tabpanel" id="progresso1">       <form id="formExemplo" data-toggle="validator" role="form">   <div class="form-group"><label for="nomeAgricultor" class="control-label">Nome:</label><input type="text" class="form-control inputsDadosPessoais" id="nomeAgricultor" placeholder="Digite o nome do agricultor..." required ></div><div class="form-group"><label for="sobrenomeAgricultor" class="control-label">Sobrenome:</label><input type="text" class="form-control inputsDadosPessoais" id="sobrenomeAgricultor" placeholder="Digite o sobrenome do agricultor..." required ></div><div class="form-group"><label for="rgAgricultor" class="control-label">RG:</label><input type="text" class="form-control inputsDadosPessoais" id="rgAgricultor" placeholder="Digite o rg do agricultor..."></div><div class="form-group"><label for="cpfAgricultor" class="control-label">CPF:</label><input type="text" class="form-control inputDadosPessoais" id="cpfAgricultor" placeholder="Digite o cpf do agricultor..." maxlength="14" required ></div><div class="form-group"><label for="apelidoAgricultor" class="control-label">Apelido:</label><input type="text" class="form-control" id="apelidoAgricultor" placeholder="Digite o apelido do agricultor..." ></div><div class="form-group"><label for="dataNascAgricultor" class="control-label">Data de nascimento:</label><input type="date" class="form-control inputDadosPessoais" id="dataNascAgricultor" placeholder="Digite a data de nascimento do agricultor..." ></div><div class="form-group" id="genero"><input type="radio" name="genero" value="m" checked> Masculino<br><input type="radio" name="genero" value="f"> Feminino<br> <br></div><div class="form-group"><label for="telefone1Agricultor" class="control-label">Telefone 1:</label><input type="text" class="form-control inputDadosPessoais" id="telefone1Agricultor" placeholder="Digite o telefone 1 do agricultor..." ></div><div class="form-group"><label for="telefone2Agricultor" class="control-label">Telefone 2:</label><input type="text" class="form-control inputDadosPessoais" id="telefone2Agricultor" placeholder="Digite o telefone 2 do agricultor..." ></div><div class="form-group"><label for="emailAgricultor" class="control-label">Email:</label><input class="form-control inputDadosPessoais" id="emailAgricultor" placeholder="Digite o email do agricultor..." type="email" data-error="Por favor, informe um e-mail correto." required ><div class="help-block with-errors"></div></div><div class="form-group"><label for="escolaridadeAgricultor" class="control-label">Escolaridade:</label><select class="form-control inputDadosPessoais" id="escolaridadeAgricultor"><option>Ensino fundamental</option><option>Ensino fundamental incompleto</option><option>Ensino médio</option><option>Ensino médio incompleto</option><option>Ensino superior</option><option>Ensino superior incompleto</option><option>Pós-graduação</option><option>Pós-graduação incompleta</option><option>Sem escolaridade</option></select></div><div class="form-group"><label for="estadocivilAgricultor" class="control-label">Estado civil:</label><select class="form-control inputDadosPessoais" id="estadocivilAgricultor"><option>Solteiro(a)</option><option>Casado(a)</option><option>Divorciado(a)</option><option>Viúvo(a)</option><option>Separado(a)</option><option>Companheiro(a)</option></select></div>                    <div class="form-group"> <button type="submit" class="btn btn-warning next-step salvarProgresso" id="" value="dadosPessoais">Continuar</button> </div>                          </form>     </div>\n\
+                                                    <div class="tab-pane"  id="progresso2"><div class="form-group"><label for="qtdIntegrantes" class="control-label">Quantidade de integrantes na família:</label><input type="number" class="form-control inputsDadosFamilia" id="qtdIntegrantes" placeholder="Digite a quantidade de integrantes..." min="0"></div><div class="form-group"><label for="qtdCriancas" class="control-label">Quantidade de crianças na família:</label><input type="number" class="form-control inputsDadosFamilia" id="qtdCriancas" placeholder="Digite a quantidade de crianças..." min="0"></div><div class="form-group"><label for="qtdGravidas" class="control-label">Quantidade de grávidas na familia:</label><input type="number" class="form-control inputsDadosFamilia" id="qtdGravidas" placeholder="Digite a quantidade de grávidas..." min="0"></div></div>\n\
+                                                    <div class="tab-pane"  id="progresso3"><div class="form-group"><label for="nomePropriedade" class="control-label">Nome da propriedade:</label><input type="text" class="form-control inputsDadosPropriedade" id="nomePropriedade" placeholder="Digite o nome da propriedade..." ></div><div class="form-group"><label for="rua" class="control-label">Rua:</label><input type="text" class="form-control inputsDadosPropriedade" id="rua" placeholder="Digite o nome da rua..." ></div><div class="form-group"><label for="numero" class="control-label">Número:</label><input type="number" min="0" class="form-control inputsDadosPropriedade" id="numero" placeholder="Digite o número..." ></div><div class="form-group"><label for="bairro" class="control-label">Bairro:</label><input type="text" class="form-control inputsDadosPropriedade" id="bairro" placeholder="Digite o nome do bairro..." ></div><div class="form-group"><label for="complemento" class="control-label">Complemento:</label><input type="text" class="form-control" id="complemento" placeholder="Digite o complemento..." ></div><div class="form-group"><label for="cep" class="control-label">Cep:</label><input type="text" class="form-control inputsDadosPropriedade" id="cep" placeholder="Digite o cep da propriedade..." ></div><div class="form-group"><label for="gps_lat" class="control-label">Latitude:</label><input type="text" class="form-control inputsDadosPropriedade" id="gps_lat" placeholder="Digite a latitude..." ></div><div class="form-group"><label for="gps_long" class="control-label">Longitude:</label><input type="text" class="form-control inputsDadosPropriedade" id="gps_long" placeholder="Digite a longitude..." ></div><div class="form-group"><label for="paisAgricultor" class="control-label">País:</label><select class="form-control inputsDadosPropriedade carregaPais" id="paisAgricultor"><option></option></select></div><div class="form-group"><label for="estadoAgricultor" class="control-label">Estado:</label><select class="form-control inputsDadosPropriedade carregaEstado" id="estadoAgricultor"><option></option><option>Paraná</option></select></div><div class="form-group"><label for="cidadeAgricultor" class="control-label">Cidade:</label><select class="form-control inputsDadosPropriedade carregaCidade" id="cidadeAgricultor"><option></option></select></div><div class="form-group"><label for="unidade" class="control-label">Unidade:</label><select class="form-control inputsDadosPropriedade carregaUnidades" id="unidade"><option></option></select></div><div class="form-group"><label for="area" class="control-label">Área da propriedade:</label><input type="number" min="0" class="form-control inputsDadosPropriedade" id="area" placeholder="Digite a área..." ></div><div class="form-group"><label for="unidademedida" class="control-label">Unidade de medida:</label><select class="form-control inputsDadosPropriedade" id="unidademedida"><option value="3">Metros quadrados</option><option value="1">Alqueire</option><option value="2">Hectare</option></select></div><div class="form-group"><label for="areautilizavel" class="control-label">Área utilizada:</label><input type="number" class="form-control inputsDadosPropriedade" id="areautilizavel" min="0" placeholder="Digite a área utilizada..." ></div><div class="form-group"><label for="unidadedemedidaau" class="control-label">Unidade de medida:</label><select class="form-control inputsDadosPropriedade" id="unidadedemedidaau"><option value="3">Metros quadrados</option><option value="1">Alqueire</option><option value="2">Hectare</option></select></div></div>\n\
+                                                    <div class="tab-pane"  id="progresso4"><div class="form-group"><label for="usuarioAgricultor" class="control-label">Usuário:</label><input type="text" class="form-control inputsDadosConta" id="usuarioAgricultor" placeholder="Digite o usuário..." ></div><div class="form-group"><label for="senhaAgricultor" class="control-label">Senha:</label><input type="text" class="form-control inputsDadosConta" id="senhaAgricultor" placeholder="Digite a senha..." ></div><div class="form-group"><label for="RsenhaAgricultor" class="control-label">Repita a senha:</label><input type="text" class="form-control inputsDadosConta" id="RsenhaAgricultor" placeholder="Digite novamente a senha..." ></div></div>\n\
+                                                    <div class="tab-pane"  id="completo"><h3>Deseja realmente salvar o agricultor?</h3></div><div class="clearfix"></div>');
+//                $("#formProgresso").empty().append('<div class="tab-pane active" role="tabpanel" id="progresso1">                  <form id="formExemplo" data-toggle="validator" role="form"><div class="form-group"><label for="textNome" class="control-label">Nome</label><input id="textNome" class="form-control" placeholder="Digite seu Nome..." type="text" required></div><div class="form-group"><label for="inputEmail" class="control-label">Email</label><input id="inputEmail" class="form-control" placeholder="Digite seu E-mail" type="email" data-error="Por favor, informe um e-mail correto." required><div class="help-block with-errors"></div></div><div class="form-group"><label for="inputPassword" class="control-label">Senha</label><input type="password" class="form-control" id="inputPassword" placeholder="Digite sua Senha..." data-minlength="6" required>    <span class="help-block">Mínimo de seis (6) digitos</span></div><div class="form-group"><label for="inputConfirm" class="control-label">Confirme a Senha</label><input type="password" class="form-control" id="inputConfirm" placeholder="Confirme sua Senha..." data-match="#inputPassword" data-match-error="Atenção! As senhas não estão iguais." required><div class="help-block with-errors"></div></div><div class="form-group"><div class="checkbox"><label><input type="checkbox" data-error="Você deve marcar este campo!" required> Marque este item.</label><div class="help-block with-errors"></div></div></div><div class="form-group"><button type="submit" class="btn btn-primary">Enviar</button></div></form></div>\n\
+//                                                    <div class="tab-pane"  id="progresso2"><div class="form-group"><label for="qtdIntegrantes" class="control-label">Quantidade de integrantes na família:</label><input type="number" class="form-control inputsDadosFamilia" id="qtdIntegrantes" placeholder="Digite a quantidade de integrantes..." min="0"></div><div class="form-group"><label for="qtdCriancas" class="control-label">Quantidade de crianças na família:</label><input type="number" class="form-control inputsDadosFamilia" id="qtdCriancas" placeholder="Digite a quantidade de crianças..." min="0"></div><div class="form-group"><label for="qtdGravidas" class="control-label">Quantidade de grávidas na familia:</label><input type="number" class="form-control inputsDadosFamilia" id="qtdGravidas" placeholder="Digite a quantidade de grávidas..." min="0"></div></div>\n\
+//                                                    <div class="tab-pane"  id="progresso3"><div class="form-group"><label for="nomePropriedade" class="control-label">Nome da propriedade:</label><input type="text" class="form-control inputsDadosPropriedade" id="nomePropriedade" placeholder="Digite o nome da propriedade..." ></div><div class="form-group"><label for="rua" class="control-label">Rua:</label><input type="text" class="form-control inputsDadosPropriedade" id="rua" placeholder="Digite o nome da rua..." ></div><div class="form-group"><label for="numero" class="control-label">Número:</label><input type="number" min="0" class="form-control inputsDadosPropriedade" id="numero" placeholder="Digite o número..." ></div><div class="form-group"><label for="bairro" class="control-label">Bairro:</label><input type="text" class="form-control inputsDadosPropriedade" id="bairro" placeholder="Digite o nome do bairro..." ></div><div class="form-group"><label for="complemento" class="control-label">Complemento:</label><input type="text" class="form-control" id="complemento" placeholder="Digite o complemento..." ></div><div class="form-group"><label for="cep" class="control-label">Cep:</label><input type="text" class="form-control inputsDadosPropriedade" id="cep" placeholder="Digite o cep da propriedade..." ></div><div class="form-group"><label for="gps_lat" class="control-label">Latitude:</label><input type="text" class="form-control inputsDadosPropriedade" id="gps_lat" placeholder="Digite a latitude..." ></div><div class="form-group"><label for="gps_long" class="control-label">Longitude:</label><input type="text" class="form-control inputsDadosPropriedade" id="gps_long" placeholder="Digite a longitude..." ></div><div class="form-group"><label for="paisAgricultor" class="control-label">País:</label><select class="form-control inputsDadosPropriedade carregaPais" id="paisAgricultor"><option></option></select></div><div class="form-group"><label for="estadoAgricultor" class="control-label">Estado:</label><select class="form-control inputsDadosPropriedade carregaEstado" id="estadoAgricultor"><option></option><option>Paraná</option></select></div><div class="form-group"><label for="cidadeAgricultor" class="control-label">Cidade:</label><select class="form-control inputsDadosPropriedade carregaCidade" id="cidadeAgricultor"><option></option></select></div><div class="form-group"><label for="unidade" class="control-label">Unidade:</label><select class="form-control inputsDadosPropriedade carregaUnidades" id="unidade"><option></option></select></div><div class="form-group"><label for="area" class="control-label">Área da propriedade:</label><input type="number" min="0" class="form-control inputsDadosPropriedade" id="area" placeholder="Digite a área..." ></div><div class="form-group"><label for="unidademedida" class="control-label">Unidade de medida:</label><select class="form-control inputsDadosPropriedade" id="unidademedida"><option value="3">Metros quadrados</option><option value="1">Alqueire</option><option value="2">Hectare</option></select></div><div class="form-group"><label for="areautilizavel" class="control-label">Área utilizada:</label><input type="number" class="form-control inputsDadosPropriedade" id="areautilizavel" min="0" placeholder="Digite a área utilizada..." ></div><div class="form-group"><label for="unidadedemedidaau" class="control-label">Unidade de medida:</label><select class="form-control inputsDadosPropriedade" id="unidadedemedidaau"><option value="3">Metros quadrados</option><option value="1">Alqueire</option><option value="2">Hectare</option></select></div></div>\n\
+//                                                    <div class="tab-pane"  id="progresso4"><div class="form-group"><label for="usuarioAgricultor" class="control-label">Usuário:</label><input type="text" class="form-control inputsDadosConta" id="usuarioAgricultor" placeholder="Digite o usuário..." ></div><div class="form-group"><label for="senhaAgricultor" class="control-label">Senha:</label><input type="text" class="form-control inputsDadosConta" id="senhaAgricultor" placeholder="Digite a senha..." ></div><div class="form-group"><label for="RsenhaAgricultor" class="control-label">Repita a senha:</label><input type="text" class="form-control inputsDadosConta" id="RsenhaAgricultor" placeholder="Digite novamente a senha..." ></div></div>\n\
+//                                                    <div class="tab-pane"  id="completo"><h3>Deseja realmente salvar o agricultor?</h3></div><div class="clearfix"></div>');
+//                
                 
                 //tamanho do icone do progresso de acordo com a quantidade
                 $("#qtdProgresso li").css("width", 100/5  + "%");
                 $(".salvarProgresso").attr("id", "salvarNovoAgricultor");//.attr("value", "dadosPessoais");
                 $(".cancelarProgresso").attr("id", "cancelarNovoAgricultor");
                 
-                
+                $('#formExemplo').validator();
             break;
             case 2:
                 
@@ -407,7 +452,7 @@ $(document).on("click", "#novo", function(evt)
                                                    <li role="presentation" class="disabled"><a href="#completo" data-toggle="tab" aria-controls="completo" role="tab" title="Salvar"><span class="round-tab"><i class="fa fa-save"></i></span></a></li>');
 
                 $("#formProgresso").empty().append('<div class="tab-pane active" role="tabpanel" id="progresso1"><div class="form-group"><label for="nomeNovaUnidade" class="control-label">Nome unidade:</label><input type="text" class="form-control inputsDadosUnidade" id="nomeNovaUnidade" placeholder="Digite da unidade..."></div><div class="form-group"><label for="cnpjNovaUnidade" class="control-label">CNPJ:</label><input type="text" class="form-control inputsDadosUnidade" id="cnpjNovaUnidade" placeholder="Digite o cnpj..."></div><div class="form-group"><label for="nomeFantaNovaUnidade" class="control-label">Nome fantasia:</label><input type="text" class="form-control inputsDadosUnidade" id="nomeFantaNovaUnidade" placeholder="Digite o nome fantasia..."></div><div class="form-group"><label for="razaoSocialNovaUnidade" class="control-label">Razão social:</label><input type="text" class="form-control inputsDadosUnidade" id="razaoSocialNovaUnidade" placeholder="Digite a razão social..."></div><div class="form-group"><label for="telefone1NovaUnidade" class="control-label">Telefone 1:</label><input type="text" class="form-control inputsDadosUnidade" id="telefone1NovaUnidade" placeholder="Digite o telefone 1..."></div><div class="form-group"><label for="telefone2NovaUnidade" class="control-label">Telefone 2:</label><input type="text" class="form-control inputsDadosUnidade" id="telefone2NovaUnidade" placeholder="Digite o telefone 2..."></div><div class="form-group"><label for="emailNovaUnidade" class="control-label">Email:</label><input type="text" class="form-control inputsDadosUnidade" id="emailNovaUnidade" placeholder="Digite o email..."></div></div>\n\
-                                                    <div class="tab-pane"  id="progresso2"><div class="form-group"><label for="ruaNovaUnidade" class="control-label">Rua:</label><input type="text" class="form-control inputsEnderecoUnidade" id="ruaNovaUnidade" placeholder="Digite o nome da rua..." ></div><div class="form-group"><label for="numeroNovaUnidade" class="control-label">Número:</label><input type="number" min="0" class="form-control inputsEnderecoUnidade" id="numeroNovaUnidade" placeholder="Digite o número..." ></div><div class="form-group"><label for="bairroNovaUnidade" class="control-label">Bairro:</label><input type="text" class="form-control inputsEnderecoUnidade" id="bairroNovaUnidade" placeholder="Digite o nome do bairro..." ></div><div class="form-group"><label for="complementoNovaUnidade" class="control-label">Complemento:</label><input type="text" class="form-control" id="complementoNovaUnidade" placeholder="Digite o complemento..." ></div><div class="form-group"><label for="cepNovaUnidade" class="control-label">Cep:</label><input type="text" class="form-control inputsEnderecoUnidade" id="cepNovaUnidade" placeholder="Digite o cep da propriedade..." ></div><div class="form-group"><label for="gps_latNovaUnidade" class="control-label">Latitude:</label><input type="text" class="form-control inputsEnderecoUnidade" id="gps_latNovaUnidade" placeholder="Digite a latitude..." ></div><div class="form-group"><label for="gps_longNovaUnidade" class="control-label">Longitude:</label><input type="text" class="form-control inputsEnderecoUnidade" id="gps_longNovaUnidade" placeholder="Digite a longitude..." ></div><div class="form-group"><label for="paisNovaUnidade" class="control-label">País:</label><select class="form-control inputsEnderecoUnidade" id="paisNovaUnidade"><option></option><option>Brasil</option></select></div><div class="form-group"><label for="estadoNovaUnidade" class="control-label">Estado:</label><select class="form-control inputsEnderecoUnidade" id="estadoNovaUnidade"><option></option><option>Paraná</option></select></div><div class="form-group"><label for="cidadeNovaUnidade" class="control-label">Cidade:</label><select class="form-control inputsEnderecoUnidade" id="cidadeNovaUnidade"><option></option><option value="1">Cascavel</option></select></div></div>\n\
+                                                    <div class="tab-pane"  id="progresso2"><div class="form-group"><label for="ruaNovaUnidade" class="control-label">Rua:</label><input type="text" class="form-control inputsEnderecoUnidade" id="ruaNovaUnidade" placeholder="Digite o nome da rua..." ></div><div class="form-group"><label for="numeroNovaUnidade" class="control-label">Número:</label><input type="number" min="0" class="form-control inputsEnderecoUnidade" id="numeroNovaUnidade" placeholder="Digite o número..." ></div><div class="form-group"><label for="bairroNovaUnidade" class="control-label">Bairro:</label><input type="text" class="form-control inputsEnderecoUnidade" id="bairroNovaUnidade" placeholder="Digite o nome do bairro..." ></div><div class="form-group"><label for="complementoNovaUnidade" class="control-label">Complemento:</label><input type="text" class="form-control" id="complementoNovaUnidade" placeholder="Digite o complemento..." ></div><div class="form-group"><label for="cepNovaUnidade" class="control-label">Cep:</label><input type="text" class="form-control inputsEnderecoUnidade" id="cepNovaUnidade" placeholder="Digite o cep da propriedade..." ></div><div class="form-group"><label for="gps_latNovaUnidade" class="control-label">Latitude:</label><input type="text" class="form-control inputsEnderecoUnidade" id="gps_latNovaUnidade" placeholder="Digite a latitude..." ></div><div class="form-group"><label for="gps_longNovaUnidade" class="control-label">Longitude:</label><input type="text" class="form-control inputsEnderecoUnidade" id="gps_longNovaUnidade" placeholder="Digite a longitude..." ></div><div class="form-group"><label for="paisNovaUnidade" class="control-label">País:</label><select class="form-control inputsEnderecoUnidade carregaPais" id="paisNovaUnidade"><option></option></select></div><div class="form-group"><label for="estadoNovaUnidade" class="control-label">Estado:</label><select class="form-control inputsEnderecoUnidade carregaEstado" id="estadoNovaUnidade"><option></option><option>Paraná</option></select></div><div class="form-group"><label for="cidadeNovaUnidade" class="control-label">Cidade:</label><select class="form-control inputsEnderecoUnidade carregaCidade" id="cidadeNovaUnidade"><option></option></select></div></div>\n\
                                                     <div class="tab-pane"  id="completo"><h3>Deseja realmente salvar a unidade?</h3></div><div class="clearfix"></div>');
   
                 //tamanho do icone do progresso de acordo com a quantidade
@@ -432,9 +477,9 @@ $(document).on("click", "#novo", function(evt)
                                                    <li role="presentation" class="disabled"><a href="#completo" data-toggle="tab" aria-controls="completo" role="tab" title="Salvar"><span class="round-tab"><i class="fa fa-save"></i></span></a></li>');
 
                 $("#formProgresso").empty().append('<div class="tab-pane active" role="tabpanel" id="progresso1"><div class="form-group"><label for="nomeNovoUsuario" class="control-label">Nome:</label><input type="text" class="form-control inputsDadosPessoaisU" id="nomeNovoUsuario" placeholder="Digite o nome do usuário..." ></div><div class="form-group"><label for="sobrenomeNovoUsuario" class="control-label">Sobrenome:</label><input type="text" class="form-control inputsDadosPessoaisU" id="sobrenomeNovoUsuario" placeholder="Digite o sobrenome do usuário..." ></div><div class="form-group"><label for="rgNovoUsuario" class="control-label">RG:</label><input type="text" class="form-control inputsDadosPessoaisU" id="rgNovoUsuario" placeholder="Digite o rg do usuário..."></div><div class="form-group"><label for="cpfNovoUsuario" class="control-label">CPF:</label><input type="text" class="form-control inputsDadosPessoaisU" id="cpfNovoUsuario" placeholder="Digite o cpf do usuário..." ></div><div class="form-group"><label for="apelidoNovoUsuario" class="control-label">Apelido:</label><input type="text" class="form-control" id="apelidoNovoUsuario" placeholder="Digite o apelido do usuário..." ></div><div class="form-group"><label for="dataNascNovoUsuario" class="control-label">Data de nascimento:</label><input type="date" class="form-control inputsDadosPessoaisU" id="dataNascNovoUsuario" placeholder="Digite a data de nascimento do usuário..." ></div><div class="form-group" id="generoNovoUsuario"><input type="radio" name="genero" value="m" checked> Masculino<br><input type="radio" name="genero" value="f"> Feminino<br> <br></div><div class="form-group"><label for="telefone1NovoUsuario" class="control-label">Telefone 1:</label><input type="text" class="form-control inputsDadosPessoaisU" id="telefone1NovoUsuario" placeholder="Digite o telefone 1 do usuário..." ></div><div class="form-group"><label for="telefone2NovoUsuario" class="control-label">Telefone 2:</label><input type="text" class="form-control inputsDadosPessoaisU" id="telefone2NovoUsuario" placeholder="Digite o telefone 2 do usuário..." ></div><div class="form-group"><label for="emailNovoUsuario" class="control-label">Email:</label><input type="text" class="form-control inputsDadosPessoaisU" id="emailNovoUsuario" placeholder="Digite o email do usuário..." ></div><div class="form-group"><label for="escolaridadeNovoUsuario" class="control-label">Escolaridade:</label><select class="form-control inputsDadosPessoaisU" id="escolaridadeNovoUsuario"><option>Ensino fundamental</option><option>Ensino fundamental incompleto</option><option>Ensino médio</option><option>Ensino médio incompleto</option><option>Ensino superior</option><option>Ensino superior incompleto</option><option>Pós-graduação</option><option>Pós-graduação incompleta</option><option>Sem escolaridade</option></select></div><div class="form-group"><label for="estadocivilNovoUsuario" class="control-label">Estado civil:</label><select class="form-control " id="estadocivilNovoUsuario"><option>Solteiro(a)</option><option>Casado(a)</option><option>Divorciado(a)</option><option>Viúvo(a)</option><option>Separado(a)</option><option>Companheiro(a)</option></select></div></div>\n\
-                                                   <div class="tab-pane"  id="progresso2"><div class="form-group"><label for="ruaNovoUsuario" class="control-label">Rua:</label><input type="text" class="form-control inputsEnderecoUsuario" id="ruaNovoUsuario" placeholder="Digite o nome da rua..." ></div><div class="form-group"><label for="numeroNovoUsuario" class="control-label">Número:</label><input type="number" min="0" class="form-control inputsEnderecoUsuario" id="numeroNovoUsuario" placeholder="Digite o número..." ></div><div class="form-group"><label for="bairroNovoUsuario" class="control-label">Bairro:</label><input type="text" class="form-control inputsEnderecoUsuario" id="bairroNovoUsuario" placeholder="Digite o nome do bairro..." ></div><div class="form-group"><label for="complementoNovoUsuario" class="control-label">Complemento:</label><input type="text" class="form-control" id="complementoNovoUsuario" placeholder="Digite o complemento..." ></div><div class="form-group"><label for="cepNovoUsuario" class="control-label">Cep:</label><input type="text" class="form-control inputsEnderecoUsuario" id="cepNovoUsuario" placeholder="Digite o cep..." ></div><div class="form-group"><label for="gps_latNovoUsuario" class="control-label">Latitude:</label><input type="text" class="form-control inputsEnderecoUsuario" id="gps_latNovoUsuario" placeholder="Digite a latitude..." ></div><div class="form-group"><label for="gps_longNovoUsuario" class="control-label">Longitude:</label><input type="text" class="form-control inputsEnderecoUsuario" id="gps_longNovoUsuario" placeholder="Digite a longitude..." ></div><div class="form-group"><label for="paisNovoUsuario" class="control-label">País:</label><select class="form-control inputsEnderecoUsuario" id="paisNovoUsuario"><option></option><option>Brasil</option></select></div><div class="form-group"><label for="estadoNovoUsuario" class="control-label">Estado:</label><select class="form-control inputsEnderecoUsuario" id="estadoNovoUsuario"><option></option><option>Paraná</option></select></div><div class="form-group"><label for="cidadeNovoUsuario" class="control-label">Cidade:</label><select class="form-control inputsEnderecoUsuario" id="cidadeNovoUsuario"><option></option><option value="1">Cascavel</option></select></div></div>\n\
+                                                   <div class="tab-pane"  id="progresso2"><div class="form-group"><label for="ruaNovoUsuario" class="control-label">Rua:</label><input type="text" class="form-control inputsEnderecoUsuario" id="ruaNovoUsuario" placeholder="Digite o nome da rua..." ></div><div class="form-group"><label for="numeroNovoUsuario" class="control-label">Número:</label><input type="number" min="0" class="form-control inputsEnderecoUsuario" id="numeroNovoUsuario" placeholder="Digite o número..." ></div><div class="form-group"><label for="bairroNovoUsuario" class="control-label">Bairro:</label><input type="text" class="form-control inputsEnderecoUsuario" id="bairroNovoUsuario" placeholder="Digite o nome do bairro..." ></div><div class="form-group"><label for="complementoNovoUsuario" class="control-label">Complemento:</label><input type="text" class="form-control" id="complementoNovoUsuario" placeholder="Digite o complemento..." ></div><div class="form-group"><label for="cepNovoUsuario" class="control-label">Cep:</label><input type="text" class="form-control inputsEnderecoUsuario" id="cepNovoUsuario" placeholder="Digite o cep..." ></div><div class="form-group"><label for="gps_latNovoUsuario" class="control-label">Latitude:</label><input type="text" class="form-control inputsEnderecoUsuario" id="gps_latNovoUsuario" placeholder="Digite a latitude..." ></div><div class="form-group"><label for="gps_longNovoUsuario" class="control-label">Longitude:</label><input type="text" class="form-control inputsEnderecoUsuario" id="gps_longNovoUsuario" placeholder="Digite a longitude..." ></div><div class="form-group"><label for="paisNovoUsuario" class="control-label">País:</label><select class="form-control inputsEnderecoUsuario carregaPais" id="paisNovoUsuario"><option></option></select></div><div class="form-group"><label for="estadoNovoUsuario" class="control-label">Estado:</label><select class="form-control inputsEnderecoUsuario carregaEstado" id="estadoNovoUsuario"><option></option><option>Paraná</option></select></div><div class="form-group"><label for="cidadeNovoUsuario" class="control-label">Cidade:</label><select class="form-control inputsEnderecoUsuario carregaCidade" id="cidadeNovoUsuario"><option></option></select></div></div>\n\
                                                    <div class="tab-pane"  id="progresso3"><div class="form-group"><label for="usuarioNovoUsuario" class="control-label">Usuário:</label><input type="text" class="form-control inputsDadosContaU" id="usuarioNovoUsuario" placeholder="Digite o usuário..." ></div><div class="form-group"><label for="senhaNovoUsuario" class="control-label">Senha:</label><input type="text" class="form-control inputsDadosContaU" id="senhaNovoUsuario" placeholder="Digite a senha..." ></div><div class="form-group"><label for="RsenhaNovoUsuario" class="control-label">Repita a senha:</label><input type="text" class="form-control inputsDadosContaU" id="RsenhaNovoUsuario" placeholder="Digite novamente a senha..." ></div></div>\n\
-                                                   <div class="tab-pane"  id="progresso4"><div class="form-group"><label for="unidadeAtuacaoNovoUsuario" class="control-label">Unidade de atuação:</label><select class="form-control " id="unidadeAtuacaoNovoUsuario"><option>Fundetec</option></select></div><div class="form-group" id="papelNovoUsuario"><label class="control-label">Papel:</label><div class="divt"><input type="radio" value="e" name="radio" id="radioEntrevistador" class="radiot"/><label class="labelt" for="radioEntrevistador">Entrevistador</label></div>    <div class="divt"><input type="radio" name="radio" value="g" id="radioGerenciador" class="radiot"/><label class="labelt" for="radioGerenciador">Gerenciador</label></div><div class="divt"><input type="radio" value="x" name="radio" id="radioAdministrador" class="radiot"/><label class="labelt" for="radioAdministrador">Administrador</label></div> </div></div>\n\
+                                                   <div class="tab-pane"  id="progresso4"><div class="form-group"><label for="unidadeAtuacaoNovoUsuario" class="control-label">Unidade de atuação:</label><select class="form-control carregaUnidades" id="unidadeAtuacaoNovoUsuario"></select></div><div class="form-group" id="papelNovoUsuario"><label class="control-label">Papel:</label><div class="divt"><input type="radio" value="e" name="radio" id="radioEntrevistador" class="radiot"/><label class="labelt" for="radioEntrevistador">Entrevistador</label></div>    <div class="divt"><input type="radio" name="radio" value="g" id="radioGerenciador" class="radiot"/><label class="labelt" for="radioGerenciador">Gerenciador</label></div><div class="divt"><input type="radio" value="x" name="radio" id="radioAdministrador" class="radiot"/><label class="labelt" for="radioAdministrador">Administrador</label></div> </div></div>\n\
                                                    <div class="tab-pane"  id="completo"><h3>Deseja realmente salvar o usuário?</h3></div><div class="clearfix"></div>');
                                                                    
                                                                    
@@ -896,40 +941,40 @@ $(document).on("change", "#imgNovoCultivar", function(){
 
 
 
-//cadastro de um novo agricultor parte de dados pessoais
-$(document).on("click", "#salvarNovoAgricultor", function(){
-    
-    $("#qtdProgresso > li").each(function(){
-
-        if($(this).hasClass("active")){
-       
-            if($(this).children("a").prop("title") === "Dados pessoais"){
-                verificarInput('.inputsDadosPessoais');
-                return false;
-            }else if($(this).children("a").prop("title") === "Dados familiares"){
-                verificarInput('.inputsDadosFamilia');
-                return false;
-            }else if($(this).children("a").prop("title") === "Dados da propriedade"){
-                verificarInput('.inputsDadosPropriedade');
-                return false;
-            }else if($(this).children("a").prop("title") === "Dados da conta"){
-                verificarInput('.inputsDadosConta');
-                return false;
-            }else if($(this).children("a").prop("title") === "Salvar"){
-                salvarNovoAgricultor();
-                
-                return false;
-            }else{
-                alerta("Erro em buscar progresso!");
-            }
-        }
-       
-    });
-    
-     
-    
-    return false;
-});
+////cadastro de um novo agricultor parte de dados pessoais
+//$(document).on("click", "#salvarNovoAgricultor", function(){
+//    
+//    $("#qtdProgresso > li").each(function(){
+//
+//        if($(this).hasClass("active")){
+//       
+//            if($(this).children("a").prop("title") === "Dados pessoais"){
+//                verificarInput('.inputsDadosPessoais');
+//                return false;
+//            }else if($(this).children("a").prop("title") === "Dados familiares"){
+//                verificarInput('.inputsDadosFamilia');
+//                return false;
+//            }else if($(this).children("a").prop("title") === "Dados da propriedade"){
+//                verificarInput('.inputsDadosPropriedade');
+//                return false;
+//            }else if($(this).children("a").prop("title") === "Dados da conta"){
+//                verificarInput('.inputsDadosConta');
+//                return false;
+//            }else if($(this).children("a").prop("title") === "Salvar"){
+//                salvarNovoAgricultor();
+//                
+//                return false;
+//            }else{
+//                alerta("Erro em buscar progresso!");
+//            }
+//        }
+//       
+//    });
+//    
+//     
+//    
+//    return false;
+//});
 
 //cancela um novo agricultor
 $(document).on("click", "#cancelarNovoAgricultor", function(){
@@ -1313,11 +1358,145 @@ function testeRadioPapel(){
 
 
 
+//carrega a lista de pais do banco de dados e lista em um select
+$(document).on("focusin", ".carregaPais", function(){
+    var envio = {
+        metodo: "listarpais"
+    };
+    
+    var idSelect = $(this).prop("id");
+
+    //chama a requisicao do servidor, o resultado é listado em um select
+    requisicao("outros/listarsp", envio, function(dadosRetorno) {
+        if(dadosRetorno.sucesso){
+
+            $("#"+idSelect).empty();
+            $.each(dadosRetorno.data, function(i, value){
+                $("#"+idSelect).append('<option value="'+value.idpais+'">'+value.nomepais+'</option>');
+            });
+            
+            //limpa os campos do estado e cidade
+            if($(".carregaEstado").val() !== "" || $(".carregaCidade").val() !== ""){
+                $(".carregaEstado").empty();
+                $(".carregaCidade").empty();
+            }
+            
+            $(".painelCarregando").fadeOut(400);
+        }else{
+            $(".painelCarregando").fadeOut(400);
+            alerta(dadosRetorno.mensagem);
+        }
+ 
+    });
+
+ 
+    return false;
+});
+
+//carrega do banco de dados os estados
+$(document).on("focusin", ".carregaEstado", function(){
+    var envio = {
+        metodo: "listarestados",
+        id: $(".carregaPais").prop("value")
+    };
+    
+    var idSelect = $(this).prop("id");
+//    alert(idSelect);
+    //chama a requisicao do servidor, o resultado é listado em uma tabela
+    requisicao("outros/listar", envio, function(dadosRetorno) {
+        if(dadosRetorno.sucesso){
+            //
+            //alerta(dadosRetorno.mensagem);
+            $("#"+idSelect).empty();
+            $.each(dadosRetorno.data, function(i, value){
+                $("#"+idSelect).append('<option value="'+value.idestado+'">'+value.nomeestado+'</option>');
+            });
+            
+            //limpa os campos do estado e cidade
+            if($(".carregaCidade").val() !== ""){
+                $(".carregaCidade").empty();
+            }
+            
+            $(".painelCarregando").fadeOut(400);
+        }else{
+            $(".painelCarregando").fadeOut(400);
+            alerta(dadosRetorno.mensagem);
+        }
+ 
+    });
+
+ 
+    return false;
+});
+
+//carrega do banco de dados os estados
+$(document).on("focusin", ".carregaCidade", function(){
+    var envio = {
+        metodo: "listarcidades",
+        id: $(".carregaEstado").prop("value")
+    };
+    
+    var idSelect = $(this).prop("id");
+//    alert(idSelect);
+    //chama a requisicao do servidor, o resultado é listado em uma tabela
+    requisicao("outros/listar", envio, function(dadosRetorno) {
+        if(dadosRetorno.sucesso){
+            //
+            //alerta(dadosRetorno.mensagem);
+            $("#"+idSelect).empty();
+            $.each(dadosRetorno.data, function(i, value){
+                $("#"+idSelect).append('<option value="'+value.idcidade+'">'+value.nomecidade+'</option>');
+            });
+            
+            
+            $(".painelCarregando").fadeOut(400);
+        }else{
+            $(".painelCarregando").fadeOut(400);
+            alerta(dadosRetorno.mensagem);
+        }
+ 
+    });
+
+ 
+    return false;
+});
 
 
 
+//carrega a lista de unidades do banco de dados e lista em um select
+$(document).on("focusin", ".carregaUnidades", function(){
+    var envio = {
+        metodo: "listarunidades"
+    };
+    
+    var idSelect = $(this).prop("id");
 
+    //chama a requisicao do servidor, o resultado é listado em um select
+    requisicao("outros/listarsp", envio, function(dadosRetorno) {
+        if(dadosRetorno.sucesso){
 
+            $("#"+idSelect).empty();
+            $.each(dadosRetorno.data, function(i, value){
+                $("#"+idSelect).append('<option value="'+value.idunidade+'">'+value.nomeunidade+'</option>');
+            });
+//            
+//            //limpa os campos do estado e cidade
+//            if($(".carregaEstado").val() !== "" || $(".carregaCidade").val() !== ""){
+//                $(".carregaEstado").empty();
+//                $(".carregaCidade").empty();
+//            }
+            
+            $(".painelCarregando").fadeOut(400);
+        }else{
+            $(".painelCarregando").fadeOut(400);
+            alerta(dadosRetorno.mensagem);
+        }
+ 
+    });
+
+ 
+    return false;
+});
 
 
 

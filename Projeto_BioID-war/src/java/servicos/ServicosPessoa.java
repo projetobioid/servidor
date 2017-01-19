@@ -16,7 +16,6 @@ import dao.DAOSessao;
 import fw.VerificarSessao;
 import java.math.BigInteger;
 import java.security.SecureRandom;
-import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
@@ -42,7 +41,6 @@ import to.TOSessao;
  * @author daniel
  */
 @Path("pessoa")
-@RolesAllowed({"ADMIN", "ORG1"})
 public class ServicosPessoa {
 
     @Context
@@ -686,45 +684,7 @@ public class ServicosPessoa {
     } 
 
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
 
-
-   @GET
-   @Path("sayHello")  
-   @Produces("text/plain")
-   public String sayHello() {
-      return "Hello World!";
-   }
-
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     
     
 }
