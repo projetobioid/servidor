@@ -20,7 +20,6 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.FormParam;
-import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -76,7 +75,17 @@ public class ServicosPessoa {
                 
 
                 TOPessoa p = new TOPessoa();
-                p.setIdpessoa(k.getLong("idpessoa"));
+                
+                //testa se a busca vai ser por id, ou cpf/nome/rg
+                //if(k.getString("metodo").equals("buscaragricultorid")){
+                    p.setIdpessoa(k.getLong("idpessoa"));
+                //}else{
+                   // p.setNome(k.getString("campo"));
+                    //p.setCpf(k.getString("campo"));
+                   // p.setRg(k.getString("campo"));  
+               // }
+                
+//                
                 
                 p = (TOPessoa) BOFactory.get(new DAOPessoa(), p, k.getString("metodo"));
                 
@@ -144,6 +153,63 @@ public class ServicosPessoa {
             j.put("mensagem", e.getMessage());
         }
         
+        return j.toString();
+    } 
+    @Path("procuraragricultor")
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public String procurar(
+                        String dataJson
+                        ) throws Exception{
+        JSONObject j = new JSONObject();
+        JSONObject k = new JSONObject(dataJson);
+        
+        try{
+                
+                
+                TOPessoa to = new TOPessoa();
+                
+//                verifica se existe espaco na string enviada do input
+                String[] palabrasSeparadas = k.getString("valor").split(" ");
+                String metodo;
+                
+                    if(palabrasSeparadas.length > 1){
+                        to.setNome(palabrasSeparadas[0]);
+                        to.setSobrenome(palabrasSeparadas[1]);
+                        metodo = k.getString("metodo") + "2";
+                    }else{
+                        to.setNome(k.getString("valor"));
+                        metodo = k.getString("metodo");
+                    }
+//                    to.setCpf(k.getString("valor"));
+//                    to.setRg(k.getString("valor"));
+                
+//                
+                
+                
+                JSONArray ja = BOFactory.listar(new DAOPessoa(), to, metodo) ;
+
+                if(ja.length() > 0){
+                    j.put("data", ja);
+                    j.put("sucesso", true);
+                }else{
+                    j.put("sucesso", false);
+                    j.put("mensagem", "Sem "+ k.getString("metodo"));
+                }
+            
+        }catch(Exception e){
+            j.put("sucesso", false);
+            j.put("mensagem", e.getMessage());
+        }
+//        JSONArray  A = new JSONArray();
+//        
+//        A.put("DANIEL");
+//        A.put("DANIEL1");
+//        A.put("DANIEL2");
+//        A.put("DANIEL3");
+//        
+//        return A.toString();
         return j.toString();
     } 
     

@@ -12,6 +12,13 @@
         
         
         <script type="application/javascript" src="js/jquery.js"></script>
+        <script type="application/javascript" src="js/jquery-ui.min.js"></script>
+        <link rel="stylesheet" href="css/jquery-ui.min.css">
+        
+        
+        
+        
+        
         <script src="js/bootstrap.min.js"></script>
         <script type="text/javascript" src="js/eventosHome.js"></script>
      
@@ -20,7 +27,7 @@
             window.onload = function(){
                 $("#bemVindo").text("Seja bem-vindo "+getSessao().nome);
                 $(".painelCarregando").fadeOut(400, function(){
-                    $("#pagCompleta").fadeIn(400);
+                    //$("#pagCompleta").fadeIn(400);
                 });
 
                 $("#modalApresentacao").on('hidden.bs.modal', function () {
@@ -36,6 +43,10 @@
         <script type="application/javascript" src="js/validator.js"></script>
         <script type="application/javascript" src="js/jquery.mask.min.js"></script>
         
+           
+            
+         
+        
         <link rel="stylesheet" href="css/loading.min.css">
         
     </head>
@@ -50,7 +61,7 @@
         <div class="part"></div>
     </div>    
     
-    <div id="pagCompleta">
+    <!--<div id="pagCompleta">-->
         <nav class="navbar navbar-default navbar-fixed-top">
             <div class="container-fluid">
               <div class="navbar-header">
@@ -64,9 +75,9 @@
               </div>
               <div id="navbar" class="navbar-collapse collapse">
                 <ul id="listaCollapse" class="nav navbar-nav navbar-right">
-                  <li><a href="#">Configurações</a></li>
-                  <li><a href="#" id="ajuda">Ajuda</a></li>
-                  <li><a href="#">Sair</a></li>
+                    <li><a href="#" id="configuracoes" >Configurações</a></li>
+                  <li><a href="#" id="ajuda" >Ajuda</a></li>
+                  <li><a href="#" id="sair" >Sair</a></li>
                 </ul>
               </div>
 <!--                <div class="nha">
@@ -156,7 +167,7 @@
 
             <!--corpo Pagina-->
             <div id="identificacaoPage" class="paginas col-sm-12 col-md-10 col-md-offset-2 col-lg-10 col-lg-offset-2 main row">
-                <div class="row ">
+                <div class="row " id="tamanhoIdentificacao">
                     <h1 class="page-header" id="tituloIdPage"></h1>
                 </div>
                 
@@ -204,7 +215,7 @@
                 <div class="row paginas" hidden="" id="iconesProgresso">
                     <section>
                         <div class="wizard">
-                            <div class="wizard-inner">
+                            <div class="wizard-inner" id="tamanhoSessao">
                                 <div class="connecting-line"></div><h2 id="tituloProgresso"></h2><h4 id="progressoRef"></h4>
                                 <ul class="nav nav-tabs" role="tablist" id="qtdProgresso">
 
@@ -217,11 +228,11 @@
 
                                     
                                 </div>
-                                <div class="row col-sm-offset-10 col-md-offset-10 col-lg-offset-10">
-                                    <!--<button type="button" class="btn btn-warning next-step salvarProgresso" id="" value="dadosPessoais">Continuar</button>-->
+<!--                                <div class="row col-sm-offset-10 col-md-offset-10 col-lg-offset-10">
+                                    <button type="button" class="btn btn-warning next-step salvarProgresso" id="" value="dadosPessoais">Continuar</button>
                                     <button type="button" class="btn btn-warning cancelarProgresso" id="" >Cancelar</button>
                                     
-                                </div>
+                                </div>-->
                                 
 <!--                            </form>-->
                         </div>
@@ -244,129 +255,21 @@
    <!--<<<<<GERENCIAMENTO>>>>-->
                 <!--pagina de gerenciamento-->
                 
-                <!--distribuição de cultivares-->
-                <div class="paginas col-sm-12 col-md-10 col-md-offset-2 col-lg-10 col-lg-offset-2 row main" hidden="" id="distribuicaoCultivares">
-                    <div class="row">
-                        <section>
-                            <div class="wizard">
-                                <div class="wizard-inner">
-                                    <div class="connecting-line"></div>
-                                    <ul class="nav nav-tabs" role="tablist">
-
-                                        <li role="presentation" class="active">
-                                            <a href="#step1" data-toggle="tab" aria-controls="step1" role="tab" title="Agricultor">
-                                                <span class="round-tab">
-                                                    <i class="fa fa-user"></i>
-                                                </span>
-                                            </a>
-                                        </li>
-
-                                        <li role="presentation" class="disabled">
-                                            <a href="#step2" data-toggle="tab" aria-controls="step2" role="tab" title="Cultivar">
-                                                <span class="round-tab">
-                                                    <i class="fa fa-envira"></i>
-                                                </span>
-                                            </a>
-                                        </li>
-                                        <li role="presentation" class="disabled">
-                                            <a href="#step3" data-toggle="tab" aria-controls="step3" role="tab" title="Quantidade">
-                                                <span class="round-tab">
-                                                    <i class="fa fa-shopping-basket"></i>
-                                                </span>
-                                            </a>
-                                        </li>
-
-                                        <li role="presentation" class="disabled">
-                                            <a href="#complete" data-toggle="tab" aria-controls="complete" role="tab" title="Distribuir">
-                                                <span class="round-tab">
-                                                    <i class="fa fa-save"></i>
-                                                </span>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
-
-                                <form role="form">
-                                    <div class="tab-content">
-                                        <div class="tab-pane active" role="tabpanel" id="step1">
-                                            <h3>Agricultor</h3>
-
-                                            <div class="form-group">
-                                                <label for="dadosAgricultor" class="control-label">Nome ou CPF ou RG...</label>
-                                                <input type="text" class="form-control" id="dadosAgricultor" placeholder="Digite os dados do agricultor...">
-                                            </div>
-
-                                            <ul class="list-inline pull-right">
-
-                                                <li><button type="button" class="btn btn-warning next-step">Continuar</button></li>
-                                            </ul>
-                                        </div>
-                                        <div class="tab-pane" role="tabpanel" id="step2">
-                                            <h3>Cultivar</h3>
-
-                                            <div class="form-group"><label for="cultivares" class="control-label">Selecione um cultivar...</label>
-                                                <select class="form-control " id="cultivares" >
-                                                    <option>Batata doce</option>
-                                                    <option>Mandioca</option>
-                                                    <option>Milho</option>
-                                                    <option>Trigo</option>
-                                                    <option>Feijão</option>
-                                                </select>
-                                            </div>
-
-                                            <ul class="list-inline pull-right">
-                                                <li><button type="button" class="btn btn-warning prev-step">Voltar</button></li>
-                                                <li><button type="button" class="btn btn-warning next-step">Continuar</button></li>
-                                            </ul>
-                                        </div>
-                                        <div class="tab-pane" role="tabpanel" id="step3">
-                                            <h3>Quantidade</h3>
-
-                                            <div class="form-group">
-                                                <label for="qtd" class="control-label">Informe a quantidade...</label>
-                                                <input type="number" class="form-control" id="qtd" placeholder="Digite a quantidade..." min="0">
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="umCultivar" class="control-label">Selecione uma unidade de medida...</label>
-                                                <select class="form-control " id="umCultivar">
-                                                    <option>Kilo(s)</option>
-                                                    <option>Maniva(s)</option>
-                                                    <option>Rama(s)</option>
-                                                </select>
-                                            </div>
-                                            <ul class="list-inline pull-right">
-                                                <li><button type="button" class="btn btn-warning prev-step">Voltar</button></li>
-                                                <li><button type="button" class="btn btn-warning next-step">Continuar</button></li>
-                                                <li><button type="button" class="btn btn-warning btn-info-full next-step">Continuar e salvar</button></li>
-                                            </ul>
-                                        </div>
-                                        <div class="tab-pane" role="tabpanel" id="complete">
-                                            <h3>Completo</h3>
-                                            <p>A distribuição foi bem sucedida!</p>
-                                        </div>
-                                        <div class="clearfix"></div>
-                                    </div>
-                                </form>
-                            </div>
-                        </section>
-                   </div>
-                </div>
-                <!--distribuicao de cultivares>-->
                 
                 <!--estoque da unidade-->
-                <div class="paginas row main" hidden="" id="estoqueUnidade">
+<!--                <div class="paginas row main" hidden="" id="estoqueUnidade">
                     <h3>Em construção...</h3>
                 </div>
                 
-                <!--relatar safra-->
+                relatar safra
                 <div class="paginas row main" hidden="" id="relatarSafra">
                     <h3>Em construção...</h3>
                 </div>
                 
-                <!--sincronizar app-->
+                sincronizar app
                 <div class="paginas row main" hidden="" id="sincronizarApp">
                     <h3>Em construção...</h3>
-                </div>
+                </div>-->
                 
     <!--<<<<<FIM GERENCIAMENTO>>>>-->          
                 
@@ -426,7 +329,7 @@
     </div>
        
         
-    
+        
 
        
     <!-- Bootstrap core JavaScript
@@ -486,5 +389,7 @@
 
       </div>
 
+    
+    
     </body>
 </html>

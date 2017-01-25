@@ -36,7 +36,7 @@ public class DAOPessoa extends DAOBase{
                         + " WHERE l.papel IN('a')";
 
             }else if(metodo.equals("listarusuarios")){
-                sql = "SELECT p.idpessoa, p.nome, p.sobrenome, p.cpf, p.rg, p.telefone1, u.nomeunidade "
+                sql = "SELECT p.idpessoa, p.nome, p.sobrenome, p.cpf, p.rg, p.telefone1, u.nomeunidade, l.papel "
                     + "FROM pessoa p "
                     + "INNER JOIN login l ON (l.pessoa_idpessoa = p.idpessoa) "
                     + "INNER JOIN unidade u ON (u.idunidade = l.unidade_idunidade) "
@@ -112,7 +112,6 @@ public class DAOPessoa extends DAOBase{
                         + "INNER JOIN escolaridade esc ON(esc.idescolaridade = p.escolaridade_idescolaridade) "
                         + "WHERE p.idpessoa IN(?)";  
                 rs = Data.executeQuery(c, sql, to.getIdpessoa());
-
             }
             
             if(rs.next()){
@@ -164,6 +163,45 @@ public class DAOPessoa extends DAOBase{
 //        }
 //        return ja;
 //    }
+    @Override
+    public JSONArray listar(Connection c, TOBase t, String metodo) throws Exception {
+        JSONArray  ja = new JSONArray();
+        String sql;
+        ResultSet rs = null;
+        try{
+            
+            TOPessoa to = (TOPessoa)t;
+            
+            //variavel com lista dos parametros
+            List<Object> u = new ArrayList<Object>();
+            
+            if(metodo.equals("procuraragricultor")){
+//                sql = "SELECT p.nome, p.sobrenome, p.cpf, p.rg FROM pessoa p WHERE p.nome ILIKE ? OR( p.cpf ILIKE ?) OR( p.rg ILIKE ?)";  
+                sql = "SELECT p.nome, p.sobrenome, p.cpf, p.rg FROM pessoa p WHERE p.nome ILIKE ? ";  
+                u.add(to.getNome());
+            }else{
+                sql = "SELECT p.nome, p.sobrenome, p.cpf, p.rg FROM pessoa p WHERE p.nome ILIKE ? AND p.sobrenome ILIKE ? ";  
+                u.add(to.getNome());
+                u.add(to.getSobrenome());
+            }
+        
+                
+//                u.add(to.getCpf());
+//                u.add(to.getRg());
+            
+            rs = Data.executeQuery(c, sql, u);
+            
+            while (rs.next()){
+                TOPessoa ts = new TOPessoa(rs, metodo);
+                ja.put(ts.getJson(metodo));
+            }
+            
+                        
+        }finally{
+            rs.close();
+        }
+        return ja;
+    }
 
     
     

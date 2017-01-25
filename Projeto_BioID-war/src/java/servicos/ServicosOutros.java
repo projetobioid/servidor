@@ -1,13 +1,14 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+lista pais
+lista estado
+lista cidade
  */
 package servicos;
 
 import bo.BOFactory;
 import dao.DAOOutrosIDNome;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.Produces;
@@ -108,6 +109,32 @@ public class ServicosOutros {
         }
         
         return j.toString();
+   }
+   
+   
+   @POST
+   @Path("teste")  
+   @Consumes(MediaType.APPLICATION_JSON)
+   @Produces(MediaType.APPLICATION_JSON)
+   public String teste(String dataJson
+                      ) throws Exception{
+        
+
+        
+        JSONArray  ja = new JSONArray();
+        
+        ja.put(dataJson);
+        ja.put("AppleScript");
+        ja.put("Asp");
+        ja.put("BASIC");
+        ja.put("ColdFusion");
+        ja.put("COBOL");
+        ja.put("Clojure");
+        ja.put("JavaScript");
+        ja.put("Python");
+        ja.put("daniel");
+        
+        return ja.toString();
    }
 
 }

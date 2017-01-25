@@ -30,6 +30,7 @@ public class TOPessoa extends TOBase{
     
     
     private String usuario;
+    private String papel;
     private String nomeunidade;
     private String escolaridade;
     private String estadocivil;
@@ -42,6 +43,14 @@ public class TOPessoa extends TOBase{
 
     public void setIdpessoa(long idpessoa) {
         this.idpessoa = idpessoa;
+    }
+
+    public String getPapel() {
+        return papel;
+    }
+
+    public void setPapel(String papel) {
+        this.papel = papel;
     }
     
     public long getEndereco_idendereco() {
@@ -189,24 +198,6 @@ public class TOPessoa extends TOBase{
     public TOPessoa() {
     }
 
-    public TOPessoa(String usuario, long idpessoa, long endereco_idendereco, long escolaridade_idescolaridade, long estadocivil_idestadocivil, String nome, String sobrenome, String apelido, String cpf, String rg, String datanascimento, String sexo, String telefone1, String telefone2, String email) {
-        this.idpessoa = idpessoa;
-        this.endereco_idendereco = endereco_idendereco;
-        this.escolaridade_idescolaridade = escolaridade_idescolaridade;
-        this.estadocivil_idestadocivil = estadocivil_idestadocivil;
-        this.nome = nome;
-        this.sobrenome = sobrenome;
-        this.apelido = apelido;
-        this.cpf = cpf;
-        this.rg = rg;
-        this.datanascimento = datanascimento;
-        this.sexo = sexo;
-        this.telefone1 = telefone1;
-        this.telefone2 = telefone2;
-        this.email = email;
-        this.usuario = usuario;
-    }
-
    
     
 //     //retorna consulta do banco de dados tipo resultset
@@ -235,7 +226,7 @@ public class TOPessoa extends TOBase{
         //variavel tipo json para retornar no metodo
         JSONObject j = new JSONObject();
         
-        if(metodo.equals("listaragricultores") || metodo.equals("listarusuarios")){
+        if(metodo.equals("listaragricultores")){
             //populando o objeto j
             j.put("idpessoa", idpessoa);
             j.put("nome", nome);
@@ -244,6 +235,17 @@ public class TOPessoa extends TOBase{
             j.put("rg", rg);
             j.put("telefone1", telefone1);
             j.put("nomeunidade", nomeunidade);
+            
+        }else if(metodo.equals("listarusuarios")){
+            //populando o objeto j
+            j.put("idpessoa", idpessoa);
+            j.put("nome", nome);
+            j.put("sobrenome", sobrenome);
+            j.put("cpf", cpf);
+            j.put("rg", rg);
+            j.put("telefone1", telefone1);
+            j.put("nomeunidade", nomeunidade);
+            j.put("papel", papel);
             
         }else if(metodo.equals("buscaragricultor")){
              
@@ -282,6 +284,15 @@ public class TOPessoa extends TOBase{
             j.put("email", email);
             j.put("nomeunidade", nomeunidade);
             j.put("estadocivil", estadocivil);
+            j.put("papel", papel);
+        
+        }else if(metodo.equals("procuraragricultor") || metodo.equals("procuraragricultor2")){
+             //populando o objeto j
+            j.put("nome", nome);
+            j.put("sobrenome", sobrenome);
+            j.put("cpf", cpf);
+            j.put("rg", rg);
+
         }
         
         return j;
@@ -338,7 +349,7 @@ public class TOPessoa extends TOBase{
             this.estadocivil = rs.getString("estadocivil");
             this.escolaridade = rs.getString("escolaridade");
             
-        }else if(metodo.equals("listaragricultores") || metodo.equals("listarusuarios")){
+        }else if(metodo.equals("listaragricultores")){
             this.idpessoa = rs.getLong("idpessoa");
             this.nome = rs.getString("nome");
             this.sobrenome = rs.getString("sobrenome");
@@ -346,6 +357,22 @@ public class TOPessoa extends TOBase{
             this.rg = rs.getString("rg");
             this.telefone1 = rs.getString("telefone1");
             this.nomeunidade = rs.getString("nomeunidade");
+            
+        }else if(metodo.equals("listarusuarios")){
+            this.idpessoa = rs.getLong("idpessoa");
+            this.nome = rs.getString("nome");
+            this.sobrenome = rs.getString("sobrenome");
+            this.cpf = rs.getString("cpf");
+            this.rg = rs.getString("rg");
+            this.telefone1 = rs.getString("telefone1");
+            this.nomeunidade = rs.getString("nomeunidade");
+            this.papel = rs.getString("papel");
+        
+        }else if(metodo.equals("procuraragricultor") || metodo.equals("procuraragricultor2")){
+            this.nome = rs.getString("nome");
+            this.sobrenome = rs.getString("sobrenome");
+            this.cpf = rs.getString("cpf");
+            this.rg = rs.getString("rg");
         }
         
     }
