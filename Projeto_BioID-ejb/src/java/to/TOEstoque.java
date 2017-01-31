@@ -5,6 +5,8 @@
  */
 package to;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.ResultSet;
 import org.json.JSONObject;
 
@@ -21,7 +23,9 @@ public class TOEstoque extends TOBase{
     
     private double quantidade;
     
-//    private String grandeza;
+    
+    //amostragem
+    private String grandeza;
 //    
 //    private String imagem;
 //    
@@ -60,13 +64,13 @@ public class TOEstoque extends TOBase{
         this.quantidade = quantidade;
     }
 
-//    public String getGrandeza() {
-//        return grandeza;
-//    }
-//
-//    public void setGrandeza(String grandeza) {
-//        this.grandeza = grandeza;
-//    }
+    public String getGrandeza() {
+        return grandeza;
+    }
+
+    public void setGrandeza(String grandeza) {
+        this.grandeza = grandeza;
+    }
 //
 //    public String getImagem() {
 //        return imagem;
@@ -104,10 +108,16 @@ public class TOEstoque extends TOBase{
 
     }
     public TOEstoque (ResultSet rs, String metodo) throws Exception{
-        if(metodo.equals("listarestoqueunidade")){
-//            this.quantidade = rs.getFloat("quantidade");
+        if(metodo.equals("listarestoqueunidadeselect")){
             this.nomecultivar = rs.getString("nomecultivar");
             this.cultivar_idcultivar = rs.getLong("cultivar_idcultivar");
+            
+        }else if(metodo.equals("listarestoqueunidade")){
+            this.quantidade = rs.getFloat("quantidade");
+            this.nomecultivar = rs.getString("nomecultivar");
+            this.cultivar_idcultivar = rs.getLong("cultivar_idcultivar");
+            this.grandeza = rs.getString("grandeza");
+            
         }else if(metodo.equals("distribuircultivar")){
             this.quantidade = rs.getDouble("quantidade");
         }
@@ -135,9 +145,17 @@ public class TOEstoque extends TOBase{
     public JSONObject getJson(String metodo) throws Exception {
         JSONObject j = new JSONObject();
         if(metodo.equals("listarestoqueunidade")){
+            j.put("grandeza", grandeza);
+            BigDecimal bd = new BigDecimal(quantidade).setScale(2, RoundingMode.HALF_EVEN);
+            j.put("quantidade", bd.doubleValue());
+            j.put("nomecultivar", nomecultivar);
+            j.put("idcultivar", cultivar_idcultivar);
+            
+        }else if(metodo.equals("listarestoqueunidadeselect")){
 //            j.put("quantidade", quantidade);
             j.put("nomecultivar", nomecultivar);
             j.put("idcultivar", cultivar_idcultivar);
+            
         }else if(metodo.equals("distribuircultivar")){
             j.put("quantidade", quantidade);
         }

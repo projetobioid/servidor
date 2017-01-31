@@ -156,10 +156,18 @@ public class DAOEstoque extends DAOBase{
             List<Object> u = new ArrayList<Object>();
             String sql = null;
             
-            if(metodo.equals("listarestoqueunidade")){
+            if(metodo.equals("listarestoqueunidadeselect")){
                 sql = "SELECT e.cultivar_idcultivar, c.nomecultivar FROM estoque e "
                         + "INNER JOIN cultivar c ON (c.idcultivar = e.cultivar_idcultivar) "
                         + "WHERE unidade_idunidade IN(?) AND e.quantidade > 0";
+
+                u.add(((TOEstoque) t).getUnidade_idunidade());
+                
+            }else if(metodo.equals("listarestoqueunidade")){
+                sql = "SELECT e.cultivar_idcultivar, c.nomecultivar, e.quantidade, u.grandeza FROM estoque e "
+                        + "INNER JOIN cultivar c ON (c.idcultivar = e.cultivar_idcultivar) "
+                        + " INNER JOIN unidademedida u ON (u.idunidademedida = e.unidademedida_idunidademedida)"
+                        + "WHERE e.unidade_idunidade IN(?)";
 
                 u.add(((TOEstoque) t).getUnidade_idunidade());
             }
