@@ -20,43 +20,43 @@ import to.TOPessoa;
 public class DAOPessoa extends DAOBase{
 
     
-    @Override
-    public JSONArray listar(Connection c, String metodo) throws Exception {
-        JSONArray  ja = new JSONArray();
-        String sql = null;
-        ResultSet rs = null;
-        
-        try{
-            
-            if(metodo.equals("listaragricultores")){
-                sql = "SELECT p.idpessoa, p.nome, p.sobrenome, p.cpf, p.rg, p.telefone1, u.nomeunidade"
-                        + " FROM pessoa p"
-                        + " INNER JOIN login l ON (l.pessoa_idpessoa = p.idpessoa)"
-                        + " INNER JOIN unidade u ON (u.idunidade = l.unidade_idunidade)"
-                        + " WHERE l.papel IN('a')";
-
-            }else if(metodo.equals("listarusuarios")){
-                sql = "SELECT p.idpessoa, p.nome, p.sobrenome, p.cpf, p.rg, p.telefone1, u.nomeunidade, l.papel "
-                    + "FROM pessoa p "
-                    + "INNER JOIN login l ON (l.pessoa_idpessoa = p.idpessoa) "
-                    + "INNER JOIN unidade u ON (u.idunidade = l.unidade_idunidade) "
-                    + "WHERE l.papel IN('x') OR l.papel IN('e') OR l.papel IN('g')";
-            }    
-            
-            rs = Data.executeQuery(c, sql);
-
-            while (rs.next()){
-                TOPessoa t = new TOPessoa(rs, metodo);
-                ja.put(t.getJson(metodo));
-            }
-                
-            
-            
-        }finally{
-            rs.close();
-        }
-        return ja;
-    }
+//    @Override
+//    public JSONArray listar(Connection c, String metodo) throws Exception {
+//        JSONArray  ja = new JSONArray();
+//        String sql = null;
+//        ResultSet rs = null;
+//        
+//        try{
+//            
+//            if(metodo.equals("listaragricultores")){
+//                sql = "SELECT p.idpessoa, p.nome, p.sobrenome, p.cpf, p.rg, p.telefone1, u.nomeunidade"
+//                        + " FROM pessoa p"
+//                        + " INNER JOIN login l ON (l.pessoa_idpessoa = p.idpessoa)"
+//                        + " INNER JOIN unidade u ON (u.idunidade = l.unidade_idunidade)"
+//                        + " WHERE l.papel IN('a')";
+//
+//            }else if(metodo.equals("listarusuarios")){
+//                sql = "SELECT p.idpessoa, p.nome, p.sobrenome, p.cpf, p.rg, p.telefone1, u.nomeunidade, l.papel "
+//                    + "FROM pessoa p "
+//                    + "INNER JOIN login l ON (l.pessoa_idpessoa = p.idpessoa) "
+//                    + "INNER JOIN unidade u ON (u.idunidade = l.unidade_idunidade) "
+//                    + "WHERE l.papel IN('x') OR l.papel IN('e') OR l.papel IN('g')";
+//            }    
+//            
+//            rs = Data.executeQuery(c, sql);
+//
+//            while (rs.next()){
+//                TOPessoa t = new TOPessoa(rs, metodo);
+//                ja.put(t.getJson(metodo));
+//            }
+//                
+//            
+//            
+//        }finally{
+//            rs.close();
+//        }
+//        return ja;
+//    }
 
     
     @Override
@@ -175,14 +175,36 @@ public class DAOPessoa extends DAOBase{
             //variavel com lista dos parametros
             List<Object> u = new ArrayList<Object>();
             
-            if(metodo.equals("procuraragricultor")){
-//                sql = "SELECT p.nome, p.sobrenome, p.cpf, p.rg FROM pessoa p WHERE p.nome ILIKE ? OR( p.cpf ILIKE ?) OR( p.rg ILIKE ?)";  
-                sql = "SELECT p.nome, p.sobrenome, p.cpf, p.rg FROM pessoa p WHERE p.nome ILIKE ? ";  
+            if(metodo.equals("listaragricultores")){
+                sql = "SELECT p.idpessoa, p.nome, p.sobrenome, p.cpf, p.rg, p.telefone1, u.nomeunidade"
+                        + " FROM pessoa p"
+                        + " INNER JOIN login l ON (l.pessoa_idpessoa = p.idpessoa)"
+                        + " INNER JOIN unidade u ON (u.idunidade = l.unidade_idunidade)"
+                        + " WHERE l.papel IN('a') AND l.unidade_idunidade IN(?)";
+                u.add(to.getIdunidade());
+            }else if(metodo.equals("listarusuarios")){
+                sql = "SELECT p.idpessoa, p.nome, p.sobrenome, p.cpf, p.rg, p.telefone1, u.nomeunidade, l.papel "
+                    + "FROM pessoa p "
+                    + "INNER JOIN login l ON (l.pessoa_idpessoa = p.idpessoa) "
+                    + "INNER JOIN unidade u ON (u.idunidade = l.unidade_idunidade) "
+                    + "WHERE l.papel IN('x') OR l.papel IN('e') OR l.papel IN('g') AND l.unidade_idunidade IN(?)";
+                u.add(to.getIdunidade());
+            }else if(metodo.equals("procuraragricultor")){ 
+                sql = "SELECT p.idpessoa, p.nome, p.sobrenome, p.cpf, p.rg FROM pessoa p "
+                        + "INNER JOIN agricultor a ON (a.pessoa_idpessoa = p.idpessoa) "
+                        + "INNER JOIN login l ON(l.pessoa_idpessoa = p.idpessoa) "
+                        + "WHERE p.nome ILIKE ? AND l.unidade_idunidade IN(?)";  
                 u.add(to.getNome());
+                u.add(to.getIdunidade());
             }else{
-                sql = "SELECT p.nome, p.sobrenome, p.cpf, p.rg FROM pessoa p WHERE p.nome ILIKE ? AND p.sobrenome ILIKE ? ";  
+                sql = "SELECT p.idpessoa, p.nome, p.sobrenome, p.cpf, p.rg FROM pessoa p "
+                        + "INNER JOIN agricultor a ON (a.pessoa_idpessoa = p.idpessoa) "
+                        + "INNER JOIN login l ON(l.pessoa_idpessoa = p.idpessoa) "
+                        + "WHERE p.nome ILIKE ? AND p.sobrenome ILIKE ? AND l.unidade_idunidade IN(?)"; 
+                 
                 u.add(to.getNome());
                 u.add(to.getSobrenome());
+                u.add(to.getIdunidade());
             }
         
                 

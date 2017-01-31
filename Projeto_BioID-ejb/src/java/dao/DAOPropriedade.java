@@ -12,8 +12,8 @@ import java.util.List;
 import org.json.JSONArray;
 import to.TOBase;
 import to.TOLogin;
+import to.TOPessoa;
 import to.TOPropriedade;
-import to.TOSafra;
 
 /**
  *
@@ -95,8 +95,8 @@ public class DAOPropriedade extends DAOBase{
             rs = Data.executeQuery(c, sql, u);
             
             while (rs.next()){
-                TOPropriedade ts = new TOPropriedade().listarPropriedadeEndereco(rs);
-                ja.put(ts.getJson());
+//                TOPropriedade ts = new TOPropriedade(rs, ).listarPropriedadeEndereco(rs);
+//                ja.put(ts.getJson());
             }
         }finally{
             rs.close();
@@ -105,5 +105,45 @@ public class DAOPropriedade extends DAOBase{
     
     }
 
+    @Override
+    public JSONArray listar(Connection c, TOBase t, String metodo) throws Exception {
+        JSONArray  ja = new JSONArray();
+               
+        
+        
+        ResultSet rs = null;
+        
+        try{
+            
+            String sql = null;
+            //variavel com lista dos parametros
+            List<Object> u = new ArrayList<Object>();
+            TOPessoa tp = (TOPessoa)t;
+            
+            if(metodo.equals("listarpropriedades")){       
+                sql = "SELECT pr.nomepropriedade, pr.idpropriedade FROM propriedade pr "
+                    + "INNER JOIN relacaopa rpa ON(rpa.propriedade_idpropriedade = pr.idpropriedade) "
+                    + "INNER JOIN agricultor a ON(a.pessoa_idpessoa = rpa.agricultor_pessoa_idpessoa) "
+                    + "INNER JOIN pessoa p ON(p.idpessoa = a.pessoa_idpessoa) "
+                    + "INNER JOIN login l ON(l.pessoa_idpessoa = p.idpessoa) "
+                    + "WHERE p.idpessoa IN(?) AND l.unidade_idunidade IN(?)";
+                u.add(tp.getIdpessoa());
+                u.add(tp.getIdunidade());
+            }
+            
+            
+            rs = Data.executeQuery(c, sql, u);
+            
+            while (rs.next()){
+                TOPropriedade ts = new TOPropriedade(rs, metodo);
+                ja.put(ts.getJson(metodo));
+            }
+        }finally{
+            rs.close();
+        }
+        return ja;
+    }
+
+    
 
 }

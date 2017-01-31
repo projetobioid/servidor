@@ -27,11 +27,11 @@ public class TOSafra extends TOBase {
     
     private String datareceb;
     
-    private float qtdrecebida;
+    private double qtdrecebida;
     
     private String ultimadatacolheita;
     
-    private float qtdcolhida;
+    private double qtdcolhida;
     
     private long status_entrevistador;
     
@@ -51,7 +51,7 @@ public class TOSafra extends TOBase {
     
     private String prazo_destinacao;
     
-    private float qtddestinada; 
+    private double qtddestinada; 
     
     private TOEndereco TOEndereco;
     
@@ -112,11 +112,11 @@ public class TOSafra extends TOBase {
         this.datareceb = datareceb;
     }
 
-    public float getQtdrecebida() {
+    public double getQtdrecebida() {
         return qtdrecebida;
     }
 
-    public void setQtdrecebida(float qtdrecebida) {
+    public void setQtdrecebida(double qtdrecebida) {
         this.qtdrecebida = qtdrecebida;
     }
 
@@ -128,7 +128,7 @@ public class TOSafra extends TOBase {
         this.ultimadatacolheita = ultimadatacolheita;
     }
 
-    public float getQtdcolhida() {
+    public double getQtdcolhida() {
         return qtdcolhida;
     }
 
@@ -192,7 +192,7 @@ public class TOSafra extends TOBase {
         this.prazo_destinacao = prazo_destinacao;
     }
 
-    public float getQtddestinada() {
+    public double getQtddestinada() {
         return qtddestinada;
     }
 

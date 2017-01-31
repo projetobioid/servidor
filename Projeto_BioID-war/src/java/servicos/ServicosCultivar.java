@@ -10,8 +10,12 @@ import dao.DAOCultivar;
 import dao.DAOPropriedade;
 import dao.DAOSafra;
 import dao.DAODestinacao;
+import dao.DAOEstoque;
 import dao.DAOHistoricoColheita;
+import dao.DAOIOEstoque;
 import fw.VerificarSessao;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
@@ -27,6 +31,8 @@ import to.TOPropriedade;
 import to.TOSafra;
 import to.TOHistoricoColheita;
 import to.TODestinacao;
+import to.TOEstoque;
+import to.TOIOEstoque;
 import to.TOLogin;
 
 /**
@@ -111,9 +117,15 @@ public class ServicosCultivar {
                 j.put("sucesso", false);
                 j.put("mensagem", "Sessao não encontrada!");
             }else{
-
-                JSONArray ja = BOFactory.listar(new DAOCultivar(), k.getString("metodo"));
+                JSONArray ja = null;
                 
+                if(k.getString("metodo").equals("listarcultivares")){
+                    ja = BOFactory.listar(new DAOCultivar(), k.getString("metodo"));
+                
+//                }else if(k.getString("metodo").equals("listarcultivaresUn")){
+//                    
+//                    ja = BOFactory.listar(new DAOCultivar(), k.getString("metodo"));
+                }
                 
                 if(ja.length() > 0){
                     j.put("data", ja);
@@ -276,75 +288,87 @@ public class ServicosCultivar {
     
     @Path("distribuir")
     @POST
-    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public String distribuir(
-            @FormParam("cpf") String cpf,
-            @FormParam("nomecultivar") String nomecultivar,
-            @FormParam("biofortificado") boolean biofortificado,
-            @FormParam("nomepropriedade") String nomepropriedade,
-            @FormParam("safra") String safra,
-            @FormParam("datareceb") String datareceb,
-            @FormParam("qtdrecebida") float qtdrecebida,
-            @FormParam("unidademedida_idunidademedida") long unidademedida_idunidademedida,
-            @FormParam("id") long id,
-            @FormParam("sessao") String sessao
+            String dataJson
             ) throws Exception{
         
         JSONObject j = new JSONObject();
+         JSONObject k = new JSONObject(dataJson);
         
-        try{ 
-            //verificar sessao
-            JSONObject js = new VerificarSessao().VerificarSessao(id, sessao);
+        try{
+            
+             //verificar sessao
+            JSONObject js = new VerificarSessao().VerificarSessao(k.getLong("id"), k.getString("sessao"));
             
             
             if((boolean) js.get("sucesso") == false){
                 j.put("sucesso", false);
                 j.put("mensagem", "Sessao não encontrada!");
             }else{
-                //cria um objeto
-                TOCultivar tc = new TOCultivar();
-                TOPropriedade tpr = new TOPropriedade();
+                
+                //verifica a quantidade e diminui quantidade do cultivar na unidade
+                TOEstoque te = new TOEstoque();
+                
+                te.setUnidade_idunidade(k.getLong("idunidade"));
+                te.setCultivar_idcultivar(k.getLong("idcultivar"));
+                
+                te  = (TOEstoque) BOFactory.get(new DAOEstoque(), te, k.getString("metodo"));
+               
+                BigDecimal bd = new BigDecimal(te.getQuantidade()).setScale(2, RoundingMode.HALF_EVEN);
+
+                //verifica se tem a quantidade menor ou igual de cultivares no estoque
+                if(bd.doubleValue() >= k.getDouble("qtdrecebida")){
+                    
+                    te.setUnidade_idunidade(k.getLong("idunidade"));
+                    te.setCultivar_idcultivar(k.getLong("idcultivar"));
+                    te.setQuantidade(bd.doubleValue() - k.getDouble("qtdrecebida"));
+                    //atualiza o estoque
+                    BOFactory.editar(new DAOEstoque(), te);
+                    //cria uma tabela de entrada e saida do estoque
+                    TOIOEstoque tio = new TOIOEstoque();
+                    tio.setCultivar_idcultivar(k.getLong("idcultivar"));
+                    tio.setUnidade_idunidade(k.getLong("idunidade"));
+                    tio.setData_io(k.getString("datareceb"));
+                    // zero igual a saida
+                    tio.setOperacao(0);
+                    tio.setQuantidade(k.getDouble("qtdrecebida"));
+                    tio.setUnidademedida_idunidademedida(k.getLong("um"));
+                    tio.setLogin_idlogin(k.getLong("id"));
+                    
+                    BOFactory.inserir(new DAOIOEstoque(), tio);
+                            
+                   //cria um objeto
+                    TOSafra ts = new TOSafra();
+
+    //                popula a classe para armazenar no banco de dados
+                    ts.setStatussafra_idstatussafra(1);
+                    ts.setUnidademedida_idunidademedida(k.getLong("um"));
+                    ts.setPropriedade_idpropriedade(k.getLong("idpropriedade"));
+                    ts.setCultivar_idcultivar(k.getLong("idcultivar"));
+                    ts.setSafra(k.getString("safra"));
+                    ts.setDatareceb(k.getString("datareceb"));
+                    ts.setQtdrecebida(k.getDouble("qtdrecebida"));
+                    ts.setStatus_entrevistador(9);
 
 
-                tc.setNomecultivar(nomecultivar);
-                tc.setBiofortificado(biofortificado);
-                tpr.setNomepropriedade(nomepropriedade);
-                tpr.setCpf(cpf);
+
+                    BOFactory.inserir(new DAOSafra(), ts);
 
 
-                tc = (TOCultivar) BOFactory.get(new DAOCultivar(), tc);
-                tpr = (TOPropriedade) BOFactory.get(new DAOPropriedade(), tpr);
 
 
-                if(tpr != null){
-                    if(tc != null){
-                        TOSafra ts = new TOSafra();
-                        ts.setStatussafra_idstatussafra(1);
-                        ts.setUnidademedida_idunidademedida(unidademedida_idunidademedida);
-                        ts.setPropriedade_idpropriedade(tpr.getIdpropriedade());
-                        ts.setCultivar_idcultivar(tc.getIdcultivar());
-                        ts.setSafra(safra);
-                        ts.setDatareceb(datareceb);
-                        ts.setQtdrecebida(qtdrecebida);
-
-                        BOFactory.inserir(new DAOSafra(), ts);
-
-                        j.put("sucesso", true);
-                        j.put("mensagem", "Distribuicao com sucesso!");
-                        j.put("sessao", js.get("sessao"));
-                    }else{
-                        j.put("sucesso", false);
-                        j.put("erro", 1);
-                        j.put("mensagem", "Cultivar nao encontrado!");
-                        j.put("sessao", js.get("sessao"));
-                    }
+                    j.put("sucesso", true);
+                    j.put("mensagem", "Distribuição com sucesso!");
+                    j.put("sessao", js.get("sessao")); 
                 }else{
                     j.put("sucesso", false);
-                    j.put("erro", 2);
-                    j.put("mensagem", "Propriedade e cpf nao encontrado!");
-                    j.put("sessao", js.get("sessao"));
+                    j.put("sessao", js.get("sessao")); 
+                    j.put("mensagem", "Quantidade não equivalente no estoque da unidade!");
                 }
+                
+                   
             }
         }catch(Exception e){
             j.put("sucesso", false);
@@ -522,49 +546,6 @@ public class ServicosCultivar {
         return js;
     }*/
     
-    //metodo listar cultivares para relatar da propriedade 
-    @Path("backupentrevista")
-    @POST
-    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    @Produces(MediaType.APPLICATION_JSON)
-    public String backupentrevista(
-                        @FormParam("idpropriedade") long idpropriedade,
-                        @FormParam("sessao") String sessao
-                        ) throws Exception{
-        
-        JSONObject j = new JSONObject();
-        
-        
-        try{          
-            //lista os cultivares recebidos
-            //TOLogin t = new TOLogin();
-            //t.setPessoa_idpessoa(idpropriedade);
-            TOSafra t = new TOSafra();
-            t.setPropriedade_idpropriedade(idpropriedade);
-            
-            //lista as propriedades
-            //JSONArray jp = BOFactory.listar(new DAOPropriedade(), t);
-            
-            //lista os cultivares recebidos
-            JSONArray ja = BOFactory.listar(new DAOSafra(), t);
-            
-            
-       
-            if(ja.length() > 0){
-                j.put("sucesso", true);
-                j.put("cultivaresarelatar", ja);
-            }else{
-
-                j.put("sucesso", false);
-                j.put("mensagem", "Nenhuma cultivar para relatar!"); 
-            }
-
-        }catch(Exception e){
-            j.put("sucesso", false);
-            j.put("mensagem", e.getMessage());
-        }
-        
-        return j.toString();
-    }
+    
     
 }

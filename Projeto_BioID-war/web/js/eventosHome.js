@@ -55,6 +55,12 @@ $(document).on("keypress", ".camposCNPJ", function(evt)
 
 });
 
+$(document).on("keypress", ".camposSafra", function(evt)
+{
+    $(this).mask('000/0000', {reverse: true});
+
+});
+
 
 function getSessao(){
     var logSessao = JSON.parse(localStorage.getItem("logSessao"));
@@ -68,9 +74,9 @@ function updateSessao(novaSessao){
 }
 
 //funcao modal de uma mensagem que o usuario terá, quando fechado será chamada a funcao alertFocus
-function alerta(msg){
+function alerta(titulo, msg){
     $("#itensModal").empty().append(msg);
-    $("#modalTitulo").text("Alerta!");
+    $("#modalTitulo").text(titulo);
     $('#modalApresentacao').modal('toggle');
     
 }
@@ -90,7 +96,10 @@ function alertFocus(){
 //dois clicks tabela aparece modal com atributos referentes ao item selecionado
 $(document).on("dblclick", "#divItens tr", function(evt)
 {
-
+    $("#modalTitulo").text("");
+    $("#itensModal").empty();
+    
+    
 
     switch (verificaPagina()){
         case 1:
@@ -106,7 +115,7 @@ $(document).on("dblclick", "#divItens tr", function(evt)
             carregaUsuario($(this).find('td:eq(0)').html(), "modal");
         break;
         default:
-            alerta("Erro de requisição de navegação!"); 
+            alerta("Alerta!", "Erro de requisição de navegação!"); 
         
     }
 
@@ -130,25 +139,24 @@ function carregaAgricultor(idClicado, opcao){
     //chama a requisicao do servidor, o resultado é listado em uma tabela
     requisicao("pessoa/buscar", envio, function(dadosRetorno) {
         if(dadosRetorno.sucesso){
-            //atualiza a sessao
-            updateSessao(dadosRetorno.sessao);
-            
             //testa qual opcao sera, editar ou mostrar
             if(opcao === "modal"){
                 //carrega atributos no painel modal que sera exibido
                 $("#modalTitulo").text("Agricultor");
-                $("#itensModal").empty().append("<h3>"+dadosRetorno.data.nome+"</h3><h4> Sobrenome: "+dadosRetorno.data.sobrenome+"</h4><h4>Apelido: "+dadosRetorno.data.apelido+"</h4><h4> CPF: "+dadosRetorno.data.cpf+"</h4><h4> RG: "+dadosRetorno.data.rg+"</h4><h4> Data de nascimento: "+dadosRetorno.data.datanascimento+"</h4><h4> Sexo: "+dadosRetorno.data.sexo+"</h4><h4> Telefone1: "+dadosRetorno.data.telefone1+"</h4><h4>Telefone2"+dadosRetorno.data.telefone2+"</h4><h4>Email: "+dadosRetorno.data.email+"</h4><h4>Quantidade de crianças: "+dadosRetorno.data.qtdcriancas+"</h4><h4>Quantidade de integrantes: "+dadosRetorno.data.qtdintegrantes+"</h4><h4>Quantidade de grávidas: "+dadosRetorno.data.qtdgravidas+"</h4><h4>Estado civil: "+dadosRetorno.data.estadocivil+"</h4><h4>Escolaridade: "+dadosRetorno.data.escolaridade+"</h4>");
+                $("#itensModal").append("<h3>"+dadosRetorno.data.nome+"</h3><h4> Sobrenome: "+dadosRetorno.data.sobrenome+"</h4><h4>Apelido: "+dadosRetorno.data.apelido+"</h4><h4> CPF: "+dadosRetorno.data.cpf+"</h4><h4> RG: "+dadosRetorno.data.rg+"</h4><h4> Data de nascimento: "+dadosRetorno.data.datanascimento+"</h4><h4> Sexo: "+dadosRetorno.data.sexo+"</h4><h4> Telefone1: "+dadosRetorno.data.telefone1+"</h4><h4>Telefone2"+dadosRetorno.data.telefone2+"</h4><h4>Email: "+dadosRetorno.data.email+"</h4><h4>Quantidade de crianças: "+dadosRetorno.data.qtdcriancas+"</h4><h4>Quantidade de integrantes: "+dadosRetorno.data.qtdintegrantes+"</h4><h4>Quantidade de grávidas: "+dadosRetorno.data.qtdgravidas+"</h4><h4>Estado civil: "+dadosRetorno.data.estadocivil+"</h4><h4>Escolaridade: "+dadosRetorno.data.escolaridade+"</h4>");
             }else if(opcao === "editar"){
-                $("#divItens").empty().append('<h2 class="sub-header">Editar agricultor</h2><form><div class="form-group"><label for="nomeAgricultor" class="control-label">Nome:</label><input type="text" class="form-control" id="nomeAgricultor" placeholder="Digite o nome do agricultor..." value="'+dadosRetorno.data.nome+'"></div><div class="form-group"><label for="sobrenomeAgricultor" class="control-label">Sobrenome:</label><input type="text" class="form-control" id="sobrenomeAgricultor" placeholder="Digite o sobrenome do agricultor..." value="'+dadosRetorno.data.sobrenome+'"></div><div class="form-group"><label for="rgAgricultor" class="control-label">RG:</label><input type="text" class="form-control" id="rgAgricultor" placeholder="Digite o rg do agricultor..." value="'+dadosRetorno.data.rg+'"></div><div class="form-group"><label for="cpfAgricultor" class="control-label">CPF:</label><input type="text" class="form-control" id="cpfAgricultor" placeholder="Digite o cpf do agricultor..." value="'+dadosRetorno.data.cpf+'" ></div><div class="form-group"><label for="apelidoAgricultor" class="control-label">Apelido:</label><input type="text" class="form-control" id="apelidoAgricultor" placeholder="Digite o apelido do agricultor..." value="'+dadosRetorno.data.apelido+'" ></div><div class="form-group"><label for="dataNascAgricultor" class="control-label">Data de nascimento:</label><input type="text" class="form-control" id="dataNascAgricultor" placeholder="Digite a data de nascimento do agricultor..." value="'+dadosRetorno.data.datanascimento+'" ></div><div class="form-group" id="genero"><input type="radio" name="genero" value="m" checked> Masculino<br><input type="radio" name="genero" value="f"> Feminino<br> <br></div><div class="form-group"><label for="telefone1Agricultor" class="control-label">Telefone 1:</label><input type="text" class="form-control" id="telefone1Agricultor" placeholder="(xx) xxxxx-xxxx" value="'+dadosRetorno.data.telefone1+'" ></div><div class="form-group"><label for="telefone2Agricultor" class="control-label">Telefone 2:</label><input type="text" class="form-control" id="telefone2Agricultor" placeholder="Digite o telefone 2 do agricultor..." value="'+dadosRetorno.data.telefone2+'" ></div><div class="form-group"><label for="emailAgricultor" class="control-label">Email:</label><input type="text" class="form-control" id="emailAgricultor" placeholder="Digite o email do agricultor..." value="'+dadosRetorno.data.email+'" ></div><div class="form-group"><label for="escolaridadeAgricultor" class="control-label">Escolaridade:</label><select class="form-control " id="escolaridadeAgricultor" value="'+dadosRetorno.data.escolaridade+'"><option>Ensino fundamental</option><option>Ensino fundamental incompleto</option><option>Ensino médio</option><option>Ensino médio incompleto</option><option>Ensino superior</option><option>Ensino superior incompleto</option><option>Pós-graduação</option><option>Pós-graduação incompleta</option><option>Sem escolaridade</option></select></div><div class="form-group"><label for="estadocivilAgricultor" class="control-label">Estado civil:</label><select class="form-control " id="estadocivilAgricultor" value="'+dadosRetorno.data.estadocivil+'"><option>Solteiro(a)</option><option>Casado(a)</option><option>Divorciado(a)</option><option>Viúvo(a)</option><option>Separado(a)</option><option>Companheiro(a)</option></select></div></form><hr><button type="button" class="btn btn-warning">Salvar <span class="fa fa-save" aria-hidden="true"></span></button>');
-            
+                $("#divItens").empty().append('<h2 class="sub-header">Editar agricultor</h2>         <form  data-toggle="validator" role="form" id="salvarEditAgri" >           <div class="form-group"><label for="nomeAgricultor" class="control-label">Nome:</label><input type="text" class="form-control" id="nomeAgricultor" placeholder="Digite o nome do agricultor..." value="'+dadosRetorno.data.nome+'" data-error="Por favor, informe o nome correto do agricultor." required ><div class="help-block with-errors"></div></div><div class="form-group"><label for="sobrenomeAgricultor" class="control-label">Sobrenome:</label><input type="text" class="form-control" id="sobrenomeAgricultor" placeholder="Digite o sobrenome do agricultor..." value="'+dadosRetorno.data.sobrenome+'"></div><div class="form-group"><label for="rgAgricultor" class="control-label">RG:</label><input type="text" class="form-control" id="rgAgricultor" placeholder="Digite o rg do agricultor..." value="'+dadosRetorno.data.rg+'"></div><div class="form-group"><label for="cpfAgricultor" class="control-label">CPF:</label><input type="text" class="form-control" id="cpfAgricultor" placeholder="Digite o cpf do agricultor..." value="'+dadosRetorno.data.cpf+'" ></div><div class="form-group"><label for="apelidoAgricultor" class="control-label">Apelido:</label><input type="text" class="form-control" id="apelidoAgricultor" placeholder="Digite o apelido do agricultor..." value="'+dadosRetorno.data.apelido+'" ></div><div class="form-group"><label for="dataNascAgricultor" class="control-label">Data de nascimento:</label><input type="text" class="form-control" id="dataNascAgricultor" placeholder="Digite a data de nascimento do agricultor..." value="'+dadosRetorno.data.datanascimento+'" ></div><div class="form-group" id="genero"><input type="radio" name="genero" value="m" checked> Masculino<br><input type="radio" name="genero" value="f"> Feminino<br> <br></div><div class="form-group"><label for="telefone1Agricultor" class="control-label">Telefone 1:</label><input type="text" class="form-control" id="telefone1Agricultor" placeholder="(xx) xxxxx-xxxx" value="'+dadosRetorno.data.telefone1+'" ></div><div class="form-group"><label for="telefone2Agricultor" class="control-label">Telefone 2:</label><input type="text" class="form-control" id="telefone2Agricultor" placeholder="Digite o telefone 2 do agricultor..." value="'+dadosRetorno.data.telefone2+'" ></div><div class="form-group"><label for="emailAgricultor" class="control-label">Email:</label><input type="text" class="form-control" id="emailAgricultor" placeholder="Digite o email do agricultor..." value="'+dadosRetorno.data.email+'" ></div><div class="form-group"><label for="escolaridadeAgricultor" class="control-label">Escolaridade:</label><select class="form-control " id="escolaridadeAgricultor" value="'+dadosRetorno.data.escolaridade+'"><option>Ensino fundamental</option><option>Ensino fundamental incompleto</option><option>Ensino médio</option><option>Ensino médio incompleto</option><option>Ensino superior</option><option>Ensino superior incompleto</option><option>Pós-graduação</option><option>Pós-graduação incompleta</option><option>Sem escolaridade</option></select></div><div class="form-group"><label for="estadocivilAgricultor" class="control-label">Estado civil:</label><select class="form-control " id="estadocivilAgricultor" value="'+dadosRetorno.data.estadocivil+'"><option>Solteiro(a)</option><option>Casado(a)</option><option>Divorciado(a)</option><option>Viúvo(a)</option><option>Separado(a)</option><option>Companheiro(a)</option></select></div><hr><button type="submit" class="btn btn-warning">Salvar <span class="fa fa-save" aria-hidden="true"></span></button></form>');
+                $('#salvarEditAgri').validator();
             }
             //retira o painel loading
             $(".painelCarregando").fadeOut(400);
         }else{
             //retira o painel loading
             $(".painelCarregando").fadeOut(400);
-            alerta(dadosRetorno.mensagem);
+            alerta("Alerta!", dadosRetorno.mensagem);
         }
+        //atualiza a sessao
+        updateSessao(dadosRetorno.sessao);
     });
 }
 
@@ -165,26 +173,26 @@ function carregaCultivar(idClicado, opcao){
     //chama a requisicao do servidor, o resultado é listado em uma tabela
     requisicao("cultivar/buscar", envio, function(dadosRetorno) {
         if(dadosRetorno.sucesso){
-            //atualiza a sessao
-            updateSessao(dadosRetorno.sessao);
             
             //testa qual opcao sera, editar ou mostrar
             if(opcao === "modal"){
                 //carrega atributos no painel modal que sera exibido
                 $("#modalTitulo").text("Cultivar");
                 //carrega atributos no painel modal que sera exibido
-                $("#itensModal").empty().append('<h3>'+dadosRetorno.data.nomecultivar+'</h3><img class=" img-responsive" src="'+dadosRetorno.data.imagem+'" width="180" height="180" alt="imgCultivar"/><h4> Descrição: '+dadosRetorno.data.descricao+'</h4><h4> Biofortificado: '+dadosRetorno.data.biofortificado+'</h4><h4> Unidade de medida: '+dadosRetorno.data.grandeza+'</h4><h4> Valor nutricional: '+dadosRetorno.data.valornutricional+'</h4><h4> Tempo de colheita: '+dadosRetorno.data.tempodecolheita+'</h4><h4> Tempo de destinação: '+dadosRetorno.data.tempodestinacao+'</h4><h4> Peso da saca: '+dadosRetorno.data.peso_saca+' kilo(s)</h4>');
+                $("#itensModal").append('<h3>'+dadosRetorno.data.nomecultivar+'</h3><img class=" img-responsive" src="'+dadosRetorno.data.imagem+'" width="180" height="180" alt="imgCultivar"/><h4> Biofortificado: '+dadosRetorno.data.biofortificado+'</h4><h4> Unidade de medida: '+dadosRetorno.data.grandeza+'</h4><h4> Tempo de colheita: '+dadosRetorno.data.tempodecolheita+'</h4><h4> Tempo de destinação: '+dadosRetorno.data.tempodestinacao+'</h4><h4> Peso da saca: '+dadosRetorno.data.peso_saca+' kilo(s)</h4><h4> Valor nutricional: '+dadosRetorno.data.valornutricional+'</h4><h4> Descrição: '+dadosRetorno.data.descricao+'</h4>');
             }else if(opcao === "editar"){
-                $("#divItens").empty().append('<h2 class="sub-header">Editar cultivar</h2><form><div class="form-group"><label for="nomeCultivar" class="control-label">Nome cultivar:</label><input type="text" class="form-control" id="nomeCultivar" placeholder="Digite o nome do cultivar..." value="'+dadosRetorno.data.nomecultivar+'"></div><div class="form-group"><label for="umCultivar" class="control-label">Unidade de medida:</label><select class="form-control " id="umCultivar" value="'+dadosRetorno.data.grandeza+'"><option value="7">Kilo(s)</option><option value="6">Maniva(s)</option><option value="5">Rama(s)</option></select></div><div class="form-group"><label for="pesoSaca" class="control-label">Peso da saca:</label><input type="text" class="form-control" id="pesoSaca" placeholder="Digite o peso da saca..." value="'+dadosRetorno.data.peso_saca+'"></div><div class="form-group"><label for="tempoColheita" class="control-label">Dias para relatar a colheita:</label><input type="number" class="form-control" min="1" id="tempoColheita" placeholder="Digite o tempo de colheita..." value="'+dadosRetorno.data.tempodecolheita+'"></div><div class="form-group"><label for="tempoDestinacao" class="control-label">Dias para relatar a destinação:</label><input type="number" class="form-control" min="1" id="tempoDestinacao" placeholder="Digite o tempo da destinação..." value="'+dadosRetorno.data.tempodestinacao+'"></div><div class="form-group"><label for="valorNutricional" class="control-label">Valor nutricional</label><textarea class="form-control" id="valorNutricional" placeholder="Digite o valor nutricional ...">'+dadosRetorno.data.valornutricional+'</textarea></div><div class="form-group"><label for="descCultivar" class="control-label">Descrição:</label><textarea class="form-control" id="descCultivar" placeholder="Digite uma descrição...">'+dadosRetorno.data.descricao+'</textarea></div><div class="input-group"><input type="checkbox" aria-label="..." id="bio" checked="'+dadosRetorno.data.biofortificado+'">&nbsp;<label for="bio" class="control-label">Biofortificado</label></div><br><label class="control-label">Selecione uma imagem:</label><input id="imgNovoCultivar" type="file" class=""><img id="imgCultivarCarregada" class="img-responsive" src="'+dadosRetorno.data.imagem+'" width="180" height="180" alt="imgCultivar"/></form><hr><button type="button" class="btn btn-warning">Salvar <span class="fa fa-save" aria-hidden="true"></span></button>');
-                //$("#imgCultivarCarregada").removeClass("hidden");
+                $("#divItens").empty().append('<h2 class="sub-header">Editar cultivar</h2><form  data-toggle="validator" role="form" id="salvarEditCulti"> <div class="form-group"><label for="nomeCultivar" class="control-label">Nome cultivar:</label><input type="text" class="form-control" id="nomeCultivar" placeholder="Digite o nome do cultivar..." value="'+dadosRetorno.data.nomecultivar+'"></div><div class="form-group"><label for="umCultivar" class="control-label">Unidade de medida:</label><select class="form-control " id="umCultivar" value="'+dadosRetorno.data.grandeza+'"><option value="7">Kilo(s)</option><option value="6">Maniva(s)</option><option value="5">Rama(s)</option></select></div><div class="form-group"><label for="pesoSaca" class="control-label">Peso da saca:</label><input type="text" class="form-control" id="pesoSaca" placeholder="Digite o peso da saca..." value="'+dadosRetorno.data.peso_saca+'"></div><div class="form-group"><label for="tempoColheita" class="control-label">Dias para relatar a colheita:</label><input type="number" class="form-control" min="1" id="tempoColheita" placeholder="Digite o tempo de colheita..." value="'+dadosRetorno.data.tempodecolheita+'"></div><div class="form-group"><label for="tempoDestinacao" class="control-label">Dias para relatar a destinação:</label><input type="number" class="form-control" min="1" id="tempoDestinacao" placeholder="Digite o tempo da destinação..." value="'+dadosRetorno.data.tempodestinacao+'"></div><div class="form-group"><label for="valorNutricional" class="control-label">Valor nutricional</label><textarea class="form-control" id="valorNutricional" placeholder="Digite o valor nutricional ...">'+dadosRetorno.data.valornutricional+'</textarea></div><div class="form-group"><label for="descCultivar" class="control-label">Descrição:</label><textarea class="form-control" id="descCultivar" placeholder="Digite uma descrição...">'+dadosRetorno.data.descricao+'</textarea></div><div class="input-group"><input type="checkbox" aria-label="..." id="bio" checked="'+dadosRetorno.data.biofortificado+'">&nbsp;<label for="bio" class="control-label">Biofortificado</label></div><br><label class="control-label">Selecione uma imagem:</label><input id="imgNovoCultivar" type="file" class=""><img id="imgCultivarCarregada" class="img-responsive" src="'+dadosRetorno.data.imagem+'" width="180" height="180" alt="imgCultivar"/><hr><button type="submit" class="btn btn-warning">Salvar <span class="fa fa-save" aria-hidden="true"></span></button></form>');
+                $('#salvarEditCulti').validator();
             }
             //retira o painel loading
             $(".painelCarregando").fadeOut(400);
         }else{
             //retira o painel loading
             $(".painelCarregando").fadeOut(400);
-            alerta(dadosRetorno.mensagem);
+            alerta("Alerta!", dadosRetorno.mensagem);
         }
+        //atualiza a sessao
+        updateSessao(dadosRetorno.sessao);
     });
 }
 
@@ -201,23 +209,24 @@ function carregaUnidade(idClicado, opcao){
     //chama a requisicao do servidor, o resultado é listado em uma tabela
     requisicao("unidade/buscar", envio, function(dadosRetorno) {
         if(dadosRetorno.sucesso){
-            //atualiza a sessao
-            updateSessao(dadosRetorno.sessao);
             
             //testa qual opcao sera, editar ou mostrar
             if(opcao === "modal"){
                 //carrega atributos no painel modal que sera exibido
                 $("#modalTitulo").text("Unidade");
-                $("#itensModal").empty().append('<h3>'+dadosRetorno.data.nomeunidade+'</h3><h4> Cidade: '+dadosRetorno.data.nomecidade+'</h4><h4> Estado: '+dadosRetorno.data.nomeestado+'</h4><h4> País: '+dadosRetorno.data.nomepais+'</h4><h4> Telefone1: '+dadosRetorno.data.telefone1+'</h4><h4> Telefone2: '+dadosRetorno.data.telefone2+'</h4><h4> Email: '+dadosRetorno.data.email+'</h4><h4> Cnpj: '+dadosRetorno.data.cnpj+'</h4><h4> Razão social: '+dadosRetorno.data.razao_social+'</h4><h4> Nome fantasia: '+dadosRetorno.data.nome_fanta+'</h4><h4> Rua: '+dadosRetorno.data.rua+'</h4><h4> Bairro: '+dadosRetorno.data.bairro+'</h4><h4> Complemento: '+dadosRetorno.data.complemento+'</h4><h4> Latitude: '+dadosRetorno.data.gps_lat+'</h4><h4> Longitude: '+dadosRetorno.data.gps_long+'</h4>');
+                $("#itensModal").append('<h3>'+dadosRetorno.data.nomeunidade+'</h3><h4> Cidade: '+dadosRetorno.data.nomecidade+'</h4><h4> Estado: '+dadosRetorno.data.nomeestado+'</h4><h4> País: '+dadosRetorno.data.nomepais+'</h4><h4> Telefone1: '+dadosRetorno.data.telefone1+'</h4><h4> Telefone2: '+dadosRetorno.data.telefone2+'</h4><h4> Email: '+dadosRetorno.data.email+'</h4><h4> Cnpj: '+dadosRetorno.data.cnpj+'</h4><h4> Razão social: '+dadosRetorno.data.razao_social+'</h4><h4> Nome fantasia: '+dadosRetorno.data.nome_fanta+'</h4><h4> Rua: '+dadosRetorno.data.rua+'</h4><h4> Bairro: '+dadosRetorno.data.bairro+'</h4><h4> Complemento: '+dadosRetorno.data.complemento+'</h4><h4> Latitude: '+dadosRetorno.data.gps_lat+'</h4><h4> Longitude: '+dadosRetorno.data.gps_long+'</h4>');
             }else if(opcao === "editar"){
-                $("#divItens").empty().append('<h2 class="sub-header">Editar unidade</h2><form><div class="form-group"><label for="nomeUnidade" class="control-label">Nome unidade:</label><input type="text" class="form-control" id="nomeUnidade" placeholder="Digite o nome da unidade..." value="'+dadosRetorno.data.nomeunidade+'"></div><div class="form-group"><label for="cnpj" class="control-label">CNPJ:</label><input type="text" class="form-control" id="cnpj" placeholder="Digite o cnpj..." value="'+dadosRetorno.data.cnpj+'"></div><div class="form-group"><label for="razaoSocial" class="control-label">Razão social:</label><input type="text" class="form-control" id="razaoSocial" placeholder="Digite a razão social..." value="'+dadosRetorno.data.razao_social+'"></div><div class="form-group"><label for="telefone1" class="control-label">Telefone 1:</label><input type="text" class="form-control" id="telefone1" placeholder="Digite o telefone 1..." value="'+dadosRetorno.data.telefone1+'"></div><div class="form-group"><label for="telefone2" class="control-label">Telefone 2:</label><input type="text" class="form-control" id="telefone2" placeholder="Digite o telefone 2..." value="'+dadosRetorno.data.telefone2+'"></div><div class="form-group"><label for="email" class="control-label">Email:</label><input type="text" class="form-control" id="email" placeholder="Digite o email..."value="'+dadosRetorno.data.email+'"></div><div class="form-group"><label for="rua" class="control-label">Rua:</label><input type="text" class="form-control" id="rua" placeholder="Digite a rua..." value="'+dadosRetorno.data.rua+'"></div><div class="form-group"><label for="bairro" class="control-label">Bairro:</label><input type="text" class="form-control" id="bairro" placeholder="Digite o bairro..." value="'+dadosRetorno.data.bairro+'"></div><div class="form-group"><label for="numero" class="control-label">Número:</label><input type="text" class="form-control" id="numero" placeholder="Digite o número..." value="'+dadosRetorno.data.numero+'"></div><div class="form-group"><label for="complemento" class="control-label">Complemento:</label><input type="text" class="form-control" id="complemento" placeholder="Digite o complemento..." value="'+dadosRetorno.data.complemento+'"></div><div class="form-group"><label for="gps_lat" class="control-label">Latitude:</label><input type="text" class="form-control" id="gps_lat" placeholder="Digite a latitude..." value="'+dadosRetorno.data.gps_lat+'"></div><div class="form-group"><label for="gps_long" class="control-label">Longitude:</label><input type="text" class="form-control" id="gps_long" placeholder="Digite a longitude..." value="'+dadosRetorno.data.gps_long+'"></div><div class="form-group"><label for="pais" class="control-label">País:</label><select class="form-control " id="pais" value="'+dadosRetorno.data.nomepais+'"><option>Brasil</option></select></div><div class="form-group"><label for="estado" class="control-label">Estado:</label><select class="form-control " id="estado value="'+dadosRetorno.data.nomeestado+'""><option>Paraná</option></select></div><div class="form-group"><label for="cidade" class="control-label">Cidade:</label><select class="form-control " id="cidade" value="'+dadosRetorno.data.nomecidade+'"><option>Cascavel</option></select></div></form><hr><button type="button" class="btn btn-warning">Salvar <span class="fa fa-save" aria-hidden="true"></span></button>');  
+                $("#divItens").empty().append('<h2 class="sub-header">Editar unidade</h2><form  data-toggle="validator" role="form" id="salvarEditUnidade"><div class="form-group"><label for="nomeUnidade" class="control-label">Nome unidade:</label><input type="text" class="form-control" id="nomeUnidade" placeholder="Digite o nome da unidade..." value="'+dadosRetorno.data.nomeunidade+'"></div><div class="form-group"><label for="cnpj" class="control-label">CNPJ:</label><input type="text" class="form-control" id="cnpj" placeholder="Digite o cnpj..." value="'+dadosRetorno.data.cnpj+'"></div><div class="form-group"><label for="razaoSocial" class="control-label">Razão social:</label><input type="text" class="form-control" id="razaoSocial" placeholder="Digite a razão social..." value="'+dadosRetorno.data.razao_social+'"></div><div class="form-group"><label for="telefone1" class="control-label">Telefone 1:</label><input type="text" class="form-control" id="telefone1" placeholder="Digite o telefone 1..." value="'+dadosRetorno.data.telefone1+'"></div><div class="form-group"><label for="telefone2" class="control-label">Telefone 2:</label><input type="text" class="form-control" id="telefone2" placeholder="Digite o telefone 2..." value="'+dadosRetorno.data.telefone2+'"></div><div class="form-group"><label for="email" class="control-label">Email:</label><input type="text" class="form-control" id="email" placeholder="Digite o email..."value="'+dadosRetorno.data.email+'"></div><div class="form-group"><label for="rua" class="control-label">Rua:</label><input type="text" class="form-control" id="rua" placeholder="Digite a rua..." value="'+dadosRetorno.data.rua+'"></div><div class="form-group"><label for="bairro" class="control-label">Bairro:</label><input type="text" class="form-control" id="bairro" placeholder="Digite o bairro..." value="'+dadosRetorno.data.bairro+'"></div><div class="form-group"><label for="numero" class="control-label">Número:</label><input type="text" class="form-control" id="numero" placeholder="Digite o número..." value="'+dadosRetorno.data.numero+'"></div><div class="form-group"><label for="complemento" class="control-label">Complemento:</label><input type="text" class="form-control" id="complemento" placeholder="Digite o complemento..." value="'+dadosRetorno.data.complemento+'"></div><div class="form-group"><label for="gps_lat" class="control-label">Latitude:</label><input type="text" class="form-control" id="gps_lat" placeholder="Digite a latitude..." value="'+dadosRetorno.data.gps_lat+'"></div><div class="form-group"><label for="gps_long" class="control-label">Longitude:</label><input type="text" class="form-control" id="gps_long" placeholder="Digite a longitude..." value="'+dadosRetorno.data.gps_long+'"></div><div class="form-group"><label for="pais" class="control-label">País:</label><select class="form-control " id="pais" value="'+dadosRetorno.data.nomepais+'"><option>Brasil</option></select></div><div class="form-group"><label for="estado" class="control-label">Estado:</label><select class="form-control " id="estado value="'+dadosRetorno.data.nomeestado+'""><option>Paraná</option></select></div><div class="form-group"><label for="cidade" class="control-label">Cidade:</label><select class="form-control " id="cidade" value="'+dadosRetorno.data.nomecidade+'"><option>Cascavel</option></select></div><hr><button type="submit" class="btn btn-warning">Salvar <span class="fa fa-save" aria-hidden="true"></span></button></form>');  
+                $('#salveEditUnidade').validator();
             }
             $(".painelCarregando").fadeOut(400);
         }else{
             //retira o painel loading
             $(".painelCarregando").fadeOut(400);
-            alerta(dadosRetorno.mensagem);
+            alerta("Alerta!", dadosRetorno.mensagem);
         }
+        //atualiza a sessao
+        updateSessao(dadosRetorno.sessao);
     });
 }
 
@@ -234,23 +243,26 @@ function carregaUsuario(idClicado, opcao){
     //chama a requisicao do servidor, o resultado é listado em uma tabela
     requisicao("pessoa/buscar", envio, function(dadosRetorno) {
         if(dadosRetorno.sucesso){
-            //atualiza a sessao
-            updateSessao(dadosRetorno.sessao);
             
             //testa qual opcao sera, editar ou mostrar
             if(opcao === "modal"){
                 //carrega atributos no painel modal que sera exibido
                 $("#modalTitulo").text("Usuário");
-                $("#itensModal").empty().append("<h3>"+dadosRetorno.data.nome+"</h3><h4> Sobrenome: "+dadosRetorno.data.sobrenome+"</h4><h4>Apelido: "+dadosRetorno.data.apelido+"</h4><h4> CPF: "+dadosRetorno.data.cpf+"</h4><h4> RG: "+dadosRetorno.data.rg+"</h4><h4> Data de nascimento: "+dadosRetorno.data.datanascimento+"</h4><h4> Sexo: "+dadosRetorno.data.sexo+"</h4><h4> Telefone1: "+dadosRetorno.data.telefone1+"</h4><h4>Telefone2"+dadosRetorno.data.telefone2+"</h4><h4>Email: "+dadosRetorno.data.email+"</h4><h4>Estado civil: "+dadosRetorno.data.estadocivil+"</h4><h4>Escolaridade: "+dadosRetorno.data.escolaridade+"</h4>");
+                $("#itensModal").append("<h3>"+dadosRetorno.data.nome+"</h3><h4> Sobrenome: "+dadosRetorno.data.sobrenome+"</h4><h4>Apelido: "+dadosRetorno.data.apelido+"</h4><h4> CPF: "+dadosRetorno.data.cpf+"</h4><h4> RG: "+dadosRetorno.data.rg+"</h4><h4> Data de nascimento: "+dadosRetorno.data.datanascimento+"</h4><h4> Sexo: "+dadosRetorno.data.sexo+"</h4><h4> Telefone1: "+dadosRetorno.data.telefone1+"</h4><h4>Telefone2"+dadosRetorno.data.telefone2+"</h4><h4>Email: "+dadosRetorno.data.email+"</h4><h4>Estado civil: "+dadosRetorno.data.estadocivil+"</h4><h4>Escolaridade: "+dadosRetorno.data.escolaridade+"</h4>");
+//                $("#modalTitulo").text("Usuário");
+//                alerta("<h3>"+dadosRetorno.data.nome+"</h3><h4> Sobrenome: "+dadosRetorno.data.sobrenome+"</h4><h4>Apelido: "+dadosRetorno.data.apelido+"</h4><h4> CPF: "+dadosRetorno.data.cpf+"</h4><h4> RG: "+dadosRetorno.data.rg+"</h4><h4> Data de nascimento: "+dadosRetorno.data.datanascimento+"</h4><h4> Sexo: "+dadosRetorno.data.sexo+"</h4><h4> Telefone1: "+dadosRetorno.data.telefone1+"</h4><h4>Telefone2"+dadosRetorno.data.telefone2+"</h4><h4>Email: "+dadosRetorno.data.email+"</h4><h4>Estado civil: "+dadosRetorno.data.estadocivil+"</h4><h4>Escolaridade: "+dadosRetorno.data.escolaridade+"</h4>");
             }else if(opcao === "editar"){
-                $("#divItens").empty().append('<h2 class="sub-header">Editar agricultor</h2><form><div class="form-group"><label for="nomeUsuario" class="control-label">Nome:</label><input type="text" class="form-control" id="nomeUsuario" placeholder="Digite o nome do agricultor..." value="'+dadosRetorno.data.nome+'"></div><div class="form-group"><label for="sobrenomeUsuario" class="control-label">Sobrenome:</label><input type="text" class="form-control" id="sobrenomeUsuario" placeholder="Digite o sobrenome do agricultor..." value="'+dadosRetorno.data.sobrenome+'"></div><div class="form-group"><label for="rgAgricultor" class="control-label">RG:</label><input type="text" class="form-control" id="rgAgricultor" placeholder="Digite o rg do agricultor..." value="'+dadosRetorno.data.rg+'"></div><div class="form-group"><label for="cpfAgricultor" class="control-label">CPF:</label><input type="text" class="form-control" id="cpfAgricultor" placeholder="Digite o cpf do agricultor..." value="'+dadosRetorno.data.cpf+'" ></div><div class="form-group"><label for="apelidoAgricultor" class="control-label">Apelido:</label><input type="text" class="form-control" id="apelidoAgricultor" placeholder="Digite o apelido do agricultor..." value="'+dadosRetorno.data.apelido+'" ></div><div class="form-group"><label for="dataNascAgricultor" class="control-label">Data de nascimento:</label><input type="text" class="form-control" id="dataNascAgricultor" placeholder="Digite a data de nascimento do agricultor..." value="'+dadosRetorno.data.datanascimento+'" ></div><input type="radio" name="genero" value="m" checked> Masculino<br><input type="radio" name="genero" value="f"> Feminino<br> <br><div class="form-group"><label for="telefone1Agricultor" class="control-label">Telefone 1:</label><input type="text" class="form-control" id="telefone1Agricultor" placeholder="Digite o telefone 1 do agricultor..." value="'+dadosRetorno.data.telefone1+'" ></div><div class="form-group"><label for="telefone2Agricultor" class="control-label">Telefone 2:</label><input type="text" class="form-control" id="telefone2Agricultor" placeholder="Digite o telefone 2 do agricultor..." value="'+dadosRetorno.data.telefone2+'" ></div><div class="form-group"><label for="emailAgricultor" class="control-label">Email:</label><input type="text" class="form-control" id="emailAgricultor" placeholder="Digite o email do agricultor..." value="'+dadosRetorno.data.email+'" ></div><div class="form-group"><label for="escolaridadeAgricultor" class="control-label">Escolaridade:</label><select class="form-control " id="escolaridadeAgricultor" value="'+dadosRetorno.data.escolaridade+'"><option>Ensino fundamental</option><option>Ensino fundamental incompleto</option><option>Ensino médio</option><option>Ensino médio incompleto</option><option>Ensino superior</option><option>Ensino superior incompleto</option><option>Pós-graduação</option><option>Pós-graduação incompleta</option><option>Sem escolaridade</option></select></div><div class="form-group"><label for="estadocivilAgricultor" class="control-label">Estado civil:</label><select class="form-control " id="estadocivilAgricultor" value="'+dadosRetorno.data.estadocivil+'"><option>Solteiro(a)</option><option>Casado(a)</option><option>Divorciado(a)</option><option>Viúvo(a)</option><option>Separado(a)</option><option>Companheiro(a)</option></select></div></form><hr><button type="button" class="btn btn-warning">Salvar <span class="fa fa-save" aria-hidden="true"></span></button>');
+                $("#divItens").empty().append('<h2 class="sub-header">Editar Usuário</h2><form  data-toggle="validator" role="form" id="salvarEditUser"><div class="form-group"><label for="nomeUsuario" class="control-label">Nome:</label><input type="text" class="form-control" id="nomeUsuario" placeholder="Digite o nome do agricultor..." value="'+dadosRetorno.data.nome+'"></div><div class="form-group"><label for="sobrenomeUsuario" class="control-label">Sobrenome:</label><input type="text" class="form-control" id="sobrenomeUsuario" placeholder="Digite o sobrenome do agricultor..." value="'+dadosRetorno.data.sobrenome+'"></div><div class="form-group"><label for="rgAgricultor" class="control-label">RG:</label><input type="text" class="form-control" id="rgAgricultor" placeholder="Digite o rg do agricultor..." value="'+dadosRetorno.data.rg+'"></div><div class="form-group"><label for="cpfAgricultor" class="control-label">CPF:</label><input type="text" class="form-control" id="cpfAgricultor" placeholder="Digite o cpf do agricultor..." value="'+dadosRetorno.data.cpf+'" ></div><div class="form-group"><label for="apelidoAgricultor" class="control-label">Apelido:</label><input type="text" class="form-control" id="apelidoAgricultor" placeholder="Digite o apelido do agricultor..." value="'+dadosRetorno.data.apelido+'" ></div><div class="form-group"><label for="dataNascAgricultor" class="control-label">Data de nascimento:</label><input type="text" class="form-control" id="dataNascAgricultor" placeholder="Digite a data de nascimento do agricultor..." value="'+dadosRetorno.data.datanascimento+'" ></div><input type="radio" name="genero" value="m" checked> Masculino<br><input type="radio" name="genero" value="f"> Feminino<br> <br><div class="form-group"><label for="telefone1Agricultor" class="control-label">Telefone 1:</label><input type="text" class="form-control" id="telefone1Agricultor" placeholder="Digite o telefone 1 do agricultor..." value="'+dadosRetorno.data.telefone1+'" ></div><div class="form-group"><label for="telefone2Agricultor" class="control-label">Telefone 2:</label><input type="text" class="form-control" id="telefone2Agricultor" placeholder="Digite o telefone 2 do agricultor..." value="'+dadosRetorno.data.telefone2+'" ></div><div class="form-group"><label for="emailAgricultor" class="control-label">Email:</label><input type="text" class="form-control" id="emailAgricultor" placeholder="Digite o email do agricultor..." value="'+dadosRetorno.data.email+'" ></div><div class="form-group"><label for="escolaridadeAgricultor" class="control-label">Escolaridade:</label><select class="form-control " id="escolaridadeAgricultor" value="'+dadosRetorno.data.escolaridade+'"><option>Ensino fundamental</option><option>Ensino fundamental incompleto</option><option>Ensino médio</option><option>Ensino médio incompleto</option><option>Ensino superior</option><option>Ensino superior incompleto</option><option>Pós-graduação</option><option>Pós-graduação incompleta</option><option>Sem escolaridade</option></select></div><div class="form-group"><label for="estadocivilAgricultor" class="control-label">Estado civil:</label><select class="form-control " id="estadocivilAgricultor" value="'+dadosRetorno.data.estadocivil+'"><option>Solteiro(a)</option><option>Casado(a)</option><option>Divorciado(a)</option><option>Viúvo(a)</option><option>Separado(a)</option><option>Companheiro(a)</option></select></div><hr><button type="submit" class="btn btn-warning">Salvar <span class="fa fa-save" aria-hidden="true"></span></button></form>');
+                $('#salvarEditUser').validator();
             }
             $(".painelCarregando").fadeOut(400);
         }else{
             //retira o painel loading
             $(".painelCarregando").fadeOut(400);
-            alerta(dadosRetorno.mensagem);
+            alerta("Alerta!", dadosRetorno.mensagem);
         }
+        //atualiza a sessao
+        updateSessao(dadosRetorno.sessao);
     });
 }
 
@@ -313,11 +325,11 @@ function preEventosPaginaGerenciamento(itemSelecionado, icone, titulo){
         if(titulo === "Distribuir cultivares"){
             progDistCultivares();
         }else if(titulo === "Estoque da unidade"){
-            alerta(titulo + " em construção");
+            progEstoqueUnidade();
         }else if(titulo === "Relatar safra"){
-            alerta(titulo + " em construção");
+            alerta("Alerta!", titulo + " em construção");
         }else if(titulo === "Sincronizar app"){
-            alerta(titulo + " em construção");
+            alerta("Alerta!", titulo + " em construção");
         }
         
         
@@ -411,7 +423,7 @@ function testeListar(){
             listarUsuarios();
         break;
         default:
-            alerta("Erro de requisição de navegação!"); 
+            alerta("Alerta!", "Erro de requisição de navegação!"); 
         
     }
       
@@ -452,7 +464,7 @@ $(document).on("click", "#novo", function(evt)
 
                 $("#formProgresso").empty().append('<div class="tab-pane active" role="tabpanel" id="progresso1">       <form  data-toggle="validator" role="form" class="formNovoAgricultor" >       <div class="form-group"><label for="nomeAgricultor" class="control-label">Nome:</label>                                <input type="text" class="form-control " id="nomeAgricultor" placeholder="Digite o nome do agricultor..." pattern="[a-zA-ZçÇãÃâÂáÁàÀéÉêÊíÍìÌõÕôÔóÓúÚ]+" data-error="Por favor, informe o nome do agricultor." required ><div class="help-block with-errors"></div></div><div class="form-group"><label for="sobrenomeAgricultor" class="control-label">Sobrenome:</label><input type="text" class="form-control " id="sobrenomeAgricultor" placeholder="Digite o sobrenome do agricultor..." pattern="[a-zA-Z çÇãÃâÂáÁàÀéÉêÊíÍìÌõÕôÔóÓúÚ]+" data-error="Por favor, informe o sobrenome do agricultor." required ><div class="help-block with-errors"></div></div><div class="form-group"><label for="rgAgricultor" class="control-label">RG:</label><input type="text" class="form-control camposRG" pattern=".{9,}"  placeholder="99999.999-9" id="rgAgricultor" data-error="Por favor, informe o RG do agricultor." required ><div class="help-block with-errors"></div></div><div class="form-group"><label for="cpfAgricultor" class="control-label">CPF:</label><input type="text" class="form-control camposCPF" pattern=".{14,}" placeholder="999.999.999-99" id="cpfAgricultor" data-error="Por favor, informe o CPF do agricultor." required ><div class="help-block with-errors"></div></div><div class="form-group"><label for="apelidoAgricultor" class="control-label">Apelido:</label><input type="text" class="form-control" id="apelidoAgricultor" placeholder="Digite o apelido do agricultor..." ></div><div class="form-group"><label for="dataNascAgricultor" class="control-label">Data de nascimento:</label><input type="date" class="form-control camposData" placeholder="dd/mm/aaaa" pattern=".{10,}" id="dataNascAgricultor" data-error="Por favor, informe a data de nascimento do agricultor." required ><div class="help-block with-errors"></div></div><div class="form-group" id="genero"><input type="radio" name="genero" value="m" checked> Masculino<br><input type="radio" name="genero" value="f"> Feminino<br> <br></div><div class="form-group"><label for="telefone1Agricultor" class="control-label">Telefone 1:</label><input type="tel" class="form-control camposTelefone" placeholder="(xx) xxxxx-xxxx" pattern=".{14,}" id="telefone1Agricultor" data-error="Por favor, informe o telefone do agricultor." required ><div class="help-block with-errors"></div></div><div class="form-group"><label for="telefone2Agricultor" class="control-label">Telefone 2:</label><input type="tel" class="form-control camposTelefone" placeholder="(xx) xxxxx-xxxx" pattern=".{14,}" id="telefone2Agricultor" ></div><div class="form-group"><label for="escolaridadeAgricultor" class="control-label">Escolaridade:</label><select class="form-control" id="escolaridadeAgricultor"><option>Ensino fundamental</option><option>Ensino fundamental incompleto</option><option>Ensino médio</option><option>Ensino médio incompleto</option><option>Ensino superior</option><option>Ensino superior incompleto</option><option>Pós-graduação</option><option>Pós-graduação incompleta</option><option>Sem escolaridade</option></select></div><div class="form-group"><label for="estadocivilAgricultor" class="control-label">Estado civil:</label><select class="form-control" id="estadocivilAgricultor"><option>Solteiro(a)</option><option>Casado(a)</option><option>Divorciado(a)</option><option>Viúvo(a)</option><option>Separado(a)</option><option>Companheiro(a)</option></select></div>                    <div class="form-group"> <button type="submit" style="float: right;" class="btn btn-warning next-step" >Continuar</button> </div>                          </form>     </div>\n\
                                                     <div class="tab-pane"  id="progresso2">                             <form  data-toggle="validator" role="form" class="formNovoAgricultor" >     <div class="form-group"><label for="qtdIntegrantes" class="control-label">Quantidade de integrantes na família:</label><input type="number" class="form-control " id="qtdIntegrantes" placeholder="Digite a quantidade de integrantes..." min="0"                           data-error="Por favor, informe a quantidade de integrantes." required ><div class="help-block with-errors"></div></div><div class="form-group"><label for="qtdCriancas" class="control-label">Quantidade de crianças na família:</label><input type="number" class="form-control " id="qtdCriancas" placeholder="Digite a quantidade de crianças..." min="0" data-error="Por favor, informe a quantidade de crianças na família." required ><div class="help-block with-errors"></div></div><div class="form-group"><label for="qtdGravidas" class="control-label">Quantidade de grávidas na família:</label><input type="number" class="form-control " id="qtdGravidas" placeholder="Digite a quantidade de grávidas..." min="0" data-error="Por favor, informe a quantidade de grávidas na família." required ><div class="help-block with-errors"></div></div>   <div class="form-group"> <button type="submit" style="float: right;" class="btn btn-warning next-step">Continuar</button> </div>  </form>       </div>\n\
-                                                    <div class="tab-pane"  id="progresso3">                             <form  data-toggle="validator" role="form" class="formNovoAgricultor" >    <div class="form-group"><label for="nomePropriedade" class="control-label">Nome da propriedade:</label><input type="text" class="form-control " id="nomePropriedade" placeholder="Digite o nome da propriedade..." pattern="[a-zA-Z çÇãÃâÂáÁàÀéÉêÊíÍìÌõÕôÔóÓúÚ]+" data-error="Por favor, informe o nome da propriedade." required ><div class="help-block with-errors"></div></div><div class="form-group"><label for="rua" class="control-label">Rua:</label><input type="text" class="form-control " id="rua" placeholder="Digite o nome da rua..." pattern="[a-zA-Z çÇãÃâÂáÁàÀéÉêÊíÍìÌõÕôÔóÓúÚ]+" data-error="Por favor, informe a rua da propriedade." required ><div class="help-block with-errors"></div></div><div class="form-group"><label for="numero" class="control-label">Número:</label><input type="number" min="0" class="form-control " id="numero" placeholder="Digite o número..." ></div><div class="form-group"><label for="bairro" class="control-label">Bairro:</label><input type="text" class="form-control " id="bairro" placeholder="Digite o nome do bairro..." ></div><div class="form-group"><label for="complemento" class="control-label">Complemento:</label><input type="text" class="form-control" id="complemento" placeholder="Digite o complemento..." ></div><div class="form-group"><label for="cep" class="control-label">Cep:</label><input type="text" class="form-control  camposCEP" id="cep" placeholder="Digite o cep da propriedade..." ></div><div class="form-group"><label for="gps_lat" class="control-label">Latitude:</label><input type="text" class="form-control " id="gps_lat" placeholder="Digite a latitude..." ></div><div class="form-group"><label for="gps_long" class="control-label">Longitude:</label><input type="text" class="form-control " id="gps_long" placeholder="Digite a longitude..." ></div><div class="form-group"><label for="paisAgricultor" class="control-label">País:</label><select class="form-control carregaPais" id="paisAgricultor" data-error="Por favor, informe o país da propriedade." required ><option></option></select><div class="help-block with-errors"></div></div><div class="form-group"><label for="estadoAgricultor" class="control-label">Estado:</label><select class="form-control carregaEstado" id="estadoAgricultor" data-error="Por favor, informe o estado da propriedade." required ><option></option></select><div class="help-block with-errors"></div></div><div class="form-group"><label for="cidadeAgricultor" class="control-label">Cidade:</label><select class="form-control  carregaCidade" id="cidadeAgricultor" data-error="Por favor, informe a cidade da propriedade." required ><option></option></select><div class="help-block with-errors"></div></div><div class="form-group"><label for="unidade" class="control-label">Unidade:</label><select class="form-control  carregaUnidades" id="unidade" data-error="Por favor, informe a unidade mais próxima." required ><option></option></select><div class="help-block with-errors"></div></div><div class="form-group"><label for="area" class="control-label">Área da propriedade:</label><input type="number" min="0" step="0.01" class="form-control " id="area" placeholder="Digite a área..." ></div><div class="form-group"><label for="unidademedida" class="control-label">Unidade de medida:</label><select class="form-control " id="unidademedida"><option value="3">Metros quadrados</option><option value="1">Alqueire</option><option value="2">Hectare</option></select></div><div class="form-group"><label for="areautilizavel" class="control-label">Área utilizada:</label><input type="number" class="form-control " id="areautilizavel" min="0" step="0.01" placeholder="Digite a área utilizada..." ></div><div class="form-group"><label for="unidadedemedidaau" class="control-label">Unidade de medida:</label><select class="form-control " id="unidadedemedidaau"><option value="3">Metros quadrados</option><option value="1">Alqueire</option><option value="2">Hectare</option></select></div><div class="form-group"> <button type="submit" style="float: right;" class="btn btn-warning next-step">Continuar</button> </div>  </form>       </div>\n\
+                                                    <div class="tab-pane"  id="progresso3">                             <form  data-toggle="validator" role="form" class="formNovoAgricultor" >    <div class="form-group"><label for="nomePropriedade" class="control-label">Nome da propriedade:</label><input type="text" class="form-control " id="nomePropriedade" placeholder="Digite o nome da propriedade..." pattern="[a-zA-Z çÇãÃâÂáÁàÀéÉêÊíÍìÌõÕôÔóÓúÚ]+" data-error="Por favor, informe o nome da propriedade." required ><div class="help-block with-errors"></div></div><div class="form-group"><label for="rua" class="control-label">Rua:</label><input type="text" class="form-control " id="rua" placeholder="Digite o nome da rua..." pattern="[a-zA-Z çÇãÃâÂáÁàÀéÉêÊíÍìÌõÕôÔóÓúÚ]+" data-error="Por favor, informe a rua da propriedade." required ><div class="help-block with-errors"></div></div><div class="form-group"><label for="numero" class="control-label">Número:</label><input type="number" min="0" class="form-control " id="numero" placeholder="Digite o número..." ></div><div class="form-group"><label for="bairro" class="control-label">Bairro:</label><input type="text" class="form-control " id="bairro" placeholder="Digite o nome do bairro..." ></div><div class="form-group"><label for="complemento" class="control-label">Complemento:</label><input type="text" class="form-control" id="complemento" placeholder="Digite o complemento..." ></div><div class="form-group"><label for="cep" class="control-label">Cep:</label><input type="text" class="form-control  camposCEP" id="cep" placeholder="Digite o cep da propriedade..." ></div><div class="form-group"><label for="gps_lat" class="control-label">Latitude:</label><input type="text" class="form-control " id="gps_lat" placeholder="Digite a latitude..." value="0"></div><div class="form-group"><label for="gps_long" class="control-label">Longitude:</label><input type="text" class="form-control " id="gps_long" placeholder="Digite a longitude..." value="0"></div><div class="form-group"><label for="paisAgricultor" class="control-label">País:</label><select class="form-control carregaPais" id="paisAgricultor" data-error="Por favor, informe o país da propriedade." required ><option></option></select><div class="help-block with-errors"></div></div><div class="form-group"><label for="estadoAgricultor" class="control-label">Estado:</label><select class="form-control carregaEstado" id="estadoAgricultor" data-error="Por favor, informe o estado da propriedade." required ><option></option></select><div class="help-block with-errors"></div></div><div class="form-group"><label for="cidadeAgricultor" class="control-label">Cidade:</label><select class="form-control  carregaCidade" id="cidadeAgricultor" data-error="Por favor, informe a cidade da propriedade." required ><option></option></select><div class="help-block with-errors"></div></div><div class="form-group"><label for="unidade" class="control-label">Unidade:</label><select class="form-control  carregaUnidades" id="unidade" data-error="Por favor, informe a unidade mais próxima." required ><option></option></select><div class="help-block with-errors"></div></div><div class="form-group"><label for="area" class="control-label">Área da propriedade:</label><input type="number" min="0" step="0.01" class="form-control " id="area" placeholder="Digite a área..." ></div><div class="form-group"><label for="unidademedida" class="control-label">Unidade de medida:</label><select class="form-control " id="unidademedida"><option value="3">Metros quadrados</option><option value="1">Alqueire</option><option value="2">Hectare</option></select></div><div class="form-group"><label for="areautilizavel" class="control-label">Área utilizada:</label><input type="number" class="form-control " id="areautilizavel" min="0" step="0.01" placeholder="Digite a área utilizada..." ></div><div class="form-group"><label for="unidadedemedidaau" class="control-label">Unidade de medida:</label><select class="form-control " id="unidadedemedidaau"><option value="3">Metros quadrados</option><option value="1">Alqueire</option><option value="2">Hectare</option></select></div><div class="form-group"> <button type="submit" style="float: right;" class="btn btn-warning next-step">Continuar</button> </div>  </form>       </div>\n\
                                                     <div class="tab-pane"  id="progresso4">                             <form  data-toggle="validator" role="form" class="formNovoAgricultor" >          <div class="form-group"><label for="emailAgricultor" class="control-label">Email:</label><input class="form-control " id="emailAgricultor" placeholder="Digite o email do agricultor..." type="email" data-error="Por favor, informe um e-mail correto." required ><div class="help-block with-errors"></div></div><div class="form-group"><label for="usuarioAgricultor" class="control-label">Usuário:</label><input type="text" class="form-control " id="usuarioAgricultor" data-minlength="6" placeholder="Digite o usuário no mínimo 6 dígitos..." pattern="[a-zA-Z0-9]+" data-error="Por favor, informe o usuário no mínimo 6 dígitos." required ><div class="help-block with-errors"></div></div><div class="form-group"><label for="senhaAgricultor" class="control-label">Senha:</label><input type="password" class="form-control " id="senhaAgricultor" placeholder="Digite a senha..." data-minlength="6" data-error="Por favor, informe uma senha no minímo 6 dígitos." required ><div class="help-block with-errors"></div></div><div class="form-group"><label for="RsenhaAgricultor" class="control-label">Repita a senha:</label><input type="password" class="form-control " id="RsenhaAgricultor" placeholder="Digite novamente a senha..." data-match="#senhaAgricultor" data-error="Por favor, confirme sua senha." data-match-error="Ops, as senhas não correspondem." required ><div class="help-block with-errors"></div></div><div class="form-group"> <button type="submit" style="float: right;" class="btn btn-warning next-step">Continuar</button> </div>  </form>       </div>\n\
                                                     <div class="tab-pane"  id="completo"><h3>Deseja realmente salvar o agricultor?</h3><div class="form-group"> <button type="submit" style="float: right;" id="salvarNovoAgricultor" class="btn btn-warning">Salvar</button> </div></div>                                         <div class="clearfix"></div>');
 
@@ -521,8 +533,8 @@ $(document).on("click", "#novo", function(evt)
                                                    <li role="presentation" class="disabled"><a href="#completo" data-toggle="tab" aria-controls="completo" role="tab" title="Salvar"><span class="round-tab"><i class="fa fa-save"></i></span></a></li>');
 
                 $("#formProgresso").empty().append('<div class="tab-pane active" role="tabpanel" id="progresso1">   <form class="formNovoUsuario" data-toggle="validator" role="form">    <div class="form-group"><label for="nomeNovoUsuario" class="control-label">Nome:</label><input type="text" class="form-control " id="nomeNovoUsuario" placeholder="Digite o nome do usuário..." pattern="[a-zA-ZçÇãÃâÂáÁàÀéÉêÊíÍìÌõÕôÔóÓúÚ]+" data-error="Por favor, informe o nome do usuário." required ><div class="help-block with-errors"></div></div><div class="form-group"><label for="sobrenomeNovoUsuario" class="control-label">Sobrenome:</label><input type="text" class="form-control " id="sobrenomeNovoUsuario" placeholder="Digite o sobrenome do usuário..." pattern="[a-zA-Z çÇãÃâÂáÁàÀéÉêÊíÍìÌõÕôÔóÓúÚ]+" data-error="Por favor, informe o sobrenome do usuário." required ><div class="help-block with-errors"></div></div><div class="form-group"><label for="rgNovoUsuario" class="control-label">RG:</label><input type="text" class="form-control camposRG" pattern=".{9,}"  placeholder="99999.999-9" id="rgNovoUsuario" data-error="Por favor, informe o RG do usuário." required ><div class="help-block with-errors"></div></div><div class="form-group"><label for="cpfNovoUsuario" class="control-label">CPF:</label><input type="text" class="form-control  camposCPF" pattern=".{14,}" placeholder="999.999.999-99" id="cpfNovoUsuario" data-error="Por favor, informe o CPF do usuário." required ><div class="help-block with-errors"></div></div><div class="form-group"><label for="apelidoNovoUsuario" class="control-label">Apelido:</label><input type="text" class="form-control" id="apelidoNovoUsuario" placeholder="Digite o apelido do usuário..." ></div><div class="form-group"><label for="dataNascNovoUsuario" class="control-label">Data de nascimento:</label><input type="date" class="form-control camposData" placeholder="dd/mm/aaaa" pattern=".{10,}" id="dataNascNovoUsuario" data-error="Por favor, informe a data de nascimento do usuário." required ><div class="help-block with-errors"></div></div><div class="form-group" id="generoNovoUsuario"><input type="radio" name="genero" value="m" checked> Masculino<br><input type="radio" name="genero" value="f"> Feminino<br> <br></div><div class="form-group"><label for="telefone1NovoUsuario" class="control-label">Telefone 1:</label><input type="tel" class="form-control  camposTelefone" placeholder="(xx) xxxxx-xxxx" pattern=".{14,}" id="telefone1NovoUsuario" data-error="Por favor, informe o telefone1 do usuário." required ><div class="help-block with-errors"></div></div><div class="form-group"><label for="telefone2NovoUsuario" class="control-label">Telefone 2:</label><input type="tel" class="form-control  camposTelefone" placeholder="(xx) xxxxx-xxxx" pattern=".{14,}" id="telefone2NovoUsuario" placeholder="Digite o telefone 2 do usuário..." ></div><div class="form-group"><label for="escolaridadeNovoUsuario" class="control-label">Escolaridade:</label><select class="form-control" id="escolaridadeNovoUsuario"><option>Ensino fundamental</option><option>Ensino fundamental incompleto</option><option>Ensino médio</option><option>Ensino médio incompleto</option><option>Ensino superior</option><option>Ensino superior incompleto</option><option>Pós-graduação</option><option>Pós-graduação incompleta</option><option>Sem escolaridade</option></select></div><div class="form-group"><label for="estadocivilNovoUsuario" class="control-label">Estado civil:</label><select class="form-control " id="estadocivilNovoUsuario"><option>Solteiro(a)</option><option>Casado(a)</option><option>Divorciado(a)</option><option>Viúvo(a)</option><option>Separado(a)</option><option>Companheiro(a)</option></select></div>   <div class="form-group"> <button type="submit" style="float: right;" class="btn btn-warning next-step">Continuar</button> </div>  </form>       </div>\n\
-                                                   <div class="tab-pane"  id="progresso2">                          <form class="formNovoUsuario" data-toggle="validator" role="form">    <div class="form-group"><label for="ruaNovoUsuario" class="control-label">Rua:</label><input type="text" class="form-control " id="ruaNovoUsuario" placeholder="Digite o nome da rua..." pattern="[a-zA-ZçÇãÃâÂáÁàÀéÉêÊíÍìÌõÕôÔóÓúÚ]+" data-error="Por favor, informe a rua do usuário." required ><div class="help-block with-errors"></div></div><div class="form-group"><label for="numeroNovoUsuario" class="control-label">Número:</label><input type="number" min="0" class="form-control " id="numeroNovoUsuario" placeholder="Digite o número..." data-error="Por favor, informe o número do usuário." required ><div class="help-block with-errors"></div></div><div class="form-group"><label for="bairroNovoUsuario" class="control-label">Bairro:</label><input type="text" class="form-control " id="bairroNovoUsuario" placeholder="Digite o nome do bairro..." pattern="[a-zA-ZçÇãÃâÂáÁàÀéÉêÊíÍìÌõÕôÔóÓúÚ]+" data-error="Por favor, informe o bairro do usuário." required ><div class="help-block with-errors"></div></div><div class="form-group"><label for="complementoNovoUsuario" class="control-label">Complemento:</label><input type="text" class="form-control" id="complementoNovoUsuario" placeholder="Digite o complemento..." ></div><div class="form-group"><label for="cepNovoUsuario" class="control-label">Cep:</label><input type="text" class="form-control  camposCEP" id="cepNovoUsuario" placeholder="Digite o cep..." ></div><div class="form-group"><label for="gps_latNovoUsuario" class="control-label">Latitude:</label><input type="number" class="form-control " id="gps_latNovoUsuario" placeholder="Digite a latitude..." min="0" value="0"></div><div class="form-group"><label for="gps_longNovoUsuario" class="control-label">Longitude:</label><input type="number" class="form-control " id="gps_longNovoUsuario" placeholder="Digite a longitude..." min="0" value="0"></div><div class="form-group"><label for="paisNovoUsuario" class="control-label">País:</label><select class="form-control  carregaPais" id="paisNovoUsuario" data-error="Por favor, informe o país do usuário." required ><option></option></select><div class="help-block with-errors"></div></div><div class="form-group"><label for="estadoNovoUsuario" class="control-label">Estado:</label><select class="form-control carregaEstado" id="estadoNovoUsuario" data-error="Por favor, informe o estado do usuário." required ><option></option></select><div class="help-block with-errors"></div></div><div class="form-group"><label for="cidadeNovoUsuario" class="control-label">Cidade:</label><select class="form-control carregaCidade" id="cidadeNovoUsuario" data-error="Por favor, informe a cidade do usuário." required ><option></option></select><div class="help-block with-errors"></div></div><div class="form-group"> <button type="submit" style="float: right;" class="btn btn-warning next-step">Continuar</button> </div>  </form>       </div>\n\
-                                                   <div class="tab-pane"  id="progresso3">                          <form class="formNovoUsuario" data-toggle="validator" role="form">    <div class="form-group"><label for="emailNovoUsuario" class="control-label">Email:</label><input type="email" class="form-control " id="emailNovoUsuario" placeholder="Digite o email do usuário..." data-error="Por favor, informe o email do usuário." required ><div class="help-block with-errors"></div></div><div class="form-group"><label for="usuarioNovoUsuario" class="control-label">Usuário:</label><input type="text" class="form-control " id="usuarioNovoUsuario" data-minlength="6" placeholder="Digite o usuário no mínimo 6 dígitos..." pattern="[a-zA-Z0-9]+" data-error="Por favor, informe o usuário no mínimo 6 dígitos." required ><div class="help-block with-errors"></div></div><div class="form-group"><label for="senhaNovoUsuario" class="control-label">Senha:</label><input type="password" class="form-control " id="senhaNovoUsuario" placeholder="Digite a senha..." data-minlength="6" data-error="Por favor, informe uma senha no minímo 6 dígitos." required ><div class="help-block with-errors"></div></div><div class="form-group"><label for="RsenhaNovoUsuario" class="control-label">Repita a senha:</label><input type="text" class="form-control " id="RsenhaNovoUsuario" placeholder="Digite novamente a senha..." data-match="#senhaNovoUsuario" data-error="Por favor, confirme sua senha." data-match-error="Ops, as senhas não correspondem." required ><div class="help-block with-errors"></div></div><div class="form-group"> <button type="submit" style="float: right;" class="btn btn-warning next-step">Continuar</button> </div>  </form>       </div>\n\
+                                                   <div class="tab-pane"  id="progresso2">                          <form class="formNovoUsuario" data-toggle="validator" role="form">    <div class="form-group"><label for="ruaNovoUsuario" class="control-label">Rua:</label><input type="text" class="form-control " id="ruaNovoUsuario" placeholder="Digite o nome da rua..." pattern="[a-zA-Z çÇãÃâÂáÁàÀéÉêÊíÍìÌõÕôÔóÓúÚ]+" data-error="Por favor, informe a rua do usuário." required ><div class="help-block with-errors"></div></div><div class="form-group"><label for="numeroNovoUsuario" class="control-label">Número:</label><input type="number" min="0" class="form-control " id="numeroNovoUsuario" placeholder="Digite o número..." data-error="Por favor, informe o número do usuário." required ><div class="help-block with-errors"></div></div><div class="form-group"><label for="bairroNovoUsuario" class="control-label">Bairro:</label><input type="text" class="form-control " id="bairroNovoUsuario" placeholder="Digite o nome do bairro..." pattern="[a-zA-ZçÇãÃâÂáÁàÀéÉêÊíÍìÌõÕôÔóÓúÚ]+" data-error="Por favor, informe o bairro do usuário." required ><div class="help-block with-errors"></div></div><div class="form-group"><label for="complementoNovoUsuario" class="control-label">Complemento:</label><input type="text" class="form-control" id="complementoNovoUsuario" placeholder="Digite o complemento..." ></div><div class="form-group"><label for="cepNovoUsuario" class="control-label">Cep:</label><input type="text" class="form-control  camposCEP" id="cepNovoUsuario" placeholder="Digite o cep..." ></div><div class="form-group"><label for="gps_latNovoUsuario" class="control-label">Latitude:</label><input type="number" class="form-control " id="gps_latNovoUsuario" placeholder="Digite a latitude..." min="0" value="0"></div><div class="form-group"><label for="gps_longNovoUsuario" class="control-label">Longitude:</label><input type="number" class="form-control " id="gps_longNovoUsuario" placeholder="Digite a longitude..." min="0" value="0"></div><div class="form-group"><label for="paisNovoUsuario" class="control-label">País:</label><select class="form-control  carregaPais" id="paisNovoUsuario" data-error="Por favor, informe o país do usuário." required ><option></option></select><div class="help-block with-errors"></div></div><div class="form-group"><label for="estadoNovoUsuario" class="control-label">Estado:</label><select class="form-control carregaEstado" id="estadoNovoUsuario" data-error="Por favor, informe o estado do usuário." required ><option></option></select><div class="help-block with-errors"></div></div><div class="form-group"><label for="cidadeNovoUsuario" class="control-label">Cidade:</label><select class="form-control carregaCidade" id="cidadeNovoUsuario" data-error="Por favor, informe a cidade do usuário." required ><option></option></select><div class="help-block with-errors"></div></div><div class="form-group"> <button type="submit" style="float: right;" class="btn btn-warning next-step">Continuar</button> </div>  </form>       </div>\n\
+                                                   <div class="tab-pane"  id="progresso3">                          <form class="formNovoUsuario" data-toggle="validator" role="form">    <div class="form-group"><label for="emailNovoUsuario" class="control-label">Email:</label><input type="email" class="form-control " id="emailNovoUsuario" placeholder="Digite o email do usuário..." data-error="Por favor, informe o email do usuário." required ><div class="help-block with-errors"></div></div><div class="form-group"><label for="usuarioNovoUsuario" class="control-label">Usuário:</label><input type="text" class="form-control " id="usuarioNovoUsuario" data-minlength="6" placeholder="Digite o usuário no mínimo 6 dígitos..." pattern="[a-zA-Z0-9]+" data-error="Por favor, informe o usuário no mínimo 6 dígitos." required ><div class="help-block with-errors"></div></div><div class="form-group"><label for="senhaNovoUsuario" class="control-label">Senha:</label><input type="password" class="form-control " id="senhaNovoUsuario" placeholder="Digite a senha..." data-minlength="6" data-error="Por favor, informe uma senha no minímo 6 dígitos." required ><div class="help-block with-errors"></div></div><div class="form-group"><label for="RsenhaNovoUsuario" class="control-label">Repita a senha:</label><input type="password" class="form-control " id="RsenhaNovoUsuario" placeholder="Digite novamente a senha..." data-match="#senhaNovoUsuario" data-error="Por favor, confirme sua senha." data-match-error="Ops, as senhas não correspondem." required ><div class="help-block with-errors"></div></div><div class="form-group"> <button type="submit" style="float: right;" class="btn btn-warning next-step">Continuar</button> </div>  </form>       </div>\n\
                                                    <div class="tab-pane"  id="progresso4">                          <form class="formNovoUsuario" data-toggle="validator" role="form">    <div class="form-group"><label for="unidadeAtuacaoNovoUsuario" class="control-label">Unidade de atuação:</label><select class="form-control carregaUnidades" id="unidadeAtuacaoNovoUsuario" data-error="Por favor, informe a unidade do usuário." required ><option></option></select><div class="help-block with-errors"></div></div>      <div class="form-group"><label for="papelNovoUsuario" class="control-label">Papel:</label><select class="form-control" id="papelNovoUsuario" data-error="Por favor, informe o papel do usuário." required ><option></option><option value="e">Entrevistador</option><option value="g">Gerenciador</option><option value="x">Administrador</option></select><div class="help-block with-errors"></div></div>      <div class="form-group"> <button type="submit" style="float: right;" class="btn btn-warning next-step">Continuar</button> </div>  </form>       </div>\n\
                                                    <div class="tab-pane"  id="completo"><h3>Deseja realmente salvar o usuário?</h3><div class="form-group"> <button type="submit" style="float: right;" id="salvarNovoUsuario" class="btn btn-warning">Salvar</button> </div></div><div class="clearfix"></div>');
                                                                            
@@ -536,7 +548,7 @@ $(document).on("click", "#novo", function(evt)
                
                 break;
             default:
-                alerta("Erro de requisição de navegação!");
+                alerta("Alerta!", "Erro de requisição de navegação!");
 
         }
         $("#iconesProgresso").fadeIn(400);
@@ -594,7 +606,7 @@ $(document).on("click", "#novo", function(evt)
                             carregaUsuario($(this).find('td:eq(0)').html(), "editar");
                         break;
                         default:
-                        alerta("Erro em carregar!");
+                        alerta("Alerta!", "Erro em carregar!");
                     }
                     
 //                    
@@ -635,16 +647,14 @@ function listarAgricultores(){
     var envio = {
         metodo: "listaragricultores",
         id: Sessao.idpessoa,
-        sessao: Sessao.sessao
+        sessao: Sessao.sessao,
+        idunidade: Sessao.idunidade
     };
     
     //chama a requisicao do servidor, o resultado é listado em uma tabela
     requisicao("pessoa/listar", envio, function(dadosRetorno) {
         
         if(dadosRetorno.sucesso){
-            //atualiza a sessao
-            updateSessao(dadosRetorno.sessao);
-            
             var item = "";
 
             $.each(dadosRetorno.data, function(i, valor){
@@ -662,8 +672,10 @@ function listarAgricultores(){
         }else{
             //retira o painel loading
             $(".painelCarregando").fadeOut(400);
-            alerta(dadosRetorno.mensagem);
+            alerta("Alerta!", dadosRetorno.mensagem);
         }
+        //atualiza a sessao
+        updateSessao(dadosRetorno.sessao);
     });
 }
 
@@ -674,16 +686,14 @@ function listarCultivares(){
     var envio = {
         metodo: "listarcultivares",
         id: Sessao.idpessoa,
-        sessao: Sessao.sessao
+        sessao: Sessao.sessao,
+        idunidade: Sessao.idunidade
     };
     
     //chama a requisicao do servidor, o resultado é listado em uma tabela
     requisicao("cultivar/listar", envio, function(dadosRetorno) {
         
         if(dadosRetorno.sucesso){
-            //atualiza a sessao
-            updateSessao(dadosRetorno.sessao);
-            
             var item = "";
 
             $.each(dadosRetorno.data, function(i, valor){
@@ -702,8 +712,10 @@ function listarCultivares(){
         }else{
             //retira o painel loading
             $(".painelCarregando").fadeOut(400);
-            alerta(dadosRetorno.mensagem);
+            alerta("Alerta!", dadosRetorno.mensagem);
         }
+        //atualiza a sessao
+        updateSessao(dadosRetorno.sessao);
     });
         
 }
@@ -720,8 +732,6 @@ function listarUnidades(){
     requisicao("unidade/listar", envio, function(dadosRetorno) {
         
         if(dadosRetorno.sucesso){
-            //atualiza a sessao
-            updateSessao(dadosRetorno.sessao);
             
             var item = "";
 
@@ -740,8 +750,10 @@ function listarUnidades(){
         }else{
             //retira o painel loading
             $(".painelCarregando").fadeOut(400);
-            alerta(dadosRetorno.mensagem);
+            alerta("Alerta!", dadosRetorno.mensagem);
         }
+        //atualiza a sessao
+        updateSessao(dadosRetorno.sessao);
     });
 }
 
@@ -752,16 +764,14 @@ function listarUsuarios(){
     var envio = {
         metodo: "listarusuarios",
         id: Sessao.idpessoa,
-        sessao: Sessao.sessao
+        sessao: Sessao.sessao,
+        idunidade: Sessao.idunidade
     };
     
     //chama a requisicao do servidor, o resultado é listado em uma tabela
     requisicao("pessoa/listar", envio, function(dadosRetorno) {
         
         if(dadosRetorno.sucesso){
-            //atualiza a sessao
-            updateSessao(dadosRetorno.sessao);
-            
             var item = "";
 
             $.each(dadosRetorno.data, function(i, valor){
@@ -780,9 +790,10 @@ function listarUsuarios(){
         }else{
             //retira o painel loading
             $(".painelCarregando").fadeOut(400);
-            alerta(dadosRetorno.mensagem);
+            alerta("Alerta!", dadosRetorno.mensagem);
         }
- 
+        //atualiza a sessao
+        updateSessao(dadosRetorno.sessao);
     });
 }
 
@@ -818,7 +829,7 @@ function requisicao(url, envio, callback) {
             },
             error: function() {
                 $(".painelCarregando").fadeOut(400);
-                alerta("Sem conexão com o servidor!");
+                alerta("Alerta!", "Sem conexão com o servidor!");
             }
         });
              
@@ -883,17 +894,16 @@ function salvarNovoCultivar(){
     //chama a requisicao do servidor, o resultado é listado em uma tabela
     requisicao("cultivar/inserir", envio, function(dadosRetorno) {
         if(dadosRetorno.sucesso){
-            //atualiza a sessao
-            updateSessao(dadosRetorno.sessao);
             
             $(".painelCarregando").fadeOut(400);
-            alerta(dadosRetorno.mensagem);
+            alerta("Alerta!", dadosRetorno.mensagem);
             preEventosPaginaCadastros($(this), "fa-leaf", "Cultivares", "Listar todos os cultivares", "Adicionar um novo cultivar", "Editar informações de um cultivar", "Excluir um cultivar");
         }else{
             $(".painelCarregando").fadeOut(400);
-            alerta(dadosRetorno.mensagem);
+            alerta("Alerta!", dadosRetorno.mensagem);
         }
- 
+        //atualiza a sessao
+        updateSessao(dadosRetorno.sessao);
     });
 }
 
@@ -1012,21 +1022,19 @@ function salvarNovoAgricultor(){
         unidadedemedidaau: $("#unidadedemedidaau").prop("value")
     };
     
-    alert(JSON.stringify(envio));
+  
     //chama a requisicao do servidor, o resultado é listado em uma tabela
     requisicao("pessoa/inseriragricultor", envio, function(dadosRetorno) {
         if(dadosRetorno.sucesso){
-            //atualiza a sessao
-            updateSessao(dadosRetorno.sessao);
-            
             $(".painelCarregando").fadeOut(400);
-            alerta(dadosRetorno.mensagem);
+            alerta("Alerta!", dadosRetorno.mensagem);
             preEventosPaginaCadastros($(this), "fa-users", "Agricultores", "Listar todos os agricultores", "Adicionar um novo agricultor", "Editar informações de um agricultor", "Excluir um agricultor");
         }else{
             $(".painelCarregando").fadeOut(400);
-            alerta(dadosRetorno.mensagem);
+            alerta("Alerta!", dadosRetorno.mensagem);
         }
- 
+        //atualiza a sessao
+        updateSessao(dadosRetorno.sessao);
     });
 }
 
@@ -1050,7 +1058,7 @@ $(document).on("submit", ".formNovoCultivar", function(e){
 //            if($(this).val() === ""){
 //                $("#itenFocus").text("#"+ $(this).prop("id"));
 //                
-//                alerta("O campo "+ $(this).parent("div").children("label").text().replace(":", "")+" não pode ser vazio!");
+//                alerta("Alerta!", "O campo "+ $(this).parent("div").children("label").text().replace(":", "")+" não pode ser vazio!");
 //                
 //                continuar = false;  
 //                return false;
@@ -1177,17 +1185,16 @@ function salvarNovaUnidade(){
     //chama a requisicao do servidor, o resultado é listado em uma tabela
     requisicao("unidade/inserir", envio, function(dadosRetorno) {
         if(dadosRetorno.sucesso){
-            //atualiza a sessao
-            updateSessao(dadosRetorno.sessao);
             
             $(".painelCarregando").fadeOut(400);
-            alerta(dadosRetorno.mensagem);
+            alerta("Alerta!", dadosRetorno.mensagem);
             preEventosPaginaCadastros($(this), "fa-university", "Unidades", "Listar todas as unidades", "Adicionar uma nova unidade", "Editar informações de uma unidade", "Excluir uma unidade");
         }else{
             $(".painelCarregando").fadeOut(400);
-            alerta(dadosRetorno.mensagem);
+            alerta("Alerta!", dadosRetorno.mensagem);
         }
- 
+        //atualiza a sessao
+        updateSessao(dadosRetorno.sessao);
     });
 }
 
@@ -1248,17 +1255,16 @@ var Sessao = getSessao();
     //chama a requisicao do servidor, o resultado é listado em uma tabela
     requisicao("pessoa/inserirusuario", envio, function(dadosRetorno) {
         if(dadosRetorno.sucesso){
-            //atualiza a sessao
-            updateSessao(dadosRetorno.sessao);
             
             $(".painelCarregando").fadeOut(400);
-            alerta(dadosRetorno.mensagem);
+            alerta("Alerta!", dadosRetorno.mensagem);
             preEventosPaginaCadastros($(this), "fa-user-secret","Usuários", "Listar todos os usuários", "Adicionar um novo usuário", "Editar um usuário", "Excluir um usuário");
         }else{
             $(".painelCarregando").fadeOut(400);
-            alerta(dadosRetorno.mensagem);
+            alerta("Alerta!", dadosRetorno.mensagem);
         }
- 
+        //atualiza a sessao
+        updateSessao(dadosRetorno.sessao);
     });
 
 }
@@ -1294,17 +1300,16 @@ function salvarNovaUnidade(){
     //chama a requisicao do servidor, o resultado é listado em uma tabela
     requisicao("unidade/inserir", envio, function(dadosRetorno) {
         if(dadosRetorno.sucesso){
-            //atualiza a sessao
-            updateSessao(dadosRetorno.sessao);
             
             $(".painelCarregando").fadeOut(400);
-            alerta(dadosRetorno.mensagem);
+            alerta("Alerta!", dadosRetorno.mensagem);
             preEventosPaginaCadastros($(this), "fa-university", "Unidades", "Listar todas as unidades", "Adicionar uma nova unidade", "Editar informações de uma unidade", "Excluir uma unidade");
         }else{
             $(".painelCarregando").fadeOut(400);
-            alerta(dadosRetorno.mensagem);
+            alerta("Alerta!", dadosRetorno.mensagem);
         }
- 
+        //atualiza a sessao
+        updateSessao(dadosRetorno.sessao);
     });
 }
 
@@ -1323,7 +1328,7 @@ function testeRadioPapel(){
 //        return true;
 //    }else{
 //        $("#itenFocus").text("#"+input1.prop("id"));
-//        alerta("As senhas não correspondem!");
+//        alerta("Alerta!", "As senhas não correspondem!");
 //        return false;
 //    }
 //}
@@ -1360,7 +1365,7 @@ $(document).on("focusin", ".carregaPais", function(){
             $(".painelCarregando").fadeOut(400);
         }else{
             $(".painelCarregando").fadeOut(400);
-            alerta(dadosRetorno.mensagem);
+            alerta("Alerta!", dadosRetorno.mensagem);
         }
  
     });
@@ -1382,7 +1387,7 @@ $(document).on("focusin", ".carregaEstado", function(){
     requisicao("outros/listar", envio, function(dadosRetorno) {
         if(dadosRetorno.sucesso){
             //
-            //alerta(dadosRetorno.mensagem);
+            //alerta("Alerta!", dadosRetorno.mensagem);
             $("#"+idSelect).empty();
             $.each(dadosRetorno.data, function(i, value){
                 $("#"+idSelect).append('<option value="'+value.idestado+'">'+value.nomeestado+'</option>');
@@ -1396,7 +1401,7 @@ $(document).on("focusin", ".carregaEstado", function(){
             $(".painelCarregando").fadeOut(400);
         }else{
             $(".painelCarregando").fadeOut(400);
-            alerta(dadosRetorno.mensagem);
+            alerta("Alerta!", dadosRetorno.mensagem);
         }
  
     });
@@ -1418,7 +1423,7 @@ $(document).on("focusin", ".carregaCidade", function(){
     requisicao("outros/listar", envio, function(dadosRetorno) {
         if(dadosRetorno.sucesso){
             //
-            //alerta(dadosRetorno.mensagem);
+            //alerta("Alerta!", dadosRetorno.mensagem);
             $("#"+idSelect).empty();
             $.each(dadosRetorno.data, function(i, value){
                 $("#"+idSelect).append('<option value="'+value.idcidade+'">'+value.nomecidade+'</option>');
@@ -1428,7 +1433,7 @@ $(document).on("focusin", ".carregaCidade", function(){
             $(".painelCarregando").fadeOut(400);
         }else{
             $(".painelCarregando").fadeOut(400);
-            alerta(dadosRetorno.mensagem);
+            alerta("Alerta!", dadosRetorno.mensagem);
         }
  
     });
@@ -1465,7 +1470,7 @@ $(document).on("focusin", ".carregaUnidades", function(){
             $(".painelCarregando").fadeOut(400);
         }else{
             $(".painelCarregando").fadeOut(400);
-            alerta(dadosRetorno.mensagem);
+            alerta("Alerta!", dadosRetorno.mensagem);
         }
  
     });
@@ -1532,21 +1537,21 @@ $(document).on("click", "#ajuda", function(){
 //    var teste = $("#cidadeNovaUnidade").prop("value");
 //    
 //    alert(teste);
-    alerta("Ajuda em construção!");
+    alerta("Alerta!", "Ajuda em construção!");
  
     return false;
 });
 
 $(document).on("click", "#configuracoes", function(){
 
-    alerta("Configurações em construção!");
+    alerta("Alerta!", "Configurações em construção!");
  
     return false;
 });
 
 $(document).on("click", "#sair", function(){
 
-    alerta("Sair em construção!");
+    alerta("Alerta!", "Sair em construção!");
  
     return false;
 });
@@ -1564,9 +1569,9 @@ function progDistCultivares(){
                                                    <li role="presentation" class="disabled"><a href="#progresso3" data-toggle="tab" aria-controls="progresso3" role="tab" title="Quantidade"><span class="round-tab"><i class="fa fa-shopping-basket"></i></span></a></li>\n\
                                                    <li role="presentation" class="disabled"><a href="#completo" data-toggle="tab" aria-controls="completo" role="tab" title="Distribuir"><span class="round-tab"><i class="fa fa-save"></i></span></a></li>');
 
-                $("#formProgresso").empty().append('<div class="tab-pane active" role="tabpanel" id="progresso1">       <form  data-toggle="validator" role="form" class="formDistribuir" >    <div class="form-group"><label for="campoBuscaAgri" class="control-label" id="testando">Nome, RG, CPF ou ID:</label><input type="text" class="form-control " id="campoBuscaAgri" placeholder="Digite o nome do agricultor..." data-error="Por favor, informe algum dado do agricultor." required><div class="help-block with-errors"></div></div>      <div class="form-group"><label for="listaAgricultores" class="control-label">Propriedade:</label><select class="form-control" id="listaAgricultores"><option></option></select></div>                    <div class="form-group"> <button type="submit" style="float: right;" class="btn btn-warning next-step" >Continuar</button> </div>                          </form>     </div>\n\
-                                                    <div class="tab-pane"  id="progresso2">                             <form  data-toggle="validator" role="form" class="formDistribuir" >    <div class="form-group"><label for="listaCultivares" class="control-label">Cultivar:</label><select class="form-control" id="listaCultivares"><option></option></select></div>   <div class="form-group"> <button type="submit" style="float: right;" class="btn btn-warning next-step">Continuar</button> </div>  </form>       </div>\n\
-                                                    <div class="tab-pane"  id="progresso3">                             <form  data-toggle="validator" role="form" class="formDistribuir" >    <div class="form-group"><label for="qtdCultivar" class="control-label">Quantidade:</label><input type="number" class="form-control " min="0.01" id="qtdCultivar" placeholder="Digite a quantidade..." step="0.01" data-error="Por favor, informe a quantidade." required ><div class="help-block with-errors"></div></div>      <div class="form-group"><label for="umDistCultivar" class="control-label">Unidade de medida:</label><select class="form-control" id="umDistCultivar" data-error="Por favor, informe a unidade de medida." required ><option></option><option value="7">Kilo(s)</option><option value="6">Maniva(s)</option><option value="5">Rama(s)</option></select><div class="help-block with-errors"></div></div>    <div class="form-group"> <button type="submit" style="float: right;" class="btn btn-warning next-step">Continuar</button> </div>  </form>       </div>\n\
+                $("#formProgresso").empty().append('<div class="tab-pane active" role="tabpanel" id="progresso1">       <form  data-toggle="validator" role="form" class="formDistribuir" >    <div class="form-group"><label for="campoBuscaAgri" class="control-label" id="labelProcuraAgricultor">Nome do agricultor:</label><input type="text" class="form-control " id="campoBuscaAgri" value="" placeholder="Digite o nome do agricultor..." data-error="Por favor, informe algum dado do agricultor." required><div class="help-block with-errors"></div></div>      <div class="form-group"><label for="listaPropriedades" class="control-label">Propriedade:</label><select class="form-control" id="listaPropriedades" value="" data-error="Por favor, informe a propriedade do agricultor." required></select><div class="help-block with-errors"></div></div>                    <div class="form-group"> <button type="submit" style="float: right;" class="btn btn-warning next-step" >Continuar</button> </div>                          </form>     </div>\n\
+                                                    <div class="tab-pane"  id="progresso2">                             <form  data-toggle="validator" role="form" class="formDistribuir" >    <div class="form-group"><label for="listaCultivares" class="control-label">Cultivar:</label><select class="form-control" id="listaCultivares" data-error="Por favor, informe algum dado do agricultor." required></select><div class="help-block with-errors"></div></div>   <div class="form-group"> <button type="submit" style="float: right;" class="btn btn-warning next-step">Continuar</button> </div>  </form>       </div>\n\
+                                                    <div class="tab-pane"  id="progresso3">                             <form  data-toggle="validator" role="form" class="formDistribuir" >    <div class="form-group"><label for="safraDist" class="control-label" >Safra:</label><input type="text" class="form-control camposSafra" id="safraDist" value="" placeholder="id/ano .... 01/2017" pattern=".{7,}" data-error="Por favor, informe a safra." required><div class="help-block with-errors"></div></div><div class="form-group"><label for="datarecebDist" class="control-label">Data do recebimento:</label><input type="date" class="form-control camposData" placeholder="dd/mm/aaaa" pattern=".{10,}" id="datarecebDist" data-error="Por favor, informe a data do recebimento." required ><div class="help-block with-errors"></div></div><div class="form-group"><label for="qtdCultivarDist" class="control-label">Quantidade:</label><input type="number" class="form-control " min="0.01" id="qtdCultivarDist" placeholder="Digite a quantidade..." step="0.01" data-error="Por favor, informe a quantidade." required ><div class="help-block with-errors"></div></div>      <div class="form-group"><label for="umDistCultivar" class="control-label">Unidade de medida:</label><select class="form-control" id="umDistCultivar" data-error="Por favor, informe a unidade de medida." required ><option></option><option value="7">Kilo(s)</option><option value="6">Maniva(s)</option><option value="5">Rama(s)</option></select><div class="help-block with-errors"></div></div>    <div class="form-group"> <button type="submit" style="float: right;" class="btn btn-warning next-step">Continuar</button> </div>  </form>       </div>\n\
                                                     <div class="tab-pane"  id="completo"><h3>Deseja realmente distribuir este cultivar?</h3><div class="form-group"> <button type="submit" style="float: right;" id="distribuirCultivar" class="btn btn-warning">Distribuir</button> </div></div>                                         <div class="clearfix"></div>');
 
                 
@@ -1599,118 +1604,35 @@ function progDistCultivares(){
 //    });
 }
 
+//carrega o progresso do estoque da unidade
+function progEstoqueUnidade(){
+//    
+    var item = "<tr><td>aa</td><td>bb</td><td>cc</td><td>dd</td></tr>";
 
-//$(document).on("focusout", "#campoBuscaAgri", function(){
+
 //
-//    var valor = $(this).val();
-//    var url;
-//    
-//    if(isNaN(valor)){
-//        url = "pessoa/procurar";
-//    }else{
-//        url = "pessoa/buscar";
-//    }
-//    
-//    var Sessao = getSessao();
-//    var envio = {
-//        metodo: "procurar",
-//        valor: valor,
-//        id: Sessao.idpessoa,
-//        sessao: Sessao.sessao
-//    };
-//    
-//    //chama a requisicao do servidor, o resultado é listado em uma tabela
-//    requisicao(url, envio, function(dadosRetorno) {
-//        if(dadosRetorno.sucesso){
-//            //atualiza a sessao
-//            updateSessao(dadosRetorno.sessao);
-//            var agricultores = "";
-//            $.each(dadosRetorno.data, function(i, valor){
-//                agricultores+= '<div class="radio"><label><input type="radio" name="optradio">'+valor.nome+'</label></div>';
+//            $("#page").fadeOut(400, function(){
+                $("#divItens").empty().append('                 <h2 class="sub-header">Cultivares no estoque</h2>            <button type="button" title="Entrada de estoque" class="btn btn-warning" id="entradaEstoque" ><span class="fa fa-plus-square" aria-hidden="true"></span></button><button type="button" title="Saída de estoque" class="btn btn-warning" id="saidaEstoque" ><span class="fa fa-minus-square" aria-hidden="true"></span></button>               <div class="table-responsive"><table class="table table-hover"><thead><tr><th>ID</th><th>Nome cultivar</th><th>Quantidade</th><th>Unidade de medida</th></tr></thead><tbody>'+item+'</tbody></table></div>');
+                $("#divItens").show();
+//                $("#page").fadeIn(400);
 //            });
-//            
-//            
-//            
-//            alerta('<form>'+agricultores+'</form>');
-//            
-//            
-//   
-//            //retira o painel loading
-//            $(".painelCarregando").fadeOut(400);
-//        }else{
-//            //retira o painel loading
-//            $(".painelCarregando").fadeOut(400);
-//            alerta(dadosRetorno.mensagem);
-//        }
-//    });
-//
-//
-//
-//
-//
-// 
-//    return false;
-//});
+  
+}
 
-
-//$(document).on("keyup", "#campoBuscaAgri", function(){
-//
-//    clearTimeout(this.interval);
-//    this.interval = setTimeout(funcaoQueRealizaBusca($(this).val()), 1000);
-// 
-//    return false;
-//});
-//
-//function funcaoQueRealizaBusca(t){
-//    $('#testando').text(t);
-//        var availableTags = [
-//      "ActionScript",
-//      "AppleScript",
-//      "Asp",
-//      "BASIC",
-//      "C",
-//      "C++",
-//      "Clojure",
-//      "COBOL",
-//      "ColdFusion",
-//      "Erlang",
-//      "Fortran",
-//      "Groovy",
-//      "Haskell",
-//      "Java",
-//      "JavaScript",
-//      "Lisp",
-//      "Perl",
-//      "PHP",
-//      "Python",
-//      "Ruby",
-//      "Scala",
-//      "Scheme"
-//    ];
-//    
-//    $('#testando').autocomplete({
-//      source: availableTags
-//    });
-//}
 
        
     
 $(document).on("keyup", "#campoBuscaAgri", function(){
-   
 
-    
-    
     $('#campoBuscaAgri').autocomplete({
       source: retornoProduraAgricultores,
-//      change: function(){
-//        alert("mudou");
-//      },
+
       select: function (event, ui) {
-            var itemSelecionado = ui.item.label;
-            var i = itemSelecionado.indexOf(".");
-            
-            $('#campoBuscaAgri').val(itemSelecionado.substring(0,i));
-            return false;
+//           $('#labelProcuraAgricultor').text("Nome, ...{ RG: "+ ui.item.rg +" / CPF: "+ui.item.cpf +" }...");
+           $('#labelProcuraAgricultor').text("Nome do agricultor, "+ui.item.label);
+           $('#campoBuscaAgri').attr('value', ui.item.idpessoa);
+           $('#listaPropriedades').empty();
+//           $('#listaPropriedades').attr('value', ui.item.idpessoa);
             
       },
       minLength: 3
@@ -1720,11 +1642,14 @@ $(document).on("keyup", "#campoBuscaAgri", function(){
 });
 
 retornoProduraAgricultores = function( request, response ) {
+    var Sessao = getSessao();
+
 	$.ajax({
 		url: "http://"+ipServidor+"/Projeto_BioID-war/servico/pessoa/procuraragricultor",
 		type: 'POST',
 		data: JSON.stringify({valor: request.term +"%",
-                       metodo: "procuraragricultor"
+                       metodo: "procuraragricultor",
+                       idunidade: Sessao.idunidade
                 
                 }),
                 headers: { 
@@ -1734,17 +1659,329 @@ retornoProduraAgricultores = function( request, response ) {
 		success: function(dadosRetorno) {
     
 
-                var c = [];
-                $.each(dadosRetorno.data, function(i, valor){
-                    c.push(valor.nome +" "+valor.sobrenome +"...{ RG: "+ valor.rg +" / CPF: "+valor.cpf +" }...");
-                });
-    
    
-                    response(c);
+//                    response( $.map( c.countries, function( item ) {
+                    response( $.map(dadosRetorno.data , function( valor ) {
+                    return {
+                        value: valor.nome +" "+valor.sobrenome,
+                        label: valor.nome +" "+valor.sobrenome +"...{ RG: "+ valor.rg +" / CPF: "+valor.cpf +" }...",
+                        idpessoa: valor.idpessoa
+                    };
+                    }));
 		},
                 error: function() {
 //                  $(".painelCarregando").fadeOut(400);
-                    alerta("erro na requisicao procuraagricultor!");
+                    alerta("Alerta!", "erro na requisicao procuraagricultor!");
                 }
 	});
 };
+
+
+
+//pesquisa a propriedade pegando o id do agricultor selecionado no input nome agricultor
+$(document).on("click", "#listaPropriedades", function(){
+//$("#listaPropriedades").select(function(){
+
+    if($('#campoBuscaAgri').attr('value') === ""){
+        $("#itenFocus").text("#"+ $('#campoBuscaAgri').prop("id"));
+        alerta("Alerta!", "Selecione um agricultor");
+    }else if($(this).attr('value') !== $('#campoBuscaAgri').attr('value')){
+
+        //pesquisa a unidade do agricultor
+        var Sessao = getSessao();
+        var envio = {
+            metodo: "listarpropriedades",
+            idpessoa: $('#campoBuscaAgri').attr('value'),
+            idunidade: Sessao.idunidade,
+            id: Sessao.idpessoa,
+            sessao: Sessao.sessao
+        };
+    
+    //chama a requisicao do servidor, o resultado é listado em uma tabela
+    requisicao("pessoa/listarpropriedades", envio, function(dadosRetorno) {
+        if(dadosRetorno.sucesso){
+            
+            var items = "";
+                $.each(dadosRetorno.data, function(i, valor){
+                    items +='<option value="'+valor.idpropriedade+'">'+valor.nomepropriedade+'</option>';
+                });
+            
+            
+            $('#listaPropriedades').attr('value', envio.idpessoa).empty().append(items);
+                      //retira o painel loading
+            $(".painelCarregando").fadeOut(400);
+        }else{
+            
+            //retira o painel loading
+            $(".painelCarregando").fadeOut(400);
+            alerta("Alerta!", dadosRetorno.mensagem);
+            $('#listaPropriedades').attr('value', "");
+        }
+        //atualiza a sessao
+        updateSessao(dadosRetorno.sessao);
+        
+    });
+    }else{
+        $(this).focusout();
+    }
+    
+ 
+    
+});
+
+//pesquisa a propriedade pegando o id do agricultor selecionado no input nome agricultor
+$(document).on("click", "#listaCultivares", function(){
+    
+    if($(this).children('option').length < 1){
+
+        //pesquisa a unidade do agricultor
+        var Sessao = getSessao();
+        var envio = {
+            metodo: "listarestoqueunidade",
+            idunidade: Sessao.idunidade,
+            id: Sessao.idpessoa,
+            sessao: Sessao.sessao
+        };
+
+        //chama a requisicao do servidor, o resultado é listado em uma tabela
+        requisicao("unidade/listarestoqueunidade", envio, function(dadosRetorno) {
+            if(dadosRetorno.sucesso){
+
+                var items = "";
+                    $.each(dadosRetorno.data, function(i, valor){
+                        items +='<option value="'+valor.idcultivar+'">'+valor.nomecultivar+'</option>';
+                    });
+
+
+                $('#listaCultivares').empty().append(items);
+
+                //retira o painel loading
+                $(".painelCarregando").fadeOut(400);
+            }else{
+                //retira o painel loading
+                $(".painelCarregando").fadeOut(400);
+                alerta("Alerta!", dadosRetorno.mensagem);
+            }
+            //atualiza a sessao
+            updateSessao(dadosRetorno.sessao);
+
+        });
+    }
+    return false;
+});
+
+
+
+$(document).on("click", "#distribuirCultivar", function(){
+
+        //pesquisa a unidade do agricultor
+        var Sessao = getSessao();
+        var envio = {
+            metodo: "distribuircultivar",
+            idunidade: Sessao.idunidade,
+            um: $('#umDistCultivar').prop('value'),
+            idpropriedade: $('#listaPropriedades').prop('value'),
+            idcultivar: $('#listaCultivares').prop('value'),
+            safra: $('#safraDist').val(),
+            datareceb: $('#datarecebDist').val(),
+            qtdrecebida: $('#qtdCultivarDist').val(),
+            id: Sessao.idpessoa,
+            sessao: Sessao.sessao
+        };
+    
+    //chama a requisicao do servidor, o resultado é listado em uma tabela
+    requisicao("cultivar/distribuir", envio, function(dadosRetorno) {
+        if(dadosRetorno.sucesso){
+            
+            $(".painelCarregando").fadeOut(400);
+            alerta("Alerta!", dadosRetorno.mensagem);
+            preEventosPaginaGerenciamento($(this), "fa-cart-arrow-down", "Distribuir cultivares");
+        }else{
+            //retira o painel loading
+            $(".painelCarregando").fadeOut(400);
+//            seta o id do input que tera o focus
+            $("#itenFocus").text("#qtdCultivarDist");
+            alerta("Alerta!", dadosRetorno.mensagem);
+
+            //ativa o form de quantidade e da focus no input 
+            $('#qtdProgresso li:nth-child(3)').addClass('active');
+            $('#qtdProgresso li:nth-child(4)').removeClass('active');
+            $('#progresso3').addClass('active');
+            $('#completo').removeClass('active');
+            
+            
+        }
+        //atualiza a sessao
+        updateSessao(dadosRetorno.sessao);
+        
+    });
+ 
+    
+ 
+    return false;
+});
+
+
+//chama a requisicao para salvar a edicao de agricultores
+$(document).on("submit", "#salvarEditAgri", function(e){
+    if(!e.isDefaultPrevented()){
+        alerta("Alerta!", 'Em construção');
+    }
+    
+
+    return false;
+});
+
+//chama a requisicao para salvar a edicao de cultivares
+$(document).on("submit", "#salvarEditCulti", function(e){
+    if(!e.isDefaultPrevented()){
+        alerta("Alerta!", 'Em construção');
+    }
+
+    return false;
+});
+
+//chama a requisicao para salvar a edicao de cultivares
+$(document).on("submit", "#salvarEditUnidade", function(e){
+    if(!e.isDefaultPrevented()){
+        alerta("Alerta!", 'Em construção');
+    }
+
+    return false;
+});
+
+//chama a requisicao para salvar a edicao de agricultores
+$(document).on("submit", "#salvarEditUser", function(e){
+    if(!e.isDefaultPrevented()){
+        alerta("Alerta!", 'Em construção');
+    }
+
+    return false;
+});
+
+
+
+//chama a requisicao para uma entrada no estoque da unidade, cria um modal com inputs
+$(document).on("click", "#entradaEstoque", function(e){
+    alerta('Nova entrada', '<form  data-toggle="validator" role="form" id="entradaCultiEstoque" >          <div class="form-group"><label for="cultEntEstoque" class="control-label">Cultivares:</label><select class="form-control " id="cultEntEstoque" data-error="Por favor, informe o cultivar." required ></select><div class="help-block with-errors"></div></div>      <div class="form-group"><label id="labQtdCultivarEnt" for="qtdCultivarEnt" class="control-label">Quantidade:</label><input type="number" class="form-control " min="0.01" id="qtdCultivarEnt" placeholder="Digite a quantidade de entrada..." step="0.01" data-error="Por favor, informe a quantidade de entrada." required ><div class="help-block with-errors"></div></div>            <hr><button type="submit" class="btn btn-warning">Salvar <span class="fa fa-save" aria-hidden="true"></span></button></form>');
+//    alerta('Nova entrada', '<form  data-toggle="validator" role="form" id="entradaCultiEstoque" >          <div class="form-group"><label for="cultEntEstoque" class="control-label">Cultivares:</label><select class="form-control " id="cultEntEstoque" data-error="Por favor, informe o cultivar." required ></select><div class="help-block with-errors"></div></div>      <hr><button type="submit" class="btn btn-warning">Salvar <span class="fa fa-save" aria-hidden="true"></span></button></form>');
+    $("#entradaCultiEstoque").validator();
+    return false;
+});
+
+//form de envio de entrada de cultivares na unidade, botao salvar a entrada de cultivares 
+$(document).on("submit", "#entradaCultiEstoque", function(e){
+    if(!e.isDefaultPrevented()){
+        submeterEntradaCult();
+    }
+
+    return false;
+});
+
+//envia a requisicao para o servidor
+function submeterEntradaCult(){
+    var Sessao = getSessao();
+    
+    var valores = JSON.parse($('#cultEntEstoque').prop('value'));
+
+    var envio = {    
+        idcultivar: valores.idcultivar,
+        um: valores.um,
+        qtd: $('#qtdCultivarEnt').val(),
+        operacao: 1,
+        idunidade: Sessao.idunidade,
+        id: Sessao.idpessoa,
+        sessao: Sessao.sessao
+    };
+
+    
+    
+    //chama a requisicao do servidor, o resultado é listado em uma tabela
+    requisicao("unidade/ioestoque", envio, function(dadosRetorno) {
+
+        if(dadosRetorno.sucesso){
+            
+//            $('#modalApresentacao').fadeOut(200, function (){
+                $("#itensModal").empty().append(dadosRetorno.mensagem);
+                $("#modalTitulo").text("Sucesso!");
+//                $(this).fadeIn(200);
+//            });
+            
+            //retira o painel loading
+            $(".painelCarregando").fadeOut(400);
+        }else{
+            //retira o painel loading
+            $(".painelCarregando").fadeOut(400);
+            //alerta de erro
+            $("#itensModal").empty().append(dadosRetorno.mensagem);
+            $("#modalTitulo").text("Erro!");
+        }
+        //atualiza a sessao
+        updateSessao(dadosRetorno.sessao);
+    });
+}
+//lista em um select os cultivares para serem selecionado para a entrada
+$(document).on("click", "#cultEntEstoque", function(e){
+    
+    if($(this).children('option').length < 1){
+        var Sessao = getSessao();
+        var envio = {
+            metodo: "listarcultivares",
+            id: Sessao.idpessoa,
+            sessao: Sessao.sessao
+        };
+
+        //chama a requisicao do servidor, o resultado é listado em uma tabela
+        requisicao("cultivar/listar", envio, function(dadosRetorno) {
+
+            if(dadosRetorno.sucesso){
+                var item = "";
+                var valores;
+                $.each(dadosRetorno.data, function(i, valor){
+                    valores = JSON.stringify({ idcultivar:valor.idcultivar,
+                          um: valor.unidademedida_idunidademedida,
+                          grandeza: valor.grandeza
+                    });
+//                    item += '<option value="{"id":"'+valor.idcultivar+'", "um": "teste"}" >'+valor.nomecultivar+'</option>';
+                    item += "<option value="+valores+">"+valor.nomecultivar+"</option>";
+
+                });
+
+                $("#cultEntEstoque").append(item);
+
+                //retira o painel loading
+                $(".painelCarregando").fadeOut(400);
+            }else{
+                //retira o painel loading
+                $(".painelCarregando").fadeOut(400);
+                alert("Alerta!", dadosRetorno.mensagem);
+            }
+            //atualiza a sessao
+            updateSessao(dadosRetorno.sessao);
+        });
+    }
+    return false;
+});
+
+$(document).on("change", "#cultEntEstoque", function(e){
+    //pega os valores selecionado
+    var valores = JSON.parse($('#cultEntEstoque :selected').prop('value'));
+    
+    //muda o label
+    $("#labQtdCultivarEnt").text("Quantidade em "+ valores.grandeza);
+    $("#qtdCultivarEnt").val("");
+    
+
+    //muda para inteiro ou decimal os valores aceito pelo input
+    //kilos =7
+    if(valores.um === 7){
+        $("#qtdCultivarEnt").attr("min", "0.01");
+        $("#qtdCultivarEnt").attr("step", "0.01");
+    //ramas =5 e maniva =6    
+    }else{
+        $("#qtdCultivarEnt").attr("min", "1");
+        $("#qtdCultivarEnt").attr("step", "1");
+    }
+    
+    return false;
+});

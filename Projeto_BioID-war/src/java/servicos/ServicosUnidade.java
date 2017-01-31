@@ -12,6 +12,7 @@ import dao.DAOIOEstoque;
 import dao.DAOPessoa;
 import dao.DAOUnidade;
 import fw.VerificarSessao;
+import java.util.Date;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.Consumes;
@@ -21,7 +22,9 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.MediaType;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
+import sun.text.resources.FormatData;
 import to.TOEndereco;
 import to.TOEstoque;
 import to.TOIOEstoque;
@@ -197,76 +200,113 @@ public class ServicosUnidade {
     //inseri dados no estoque
     @Path("ioestoque")
     @POST
-    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public String editarEstoque(
-            //tabela endereco
-            @FormParam("idunidade") long idunidade,
-            @FormParam("idcultivar") long idcultivar,
-            @FormParam("um") long um,
-            @FormParam("qtd") float qtd,
-            @FormParam("data_io") String data_io,
-            @FormParam("operacao") int operacao,
-            @FormParam("id") long id,
-            @FormParam("sessao") String sessao
+            String dataJson
             ) throws Exception{
         
                 
         JSONObject j = new JSONObject();
+        JSONObject k = new JSONObject(dataJson);
         
         try{    
             //verificar sessao
-            JSONObject js = new VerificarSessao().VerificarSessao(id, sessao);
+            JSONObject js = new VerificarSessao().VerificarSessao(k.getLong("id"), k.getString("sessao"));
             
             
             if((boolean) js.get("sucesso") == false){
                 j.put("sucesso", false);
                 j.put("mensagem", "Sessao não encontrada!");
             }else{ 
+                
                 //cria um objeto          
                 TOEstoque te = new TOEstoque();
+                te.setUnidade_idunidade(k.getLong("idunidade"));
+                te.setCultivar_idcultivar(k.getLong("idcultivar"));
+                
+//              entrada de estoque
+                if(k.getInt("operacao") == 1){
+                    
+                    //busca se existe o cultivar no estoque
+                    te = (TOEstoque) BOFactory.get(new DAOEstoque(), te);
 
-                te.setUnidade_idunidade(idunidade);
-                te.setCultivar_idcultivar(idcultivar);
-                te.setUnidademedida_idunidademedida(um);
-                te.setQuantidade(qtd);
-
-                TOEstoque t = new TOEstoque();
-
-                 t = (TOEstoque) BOFactory.get(new DAOEstoque(), te);
-
-                //se nao existe, cria uma nova tabela
-                if(t == null){
-
-                    BOFactory.inserir(new DAOEstoque(), te);
-
-                //update na tabela estoque
-                }else{
-                    //operacao de entrada de estoque
-                    if(operacao == 1){
-                        te.setQuantidade(t.getQuantidade() + qtd);
-                    //operacao de saida de estoque    
+//                    se nao existe cria uma nova entrada
+                    if(te == null){
+                        te = new TOEstoque();
+                        te.setUnidademedida_idunidademedida(k.getLong("um"));
+                        te.setQuantidade(k.getDouble("qtd"));
+                        te.setUnidade_idunidade(k.getLong("idunidade"));
+                        te.setCultivar_idcultivar(k.getLong("idcultivar"));
+                        
+                        BOFactory.inserir(new DAOEstoque(), te);
+                        
+                        if(historicoIOEstoque(k)){
+                            j.put("sucesso", true);
+                            j.put("mensagem", "Entrada do estoque com sucesso!");
+                            j.put("sessao", js.get("sessao"));  
+                        }else{
+                            j.put("sucesso", false);
+                            j.put("mensagem", "Erro histórico estoque! Entrada do estoque com sucesso!");
+                            j.put("sessao", js.get("sessao"));
+                        }
+                
+                //////////   
+                        
+                        
+                    
+                    //senao atualiza o estoque
                     }else{
-                        te.setQuantidade(t.getQuantidade() - qtd);
-                    }
-
+                        
+                        te.setQuantidade(te.getQuantidade() + k.getDouble("qtd"));
+                        
+                        BOFactory.editar(new DAOEstoque(), te);
+                        
+                        if(historicoIOEstoque(k)){
+                            j.put("sucesso", true);
+                            j.put("mensagem", "Entrada do estoque com sucesso!");
+                            j.put("sessao", js.get("sessao"));  
+                        }else{
+                            j.put("sucesso", false);
+                            j.put("mensagem", "Erro histórico estoque! Entrada do estoque com sucesso!");
+                            j.put("sessao", js.get("sessao"));
+                        }
+                    }  
+                
+//                saida de estoque
+                }else if(k.getInt("operacao") == 0){
+                    
+                    te = (TOEstoque) BOFactory.get(new DAOEstoque(), te, k.getString("metodo"));
+                    
+                    te.setQuantidade(te.getQuantidade() - k.getDouble("qtd"));
                     BOFactory.editar(new DAOEstoque(), te);
-
-                    j.put("sucesso", true);
-                    j.put("mensagem", "Estoque atualizado!");
-                    j.put("sessao", js.get("sessao"));
+                    
+   
+                    
+                    if(historicoIOEstoque(k)){
+                        j.put("sucesso", true);
+                        j.put("mensagem", "Saída do estoque com sucesso!");
+                        j.put("sessao", js.get("sessao"));  
+                    }else{
+                        j.put("sucesso", false);
+                        j.put("mensagem", "Erro histórico estoque! Saída do estoque com sucesso!");
+                        j.put("sessao", js.get("sessao"));
+                    }
+                    
                 }
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
 
-                //cria um historico de io do estoque
-                TOIOEstoque tio = new TOIOEstoque();
-                tio.setUnidade_idunidade(idunidade);
-                tio.setCultivar_idcultivar(idcultivar);
-                tio.setUnidademedida_idunidademedida(um);
-                tio.setQuantidade(qtd);
-                tio.setData_io(data_io);
-                tio.setOperacao(operacao);
 
-                BOFactory.inserir(new DAOIOEstoque(), tio);
+                
             }
         }catch(Exception e){
             j.put("sucesso", false);
@@ -277,50 +317,48 @@ public class ServicosUnidade {
         return j.toString(); 
     }
     
-        //metodo que lista todos os cultivares recebido
-    @Path("listarestoque")
+  //metodo listar cultivares que existem no estoque da unidade 
+    @Path("listarestoqueunidade")
     @POST
-    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public String listarestoque(
-            @FormParam("idunidade") long idunidade,
-            @FormParam("id") long id,
-            @FormParam("sessao") String sessao
-            
-            ) throws Exception {
+    public String listarestoqueunidade(
+                        String dataJson
+                        ) throws Exception{
         
         JSONObject j = new JSONObject();
-        
+        JSONObject k = new JSONObject(dataJson);
+         
         
         try{ 
             //verificar sessao
-            JSONObject js = new VerificarSessao().VerificarSessao(id, sessao);
+            JSONObject js = new VerificarSessao().VerificarSessao(k.getLong("id"), k.getString("sessao"));
             
             
             if((boolean) js.get("sucesso") == false){
                 j.put("sucesso", false);
                 j.put("mensagem", "Sessao não encontrada!");
             }else{
-                
-                //lista os cultivares recebidos
                 TOEstoque t = new TOEstoque();
-                t.setUnidade_idunidade(idunidade);
-                //lista do estoque
-                JSONArray ja = BOFactory.listar(new DAOEstoque(), t);
+                t.setUnidade_idunidade(k.getLong("idunidade"));
+
+                //lista os cultivares do estoque
+                JSONArray ja = BOFactory.listar(new DAOEstoque(), t, k.getString("metodo") );
+
+
 
                 if(ja.length() > 0){
                     j.put("sucesso", true);
-                    j.put("estoque", ja);
+                    j.put("data", ja);
                     j.put("sessao", js.get("sessao"));
-                    
-
                 }else{
+
                     j.put("sucesso", false);
-                    j.put("mensagem", "Estoque vazio!");
                     j.put("sessao", js.get("sessao"));
+                    j.put("mensagem", "Sem cultivares no estoque!"); 
                 }
             }
-            
+
         }catch(Exception e){
             j.put("sucesso", false);
             j.put("mensagem", e.getMessage());
@@ -374,4 +412,32 @@ public class ServicosUnidade {
         
         return j.toString();
     } 
+
+    private String getDataAtual() {
+                
+        Date d = new Date();
+        
+        return d.toString(); 
+    }
+
+    private boolean historicoIOEstoque(JSONObject k) throws JSONException {
+
+        try {
+            //cria um historico de io do estoque
+            TOIOEstoque tio = new TOIOEstoque();
+            tio.setUnidade_idunidade(k.getLong("idunidade"));
+            tio.setCultivar_idcultivar(k.getLong("idcultivar"));
+            tio.setUnidademedida_idunidademedida(k.getLong("um"));
+            tio.setQuantidade(k.getDouble("qtd"));
+            tio.setData_io(getDataAtual());
+            tio.setOperacao(k.getInt("operacao"));
+            tio.setLogin_idlogin(k.getLong("id"));
+
+            BOFactory.inserir(new DAOIOEstoque(), tio);
+            
+            return true;
+        }catch(Exception e){
+            return false;
+        }
+    }
 }

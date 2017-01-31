@@ -111,7 +111,10 @@ public class DAOCultivar extends DAOBase {
         try{
         
             if(metodo.equals("listarcultivares")){
-                sql = "select c.idcultivar, um.grandeza, c.nomecultivar, c.imagem, c.descricao, c.biofortificado, c.valornutricional, c.tempodecolheita, c.tempodestinacao, c.peso_saca from cultivar c "
+//                sql = "select c.idcultivar, um.grandeza, c.nomecultivar, c.imagem, c.descricao, c.biofortificado, c.valornutricional, c.tempodecolheita, c.tempodestinacao, c.peso_saca from cultivar c "
+//                    + "INNER JOIN unidademedida um ON (um.idunidademedida = c.unidademedida_idunidademedida) "
+//                    + "order by c.nomecultivar";
+                sql = "select c.idcultivar, c.nomecultivar, c.unidademedida_idunidademedida, um.grandeza from cultivar c "
                     + "INNER JOIN unidademedida um ON (um.idunidademedida = c.unidademedida_idunidademedida) "
                     + "order by c.nomecultivar";
 

@@ -121,45 +121,48 @@ public class TOPropriedade extends TOBase {
     public TOPropriedade() {
     }
 
-    public TOPropriedade(long idpropriedade, long endereco_idendereco, long unidade_idunidade, String nomepropriedade, double area, long unidadedemedida, double areautilizavel, long unidadedemedidaau, String usuario, String cpf) {
-        this.idpropriedade = idpropriedade;
-        this.endereco_idendereco = endereco_idendereco;
-        this.unidade_idunidade = unidade_idunidade;
-        this.nomepropriedade = nomepropriedade;
-        this.area = area;
-        this.unidadedemedida = unidadedemedida;
-        this.areautilizavel = areautilizavel;
-        this.unidadedemedidaau = unidadedemedidaau;
-        this.usuario = usuario;
-        this.cpf = cpf;
-    }
-    
 
-    public TOPropriedade listarPropriedadeEndereco(ResultSet rs) throws Exception{
-        this.endereco = new TOEndereco();
+    public TOPropriedade(ResultSet rs) throws Exception{
         
-        this.endereco.setNomecidade(rs.getString("nomecidade"));
-        this.endereco.setRua(rs.getString("rua"));
-        this.endereco.setNumero(rs.getInt("numero"));
-        this.endereco.setBairro(rs.getString("bairro"));
-        this.endereco.setCep(rs.getString("cep"));
-        this.endereco.setComplemento(rs.getString("complemento"));
-        this.endereco.setGps_lat(rs.getInt("gps_lat"));
-        this.endereco.setGps_long(rs.getInt("gps_long"));
-        this.nomepropriedade = rs.getString("nomepropriedade");
-        this.idpropriedade = rs.getLong("idpropriedade");
-        return this;
+    
+            this.idpropriedade = rs.getLong("idpropriedade");
+            this.endereco_idendereco = rs.getLong("endereco_idendereco");
+            this.unidade_idunidade = rs.getLong("unidade_idunidade");
+            this.nomepropriedade = rs.getString("nomepropriedade");
+            this.area = rs.getDouble("area");
+            this.unidadedemedida = rs.getLong("unidadedemedida");
+            this.areautilizavel = rs.getDouble("areautilizavel");
+
     }
     
-    public TOPropriedade(ResultSet rs) throws Exception{
-        this.idpropriedade = rs.getLong("idpropriedade");
-        this.endereco_idendereco = rs.getLong("endereco_idendereco");
-        this.unidade_idunidade = rs.getLong("unidade_idunidade");
-        this.nomepropriedade = rs.getString("nomepropriedade");
-        this.area = rs.getDouble("area");
-        this.unidadedemedida = rs.getLong("unidadedemedida");
-        this.areautilizavel = rs.getDouble("areautilizavel");
-        this.unidadedemedidaau = rs.getLong("unidadedemedidaau");
+    public TOPropriedade(ResultSet rs, String metodo) throws Exception{
+        
+//        if(metodo.equals("getPropriedade")){
+//            this.idpropriedade = rs.getLong("idpropriedade");
+//            this.endereco_idendereco = rs.getLong("endereco_idendereco");
+//            this.unidade_idunidade = rs.getLong("unidade_idunidade");
+//            this.nomepropriedade = rs.getString("nomepropriedade");
+//            this.area = rs.getDouble("area");
+//            this.unidadedemedida = rs.getLong("unidadedemedida");
+//            this.areautilizavel = rs.getDouble("areautilizavel");
+//            this.unidadedemedidaau = rs.getLong("unidadedemedidaau");
+//        }else if(metodo.equals("enderecopropriedade")){
+        if(metodo.equals("enderecopropriedade")){
+            this.endereco = new TOEndereco();
+            this.endereco.setNomecidade(rs.getString("nomecidade"));
+            this.endereco.setRua(rs.getString("rua"));
+            this.endereco.setNumero(rs.getInt("numero"));
+            this.endereco.setBairro(rs.getString("bairro"));
+            this.endereco.setCep(rs.getString("cep"));
+            this.endereco.setComplemento(rs.getString("complemento"));
+            this.endereco.setGps_lat(rs.getInt("gps_lat"));
+            this.endereco.setGps_long(rs.getInt("gps_long"));
+            this.nomepropriedade = rs.getString("nomepropriedade");
+            this.idpropriedade = rs.getLong("idpropriedade");
+        }else if(metodo.equals("listarpropriedades")){
+            this.idpropriedade = rs.getLong("idpropriedade");
+            this.nomepropriedade = rs.getString("nomepropriedade");
+        }
         
     }
     
@@ -185,6 +188,21 @@ public class TOPropriedade extends TOBase {
         j.put("complemento", endereco.getComplemento());
         j.put("gps_lat", endereco.getGps_lat());
         j.put("gps_long", endereco.getGps_long());
+        
+        
+        return j;
+    }
+    
+    @Override
+    public JSONObject getJson(String metodo) throws Exception {
+         //variavel para retorno do json contendo as informacoes do produto
+        JSONObject j = new JSONObject();
+        
+        if(metodo.equals("listarpropriedades")){
+            j.put("idpropriedade", idpropriedade);
+            j.put("nomepropriedade", nomepropriedade);
+        }
+        
         return j;
     }
 

@@ -136,7 +136,9 @@ public class ServicosPessoa {
                 j.put("mensagem", "Sessao não encontrada!");
             }else{
                 
-                JSONArray ja = BOFactory.listar(new DAOPessoa(), k.getString("metodo")) ;
+                TOPessoa to = new TOPessoa();
+                to.setIdunidade(k.getLong("idunidade"));
+                JSONArray ja = BOFactory.listar(new DAOPessoa(),to , k.getString("metodo")) ;
 
                 if(ja.length() > 0){
                     j.put("data", ja);
@@ -186,7 +188,7 @@ public class ServicosPessoa {
 //                    to.setRg(k.getString("valor"));
                 
 //                
-                
+                to.setIdunidade(k.getLong("idunidade"));
                 
                 JSONArray ja = BOFactory.listar(new DAOPessoa(), to, metodo) ;
 
@@ -485,11 +487,13 @@ public class ServicosPessoa {
                     }else{
                         j.put("sucesso", false);
                         j.put("mensagem", "Erro, usuário já cadastrado!");
+                        j.put("sessao", js.get("sessao"));
                     }  
                 //mensagen de usuario ja existente
                 }else{
                     j.put("sucesso", false);
                     j.put("mensagem", "Erro, cpf já cadastrado!");
+                    j.put("sessao", js.get("sessao"));
                 }
             }
         }catch(Exception e){
@@ -718,28 +722,41 @@ public class ServicosPessoa {
     
     @Path("listarpropriedades")
     @POST
-    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public String listarPropriedades(
-                        @FormParam("idpessoa") long idpessoa,
-                        @FormParam("sessao") String sessao
+                    String dataJson
                         ) throws Exception{
         
         JSONObject j = new JSONObject();
- 
+        JSONObject k = new JSONObject(dataJson);
+        
         try{
-            TOLogin t = new TOLogin();
-            t.setPessoa_idpessoa(idpessoa);
+            //verificar sessao
+            JSONObject js = new VerificarSessao().VerificarSessao(k.getLong("id"), k.getString("sessao"));
             
-            
-            JSONArray ja = BOFactory.listar(new DAOPropriedade(), t, "listarpropriedades") ;
-            
-            if(ja.length() > 0){
-                j.put("propriedades", ja);
-                j.put("sucesso", true);
-            }else{
+            if((boolean) js.get("sucesso") == false){
                 j.put("sucesso", false);
-                j.put("mensagem", "Usuario sem propriedade");
+                j.put("mensagem", "Sessao não encontrada!");
+            }else{
+                
+            
+                TOPessoa t = new TOPessoa();
+                t.setIdpessoa(k.getLong("idpessoa"));
+                t.setIdunidade(k.getLong("idunidade"));
+
+
+                JSONArray ja = BOFactory.listar(new DAOPropriedade(), t, "listarpropriedades") ;
+
+                if(ja.length() > 0){
+                    j.put("data", ja);
+                    j.put("sucesso", true);
+                    j.put("sessao", js.get("sessao"));
+                }else{
+                    j.put("sucesso", false);
+                    j.put("mensagem", "Usuário não contém propriedade cadastrada!");
+                    j.put("sessao", js.get("sessao"));
+                }
             }
         }catch(Exception e){
             j.put("sucesso", false);

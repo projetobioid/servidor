@@ -34,6 +34,7 @@ public class TOPessoa extends TOBase{
     private String nomeunidade;
     private String escolaridade;
     private String estadocivil;
+    private long idunidade;
     private TOAgricultor agricultor;
     
 
@@ -52,6 +53,15 @@ public class TOPessoa extends TOBase{
     public void setPapel(String papel) {
         this.papel = papel;
     }
+
+    public long getIdunidade() {
+        return idunidade;
+    }
+
+    public void setIdunidade(long idunidade) {
+        this.idunidade = idunidade;
+    }
+    
     
     public long getEndereco_idendereco() {
         return endereco_idendereco;
@@ -288,10 +298,12 @@ public class TOPessoa extends TOBase{
         
         }else if(metodo.equals("procuraragricultor") || metodo.equals("procuraragricultor2")){
              //populando o objeto j
+            j.put("idpessoa", idpessoa);
             j.put("nome", nome);
             j.put("sobrenome", sobrenome);
             j.put("cpf", cpf);
             j.put("rg", rg);
+//            j.put("idunidade", idunidade);
 
         }
         
@@ -369,10 +381,12 @@ public class TOPessoa extends TOBase{
             this.papel = rs.getString("papel");
         
         }else if(metodo.equals("procuraragricultor") || metodo.equals("procuraragricultor2")){
+            this.idpessoa = rs.getLong("idpessoa");
             this.nome = rs.getString("nome");
             this.sobrenome = rs.getString("sobrenome");
             this.cpf = rs.getString("cpf");
             this.rg = rs.getString("rg");
+//            this.idunidade = rs.getLong("idunidade");
         }
         
     }

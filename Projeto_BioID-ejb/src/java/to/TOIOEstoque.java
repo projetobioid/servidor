@@ -20,11 +20,13 @@ public class TOIOEstoque extends TOBase{
     
     private long unidademedida_idunidademedida;
     
-    private float quantidade;
+    private double quantidade;
     
     private String data_io;
     
     private int operacao;
+    
+    private long login_idlogin;
 
     public long getUnidade_idunidade() {
         return unidade_idunidade;
@@ -50,11 +52,11 @@ public class TOIOEstoque extends TOBase{
         this.unidademedida_idunidademedida = unidademedida_idunidademedida;
     }
 
-    public float getQuantidade() {
+    public double getQuantidade() {
         return quantidade;
     }
 
-    public void setQuantidade(float quantidade) {
+    public void setQuantidade(double quantidade) {
         this.quantidade = quantidade;
     }
 
@@ -74,19 +76,21 @@ public class TOIOEstoque extends TOBase{
         this.operacao = operacao;
     }
 
+    public long getLogin_idlogin() {
+        return login_idlogin;
+    }
+
+    public void setLogin_idlogin(long login_idlogin) {
+        this.login_idlogin = login_idlogin;
+    }
+
+    
     
     public TOIOEstoque() {
     }
 
     
-    public TOIOEstoque(long unidade_idunidade, long cultivar_idcultivar, long unidademedida_idunidademedida, float quantidade, String data_io, int operacao) {
-        this.unidade_idunidade = unidade_idunidade;
-        this.cultivar_idcultivar = cultivar_idcultivar;
-        this.unidademedida_idunidademedida = unidademedida_idunidademedida;
-        this.quantidade = quantidade;
-        this.data_io = data_io;
-        this.operacao = operacao;
-    }
+
     
     public TOIOEstoque (ResultSet rs) throws Exception{
         this.unidade_idunidade = rs.getLong("unidade_idunidade");
@@ -95,6 +99,8 @@ public class TOIOEstoque extends TOBase{
         this.quantidade = rs.getFloat("quantidade");
         this.data_io = rs.getString("data_io");
         this.operacao = rs.getInt("operacao");
+        this.login_idlogin = rs.getLong("login_idlogin");
+        
     }
 
     @Override
@@ -107,6 +113,7 @@ public class TOIOEstoque extends TOBase{
         j.put("quantidade", quantidade);
         j.put("data_io", data_io);
         j.put("operacao", operacao);
+        j.put("login_idlogin", login_idlogin);
         
         return j;
                 

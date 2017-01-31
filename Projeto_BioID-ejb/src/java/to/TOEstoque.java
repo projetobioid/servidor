@@ -19,12 +19,12 @@ public class TOEstoque extends TOBase{
     
     private long unidademedida_idunidademedida;
     
-    private float quantidade;
+    private double quantidade;
     
-    private String grandeza;
-    
-    private String imagem;
-    
+//    private String grandeza;
+//    
+//    private String imagem;
+//    
     private String nomecultivar;
     
 
@@ -52,30 +52,30 @@ public class TOEstoque extends TOBase{
         this.unidademedida_idunidademedida = unidademedida_idunidademedida;
     }
 
-    public float getQuantidade() {
+    public double getQuantidade() {
         return quantidade;
     }
 
-    public void setQuantidade(float quantidade) {
+    public void setQuantidade(double quantidade) {
         this.quantidade = quantidade;
     }
 
-    public String getGrandeza() {
-        return grandeza;
-    }
-
-    public void setGrandeza(String grandeza) {
-        this.grandeza = grandeza;
-    }
-
-    public String getImagem() {
-        return imagem;
-    }
-
-    public void setImagem(String imagem) {
-        this.imagem = imagem;
-    }
-
+//    public String getGrandeza() {
+//        return grandeza;
+//    }
+//
+//    public void setGrandeza(String grandeza) {
+//        this.grandeza = grandeza;
+//    }
+//
+//    public String getImagem() {
+//        return imagem;
+//    }
+//
+//    public void setImagem(String imagem) {
+//        this.imagem = imagem;
+//    }
+//
     public String getNomecultivar() {
         return nomecultivar;
     }
@@ -89,25 +89,28 @@ public class TOEstoque extends TOBase{
     public TOEstoque() {
     }
 
-    public TOEstoque(long unidade_idunidade, long cultivar_idcultivar, long unidademedida_idunidademedida, float quantidade, String grandeza, String imagem, String nomecultivar) {
-        this.unidade_idunidade = unidade_idunidade;
-        this.cultivar_idcultivar = cultivar_idcultivar;
-        this.unidademedida_idunidademedida = unidademedida_idunidademedida;
-        this.quantidade = quantidade;
-        this.grandeza = grandeza;
-        this.imagem = imagem;
-        this.nomecultivar = nomecultivar;
-    }
 
     
     public TOEstoque (ResultSet rs) throws Exception{
         this.unidade_idunidade = rs.getLong("unidade_idunidade");
         this.cultivar_idcultivar = rs.getLong("cultivar_idcultivar");
-        this.grandeza = rs.getString("grandeza");
         this.quantidade = rs.getFloat("quantidade");
-        this.imagem = rs.getString("imagem");
-        this.nomecultivar = rs.getString("nomecultivar");
+        this.unidademedida_idunidademedida = rs.getLong("unidademedida_idunidademedida");
         
+//        this.grandeza = rs.getString("grandeza");
+//        this.imagem = rs.getString("imagem");
+//        this.nomecultivar = rs.getString("nomecultivar");
+//        
+
+    }
+    public TOEstoque (ResultSet rs, String metodo) throws Exception{
+        if(metodo.equals("listarestoqueunidade")){
+//            this.quantidade = rs.getFloat("quantidade");
+            this.nomecultivar = rs.getString("nomecultivar");
+            this.cultivar_idcultivar = rs.getLong("cultivar_idcultivar");
+        }else if(metodo.equals("distribuircultivar")){
+            this.quantidade = rs.getDouble("quantidade");
+        }
 
     }
 
@@ -117,10 +120,28 @@ public class TOEstoque extends TOBase{
         
         j.put("unidade_idunidade", unidade_idunidade);
         j.put("cultivar_idcultivar", cultivar_idcultivar);
-        j.put("grandeza", grandeza);
+        j.put("unidademedida_idunidademedida", unidademedida_idunidademedida);
         j.put("quantidade", quantidade);
-        j.put("imagem", imagem);
-        j.put("nomecultivar", nomecultivar);
+        
+//        j.put("grandeza", grandeza);
+        
+//        j.put("imagem", imagem);
+//        j.put("nomecultivar", nomecultivar);
+        return j;
+                
+    } 
+    
+    @Override
+    public JSONObject getJson(String metodo) throws Exception {
+        JSONObject j = new JSONObject();
+        if(metodo.equals("listarestoqueunidade")){
+//            j.put("quantidade", quantidade);
+            j.put("nomecultivar", nomecultivar);
+            j.put("idcultivar", cultivar_idcultivar);
+        }else if(metodo.equals("distribuircultivar")){
+            j.put("quantidade", quantidade);
+        }
+        
         return j;
                 
     } 

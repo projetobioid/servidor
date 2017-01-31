@@ -176,6 +176,7 @@ public class TOCultivar extends TOBase{
         }else if(metodo.equals("listarcultivares")){
             this.idcultivar = rs.getLong("idcultivar");
             this.nomecultivar = rs.getString("nomecultivar");
+            this.unidademedida_idunidademedida= rs.getLong("unidademedida_idunidademedida");
             this.grandeza = rs.getString("grandeza");
 
         }
@@ -201,6 +202,7 @@ public class TOCultivar extends TOBase{
             //populando o objeto j
             j.put("idcultivar", idcultivar);
             j.put("nomecultivar", nomecultivar);
+            j.put("unidademedida_idunidademedida", unidademedida_idunidademedida);
             j.put("grandeza", grandeza);
         }
         

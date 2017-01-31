@@ -20,7 +20,7 @@ public class DAOIOEstoque extends DAOBase{
     @Override
     public long inserir(Connection c, TOBase t) throws Exception {
         //string com o comando sql para editar o banco de dados
-        String sql = "INSERT INTO ioestoque(estoque_unidade_idunidade, estoque_cultivar_idcultivar, unidademedida_idunidademedida, quantidade, data_io, operacao) VALUES (?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO ioestoque(estoque_unidade_idunidade, estoque_cultivar_idcultivar, unidademedida_idunidademedida, quantidade, data_io, operacao, login_idlogin) VALUES (?, ?, ?, ?, ?, ?, ?)";
         //variavel sendo convertida para toUsuarios
         TOIOEstoque to = (TOIOEstoque)t;
         //variavel com lista dos parametros
@@ -32,6 +32,7 @@ public class DAOIOEstoque extends DAOBase{
         u.add(to.getQuantidade());
         u.add(to.getData_io());
         u.add(to.getOperacao());
+        u.add(to.getLogin_idlogin());
         
         //passa por parametros a conexao e a lista de objetos da insercao
         return Data.executeUpdate(c, sql, u);
