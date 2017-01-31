@@ -63,8 +63,8 @@ body {
 .nav-sidebar > .active > a,
 .nav-sidebar > .active > a:hover,
 .nav-sidebar > .active > a:focus {
-  //color: #fff;
-  //background-color: #EC751A;
+/*  color: #fff;
+  background-color: #EC751A;*/
   color: #FFF;
   background-color: #007A61;
 }
@@ -108,7 +108,7 @@ body {
 }
 
 .placeholder:hover .e{
- // color: #000;
+  /*color: #000;*/
   transform: scale(1.5);
   cursor: pointer;
   

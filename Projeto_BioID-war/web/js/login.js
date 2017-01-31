@@ -1,5 +1,5 @@
-var ipServidor = 'localhost:8080';
-//var ipServidor = "187.19.101.252:8082";
+//var ipServidor = 'localhost:8080';
+var ipServidor = "187.19.101.252:8082";
 //var ipServidor = "10.1.2.52:8080";
 
 /* button carregar page entrar*/
