@@ -53,19 +53,25 @@ public class DAOSafra extends DAOBase{
     }
 
     @Override
-    public void editar(Connection c, TOBase t) throws Exception {
-        String sql = "UPDATE safra SET qtdcolhida=?, ultimadatacolheita=?, statussafra_idstatussafra=? WHERE idsafra = ?";
+    public void editar(Connection c, TOBase t, String metodo) throws Exception {
+        String sql = null;
+                
 
         
         TOSafra to = (TOSafra)t;
         
         List<Object> p = new ArrayList<Object>();
         
-
-        p.add(to.getQtdcolhida());
-        p.add(to.getUltimadatacolheita());
-        p.add(to.getStatussafra_idstatussafra());
-        p.add(to.getIdsafra());
+        switch(metodo){
+            default:
+                sql = "UPDATE safra SET qtdcolhida=?, ultimadatacolheita=?, statussafra_idstatussafra=? WHERE idsafra = ?";
+                p.add(to.getQtdcolhida());
+                p.add(to.getUltimadatacolheita());
+                p.add(to.getStatussafra_idstatussafra());
+                p.add(to.getIdsafra());
+        
+                break;
+        }
         
         
         //passa por parametros a conexao e a lista de objetos da insercao de um novo produto        
@@ -74,17 +80,23 @@ public class DAOSafra extends DAOBase{
     }
 
     @Override
-    public TOBase get(Connection c, TOBase t) throws Exception {
-        String sql = "select * from safra where idsafra IN(?)";
+    public TOBase get(Connection c, TOBase t, String metodo) throws Exception {
+        String sql = null;
         
         ResultSet rs = null;
         
         try{
             TOSafra to = (TOSafra)t;
+            
+            switch(metodo){
+                default:
+                    sql = "select * from safra where idsafra IN(?)";
+                    break;
+            }
             rs = Data.executeQuery(c, sql, to.getIdsafra());
             
             if(rs.next()){
-                return new TOSafra(rs);
+                return new TOSafra(rs, metodo);
             }else{
                 return null;
             }
@@ -95,7 +107,7 @@ public class DAOSafra extends DAOBase{
 
 
     @Override
-    public JSONArray listar(Connection c, TOBase t) throws Exception {
+    public JSONArray listar(Connection c, TOBase t, String metodo) throws Exception {
         JSONArray  ja = new JSONArray();
   
         ResultSet rs = null;
@@ -103,34 +115,39 @@ public class DAOSafra extends DAOBase{
             //variavel com lista dos parametros
             List<Object> u = new ArrayList<Object>();
             
-            String sql = "SELECT s.idsafra, s.statussafra_idstatussafra, s.safra, s.datareceb, s.qtdrecebida,"
-                + " (select SUM(d.qtddestinada) AS qtddestinada FROM destinacao d WHERE d.safra_idsafra IN(s.idsafra)),"
-                + " um.grandeza as grandeza_recebida, s.qtdcolhida, c.nomecultivar, pr.nomepropriedade, c.tempodecolheita, c.tempodestinacao FROM login l"
-                + " INNER JOIN pessoa p ON( p.idpessoa = l.pessoa_idpessoa)"
-                + " INNER JOIN relacaopa r ON( r.agricultor_pessoa_idpessoa = p.idpessoa)"
-                + " INNER JOIN propriedade pr ON (pr.idpropriedade = r.propriedade_idpropriedade)"
-                + " INNER JOIN safra s ON (s.propriedade_idpropriedade = pr.idpropriedade)"
-                + " INNER JOIN cultivar c ON (c.idcultivar = s.cultivar_idcultivar)"
-                + " INNER JOIN unidademedida um ON(um.idunidademedida = s.unidademedida_idunidademedida) where l.pessoa_idpessoa IN(?) ORDER BY s.safra DESC";
-             
-            u.add(((TOLogin) t).getPessoa_idpessoa());
+            String sql = null;
             
+            switch(metodo){
+                default:
+                    sql = "SELECT s.idsafra, s.statussafra_idstatussafra, s.safra, s.datareceb, s.qtdrecebida,"
+                        + " (select SUM(d.qtddestinada) AS qtddestinada FROM destinacao d WHERE d.safra_idsafra IN(s.idsafra)),"
+                        + " um.grandeza as grandeza_recebida, s.qtdcolhida, c.nomecultivar, pr.nomepropriedade, c.tempodecolheita, c.tempodestinacao FROM login l"
+                        + " INNER JOIN pessoa p ON( p.idpessoa = l.pessoa_idpessoa)"
+                        + " INNER JOIN relacaopa r ON( r.agricultor_pessoa_idpessoa = p.idpessoa)"
+                        + " INNER JOIN propriedade pr ON (pr.idpropriedade = r.propriedade_idpropriedade)"
+                        + " INNER JOIN safra s ON (s.propriedade_idpropriedade = pr.idpropriedade)"
+                        + " INNER JOIN cultivar c ON (c.idcultivar = s.cultivar_idcultivar)"
+                        + " INNER JOIN unidademedida um ON(um.idunidademedida = s.unidademedida_idunidademedida) where l.pessoa_idpessoa IN(?) ORDER BY s.safra DESC";
+
+                    u.add(((TOLogin) t).getPessoa_idpessoa());
+                    break;
+            }
             rs = Data.executeQuery(c, sql, u);
             
             while (rs.next()){
-                TOSafra ts = new TOSafra(rs);
+                TOSafra ts = new TOSafra(rs, metodo);
 
                 switch ((int)ts.getStatussafra_idstatussafra()) {
                     case 1:
                     case 2:
                     case 3:
-                        ts.setPrazo_colheita(verificarPrazoColheita(ts));
-                        ts.setPrazo_destinacao(verificarPrazoDestinacao(ts));
+                        ts.setPrazo_colheita(verificarPrazoColheita(ts, metodo));
+                        ts.setPrazo_destinacao(verificarPrazoDestinacao(ts, metodo));
                         break;
                     case 4:
                     case 5:
                         ts.setPrazo_colheita("relatada");
-                        ts.setPrazo_destinacao(verificarPrazoDestinacao(ts));
+                        ts.setPrazo_destinacao(verificarPrazoDestinacao(ts, metodo));
                         break;
                
                     case 6:
@@ -150,7 +167,7 @@ public class DAOSafra extends DAOBase{
                 }
                 
                 
-                ja.put(ts.getJson());
+                ja.put(ts.getJson(metodo));
             }
             
                         
@@ -161,7 +178,7 @@ public class DAOSafra extends DAOBase{
     }
 
 
-    private String verificarPrazoColheita(TOSafra ts) {
+    private String verificarPrazoColheita(TOSafra ts, String metodo) {
         String teste = null;
         
                
@@ -187,7 +204,7 @@ public class DAOSafra extends DAOBase{
                         ts.setStatussafra_idstatussafra(5);
                     }
 
-                    BOFactory.editar(new DAOSafra(), ts);
+                    BOFactory.editar(new DAOSafra(), ts, metodo);
                    
                 }else{
 
@@ -200,7 +217,7 @@ public class DAOSafra extends DAOBase{
         return teste;  
     }
 
-    private String verificarPrazoDestinacao(TOSafra ts) {
+    private String verificarPrazoDestinacao(TOSafra ts, String metodo) {
         String teste = null;
 
         try{
@@ -224,7 +241,7 @@ public class DAOSafra extends DAOBase{
                 }else if(ts.getStatussafra_idstatussafra() == 5){
                     ts.setStatussafra_idstatussafra(6);
                 }
-                BOFactory.editar(new DAOSafra(), ts);
+                BOFactory.editar(new DAOSafra(), ts, metodo);
                 ////
             }else{
 

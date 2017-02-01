@@ -117,39 +117,6 @@ public class DAOCultivar extends DAOBase {
         }
     }
     
-    @Override
-    public JSONArray listar(Connection c, String metodo) throws Exception {
-        JSONArray  ja = new JSONArray();
-        String sql = null;
-        ResultSet rs = null;
-        
-        try{
-        
-            if(metodo.equals("listar_bio")){
-                sql = "select c.idcultivar, c.nomecultivar, c.unidademedida_idunidademedida, um.grandeza from cultivar c "
-                    + "INNER JOIN unidademedida um ON (um.idunidademedida = c.unidademedida_idunidademedida) "
-                    + "order by c.nomecultivar WHERE c.bioforticado IN(true)";
-
-
-            }else if(metodo.equals("listar_naobio")){
-            
-            }else if(metodo.equals("listar_recebidos")){
-                
-            }else if(metodo.equals("listar_estoqueunidade")){
-                
-            }
-
-            rs = Data.executeQuery(c, sql);
-
-            while (rs.next()){
-                TOCultivar t = new TOCultivar(rs, metodo);
-                ja.put(t.getJson(metodo));
-            }
-        }finally{
-            rs.close();
-        }
-        return ja;
-    }
 
     @Override
     public JSONArray listar(Connection c, TOBase t, String metodo) throws Exception {
@@ -161,53 +128,60 @@ public class DAOCultivar extends DAOBase {
             List<Object> u = new ArrayList<Object>();
             String sql = null;
             
-            if(metodo.equals("")){
-                sql = "SELECT DISTINCT c.idcultivar, c.nomecultivar, c.imagem, c.descricao, c.biofortificado, um.grandeza, c.valornutricional, c.tempodecolheita, c.peso_saca "
-                    + "FROM login l "
-                    + "INNER JOIN pessoa p ON( p.idpessoa = l.pessoa_idpessoa) "
-                    + "INNER JOIN relacaopa r ON( r.agricultor_pessoa_idpessoa = p.idpessoa) "
-                    + "INNER JOIN propriedade pr ON (pr.idpropriedade = r.propriedade_idpropriedade) "
-                    + "INNER JOIN safra s ON (s.propriedade_idpropriedade = pr.idpropriedade) "
-                    + "INNER JOIN cultivar c ON (idcultivar = cultivar_idcultivar) "
-                    + "INNER JOIN unidademedida um ON (idunidademedida = c.unidademedida_idunidademedida) "
-                    + "where l.pessoa_idpessoa = ?";
-
-                u.add(((TOLogin) t).getPessoa_idpessoa());
-
-                rs = Data.executeQuery(c, sql, u);
-
-                while (rs.next()){
-                    TOCultivar tc = new TOCultivar(rs, metodo);
-                    ja.put(tc.getJson(metodo));
-                }
-            }else if(metodo.equals("listar_estoqueunidade")){
-                sql = "SELECT e.cultivar_idcultivar, c.nomecultivar, e.quantidade, u.grandeza FROM estoque e "
-                    + "INNER JOIN cultivar c ON (c.idcultivar = e.cultivar_idcultivar) "
-                    + " INNER JOIN unidademedida u ON (u.idunidademedida = e.unidademedida_idunidademedida)"
-                    + "WHERE e.unidade_idunidade IN(?)";
-                u.add(((TOEstoque) t).getUnidade_idunidade());
-                
-                //busca no banco os resultados
-                rs = Data.executeQuery(c, sql, u);
-                //popula uma lista com os resultados
-                while (rs.next()){
-                    TOEstoque tc = new TOEstoque(rs, metodo);
-                    ja.put(tc.getJson(metodo));
-                }
-            
-            }else if(metodo.equals("listar_estoqueunidade_input")){
-                sql = "SELECT e.cultivar_idcultivar, c.nomecultivar FROM estoque e "
-                    + "INNER JOIN cultivar c ON (c.idcultivar = e.cultivar_idcultivar) "
-                    + "WHERE e.unidade_idunidade IN(?)";
-                u.add(((TOEstoque) t).getUnidade_idunidade());
-                
-                //busca no banco os resultados
-                rs = Data.executeQuery(c, sql, u);
-                //popula uma lista com os resultados
-                while (rs.next()){
-                    TOEstoque tc = new TOEstoque(rs, metodo);
-                    ja.put(tc.getJson(metodo));
-                }
+            switch (metodo) {
+                case "listar_bio":
+                    sql = "select c.idcultivar, c.nomecultivar, c.unidademedida_idunidademedida, um.grandeza from cultivar c "
+                        + "INNER JOIN unidademedida um ON (um.idunidademedida = c.unidademedida_idunidademedida) "
+                        + "order by c.nomecultivar WHERE c.bioforticado IN(true)";
+                    rs = Data.executeQuery(c, sql);
+                    while (rs.next()){
+                        TOCultivar tc = new TOCultivar(rs, metodo);
+                        ja.put(tc.getJson(metodo));
+                    }
+                    break;
+                case "":
+                    sql = "SELECT DISTINCT c.idcultivar, c.nomecultivar, c.imagem, c.descricao, c.biofortificado, um.grandeza, c.valornutricional, c.tempodecolheita, c.peso_saca "
+                            + "FROM login l "
+                            + "INNER JOIN pessoa p ON( p.idpessoa = l.pessoa_idpessoa) "
+                            + "INNER JOIN relacaopa r ON( r.agricultor_pessoa_idpessoa = p.idpessoa) "
+                            + "INNER JOIN propriedade pr ON (pr.idpropriedade = r.propriedade_idpropriedade) "
+                            + "INNER JOIN safra s ON (s.propriedade_idpropriedade = pr.idpropriedade) "
+                            + "INNER JOIN cultivar c ON (idcultivar = cultivar_idcultivar) "
+                            + "INNER JOIN unidademedida um ON (idunidademedida = c.unidademedida_idunidademedida) "
+                            + "where l.pessoa_idpessoa = ?";
+                    u.add(((TOLogin) t).getPessoa_idpessoa());
+                    rs = Data.executeQuery(c, sql, u);
+                    while (rs.next()){
+                        TOCultivar tc = new TOCultivar(rs, metodo);
+                        ja.put(tc.getJson(metodo));
+                    }   break;
+                case "listar_estoqueunidade":
+                    sql = "SELECT e.cultivar_idcultivar, c.nomecultivar, e.quantidade, u.grandeza FROM estoque e "
+                            + "INNER JOIN cultivar c ON (c.idcultivar = e.cultivar_idcultivar) "
+                            + " INNER JOIN unidademedida u ON (u.idunidademedida = e.unidademedida_idunidademedida)"
+                            + "WHERE e.unidade_idunidade IN(?)";
+                    u.add(((TOEstoque) t).getUnidade_idunidade());
+                    //busca no banco os resultados
+                    rs = Data.executeQuery(c, sql, u);
+                    //popula uma lista com os resultados
+                    while (rs.next()){
+                        TOEstoque tc = new TOEstoque(rs, metodo);
+                        ja.put(tc.getJson(metodo));
+                    }   break;
+                case "listar_estoqueunidade_input":
+                    sql = "SELECT e.cultivar_idcultivar, c.nomecultivar FROM estoque e "
+                            + "INNER JOIN cultivar c ON (c.idcultivar = e.cultivar_idcultivar) "
+                            + "WHERE e.unidade_idunidade IN(?)";
+                    u.add(((TOEstoque) t).getUnidade_idunidade());
+                    //busca no banco os resultados
+                    rs = Data.executeQuery(c, sql, u);
+                    //popula uma lista com os resultados
+                    while (rs.next()){
+                        TOEstoque tc = new TOEstoque(rs, metodo);
+                        ja.put(tc.getJson(metodo));
+                    }   break;
+                default:
+                    break;
             }
                 
             

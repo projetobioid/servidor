@@ -19,36 +19,7 @@ import to.TOOutrosIDNome;
  */
 public class DAOOutrosIDNome extends DAOBase{
 
-    @Override
-    public JSONArray listar(Connection c, String metodo) throws Exception {
-       JSONArray  ja = new JSONArray();
-        String sql = null;
-        ResultSet rs = null;
-        
-        try{
-            
-            if(metodo.equals("listarpais")){
-                sql = "SELECT idpais, nomepais FROM pais ORDER BY nomepais ASC";
-                
-            }else if(metodo.equals("listarunidades")){
-                sql = "SELECT idunidade, nomeunidade FROM unidade ORDER BY nomeunidade ASC";
 
-            }    
-            rs = Data.executeQuery(c, sql);
-            
-
-             while (rs.next()){
-                TOOutrosIDNome tg = new TOOutrosIDNome(rs, metodo);
-                ja.put(tg.getJson(metodo));
-            }
-                
-            
-            
-        }finally{
-            rs.close();
-        }
-        return ja;
-    }
 
     @Override
     public JSONArray listar(Connection c, TOBase t, String metodo) throws Exception {
@@ -59,13 +30,19 @@ public class DAOOutrosIDNome extends DAOBase{
             //variavel com lista dos parametros
             List<Object> u = new ArrayList<Object>();
             
-            if(metodo.equals("listarestados")){
-                sql = "SELECT idestado, nomeestado FROM estado WHERE pais_idpais IN(?) ORDER BY nomeestado ASC";
-
-            }else if(metodo.equals("listarcidades")){
-                sql = "SELECT idcidade, nomecidade FROM cidade WHERE estado_idestado IN(?) ORDER BY nomecidade ASC";
+            switch(metodo){
+                case "listar_pais":
+                    sql = "SELECT idpais, nomepais FROM pais ORDER BY nomepais ASC";
+                    break;
+                case "listarestados":
+                    sql = "SELECT idestado, nomeestado FROM estado WHERE pais_idpais IN(?) ORDER BY nomeestado ASC";
+                    break;
+                case "listar_cidades":
+                     sql = "SELECT idcidade, nomecidade FROM cidade WHERE estado_idestado IN(?) ORDER BY nomecidade ASC";
+                    break;
                 
             }
+          
             
             u.add(((TOOutrosIDNome) t).getId());
             rs = Data.executeQuery(c, sql, u);

@@ -57,17 +57,22 @@ public class DAOEstoque extends DAOBase{
     @Override
     public long inserir(Connection c, TOBase t, String metodo) throws Exception {
         //string com o comando sql para editar o banco de dados
-        String sql = "INSERT INTO estoque(unidade_idunidade, cultivar_idcultivar, unidademedida_idunidademedida, quantidade) VALUES (?, ?, ?, ?)";
+        String sql = null;
+  
         //variavel sendo convertida para toUsuarios
         TOEstoque to = (TOEstoque)t;
         //variavel com lista dos parametros
         List<Object> u = new ArrayList<Object>();
         
-        u.add(to.getUnidade_idunidade());
-        u.add(to.getCultivar_idcultivar());
-        u.add(to.getUnidademedida_idunidademedida());
-        u.add(to.getQuantidade());
-        
+        switch(metodo){
+            default:    
+                sql = "INSERT INTO estoque(unidade_idunidade, cultivar_idcultivar, unidademedida_idunidademedida, quantidade) VALUES (?, ?, ?, ?)";
+                u.add(to.getUnidade_idunidade());
+                u.add(to.getCultivar_idcultivar());
+                u.add(to.getUnidademedida_idunidademedida());
+                u.add(to.getQuantidade());
+                break;
+        }
         //passa por parametros a conexao e a lista de objetos da insercao
         return Data.executeUpdate(c, sql, u);
     }
@@ -106,18 +111,26 @@ public class DAOEstoque extends DAOBase{
             //variavel com lista dos parametros
             List<Object> u = new ArrayList<Object>();
             
-            String sql = "SELECT e.unidade_idunidade, e.cultivar_idcultivar, u.grandeza, e.quantidade, c.imagem, c.nomecultivar FROM estoque e"
-                    + " INNER JOIN cultivar c ON (c.idcultivar = e.cultivar_idcultivar)"
-                    + " INNER JOIN unidademedida u ON (u.idunidademedida = e.unidademedida_idunidademedida)"
-                    + " WHERE unidade_idunidade IN(?)";
+            String sql = null;
             
-            u.add(((TOEstoque) t).getUnidade_idunidade());
+            switch(metodo){
+                default:
+                    sql = "SELECT e.unidade_idunidade, e.cultivar_idcultivar, u.grandeza, e.quantidade, c.imagem, c.nomecultivar FROM estoque e"
+                        + " INNER JOIN cultivar c ON (c.idcultivar = e.cultivar_idcultivar)"
+                        + " INNER JOIN unidademedida u ON (u.idunidademedida = e.unidademedida_idunidademedida)"
+                        + " WHERE unidade_idunidade IN(?)";
+
+                    u.add(((TOEstoque) t).getUnidade_idunidade());
+                    break;
+            
+            }
+            
             
             rs = Data.executeQuery(c, sql, u);
             
             while (rs.next()){
-                TOEstoque tc = new TOEstoque(rs);
-                ja.put(tc.getJson());
+                TOEstoque tc = new TOEstoque(rs, metodo);
+                ja.put(tc.getJson(metodo));
             }
             
         }finally{

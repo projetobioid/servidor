@@ -133,55 +133,44 @@ public class TOUnidade extends TOBase{
     public TOUnidade() {
     }
 
-    public TOUnidade(long idunidade, long endereco_idendereco, String nomeunidade, String telefone1, String telefone2, String email, String cnpj, String razao_social, String nome_fanta) {
-        this.idunidade = idunidade;
-        this.endereco_idendereco = endereco_idendereco;
-        this.nomeunidade = nomeunidade;
-        this.telefone1 = telefone1;
-        this.telefone2 = telefone2;
-        this.email = email;
-        this.cnpj = cnpj;
-        this.razao_social = razao_social;
-        this.nome_fanta = nome_fanta;
-    }
-    
     
     //retorna consulta do banco de dados tipo resultset
-    public TOUnidade (ResultSet rs) throws Exception{
-        this.endereco = new TOEndereco();
+    public TOUnidade(ResultSet rs, String metodo) throws Exception{
         
-        this.idunidade = rs.getLong("idunidade");
-        this.nomecidade = rs.getString("nomecidade");
-        this.nomeestado = rs.getString("nomeestado");
-        this.nomepais = rs.getString("nomepais");
-        this.nomeunidade = rs.getString("nomeunidade");
-        this.telefone1 = rs.getString("telefone1");
-        this.telefone2 = rs.getString("telefone2");
-        this.email = rs.getString("email");
-        this.cnpj = rs.getString("cnpj");
-    }
-    
-    //retorna consulta do banco de dados tipo resultset
-    public TOUnidade (ResultSet rs, String metodo) throws Exception{
-        this.endereco = new TOEndereco();
+        switch(metodo){
+            case "endereco":
+                this.endereco = new TOEndereco();
+                this.idunidade = rs.getLong("idunidade");
+                this.nomecidade = rs.getString("nomecidade");
+                this.nomeestado = rs.getString("nomeestado");
+                this.nomepais = rs.getString("nomepais");
+                this.nomeunidade = rs.getString("nomeunidade");
+                this.telefone1 = rs.getString("telefone1");
+                this.telefone2 = rs.getString("telefone2");
+                this.email = rs.getString("email");
+                this.cnpj = rs.getString("cnpj");
+                this.razao_social = rs.getString("razao_social");
+                this.nome_fanta = rs.getString("nome_fanta");
+                this.endereco.setRua(rs.getString("rua"));
+                this.endereco.setBairro(rs.getString("bairro"));
+                this.endereco.setComplemento(rs.getString("complemento"));
+                this.endereco.setNumero(rs.getInt("numero"));
+                this.endereco.setGps_lat(rs.getInt("gps_lat"));
+                this.endereco.setGps_long(rs.getInt("gps_long"));
+                break;
+            default:
+                this.idunidade = rs.getLong("idunidade");
+                this.nomecidade = rs.getString("nomecidade");
+                this.nomeestado = rs.getString("nomeestado");
+                this.nomepais = rs.getString("nomepais");
+                this.nomeunidade = rs.getString("nomeunidade");
+                this.telefone1 = rs.getString("telefone1");
+                this.telefone2 = rs.getString("telefone2");
+                this.email = rs.getString("email");
+                this.cnpj = rs.getString("cnpj");   
+                break;
+        }
         
-        this.idunidade = rs.getLong("idunidade");
-        this.nomecidade = rs.getString("nomecidade");
-        this.nomeestado = rs.getString("nomeestado");
-        this.nomepais = rs.getString("nomepais");
-        this.nomeunidade = rs.getString("nomeunidade");
-        this.telefone1 = rs.getString("telefone1");
-        this.telefone2 = rs.getString("telefone2");
-        this.email = rs.getString("email");
-        this.cnpj = rs.getString("cnpj");
-        this.razao_social = rs.getString("razao_social");
-        this.nome_fanta = rs.getString("nome_fanta");
-        this.endereco.setRua(rs.getString("rua"));
-        this.endereco.setBairro(rs.getString("bairro"));
-        this.endereco.setComplemento(rs.getString("complemento"));
-        this.endereco.setNumero(rs.getInt("numero"));
-        this.endereco.setGps_lat(rs.getInt("gps_lat"));
-        this.endereco.setGps_long(rs.getInt("gps_long"));
     }
 
 
@@ -190,40 +179,43 @@ public class TOUnidade extends TOBase{
     public JSONObject getJson(String metodo) throws Exception {
         //variavel tipo json para retornar no metodo
         JSONObject j = new JSONObject();
-        if(metodo.equals("buscarunidade")){
-            //populando o objeto j
-            j.put("idunidade", idunidade);
-            j.put("nomecidade", nomecidade);
-            j.put("nomeestado", nomeestado);
-            j.put("nomepais", nomepais);
-            j.put("nomeunidade", nomeunidade);
-            j.put("telefone1", telefone1);
-            j.put("telefone2", telefone2);
-            j.put("email", email);
-            j.put("cnpj", cnpj);
-            j.put("razao_social", razao_social);
-            j.put("nome_fanta", nome_fanta);
-            j.put("rua", endereco.getRua());
-            j.put("bairro", endereco.getBairro());
-            j.put("numero", endereco.getNumero());
-            j.put("complemento", endereco.getComplemento());
-            j.put("gps_lat", endereco.getGps_lat());
-            j.put("gps_long", endereco.getGps_long());
-        }else{
-            //populando o objeto j
-            j.put("idunidade", idunidade);
-            j.put("nomecidade", nomecidade);
-            j.put("nomeestado", nomeestado);
-            j.put("nomepais", nomepais);
-            j.put("nomeunidade", nomeunidade);
-            j.put("telefone1", telefone1);
-            j.put("telefone2", telefone2);
-            j.put("email", email);
-            j.put("cnpj", cnpj);
+        
+        switch(metodo){
+            case "buscarunidade":
+                //populando o objeto j
+                j.put("idunidade", idunidade);
+                j.put("nomecidade", nomecidade);
+                j.put("nomeestado", nomeestado);
+                j.put("nomepais", nomepais);
+                j.put("nomeunidade", nomeunidade);
+                j.put("telefone1", telefone1);
+                j.put("telefone2", telefone2);
+                j.put("email", email);
+                j.put("cnpj", cnpj);
+                j.put("razao_social", razao_social);
+                j.put("nome_fanta", nome_fanta);
+                j.put("rua", endereco.getRua());
+                j.put("bairro", endereco.getBairro());
+                j.put("numero", endereco.getNumero());
+                j.put("complemento", endereco.getComplemento());
+                j.put("gps_lat", endereco.getGps_lat());
+                j.put("gps_long", endereco.getGps_long());
+                break;
+            default:
+                //populando o objeto j
+                j.put("idunidade", idunidade);
+                j.put("nomecidade", nomecidade);
+                j.put("nomeestado", nomeestado);
+                j.put("nomepais", nomepais);
+                j.put("nomeunidade", nomeunidade);
+                j.put("telefone1", telefone1);
+                j.put("telefone2", telefone2);
+                j.put("email", email);
+                j.put("cnpj", cnpj);
+                break;
         }
-        
-        
-        
+      
+
         return j;
    
     }

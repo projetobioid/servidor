@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 import org.json.JSONArray;
 import to.TOBase;
-import to.TOLogin;
 import to.TOPessoa;
 import to.TOPropriedade;
 
@@ -22,22 +21,28 @@ import to.TOPropriedade;
 public class DAOPropriedade extends DAOBase{
 
     @Override
-    public long inserir(Connection c, TOBase t) throws Exception {
-    String sql = "INSERT INTO propriedade(endereco_idendereco, unidade_idunidade, nomepropriedade, area, "
-            + "unidadedemedida, areautilizavel, unidadedemedidaau) VALUES (?, ?, ?, ?, ?, ?, ?)";
-        
+    public long inserir(Connection c, TOBase t, String metodo) throws Exception {
+        String sql = null;
         TOPropriedade to = (TOPropriedade)t;
-        
         List<Object> p = new ArrayList<Object>();
         
+        switch(metodo){
+            default:
+                
+                sql = "INSERT INTO propriedade(endereco_idendereco, unidade_idunidade, nomepropriedade, area, "
+                    + "unidadedemedida, areautilizavel, unidadedemedidaau) VALUES (?, ?, ?, ?, ?, ?, ?)";
+                
+                p.add(to.getEndereco_idendereco());
+                p.add(to.getUnidade_idunidade());
+                p.add(to.getNomepropriedade());
+                p.add(to.getArea());
+                p.add(to.getUnidadedemedida());
+                p.add(to.getAreautilizavel());
+                p.add(to.getUnidadedemedidaau()); 
+                break;
+        }
         
-        p.add(to.getEndereco_idendereco());
-        p.add(to.getUnidade_idunidade());
-        p.add(to.getNomepropriedade());
-        p.add(to.getArea());
-        p.add(to.getUnidadedemedida());
-        p.add(to.getAreautilizavel());
-        p.add(to.getUnidadedemedidaau());
+        
         
         //passa por parametros a conexao e a lista de objetos da insercao de um novo produto
         return Data.executeUpdate(c, sql, p);    
@@ -45,25 +50,32 @@ public class DAOPropriedade extends DAOBase{
 
 
     @Override
-    public TOBase get(Connection c, TOBase t) throws Exception {
-        String sql = "SELECT * FROM propriedade pr "
-                + "INNER JOIN relacaopa r ON(r.propriedade_idpropriedade = pr.idpropriedade)"
-                + "INNER JOIN pessoa p ON(p.idpessoa = r.agricultor_pessoa_idpessoa)"
-                + "WHERE LOWER(pr.nomepropriedade) = LOWER(?) and p.cpf = ?";
-        
+    public TOBase get(Connection c, TOBase t, String metodo) throws Exception {
+
         ResultSet rs = null;
         List<Object> p = new ArrayList<Object>();
         
         try{
-            
+            String sql = null;
             TOPropriedade to = (TOPropriedade)t;
-            p.add(to.getNomepropriedade());
-            p.add(to.getCpf());
+            
+            switch(metodo){
+                default:
+                    sql = "SELECT * FROM propriedade pr "
+                        + "INNER JOIN relacaopa r ON(r.propriedade_idpropriedade = pr.idpropriedade)"
+                        + "INNER JOIN pessoa p ON(p.idpessoa = r.agricultor_pessoa_idpessoa)"
+                        + "WHERE LOWER(pr.nomepropriedade) = LOWER(?) and p.cpf = ?";
+                    
+                    p.add(to.getNomepropriedade());
+                    p.add(to.getCpf());
+                    break;
+            }
+            
             
             rs = Data.executeQuery(c, sql, p);
             
             if(rs.next()){
-                return new TOPropriedade(rs);
+                return new TOPropriedade(rs, metodo);
             }else{
                 return null;
             }
@@ -72,38 +84,6 @@ public class DAOPropriedade extends DAOBase{
         }
     }
 
-    @Override
-    public JSONArray listar(Connection c, TOBase t) throws Exception {
-        JSONArray  ja = new JSONArray();
-                
-                
-        String sql = "SELECT cdd.nomecidade, e.rua, e.numero, e.bairro, e.cep, e.complemento, e.gps_lat, e.gps_long, pr.nomepropriedade, pr.idpropriedade "
-                + "FROM propriedade pr INNER JOIN relacaopa rpa ON(pr.idPropriedade = rpa.propriedade_idpropriedade) "
-                + "INNER JOIN pessoa p ON(p.idpessoa = rpa.agricultor_pessoa_idpessoa) "
-                + "INNER JOIN endereco e ON(e.idendereco = pr.endereco_idendereco) "
-                + "INNER JOIN cidade cdd ON(cdd.idcidade = e.cidade_idcidade) "
-                + "WHERE p.idpessoa IN(?)";
-        
-        ResultSet rs = null;
-        
-        try{
-            //variavel com lista dos parametros
-            List<Object> u = new ArrayList<Object>();
-            TOLogin to = (TOLogin)t;
-            u.add(to.getPessoa_idpessoa());
-            
-            rs = Data.executeQuery(c, sql, u);
-            
-            while (rs.next()){
-//                TOPropriedade ts = new TOPropriedade(rs, ).listarPropriedadeEndereco(rs);
-//                ja.put(ts.getJson());
-            }
-        }finally{
-            rs.close();
-        }
-        return ja;
-    
-    }
 
     @Override
     public JSONArray listar(Connection c, TOBase t, String metodo) throws Exception {
@@ -120,16 +100,27 @@ public class DAOPropriedade extends DAOBase{
             List<Object> u = new ArrayList<Object>();
             TOPessoa tp = (TOPessoa)t;
             
-            if(metodo.equals("listarpropriedades")){       
-                sql = "SELECT pr.nomepropriedade, pr.idpropriedade FROM propriedade pr "
-                    + "INNER JOIN relacaopa rpa ON(rpa.propriedade_idpropriedade = pr.idpropriedade) "
-                    + "INNER JOIN agricultor a ON(a.pessoa_idpessoa = rpa.agricultor_pessoa_idpessoa) "
-                    + "INNER JOIN pessoa p ON(p.idpessoa = a.pessoa_idpessoa) "
-                    + "INNER JOIN login l ON(l.pessoa_idpessoa = p.idpessoa) "
-                    + "WHERE p.idpessoa IN(?) AND l.unidade_idunidade IN(?)";
-                u.add(tp.getIdpessoa());
-                u.add(tp.getIdunidade());
+            switch(metodo){
+                case "listarpropriedades":
+                    sql = "SELECT pr.nomepropriedade, pr.idpropriedade FROM propriedade pr "
+                        + "INNER JOIN relacaopa rpa ON(rpa.propriedade_idpropriedade = pr.idpropriedade) "
+                        + "INNER JOIN agricultor a ON(a.pessoa_idpessoa = rpa.agricultor_pessoa_idpessoa) "
+                        + "INNER JOIN pessoa p ON(p.idpessoa = a.pessoa_idpessoa) "
+                        + "INNER JOIN login l ON(l.pessoa_idpessoa = p.idpessoa) "
+                        + "WHERE p.idpessoa IN(?) AND l.unidade_idunidade IN(?)";
+                    u.add(tp.getIdpessoa());
+                    u.add(tp.getIdunidade());
+                    break;
+                default:
+                    sql = "SELECT cdd.nomecidade, e.rua, e.numero, e.bairro, e.cep, e.complemento, e.gps_lat, e.gps_long, pr.nomepropriedade, pr.idpropriedade "
+                        + "FROM propriedade pr INNER JOIN relacaopa rpa ON(pr.idPropriedade = rpa.propriedade_idpropriedade) "
+                        + "INNER JOIN pessoa p ON(p.idpessoa = rpa.agricultor_pessoa_idpessoa) "
+                        + "INNER JOIN endereco e ON(e.idendereco = pr.endereco_idendereco) "
+                        + "INNER JOIN cidade cdd ON(cdd.idcidade = e.cidade_idcidade) "
+                        + "WHERE p.idpessoa IN(?)";
+                    break;
             }
+
             
             
             rs = Data.executeQuery(c, sql, u);

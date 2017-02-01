@@ -6,7 +6,6 @@
 package to;
 
 import java.sql.ResultSet;
-import java.util.Date;
 import org.json.JSONObject;
 
 /**
@@ -22,8 +21,6 @@ public class TOSessao extends TOBase{
     public String sessao;
     
     public String datarequisicao;
-    
-    public String newSessao;
 
     public long getIdsessao() {
         return idsessao;
@@ -58,24 +55,22 @@ public class TOSessao extends TOBase{
     }
 
 
-
-    public String getNewSessao() {
-        return newSessao;
-    }
-
-    public void setNewSessao(String newSessao) {
-        this.newSessao = newSessao;
-    }
-
     public TOSessao() {
     }
 
     
     public TOSessao(ResultSet rs, String metodo) throws Exception{
-        this.idsessao = rs.getLong("idsessao");
-        this.login_idlogin = rs.getLong("login_idlogin");
-        this.sessao = rs.getString("sessao");
-        this.datarequisicao = rs.getString("datarequisicao");
+        
+        switch(metodo){
+            case "getSessao":
+                //retorna sessao antiga
+                this.idsessao = rs.getLong("idsessao");
+                this.login_idlogin = rs.getLong("login_idlogin");
+                this.sessao = rs.getString("sessao");
+                this.datarequisicao = rs.getString("datarequisicao");
+                break;
+        }
+        
        
     }
     
@@ -92,5 +87,7 @@ public class TOSessao extends TOBase{
         
         return j;
     }
+
+   
     
 }

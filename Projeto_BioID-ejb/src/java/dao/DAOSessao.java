@@ -10,7 +10,6 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import org.json.JSONArray;
 import to.TOBase;
 import to.TOSessao;
 
@@ -30,11 +29,18 @@ public class DAOSessao extends DAOBase{
         //variavel com lista dos parametros
         List<Object> u = new ArrayList<Object>();
         //testa o metodo a ser executado
-        if(metodo.equals("validacao")){
-            sql = "INSERT INTO sessao(login_idlogin, sessao, datarequisicao) VALUES (?, ?, ?)";
+        
+        switch(metodo){
+            
+            case "validacao":
+                sql = "INSERT INTO sessao(login_idlogin, sessao, datarequisicao) VALUES (?, ?, ?)";
             u.add(to.getLogin_idlogin());
             u.add(to.getSessao());
-            u.add(new Date().toString());   
+            u.add(new Date().toString()); 
+                break;
+            default:
+                break;
+                
         }
         
         //passa por parametros a conexao e a lista de objetos da insercao de um novo produto
@@ -50,12 +56,15 @@ public class DAOSessao extends DAOBase{
         
         List<Object> p = new ArrayList<Object>();
         //testa o metodo a ser executado
-        if(metodo.equals("updatesessao")){
-            sql =   "update sessao set sessao = ?, datarequisicao = ? where idsessao IN(?)";
         
-            p.add(to.getNewSessao());
-            p.add(new Date().toString());
-            p.add(to.getIdsessao());
+        switch(metodo){
+            case "update_sessao":
+                sql =   "update sessao set sessao = ?, datarequisicao = ? where idsessao IN(?)";
+                p.add(to.getSessao());
+                p.add(new Date().toString());
+                p.add(to.getIdsessao());
+                break;
+            
         }
        
         //passa por parametros a conexao e a lista de objetos da insercao de um novo produto        
@@ -82,11 +91,13 @@ public class DAOSessao extends DAOBase{
             List<Object> u = new ArrayList<Object>();
             
             //testa o metodo a ser executado
-            if(metodo.equals("getsessao")){
-                sql = "SELECT idsessao, login_idlogin, sessao, datarequisicao FROM sessao where sessao IN(?) AND login_idlogin IN(?)";
-                u.add(to.getSessao());
-                u.add(to.getLogin_idlogin());
+            switch(metodo){
+                case "get_sessao":
+                    sql = "SELECT idsessao, login_idlogin, sessao, datarequisicao FROM sessao where sessao IN(?) AND login_idlogin IN(?)";
+                    u.add(to.getSessao());
+                    u.add(to.getLogin_idlogin());
            
+                    break;
             }
             
             rs = Data.executeQuery(c, sql, u);

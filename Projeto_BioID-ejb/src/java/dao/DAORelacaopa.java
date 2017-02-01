@@ -8,7 +8,6 @@ package dao;
 import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
-import org.json.JSONArray;
 import to.TOBase;
 import to.TORelacaopa;
 
@@ -19,15 +18,21 @@ import to.TORelacaopa;
 public class DAORelacaopa extends DAOBase{
 
     @Override
-    public long inserir(Connection c, TOBase t) throws Exception {
-        String sql = "INSERT INTO relacaopa(agricultor_pessoa_idpessoa, propriedade_idpropriedade) VALUES (?, ?)";
-        
+    public long inserir(Connection c, TOBase t, String metodo) throws Exception {
+        String sql = null;
+
         TORelacaopa to = (TORelacaopa)t;
         
         List<Object> p = new ArrayList<Object>();
         
-        p.add(to.getAgricultor_pessoa_idpessoa());
-        p.add(to.getPropriedade_idpropriedade());
+        switch(metodo){
+            default:
+                sql = "INSERT INTO relacaopa(agricultor_pessoa_idpessoa, propriedade_idpropriedade) VALUES (?, ?)";
+                p.add(to.getAgricultor_pessoa_idpessoa());
+                p.add(to.getPropriedade_idpropriedade());
+                break;
+        }
+        
         
         
         //passa por parametros a conexao e a lista de objetos da insercao de um novo produto

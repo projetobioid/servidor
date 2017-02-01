@@ -20,17 +20,24 @@ import to.TOHistoricoColheita;
 public class DAOHistoricoColheita extends DAOBase{
 
     @Override
-    public long inserir(Connection c, TOBase t) throws Exception {
-        String sql = "INSERT INTO historicocolheita(safra_idsafra, datacolheita, qtdcolhida) VALUES ( ?, ?, ?)";
+    public long inserir(Connection c, TOBase t, String metodo) throws Exception {
+        String sql = null;
+        
         
         TOHistoricoColheita to = (TOHistoricoColheita)t;
         
         List<Object> p = new ArrayList<Object>();
         
+        switch(metodo){
+            default:
+                sql = "INSERT INTO historicocolheita(safra_idsafra, datacolheita, qtdcolhida) VALUES ( ?, ?, ?)";
+                p.add(to.getSafra_idsafra());
+                p.add(to.getDatacolheita());
+                p.add(to.getQtdcolhida());
+                break;
+        }
         
-        p.add(to.getSafra_idsafra());
-        p.add(to.getDatacolheita());
-        p.add(to.getQtdcolhida());
+        
         
         
         //passa por parametros a conexao e a lista de objetos da insercao de um novo produto
@@ -39,23 +46,30 @@ public class DAOHistoricoColheita extends DAOBase{
 
 
     @Override
-    public JSONArray listar(Connection c, TOBase t) throws Exception {
+    public JSONArray listar(Connection c, TOBase t, String metodo) throws Exception {
         JSONArray  ja = new JSONArray();
         
-        String sql = "SELECT idcolheita, safra_idsafra, unidademedida_idunidademedida, datacolheita, qtdcolhida FROM colheita WHERE safra_idsafra IN(?)";
+        
            
         ResultSet rs = null;
         try{
+            String sql = null;
             //variavel com lista dos parametros
             List<Object> u = new ArrayList<Object>();
             
-            u.add(((TOHistoricoColheita) t).getSafra_idsafra());
+            switch(metodo){
+                default:
+                    sql = "SELECT idcolheita, safra_idsafra, unidademedida_idunidademedida, datacolheita, qtdcolhida FROM colheita WHERE safra_idsafra IN(?)";
+                    u.add(((TOHistoricoColheita) t).getSafra_idsafra());
+                    break;
+            }
+            
             
             rs = Data.executeQuery(c, sql, u);
             
             while (rs.next()){
-                TOHistoricoColheita ts = new TOHistoricoColheita(rs);
-                ja.put(ts.getJson());
+                TOHistoricoColheita ts = new TOHistoricoColheita(rs, metodo);
+                ja.put(ts.getJson(metodo));
                 
             }
             
@@ -67,25 +81,33 @@ public class DAOHistoricoColheita extends DAOBase{
     }
 
     @Override
-    public TOBase get(Connection c, TOBase t) throws Exception {
+    public TOBase get(Connection c, TOBase t, String metodo) throws Exception {
          //string com o comando sql para editar o banco de dados
-        String sql = "SELECT SUM(qtdcolhida) AS somaqtdcolhida FROM historicocolheita WHERE safra_idsafra IN(?)";
+        
         
         ResultSet rs = null;
         
         try{
+            String sql = null;
             //variavel sendo convertida para toUsuarios
             TOHistoricoColheita to = (TOHistoricoColheita)t;
             //variavel com lista dos parametros
             List<Object> u = new ArrayList<Object>();
             
-            u.add(to.getSafra_idsafra());
+            switch(metodo){
+                default:
+                    sql = "SELECT SUM(qtdcolhida) AS somaqtdcolhida FROM historicocolheita WHERE safra_idsafra IN(?)";
+                    u.add(to.getSafra_idsafra());
+                    break;
+                
+            }
+            
             
             rs = Data.executeQuery(c, sql, u);
             
             
             if(rs.next()){
-                return new TOHistoricoColheita(rs);
+                return new TOHistoricoColheita(rs, metodo);
             }else{
                 return null;
             }

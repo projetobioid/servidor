@@ -9,7 +9,6 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
-import org.json.JSONArray;
 import to.TOBase;
 import to.TOAgricultor;
 
@@ -21,17 +20,24 @@ public class DAOAgricultor extends DAOBase{
 
     @Override
     public long inserir(Connection c, TOBase t, String metodo) throws Exception {
-        String sql = "INSERT INTO agricultor(pessoa_idpessoa, qtdintegrantes, qtdcriancas, qtdgravidas)VALUES (?, ?, ?, ?)";
+        String sql = null;
+        
+        
         
         TOAgricultor to = (TOAgricultor)t;
         
         List<Object> p = new ArrayList<Object>();
+        switch(metodo){
+            default:
+                sql = "INSERT INTO agricultor(pessoa_idpessoa, qtdintegrantes, qtdcriancas, qtdgravidas)VALUES (?, ?, ?, ?)";
+                p.add(to.getPessoa_idpessoa());
+                p.add(to.getQtdIntegrantes());
+                p.add(to.getQtdCriancas());
+                p.add(to.getQtdGravidas());
+                break;
+        }
         
         
-        p.add(to.getPessoa_idpessoa());
-        p.add(to.getQtdIntegrantes());
-        p.add(to.getQtdCriancas());
-        p.add(to.getQtdGravidas());
         
         //passa por parametros a conexao e a lista de objetos da insercao de um novo produto
         return Data.executeUpdate(c, sql, p);
