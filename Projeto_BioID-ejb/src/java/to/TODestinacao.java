@@ -21,7 +21,7 @@ public class TODestinacao extends TOBase{
     
     private String datadestinada;
     
-    private float qtddestinada;
+    private double qtddestinada;
 
     public long getIddestinacao() {
         return iddestinacao;
@@ -55,11 +55,11 @@ public class TODestinacao extends TOBase{
         this.datadestinada = datadestinada;
     }
 
-    public float getQtddestinada() {
+    public double getQtddestinada() {
         return qtddestinada;
     }
 
-    public void setQtddestinada(float qtddestinada) {
+    public void setQtddestinada(double qtddestinada) {
         this.qtddestinada = qtddestinada;
     }
 
@@ -68,37 +68,36 @@ public class TODestinacao extends TOBase{
     public TODestinacao() {
     }
 
-    public TODestinacao(long iddestinacao, long safra_idsafra, long unidademedida_idunidademedida, String datadestinada, float qtddestinada) {
-        this.iddestinacao = iddestinacao;
-        this.safra_idsafra = safra_idsafra;
-        this.tipodestinacao_idtipodestinacao = tipodestinacao_idtipodestinacao;
-        this.datadestinada = datadestinada;
-        this.qtddestinada = qtddestinada;
+
+    public TODestinacao(ResultSet rs, String metodo)throws Exception{
+        switch(metodo){
+            default:
+                this.datadestinada = rs.getString("");
+                this.iddestinacao = rs.getLong("");
+                this.qtddestinada = rs.getDouble("");
+                this.safra_idsafra = rs.getLong("");
+                this.tipodestinacao_idtipodestinacao = rs.getLong("");
+                break;
+            
+        }
+        
     }
-
     
-    
-     public TODestinacao(ResultSet rs) throws Exception{
-        this.iddestinacao = rs.getLong("iddestinacao");
-        this.safra_idsafra = rs.getLong("safrarelatada_safra_idsafra");
-        this.tipodestinacao_idtipodestinacao = rs.getLong("tipodestinacao_idtipodestinacao");
-        this.datadestinada = rs.getString("datadestinada");
-        this.qtddestinada = rs.getFloat("qtddestinada");
-
-    }
-
     @Override
-    public JSONObject getJson() throws Exception {
+    public JSONObject getJson(String metodo) throws Exception {
          //variavel para retorno do json contendo as informacoes do produto
         JSONObject j = new JSONObject();
         
-        //populando o objeto j
-        j.put("iddestinacao", iddestinacao);
-        j.put("safrarelatada_safra_idsafra", safra_idsafra);
-        j.put("tipodestinacao_idtipodestinacao", tipodestinacao_idtipodestinacao);
-        j.put("datadestinada", datadestinada);
-        j.put("qtddestinada", qtddestinada);
-
+        switch(metodo){
+            default:
+            //populando o objeto j
+            j.put("iddestinacao", iddestinacao);
+            j.put("safrarelatada_safra_idsafra", safra_idsafra);
+            j.put("tipodestinacao_idtipodestinacao", tipodestinacao_idtipodestinacao);
+            j.put("datadestinada", datadestinada);
+            j.put("qtddestinada", qtddestinada);
+            break;
+        }
         return j;
     }
 }

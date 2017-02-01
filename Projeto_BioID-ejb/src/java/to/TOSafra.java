@@ -213,99 +213,75 @@ public class TOSafra extends TOBase {
     public TOSafra() {
     }
 
-    public TOSafra(long idsafra, long statussafra_idstatussafra, long unidademedida_idunidademedida, long propriedade_idpropriedade, long cultivar_idcultivar, String safra, String datareceb, float qtdrecebida, String ultimadatacolheita, float qtdcolhida, String grandeza_recebida, String nomecultivar, String nomepropriedade, int tempodecolheita, int tempodestinacao, String prazo_colheita, String prazo_destinacao, float qtddestinada) {
-        this.idsafra = idsafra;
-        this.statussafra_idstatussafra = statussafra_idstatussafra;
-        this.unidademedida_idunidademedida = unidademedida_idunidademedida;
-        this.propriedade_idpropriedade = propriedade_idpropriedade;
-        this.cultivar_idcultivar = cultivar_idcultivar;
-        this.safra = safra;
-        this.datareceb = datareceb;
-        this.qtdrecebida = qtdrecebida;
-        this.ultimadatacolheita = ultimadatacolheita;
-        this.qtdcolhida = qtdcolhida;
-        this.grandeza_recebida = grandeza_recebida;
-        this.nomecultivar = nomecultivar;
-        this.nomepropriedade = nomepropriedade;
-        this.tempodecolheita = tempodecolheita;
-        this.tempodestinacao = tempodestinacao;
-        this.prazo_colheita = prazo_colheita;
-        this.prazo_destinacao = prazo_destinacao;
-        this.qtddestinada = qtddestinada;
-    }
 
-    public TOSafra(ResultSet rs) throws Exception{
-        this.idsafra = rs.getLong("idsafra");
-        this.statussafra_idstatussafra = rs.getLong("statussafra_idstatussafra");     
-        //this.propriedade_idpropriedade = rs.getLong("propriedade_idpropriedade");
-        this.safra = rs.getString("safra");
-        this.datareceb = rs.getString("datareceb");
-        this.qtdrecebida = rs.getFloat("qtdrecebida");
-        this.qtddestinada = rs.getFloat("qtddestinada");
-        this.grandeza_recebida = rs.getString("grandeza_recebida");
-        this.qtdcolhida = rs.getFloat("qtdcolhida");
-        this.nomecultivar = rs.getString("nomecultivar");
-        this.nomepropriedade = rs.getString("nomepropriedade");
-        this.tempodecolheita = rs.getInt("tempodecolheita");
-        this.tempodestinacao = rs.getInt("tempodestinacao");
+    public TOSafra(ResultSet rs, String metodo) throws Exception{
+        
+        switch(metodo){
+            case "backup_entrevista":
+                this.propriedade_idpropriedade = rs.getLong("propriedade_idpropriedade");
+                this.idsafra = rs.getLong("idsafra");
+                this.safra = rs.getString("safra");
+                this.nomecultivar = rs.getString("nomecultivar");
+                this.qtdrecebida = rs.getFloat("qtdrecebida");
+                this.grandeza_recebida = rs.getString("grandeza_recebida");
+                this.datareceb = rs.getString("datareceb");
+                break;
+            default:
+                this.idsafra = rs.getLong("idsafra");
+                this.statussafra_idstatussafra = rs.getLong("statussafra_idstatussafra");     
+                this.propriedade_idpropriedade = rs.getLong("propriedade_idpropriedade");
+                this.safra = rs.getString("safra");
+                this.datareceb = rs.getString("datareceb");
+                this.qtdrecebida = rs.getFloat("qtdrecebida");
+                this.qtddestinada = rs.getFloat("qtddestinada");
+                this.grandeza_recebida = rs.getString("grandeza_recebida");
+                this.qtdcolhida = rs.getFloat("qtdcolhida");
+                this.nomecultivar = rs.getString("nomecultivar");
+                this.nomepropriedade = rs.getString("nomepropriedade");
+                this.tempodecolheita = rs.getInt("tempodecolheita");
+                this.tempodestinacao = rs.getInt("tempodestinacao");
+                break;
+        }
+        
            
     }
 
-    public TOSafra backupentrevista(ResultSet rs) throws Exception{
-        this.propriedade_idpropriedade = rs.getLong("propriedade_idpropriedade");
-        this.idsafra = rs.getLong("idsafra");
-        this.safra = rs.getString("safra");
-        this.nomecultivar = rs.getString("nomecultivar");
-        this.qtdrecebida = rs.getFloat("qtdrecebida");
-        this.grandeza_recebida = rs.getString("grandeza_recebida");
-        this.datareceb = rs.getString("datareceb");
-        
-        return this;
-    }
     
     @Override
-    public JSONObject getJson() throws Exception {
+    public JSONObject getJson(String metodo) throws Exception {
          //variavel para retorno do json contendo as informacoes do produto
         JSONObject j = new JSONObject();
 
-        //populando o objeto j
-        j.put("idsafra", idsafra);
-        j.put("statussafra_idstatussafra", statussafra_idstatussafra);
-        //j.put("propriedade_idpropriedade", propriedade_idpropriedade);
-        j.put("safra", safra);
-        j.put("datareceb", datareceb);
-        j.put("qtdrecebida", qtdrecebida);
-        j.put("qtddestinada", qtddestinada);
-        j.put("grandeza_recebida", grandeza_recebida);
-        j.put("qtdcolhida", qtdcolhida);
-        j.put("nomecultivar", nomecultivar);
-        j.put("nomepropriedade", nomepropriedade);
-        j.put("prazo_colheita", prazo_colheita);
-        j.put("prazo_destinacao", prazo_destinacao);
+        switch(metodo){
+            case "backup_entrevista":
+                j.put("propriedade_idpropriedade", propriedade_idpropriedade);
+                j.put("idsafra", idsafra);
+                j.put("safra", safra);
+                j.put("nomecultivar", nomecultivar);
+                j.put("qtdrecebida", qtdrecebida);
+                j.put("grandeza_recebida", grandeza_recebida);
+                j.put("datareceb", datareceb);
+                break;
+            default:
         
+                //populando o objeto j
+                j.put("idsafra", idsafra);
+                j.put("statussafra_idstatussafra", statussafra_idstatussafra);
+                j.put("propriedade_idpropriedade", propriedade_idpropriedade);
+                j.put("safra", safra);
+                j.put("datareceb", datareceb);
+                j.put("qtddestinada", qtddestinada);
+                j.put("qtdrecebida", qtdrecebida);
+                j.put("grandeza_recebida", grandeza_recebida);
+                j.put("qtdcolhida", qtdcolhida);
+                j.put("nomecultivar", nomecultivar);
+                j.put("nomepropriedade", nomepropriedade);
+                j.put("prazo_colheita", prazo_colheita);
+                j.put("prazo_destinacao", prazo_destinacao);
+                break;
+        }
         return j;
     }
-
-
-//    @Override
-//    public JSONObject getJsonConsulta() throws Exception {
-//        
-//        JSONObject j = new JSONObject();
-//
-//        
-//        j.put("idpropriedade", propriedade_idpropriedade);
-//        j.put("idsafra", idsafra);
-//        j.put("safra", safra);
-//        j.put("nomecultivar", nomecultivar);
-//        j.put("qtdrecebida", qtdrecebida);
-//        j.put("grandeza_recebida", grandeza_recebida);
-//        j.put("datareceb", datareceb);
-//
-//        
-//        return j;
-//    }
-
-    
 
 
 }

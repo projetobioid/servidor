@@ -280,6 +280,8 @@ public class ServicosPessoa {
 //        
 //        return j.toString();
 //    }
+    
+    
      //adicionar usuario no sistema
     @Path("inserirusuario")
     @POST
@@ -312,8 +314,8 @@ public class ServicosPessoa {
                 tl.setUsuario(k.getString("usuario"));
 
                 //se nao existe cpf nem usuario eh cadastrado no banco
-                if(BOFactory.get(new DAOPessoa(), t) == null ){
-                    if(BOFactory.get(new DAOLogin(), tl) == null ){
+                if(BOFactory.get(new DAOPessoa(), t, null) == null ){
+                    if(BOFactory.get(new DAOLogin(), tl, null) == null ){
 
                         //tabela endereco
                         TOEndereco te = new TOEndereco();
@@ -327,7 +329,7 @@ public class ServicosPessoa {
                         te.setNumero(k.getInt("numero"));
 
                         //tabela pessoa
-                        t.setEndereco_idendereco(BOFactory.inserir(new DAOEndereco(), te));
+                        t.setEndereco_idendereco(BOFactory.inserir(new DAOEndereco(), te, null));
                         t.setEscolaridade_idescolaridade(k.getLong("escolaridade_idescolaridade"));
                         t.setEstadocivil_idestadocivil(k.getLong("estadocivil_idestadocivil"));
                         t.setNome(k.getString("nome"));
@@ -342,12 +344,12 @@ public class ServicosPessoa {
 
 
                         //tabela login
-                        tl.setPessoa_idpessoa(BOFactory.inserir(new DAOPessoa(), t));
+                        tl.setPessoa_idpessoa(BOFactory.inserir(new DAOPessoa(), t, null));
                         tl.setUnidade_idunidade(k.getLong("unidade_idunidade"));
                         tl.setSenha(k.getString("senha"));
                         tl.setPapel(k.getString("papel"));
                         //grava no banco de dados os dados da classe TOLogin
-                        BOFactory.inserir(new DAOLogin(), tl);
+                        BOFactory.inserir(new DAOLogin(), tl, null);
 
 
 
@@ -407,7 +409,7 @@ public class ServicosPessoa {
                 t.setCpf(k.getString("cpf"));
 
                 //se nao existe cpf cadastrado no banco, prosegue o cadastro
-                if(BOFactory.get(new DAOPessoa(), t) == null ){
+                if(BOFactory.get(new DAOPessoa(), t, k.) == null ){
                     TOLogin tl = new TOLogin();
 
                     tl.setUsuario(k.getString("usuario"));
@@ -596,7 +598,7 @@ public class ServicosPessoa {
             to.setSenha(k.getString("senha"));
             
             
-            to = (TOLogin) BOFactory.get(new DAOLogin(), to);
+            to = (TOLogin) BOFactory.get(new DAOLogin(), to, k.getString("metodo"));
             
             if(to == null){
                 j.put("sucesso", false);
@@ -610,8 +612,8 @@ public class ServicosPessoa {
                 ts.setSessao(new BigInteger(130, random).toString(32));
                 
              
-                
-                BOFactory.inserir(new DAOSessao(), ts);
+                //salva uma nova sessao no banco de dados
+                BOFactory.inserir(new DAOSessao(), ts, k.getString("metodo"));
                 
                 //retorna valores do login
      

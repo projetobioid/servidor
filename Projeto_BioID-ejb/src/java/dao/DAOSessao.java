@@ -21,31 +21,57 @@ import to.TOSessao;
 public class DAOSessao extends DAOBase{
 
     @Override
-    public long inserir(Connection c, TOBase t) throws Exception {
+    public long inserir(Connection c, TOBase t, String metodo) throws Exception {
        //string com o comando sql para editar o banco de dados
-        String sql = "INSERT INTO sessao(login_idlogin, sessao, datarequisicao) VALUES (?, ?, ?)";
+        String sql = null;
+        
         //variavel sendo convertida para toUsuarios
         TOSessao to = (TOSessao)t;
         //variavel com lista dos parametros
         List<Object> u = new ArrayList<Object>();
+        //testa o metodo a ser executado
+        if(metodo.equals("validacao")){
+            sql = "INSERT INTO sessao(login_idlogin, sessao, datarequisicao) VALUES (?, ?, ?)";
+            u.add(to.getLogin_idlogin());
+            u.add(to.getSessao());
+            u.add(new Date().toString());   
+        }
         
-        u.add(to.getLogin_idlogin());
-        u.add(to.getSessao());
-        u.add(new Date().toString());
         //passa por parametros a conexao e a lista de objetos da insercao de um novo produto
         return Data.executeUpdate(c, sql, u);
     }
 
+    @Override
+    public void editar(Connection c, TOBase t, String metodo) throws Exception {
+        String sql = null;
+      
+        
+        TOSessao to = (TOSessao)t;
+        
+        List<Object> p = new ArrayList<Object>();
+        //testa o metodo a ser executado
+        if(metodo.equals("updatesessao")){
+            sql =   "update sessao set sessao = ?, datarequisicao = ? where idsessao IN(?)";
+        
+            p.add(to.getNewSessao());
+            p.add(new Date().toString());
+            p.add(to.getIdsessao());
+        }
+       
+        //passa por parametros a conexao e a lista de objetos da insercao de um novo produto        
+        Data.executeUpdate(c, sql, p);
+    }
     
     @Override
-    public JSONArray listar(Connection c, TOBase t) throws Exception {
-        return super.listar(c, t); //To change body of generated methods, choose Tools | Templates.
+    public void excluir(Connection c, TOBase t, String metodo) throws Exception {
+        super.excluir(c, t, metodo); //To change body of generated methods, choose Tools | Templates.
     }
-
+    
+    
     @Override
-    public TOBase get(Connection c, TOBase t) throws Exception {
+    public TOBase get(Connection c, TOBase t, String metodo) throws Exception {
          //string com o comando sql para editar o banco de dados
-        String sql = "SELECT idsessao, login_idlogin, sessao, datarequisicao FROM sessao where sessao IN(?) AND login_idlogin IN(?)";
+        String sql = null;
         
         ResultSet rs = null;
         
@@ -55,15 +81,19 @@ public class DAOSessao extends DAOBase{
             //variavel com lista dos parametros
             List<Object> u = new ArrayList<Object>();
             
-            u.add(to.getSessao());
-            u.add(to.getLogin_idlogin());
+            //testa o metodo a ser executado
+            if(metodo.equals("getsessao")){
+                sql = "SELECT idsessao, login_idlogin, sessao, datarequisicao FROM sessao where sessao IN(?) AND login_idlogin IN(?)";
+                u.add(to.getSessao());
+                u.add(to.getLogin_idlogin());
            
+            }
             
             rs = Data.executeQuery(c, sql, u);
             
             
             if(rs.next()){
-                return new TOSessao(rs);
+                return new TOSessao(rs, metodo);
             }else{
                 return null;
             }
@@ -71,27 +101,4 @@ public class DAOSessao extends DAOBase{
             rs.close();
         }
     }
-
-    @Override
-    public void excluir(Connection c, TOBase t) throws Exception {
-        super.excluir(c, t); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void editar(Connection c, TOBase t) throws Exception {
-        String sql = "update sessao set sessao = ?, datarequisicao = ? where idsessao IN(?)";
-        
-        TOSessao to = (TOSessao)t;
-        
-        List<Object> p = new ArrayList<Object>();
-        
-        p.add(to.getNewSessao());
-        p.add(new Date().toString());
-        p.add(to.getIdsessao());
-        
-       
-        //passa por parametros a conexao e a lista de objetos da insercao de um novo produto        
-        Data.executeUpdate(c, sql, p);
-    }
-    
 }

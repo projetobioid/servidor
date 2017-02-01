@@ -14,8 +14,8 @@ import org.json.JSONObject;
 public class TOPerguntas extends TOBase{
 
     @Override
-    public JSONObject getJson() throws Exception {
-        return super.getJson(); //To change body of generated methods, choose Tools | Templates.
+    public JSONObject getJson(String metodo) throws Exception {
+        return super.getJson(metodo); //To change body of generated methods, choose Tools | Templates.
     }
     
 }

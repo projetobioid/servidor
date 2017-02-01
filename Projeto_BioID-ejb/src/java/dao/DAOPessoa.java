@@ -60,29 +60,38 @@ public class DAOPessoa extends DAOBase{
 
     
     @Override
-    public long inserir(Connection c, TOBase t) throws Exception {
+    public long inserir(Connection c, TOBase t, String metodo) throws Exception {
         //string com o comando sql para editar o banco de dados
-        String sql = "INSERT INTO pessoa(estadocivil_idestadocivil, escolaridade_idescolaridade, endereco_idendereco, nome,"
-                + " sobrenome, apelido, cpf, rg, datanascimento, sexo, telefone1, telefone2, email) "
-                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+        String sql = null;
+        
         //variavel sendo convertida para toUsuarios
         TOPessoa to = (TOPessoa)t;
         //variavel com lista dos parametros
         List<Object> u = new ArrayList<Object>();
         
-        u.add(to.getEstadocivil_idestadocivil());
-        u.add(to.getEscolaridade_idescolaridade());
-        u.add(to.getEndereco_idendereco());
-        u.add(to.getNome());
-        u.add(to.getSobrenome());
-        u.add(to.getApelido());
-        u.add(to.getCpf());
-        u.add(to.getRg());
-        u.add(to.getDatanascimento());
-        u.add(to.getSexo());
-        u.add(to.getTelefone1());
-        u.add(to.getTelefone2());
-        u.add(to.getEmail());
+        switch(metodo){
+            default:
+                sql = "INSERT INTO pessoa(estadocivil_idestadocivil, escolaridade_idescolaridade, endereco_idendereco, nome,"
+                + " sobrenome, apelido, cpf, rg, datanascimento, sexo, telefone1, telefone2, email) "
+                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+                
+                u.add(to.getEstadocivil_idestadocivil());
+                u.add(to.getEscolaridade_idescolaridade());
+                u.add(to.getEndereco_idendereco());
+                u.add(to.getNome());
+                u.add(to.getSobrenome());
+                u.add(to.getApelido());
+                u.add(to.getCpf());
+                u.add(to.getRg());
+                u.add(to.getDatanascimento());
+                u.add(to.getSexo());
+                u.add(to.getTelefone1());
+                u.add(to.getTelefone2());
+                u.add(to.getEmail());
+                break;
+        }
+        
+        
         //passa por parametros a conexao e a lista de objetos da insercao de um novo produto
         return Data.executeUpdate(c, sql, u);
     }
@@ -95,24 +104,26 @@ public class DAOPessoa extends DAOBase{
         
         try{
             
-            if(metodo.equals("buscaragricultor")){
-                sql = "SELECT p.idpessoa, p.nome, p.sobrenome, p.apelido, p.cpf, p.rg, p.datanascimento, p.sexo, p.telefone1, p.telefone2, p.email, a.qtdintegrantes, a.qtdcriancas, a.qtdgravidas, est.descricao as estadocivil, esc.descricao as escolaridade "
+            switch(metodo){
+                case "buscaragricultor":
+                    sql = "SELECT p.idpessoa, p.nome, p.sobrenome, p.apelido, p.cpf, p.rg, p.datanascimento, p.sexo, p.telefone1, p.telefone2, p.email, a.qtdintegrantes, a.qtdcriancas, a.qtdgravidas, est.descricao as estadocivil, esc.descricao as escolaridade "
                         + "FROM pessoa p "
                         + "INNER JOIN agricultor a ON(a.pessoa_idpessoa = p.idpessoa) "
                         + "INNER JOIN estadocivil est ON(est.idestadocivil = p.estadocivil_idestadocivil) "
                         + "INNER JOIN escolaridade esc ON(esc.idescolaridade = p.escolaridade_idescolaridade) "
-                        + "WHERE p.idpessoa IN(?)";  
-                rs = Data.executeQuery(c, sql, to.getIdpessoa());
-
-                
-            }else if(metodo.equals("buscarusuario")){
-                sql = "SELECT p.idpessoa, p.nome, p.sobrenome, p.apelido, p.cpf, p.rg, p.datanascimento, p.sexo, p.telefone1, p.telefone2, p.email, est.descricao as estadocivil, esc.descricao as escolaridade "
+                        + "WHERE p.idpessoa IN(?)"; 
+                    break;
+                case "buscarusuario":
+                    sql = "SELECT p.idpessoa, p.nome, p.sobrenome, p.apelido, p.cpf, p.rg, p.datanascimento, p.sexo, p.telefone1, p.telefone2, p.email, est.descricao as estadocivil, esc.descricao as escolaridade "
                         + "FROM pessoa p "
                         + "INNER JOIN estadocivil est ON(est.idestadocivil = p.estadocivil_idestadocivil) "
                         + "INNER JOIN escolaridade esc ON(esc.idescolaridade = p.escolaridade_idescolaridade) "
-                        + "WHERE p.idpessoa IN(?)";  
-                rs = Data.executeQuery(c, sql, to.getIdpessoa());
+                        + "WHERE p.idpessoa IN(?)";
+                    break;
             }
+         
+            
+            rs = Data.executeQuery(c, sql, to.getIdpessoa());
             
             if(rs.next()){
                 return new TOPessoa(rs, metodo);

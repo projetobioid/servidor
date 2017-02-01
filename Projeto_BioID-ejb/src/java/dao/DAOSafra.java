@@ -24,21 +24,29 @@ import to.TOLogin;
 public class DAOSafra extends DAOBase{
 
     @Override
-    public long inserir(Connection c, TOBase t) throws Exception {
-        String sql = "INSERT INTO safra(statussafra_idstatussafra, unidademedida_idunidademedida, propriedade_idpropriedade, cultivar_idcultivar, safra,"
-                + " datareceb, qtdrecebida, status_entrevistador) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+    public long inserir(Connection c, TOBase t, String metodo) throws Exception {
+        String sql = null;
+        
+        
         
         TOSafra to = (TOSafra)t;
         List<Object> p = new ArrayList<Object>();
-
-        p.add(to.getStatussafra_idstatussafra());
-        p.add(to.getUnidademedida_idunidademedida());
-        p.add(to.getPropriedade_idpropriedade());
-        p.add(to.getCultivar_idcultivar());
-        p.add(to.getSafra());
-        p.add(to.getDatareceb());
-        p.add(to.getQtdrecebida());
-        p.add(9);
+        
+        switch(metodo){
+            default:
+                sql = "INSERT INTO safra(statussafra_idstatussafra, unidademedida_idunidademedida, propriedade_idpropriedade, cultivar_idcultivar, safra,"
+                + " datareceb, qtdrecebida, status_entrevistador) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+                
+                p.add(to.getStatussafra_idstatussafra());
+                p.add(to.getUnidademedida_idunidademedida());
+                p.add(to.getPropriedade_idpropriedade());
+                p.add(to.getCultivar_idcultivar());
+                p.add(to.getSafra());
+                p.add(to.getDatareceb());
+                p.add(to.getQtdrecebida());
+                p.add(9);
+                break;
+        }
         
         //passa por parametros a conexao e a lista de objetos da insercao de um novo produto
         return Data.executeUpdate(c, sql, p);

@@ -19,19 +19,27 @@ import to.TOLogin;
 public class DAOLogin extends DAOBase{
 
     @Override
-    public long inserir(Connection c, TOBase t) throws Exception {
+    public long inserir(Connection c, TOBase t, String metodo) throws Exception {
         //string com o comando sql para editar o banco de dados
-        String sql = "INSERT INTO login(pessoa_idpessoa, unidade_idunidade, usuario, senha, papel) VALUES (?, ?, ?, ?, ?)";
+        String sql = null;
+        
+        
         //variavel sendo convertida para toUsuarios
         TOLogin to = (TOLogin)t;
         //variavel com lista dos parametros
         List<Object> u = new ArrayList<Object>();
         
-        u.add(to.getPessoa_idpessoa());
-        u.add(to.getUnidade_idunidade());
-        u.add(to.getUsuario());
-        u.add(to.getSenha());
-        u.add(to.getPapel());
+        switch(metodo){
+            default:
+            sql = "INSERT INTO login(pessoa_idpessoa, unidade_idunidade, usuario, senha, papel) VALUES (?, ?, ?, ?, ?)";
+            u.add(to.getPessoa_idpessoa());
+            u.add(to.getUnidade_idunidade());
+            u.add(to.getUsuario());
+            u.add(to.getSenha());
+            u.add(to.getPapel());
+            break;
+        }
+        
         
         //passa por parametros a conexao e a lista de objetos da insercao de um novo produto
         return Data.executeUpdate(c, sql, u);
@@ -39,29 +47,37 @@ public class DAOLogin extends DAOBase{
 
    
     @Override
-    public TOBase get(Connection c, TOBase t) throws Exception {
+    public TOBase get(Connection c, TOBase t, String metodo) throws Exception {
          //string com o comando sql para editar o banco de dados
-        String sql = "SELECT l.idlogin, l.pessoa_idpessoa, l.unidade_idunidade, l.usuario, l.papel, p.nome "
-                + "FROM login l "
-                + "INNER JOIN pessoa p ON(p.idpessoa = l.pessoa_idpessoa) "
-                + "WHERE usuario IN(?) AND senha IN(?)";
-        
+        String sql = null;
         ResultSet rs = null;
         
         try{
-            //variavel sendo convertida para toUsuarios
+            //variavel sendo convertida para tologin
             TOLogin to = (TOLogin)t;
             //variavel com lista dos parametros
             List<Object> u = new ArrayList<Object>();
             
-            u.add(to.getUsuario());
-            u.add(to.getSenha());
+            //testa o metodo a ser executado
+            switch(metodo){
+                default :
+                sql = "SELECT l.idlogin, l.pessoa_idpessoa, l.unidade_idunidade, l.usuario, l.papel, p.nome "
+                    + "FROM login l "
+                    + "INNER JOIN pessoa p ON(p.idpessoa = l.pessoa_idpessoa) "
+                    + "WHERE usuario IN(?) AND senha IN(?)";
+                
+                u.add(to.getUsuario());
+                u.add(to.getSenha());
+                break;
+            }
+            
+            
             
             rs = Data.executeQuery(c, sql, u);
             
             
             if(rs.next()){
-                return new TOLogin(rs);
+                return new TOLogin(rs, metodo);
             }else{
                 return null;
             }
@@ -72,19 +88,25 @@ public class DAOLogin extends DAOBase{
     }
 
     @Override
-    public void editar(Connection c, TOBase t) throws Exception {
-        String sql = "update login set sessao = ? where idlogin = ? ";
+    public void editar(Connection c, TOBase t, String metodo) throws Exception {
+        String sql = null;
+                
         
         TOLogin to = (TOLogin)t;
         
-        List<Object> p = new ArrayList<Object>();
+        List<Object> u = new ArrayList<Object>();
         
-        //p.add(to.getSessao());
-        p.add(to.getIdlogin());
+        switch(metodo){
+            default:
+                sql = "update login set sessao = ? where idlogin = ? ";
+                u.add(to.getUsuario());
+                u.add(to.getSenha());
+            break;
+        }
         
-       
+
         //passa por parametros a conexao e a lista de objetos da insercao de um novo produto        
-        Data.executeUpdate(c, sql, p);
+        Data.executeUpdate(c, sql, u);
     }
 
    

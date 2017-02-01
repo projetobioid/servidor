@@ -94,70 +94,58 @@ public class TOEstoque extends TOBase{
     }
 
 
-    
-    public TOEstoque (ResultSet rs) throws Exception{
-        this.unidade_idunidade = rs.getLong("unidade_idunidade");
-        this.cultivar_idcultivar = rs.getLong("cultivar_idcultivar");
-        this.quantidade = rs.getFloat("quantidade");
-        this.unidademedida_idunidademedida = rs.getLong("unidademedida_idunidademedida");
-        
-//        this.grandeza = rs.getString("grandeza");
-//        this.imagem = rs.getString("imagem");
-//        this.nomecultivar = rs.getString("nomecultivar");
-//        
-
-    }
     public TOEstoque (ResultSet rs, String metodo) throws Exception{
-        if(metodo.equals("listarestoqueunidadeselect")){
-            this.nomecultivar = rs.getString("nomecultivar");
-            this.cultivar_idcultivar = rs.getLong("cultivar_idcultivar");
-            
-        }else if(metodo.equals("listarestoqueunidade")){
-            this.quantidade = rs.getFloat("quantidade");
-            this.nomecultivar = rs.getString("nomecultivar");
-            this.cultivar_idcultivar = rs.getLong("cultivar_idcultivar");
-            this.grandeza = rs.getString("grandeza");
-            
-        }else if(metodo.equals("distribuircultivar")){
-            this.quantidade = rs.getDouble("quantidade");
+        switch (metodo) {
+            case "listar_estoqueunidade_input":
+                this.nomecultivar = rs.getString("nomecultivar");
+                this.cultivar_idcultivar = rs.getLong("cultivar_idcultivar");
+                break;
+            case "listar_estoqueunidade":
+                this.quantidade = rs.getFloat("quantidade");
+                this.nomecultivar = rs.getString("nomecultivar");
+                this.cultivar_idcultivar = rs.getLong("cultivar_idcultivar");
+                this.grandeza = rs.getString("grandeza");
+                break;
+            //retorna toda a classe
+            default:
+                this.unidade_idunidade = rs.getLong("unidade_idunidade");
+                this.cultivar_idcultivar = rs.getLong("cultivar_idcultivar");
+                this.quantidade = rs.getFloat("quantidade");
+                this.unidademedida_idunidademedida = rs.getLong("unidademedida_idunidademedida");
+                this.grandeza = rs.getString("grandeza");
+                this.nomecultivar = rs.getString("nomecultivar");
+                break;
         }
 
     }
 
-    @Override
-    public JSONObject getJson() throws Exception {
-        JSONObject j = new JSONObject();
-        
-        j.put("unidade_idunidade", unidade_idunidade);
-        j.put("cultivar_idcultivar", cultivar_idcultivar);
-        j.put("unidademedida_idunidademedida", unidademedida_idunidademedida);
-        j.put("quantidade", quantidade);
-        
-//        j.put("grandeza", grandeza);
-        
-//        j.put("imagem", imagem);
-//        j.put("nomecultivar", nomecultivar);
-        return j;
-                
-    } 
+    
     
     @Override
     public JSONObject getJson(String metodo) throws Exception {
         JSONObject j = new JSONObject();
-        if(metodo.equals("listarestoqueunidade")){
-            j.put("grandeza", grandeza);
-            BigDecimal bd = new BigDecimal(quantidade).setScale(2, RoundingMode.HALF_EVEN);
-            j.put("quantidade", bd.doubleValue());
-            j.put("nomecultivar", nomecultivar);
-            j.put("idcultivar", cultivar_idcultivar);
-            
-        }else if(metodo.equals("listarestoqueunidadeselect")){
-//            j.put("quantidade", quantidade);
-            j.put("nomecultivar", nomecultivar);
-            j.put("idcultivar", cultivar_idcultivar);
-            
-        }else if(metodo.equals("distribuircultivar")){
-            j.put("quantidade", quantidade);
+        switch (metodo) {
+            case "listarestoqueunidade":
+                j.put("grandeza", grandeza);
+                BigDecimal bd = new BigDecimal(quantidade).setScale(2, RoundingMode.HALF_EVEN);
+                j.put("quantidade", bd.doubleValue());
+                j.put("nomecultivar", nomecultivar);
+                j.put("idcultivar", cultivar_idcultivar);
+                break;
+            case "listarestoqueunidadeselect":
+                //j.put("quantidade", quantidade);
+                j.put("nomecultivar", nomecultivar);
+                j.put("idcultivar", cultivar_idcultivar);
+                break;
+            case "distribuircultivar":
+                j.put("quantidade", quantidade);
+                break;
+            default:
+                j.put("unidade_idunidade", unidade_idunidade);
+                j.put("cultivar_idcultivar", cultivar_idcultivar);
+                j.put("unidademedida_idunidademedida", unidademedida_idunidademedida);
+                j.put("quantidade", quantidade);
+                break;
         }
         
         return j;

@@ -209,26 +209,75 @@ public class TOPessoa extends TOBase{
     }
 
    
-    
-//     //retorna consulta do banco de dados tipo resultset
-//    public TOPessoa (ResultSet rs) throws Exception{
-//        this.idpessoa = rs.getLong("idpessoa");
-//        this.endereco_idendereco = rs.getLong("endereco_idendereco");
-//        this.escolaridade_idescolaridade = rs.getLong("escolaridade_idescolaridade");
-//        this.estadocivil_idestadocivil = rs.getLong("estadocivil_idestadocivil");
-//        this.nome = rs.getString("nome");
-//        this.sobrenome = rs.getString("sobrenome");
-//        this.apelido = rs.getString("apelido");
-//        this.cpf = rs.getString("cpf");
-//        this.rg = rs.getString("rg");
-//        this.datanascimento = rs.getString("datanascimento");
-//        this.sexo = rs.getString("sexo");
-//        this.telefone1 = rs.getString("telefone1");
-//        this.telefone2 = rs.getString("telefone2");
-//        this.email = rs.getString("email");
-//    }
-
-
+public TOPessoa(ResultSet rs, String metodo) throws Exception{
+        
+        switch (metodo) {
+            case "buscaragricultor":
+                this.agricultor = new TOAgricultor();
+                this.idpessoa = rs.getLong("idpessoa");
+                this.nome = rs.getString("nome");
+                this.sobrenome = rs.getString("sobrenome");
+                this.apelido = rs.getString("apelido");
+                this.cpf = rs.getString("cpf");
+                this.rg = rs.getString("rg");
+                this.datanascimento = rs.getString("datanascimento");
+                this.sexo = rs.getString("sexo");
+                this.telefone1 = rs.getString("telefone1");
+                this.telefone2 = rs.getString("telefone2");
+                this.email = rs.getString("email");
+                this.agricultor.setQtdCriancas(rs.getInt("qtdcriancas"));
+                this.agricultor.setQtdIntegrantes(rs.getInt("qtdintegrantes"));
+                this.agricultor.setQtdGravidas(rs.getInt("qtdgravidas"));
+                this.estadocivil = rs.getString("estadocivil");
+                this.escolaridade = rs.getString("escolaridade");
+                break;
+            case "buscarusuario":
+                this.idpessoa = rs.getLong("idpessoa");
+                this.nome = rs.getString("nome");
+                this.sobrenome = rs.getString("sobrenome");
+                this.apelido = rs.getString("apelido");
+                this.cpf = rs.getString("cpf");
+                this.rg = rs.getString("rg");
+                this.datanascimento = rs.getString("datanascimento");
+                this.sexo = rs.getString("sexo");
+                this.telefone1 = rs.getString("telefone1");
+                this.telefone2 = rs.getString("telefone2");
+                this.email = rs.getString("email");
+                this.estadocivil = rs.getString("estadocivil");
+                this.escolaridade = rs.getString("escolaridade");
+                break;
+            case "listaragricultores":
+                this.idpessoa = rs.getLong("idpessoa");
+                this.nome = rs.getString("nome");
+                this.sobrenome = rs.getString("sobrenome");
+                this.cpf = rs.getString("cpf");
+                this.rg = rs.getString("rg");
+                this.telefone1 = rs.getString("telefone1");
+                this.nomeunidade = rs.getString("nomeunidade");
+                break;
+            case "listarusuarios":
+                this.idpessoa = rs.getLong("idpessoa");
+                this.nome = rs.getString("nome");
+                this.sobrenome = rs.getString("sobrenome");
+                this.cpf = rs.getString("cpf");
+                this.rg = rs.getString("rg");
+                this.telefone1 = rs.getString("telefone1");
+                this.nomeunidade = rs.getString("nomeunidade");
+                this.papel = rs.getString("papel");
+                break;
+            case "procuraragricultor":
+                this.idpessoa = rs.getLong("idpessoa");
+                this.nome = rs.getString("nome");
+                this.sobrenome = rs.getString("sobrenome");
+                this.cpf = rs.getString("cpf");
+                this.rg = rs.getString("rg");
+//            this.idunidade = rs.getLong("idunidade");
+                break;
+            default:
+                break;
+        }
+        
+    }
     
     //retorna um json
     @Override
@@ -236,161 +285,82 @@ public class TOPessoa extends TOBase{
         //variavel tipo json para retornar no metodo
         JSONObject j = new JSONObject();
         
-        if(metodo.equals("listaragricultores")){
-            //populando o objeto j
-            j.put("idpessoa", idpessoa);
-            j.put("nome", nome);
-            j.put("sobrenome", sobrenome);
-            j.put("cpf", cpf);
-            j.put("rg", rg);
-            j.put("telefone1", telefone1);
-            j.put("nomeunidade", nomeunidade);
-            
-        }else if(metodo.equals("listarusuarios")){
-            //populando o objeto j
-            j.put("idpessoa", idpessoa);
-            j.put("nome", nome);
-            j.put("sobrenome", sobrenome);
-            j.put("cpf", cpf);
-            j.put("rg", rg);
-            j.put("telefone1", telefone1);
-            j.put("nomeunidade", nomeunidade);
-            j.put("papel", papel);
-            
-        }else if(metodo.equals("buscaragricultor")){
-             
-            //populando o objeto j
-            j.put("idpessoa", idpessoa);
-            j.put("nome", nome);
-            j.put("sobrenome", sobrenome);
-            j.put("apelido", apelido);
-            j.put("cpf", cpf);
-            j.put("rg", rg);
-            j.put("datanascimento", datanascimento);
-            j.put("sexo", sexo);
-            j.put("telefone1", telefone1);
-            j.put("telefone2", telefone2);
-            j.put("email", email);
-            j.put("qtdintegrantes", this.agricultor.getQtdIntegrantes());
-            j.put("qtdcriancas", this.agricultor.getQtdCriancas());
-            j.put("qtdgravidas", this.agricultor.getQtdGravidas());
-            j.put("estadocivil", estadocivil);
-            j.put("escolaridade", escolaridade);
-            
-        }else if(metodo.equals("buscarusuario")){
-             //populando o objeto j
-            j.put("idpessoa", idpessoa);
-            j.put("endereco_idendereco", endereco_idendereco);
-            j.put("escolaridade", escolaridade);
-            j.put("nome", nome);
-            j.put("sobrenome", sobrenome);
-            j.put("apelido", apelido);
-            j.put("cpf", cpf);
-            j.put("rg", rg);
-            j.put("datanascimento", datanascimento);
-            j.put("sexo", sexo);
-            j.put("telefone1", telefone1);
-            j.put("telefone2", telefone2);
-            j.put("email", email);
-            j.put("nomeunidade", nomeunidade);
-            j.put("estadocivil", estadocivil);
-            j.put("papel", papel);
-        
-        }else if(metodo.equals("procuraragricultor") || metodo.equals("procuraragricultor2")){
-             //populando o objeto j
-            j.put("idpessoa", idpessoa);
-            j.put("nome", nome);
-            j.put("sobrenome", sobrenome);
-            j.put("cpf", cpf);
-            j.put("rg", rg);
+        switch (metodo) {
+            case "listaragricultores":
+                //populando o objeto j
+                j.put("idpessoa", idpessoa);
+                j.put("nome", nome);
+                j.put("sobrenome", sobrenome);
+                j.put("cpf", cpf);
+                j.put("rg", rg);
+                j.put("telefone1", telefone1);
+                j.put("nomeunidade", nomeunidade);
+                break;
+            case "listarusuarios":
+                //populando o objeto j
+                j.put("idpessoa", idpessoa);
+                j.put("nome", nome);
+                j.put("sobrenome", sobrenome);
+                j.put("cpf", cpf);
+                j.put("rg", rg);
+                j.put("telefone1", telefone1);
+                j.put("nomeunidade", nomeunidade);
+                j.put("papel", papel);
+                break;
+            case "buscaragricultor":
+                //populando o objeto j
+                j.put("idpessoa", idpessoa);
+                j.put("nome", nome);
+                j.put("sobrenome", sobrenome);
+                j.put("apelido", apelido);
+                j.put("cpf", cpf);
+                j.put("rg", rg);
+                j.put("datanascimento", datanascimento);
+                j.put("sexo", sexo);
+                j.put("telefone1", telefone1);
+                j.put("telefone2", telefone2);
+                j.put("email", email);
+                j.put("qtdintegrantes", this.agricultor.getQtdIntegrantes());
+                j.put("qtdcriancas", this.agricultor.getQtdCriancas());
+                j.put("qtdgravidas", this.agricultor.getQtdGravidas());
+                j.put("estadocivil", estadocivil);
+                j.put("escolaridade", escolaridade);
+                break;
+            case "buscarusuario":
+                //populando o objeto j
+                j.put("idpessoa", idpessoa);
+                j.put("endereco_idendereco", endereco_idendereco);
+                j.put("escolaridade", escolaridade);
+                j.put("nome", nome);
+                j.put("sobrenome", sobrenome);
+                j.put("apelido", apelido);
+                j.put("cpf", cpf);
+                j.put("rg", rg);
+                j.put("datanascimento", datanascimento);
+                j.put("sexo", sexo);
+                j.put("telefone1", telefone1);
+                j.put("telefone2", telefone2);
+                j.put("email", email);
+                j.put("nomeunidade", nomeunidade);
+                j.put("estadocivil", estadocivil);
+                j.put("papel", papel);
+                break;
+            case "procuraragricultor":
+                //populando o objeto j
+                j.put("idpessoa", idpessoa);
+                j.put("nome", nome);
+                j.put("sobrenome", sobrenome);
+                j.put("cpf", cpf);
+                j.put("rg", rg);
 //            j.put("idunidade", idunidade);
-
+                break;
+            default:
+                break;
         }
         
         return j;
    
     }
-
-//    
-//    public TOPessoa listarUsuarios(ResultSet rs) throws Exception{
-//        this.idpessoa = rs.getLong("idpessoa");
-//        this.nome = rs.getString("nome");
-//        this.sobrenome = rs.getString("sobrenome");
-//        this.cpf = rs.getString("cpf");
-//        this.rg = rs.getString("rg");
-//        this.telefone1 = rs.getString("telefone1");
-//        this.nomeunidade = rs.getString("nomeunidade");
-//        
-//        return this;  
-//    }
-//    
-    public TOPessoa(ResultSet rs, String metodo) throws Exception{
-        
-        if(metodo.equals("buscaragricultor")){
-            this.agricultor = new TOAgricultor();
-            
-            this.idpessoa = rs.getLong("idpessoa");
-            this.nome = rs.getString("nome");
-            this.sobrenome = rs.getString("sobrenome");
-            this.apelido = rs.getString("apelido");
-            this.cpf = rs.getString("cpf");
-            this.rg = rs.getString("rg");
-            this.datanascimento = rs.getString("datanascimento");
-            this.sexo = rs.getString("sexo");
-            this.telefone1 = rs.getString("telefone1");
-            this.telefone2 = rs.getString("telefone2");
-            this.email = rs.getString("email");
-            this.agricultor.setQtdCriancas(rs.getInt("qtdcriancas"));
-            this.agricultor.setQtdIntegrantes(rs.getInt("qtdintegrantes"));
-            this.agricultor.setQtdGravidas(rs.getInt("qtdgravidas"));
-            this.estadocivil = rs.getString("estadocivil");
-            this.escolaridade = rs.getString("escolaridade");
-  
-        }else if(metodo.equals("buscarusuario")){
-            this.idpessoa = rs.getLong("idpessoa");
-            this.nome = rs.getString("nome");
-            this.sobrenome = rs.getString("sobrenome");
-            this.apelido = rs.getString("apelido");
-            this.cpf = rs.getString("cpf");
-            this.rg = rs.getString("rg");
-            this.datanascimento = rs.getString("datanascimento");
-            this.sexo = rs.getString("sexo");
-            this.telefone1 = rs.getString("telefone1");
-            this.telefone2 = rs.getString("telefone2");
-            this.email = rs.getString("email");
-            this.estadocivil = rs.getString("estadocivil");
-            this.escolaridade = rs.getString("escolaridade");
-            
-        }else if(metodo.equals("listaragricultores")){
-            this.idpessoa = rs.getLong("idpessoa");
-            this.nome = rs.getString("nome");
-            this.sobrenome = rs.getString("sobrenome");
-            this.cpf = rs.getString("cpf");
-            this.rg = rs.getString("rg");
-            this.telefone1 = rs.getString("telefone1");
-            this.nomeunidade = rs.getString("nomeunidade");
-            
-        }else if(metodo.equals("listarusuarios")){
-            this.idpessoa = rs.getLong("idpessoa");
-            this.nome = rs.getString("nome");
-            this.sobrenome = rs.getString("sobrenome");
-            this.cpf = rs.getString("cpf");
-            this.rg = rs.getString("rg");
-            this.telefone1 = rs.getString("telefone1");
-            this.nomeunidade = rs.getString("nomeunidade");
-            this.papel = rs.getString("papel");
-        
-        }else if(metodo.equals("procuraragricultor") || metodo.equals("procuraragricultor2")){
-            this.idpessoa = rs.getLong("idpessoa");
-            this.nome = rs.getString("nome");
-            this.sobrenome = rs.getString("sobrenome");
-            this.cpf = rs.getString("cpf");
-            this.rg = rs.getString("rg");
-//            this.idunidade = rs.getLong("idunidade");
-        }
-        
-    }
-
-    
+ 
     
 }

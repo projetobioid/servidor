@@ -48,26 +48,25 @@ public class TOOutrosIDNome extends TOBase{
     public TOOutrosIDNome (ResultSet rs, String metodo) throws Exception{
         JSONObject j = new JSONObject();
         
-        if(metodo.equals("listarpais")){
-            this.id = rs.getLong("idpais");
-            this.nome = rs.getString("nomepais");
- 
-            
-        }else if(metodo.equals("listarestados")){
-            this.id = rs.getLong("idestado");
-            this.nome = rs.getString("nomeestado");
-
-        
-        }else if(metodo.equals("listarcidades")){
-            this.id = rs.getLong("idcidade");
-            this.nome = rs.getString("nomecidade");
-
-
-        }else if(metodo.equals("listarunidades")){
-            this.id = rs.getLong("idunidade");
-            this.nome = rs.getString("nomeunidade");
-
-
+        switch (metodo) {
+            case "listarpais":
+                this.id = rs.getLong("idpais");
+                this.nome = rs.getString("nomepais");
+                break;
+            case "listarestados":
+                this.id = rs.getLong("idestado");
+                this.nome = rs.getString("nomeestado");
+                break;
+            case "listarcidades":
+                this.id = rs.getLong("idcidade");
+                this.nome = rs.getString("nomecidade");
+                break;
+            case "listarunidades":
+                this.id = rs.getLong("idunidade");
+                this.nome = rs.getString("nomeunidade");
+                break;
+            default:
+                break;
         }
         
       
@@ -97,19 +96,26 @@ public class TOOutrosIDNome extends TOBase{
     public JSONObject getJson(String metodo) throws Exception {
         JSONObject j = new JSONObject();
         
-        if(metodo.equals("listarpais")){
-            //populando o objeto j
-            j.put("idpais", id);
-            j.put("nomepais", nome);   
-        }else if(metodo.equals("listarestados")){
-            j.put("idestado", id);
-            j.put("nomeestado", nome);
-        }else if(metodo.equals("listarcidades")){
-            j.put("idcidade", id);
-            j.put("nomecidade", nome);
-        }else if(metodo.equals("listarunidades")){
-            j.put("idunidade", id);
-            j.put("nomeunidade", nome);
+        switch (metodo) {
+            case "listarpais":
+                //populando o objeto j
+                j.put("idpais", id);
+                j.put("nomepais", nome);
+                break;
+            case "listarestados":
+                j.put("idestado", id);
+                j.put("nomeestado", nome);
+                break;
+            case "listarcidades":
+                j.put("idcidade", id);
+                j.put("nomecidade", nome);
+                break;
+            case "listarunidades":
+                j.put("idunidade", id);
+                j.put("nomeunidade", nome);
+                break;
+            default:
+                break;
         }
         
       

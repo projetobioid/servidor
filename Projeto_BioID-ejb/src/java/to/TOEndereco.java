@@ -129,46 +129,47 @@ public class TOEndereco extends TOBase{
     public TOEndereco() {
     }
 
-    public TOEndereco(String rua, int gps_lat, int gps_long, int numero, String bairro, String complemento, String cep, long Cidade_idCidade) {
-        this.rua = rua;
-        this.gps_lat = gps_lat;
-        this.gps_long = gps_long;
-        this.numero = numero;
-        this.bairro = bairro;
-        this.complemento = complemento;
-        this.cep = cep;
-        this.cidade_idcidade = Cidade_idCidade;
-    }
 
 
 
     //retorna consulta do banco de dados tipo resultset
-    public TOEndereco (ResultSet rs) throws Exception{
-        this.cidade_idcidade = rs.getLong("cidade_idcidade");
-        this.rua = rs.getString("rua");
-        this.gps_lat = rs.getInt("gps_lat");
-        this.gps_long = rs.getInt("gps_long");
-        this.numero = rs.getInt("numero");
-        this.bairro = rs.getString("bairro");
-        this.complemento = rs.getString("complemento");
-        this.cep = rs.getString("cep");
+    public TOEndereco (ResultSet rs, String metodo) throws Exception{
+        
+        switch(metodo){
+            default:
+                this.cidade_idcidade = rs.getLong("cidade_idcidade");
+                this.rua = rs.getString("rua");
+                this.gps_lat = rs.getInt("gps_lat");
+                this.gps_long = rs.getInt("gps_long");
+                this.numero = rs.getInt("numero");
+                this.bairro = rs.getString("bairro");
+                this.complemento = rs.getString("complemento");
+                this.cep = rs.getString("cep"); 
+                break;
+        }
+        
     }
 
     
     @Override
-    public JSONObject getJson() throws Exception {
+    public JSONObject getJson(String metodo) throws Exception {
         //variavel tipo json para retornar no metodo
         JSONObject j = new JSONObject();
         
-        //populando o objeto j
-        j.put("cidade_idcidade", cidade_idcidade);
-        j.put("rua", rua);
-        j.put("gps_lat", gps_lat);
-        j.put("gps_long", gps_long);
-        j.put("numero", numero);
-        j.put("bairro", bairro);
-        j.put("complemento", complemento);
-        j.put("cep", cep);
+        switch(metodo){
+            default:
+                //populando o objeto j
+                j.put("cidade_idcidade", cidade_idcidade);
+                j.put("rua", rua);
+                j.put("gps_lat", gps_lat);
+                j.put("gps_long", gps_long);
+                j.put("numero", numero);
+                j.put("bairro", bairro);
+                j.put("complemento", complemento);
+                j.put("cep", cep);
+                break;
+        }
+        
         
         return j;
     }

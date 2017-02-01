@@ -142,43 +142,29 @@ public class TOCultivar extends TOBase{
     public TOCultivar() {
     }
 
-    public TOCultivar(long idcultivar, String nomecultivar, String imagem, String descricao, boolean biofortificado, long unidademedida_idunidademedida, String grandeza, String valornutricional, int tempodecolheita, float peso_saca, String usuario) {
-        this.idcultivar = idcultivar;
-        this.nomecultivar = nomecultivar;
-        this.imagem = imagem;
-        this.descricao = descricao;
-        this.biofortificado = biofortificado;
-        this.unidademedida_idunidademedida = unidademedida_idunidademedida;
-        this.grandeza = grandeza;
-        this.valornutricional = valornutricional;
-        this.tempodecolheita = tempodecolheita;
-        this.peso_saca = peso_saca;
-        this.usuario = usuario;
-    }
-
-    
-
+ 
     
     //retorna consulta do banco de dados tipo resultset
     public TOCultivar (ResultSet rs , String metodo) throws Exception{
-        if(metodo.equals("buscarcultivar")){
-            this.idcultivar = rs.getLong("idcultivar");
-            this.nomecultivar = rs.getString("nomecultivar");
-            this.imagem = rs.getString("imagem");
-            this.descricao = rs.getString("descricao");
-            this.biofortificado = rs.getBoolean("biofortificado");
-            this.grandeza = rs.getString("grandeza");
-            this.valornutricional = rs.getString("valornutricional");
-            this.tempodecolheita = rs.getInt("tempodecolheita");
-            this.tempodestinacao = rs.getInt("tempodestinacao");
-            this.peso_saca = rs.getInt("peso_saca");
-            
-        }else if(metodo.equals("listarcultivares")){
-            this.idcultivar = rs.getLong("idcultivar");
-            this.nomecultivar = rs.getString("nomecultivar");
-            this.unidademedida_idunidademedida= rs.getLong("unidademedida_idunidademedida");
-            this.grandeza = rs.getString("grandeza");
-
+        switch(metodo){
+            case "buscar_cultivar" :
+                this.idcultivar = rs.getLong("idcultivar");
+                this.nomecultivar = rs.getString("nomecultivar");
+                this.unidademedida_idunidademedida= rs.getLong("unidademedida_idunidademedida");
+                this.grandeza = rs.getString("grandeza");
+                break;
+            default:
+                this.idcultivar = rs.getLong("idcultivar");
+                this.nomecultivar = rs.getString("nomecultivar");
+                this.imagem = rs.getString("imagem");
+                this.descricao = rs.getString("descricao");
+                this.biofortificado = rs.getBoolean("biofortificado");
+                this.grandeza = rs.getString("grandeza");
+                this.valornutricional = rs.getString("valornutricional");
+                this.tempodecolheita = rs.getInt("tempodecolheita");
+                this.tempodestinacao = rs.getInt("tempodestinacao");
+                this.peso_saca = rs.getInt("peso_saca");
+                break;
         }
     }
     //classe sobrescrita de tobase
@@ -186,30 +172,30 @@ public class TOCultivar extends TOBase{
     public JSONObject getJson(String metodo) throws Exception {
         //variavel para retorno do json contendo as informacoes do produto
         JSONObject j = new JSONObject();
-        if(metodo.equals("buscarcultivar")){
-            //populando o objeto j
-            j.put("idcultivar", idcultivar);
-            j.put("nomecultivar", nomecultivar);
-            j.put("imagem", imagem);
-            j.put("descricao", descricao);
-            j.put("biofortificado", biofortificado);
-            j.put("grandeza", grandeza);
-            j.put("valornutricional", valornutricional);
-            j.put("tempodecolheita", tempodecolheita);
-            j.put("tempodestinacao", tempodestinacao);
-            j.put("peso_saca", peso_saca);
-        }else  if(metodo.equals("listarcultivares")){
-            //populando o objeto j
-            j.put("idcultivar", idcultivar);
-            j.put("nomecultivar", nomecultivar);
-            j.put("unidademedida_idunidademedida", unidademedida_idunidademedida);
-            j.put("grandeza", grandeza);
+        
+        switch(metodo){
+            case "buscar_cultivar":
+                j.put("idcultivar", idcultivar);
+                j.put("nomecultivar", nomecultivar);
+                j.put("unidademedida_idunidademedida", unidademedida_idunidademedida);
+                j.put("grandeza", grandeza);
+                break;
+            default:
+                j.put("idcultivar", idcultivar);
+                j.put("nomecultivar", nomecultivar);
+                j.put("imagem", imagem);
+                j.put("descricao", descricao);
+                j.put("biofortificado", biofortificado);
+                j.put("grandeza", grandeza);
+                j.put("valornutricional", valornutricional);
+                j.put("tempodecolheita", tempodecolheita);
+                j.put("tempodestinacao", tempodestinacao);
+                j.put("peso_saca", peso_saca);
+                break;
         }
         
         return j;
     }    
     
 
-    
-    
 }

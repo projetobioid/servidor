@@ -18,22 +18,28 @@ import to.TOIOEstoque;
 public class DAOIOEstoque extends DAOBase{
 
     @Override
-    public long inserir(Connection c, TOBase t) throws Exception {
+    public long inserir(Connection c, TOBase t, String metodo) throws Exception {
         //string com o comando sql para editar o banco de dados
-        String sql = "INSERT INTO ioestoque(estoque_unidade_idunidade, estoque_cultivar_idcultivar, unidademedida_idunidademedida, quantidade, data_io, operacao, login_idlogin) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        String sql = null;
+        
         //variavel sendo convertida para toUsuarios
         TOIOEstoque to = (TOIOEstoque)t;
         //variavel com lista dos parametros
         List<Object> u = new ArrayList<Object>();
         
-        u.add(to.getUnidade_idunidade());
-        u.add(to.getCultivar_idcultivar());
-        u.add(to.getUnidademedida_idunidademedida());
-        u.add(to.getQuantidade());
-        u.add(to.getData_io());
-        u.add(to.getOperacao());
-        u.add(to.getLogin_idlogin());
+        switch(metodo){
+            default:
+                sql = "INSERT INTO ioestoque(estoque_unidade_idunidade, estoque_cultivar_idcultivar, unidademedida_idunidademedida, quantidade, data_io, operacao, login_idlogin) VALUES (?, ?, ?, ?, ?, ?, ?)";
         
+                u.add(to.getUnidade_idunidade());
+                u.add(to.getCultivar_idcultivar());
+                u.add(to.getUnidademedida_idunidademedida());
+                u.add(to.getQuantidade());
+                u.add(to.getData_io());
+                u.add(to.getOperacao());
+                u.add(to.getLogin_idlogin());
+                break;
+        }
         //passa por parametros a conexao e a lista de objetos da insercao
         return Data.executeUpdate(c, sql, u);
     }

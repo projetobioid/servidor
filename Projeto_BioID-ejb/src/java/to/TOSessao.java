@@ -70,15 +70,8 @@ public class TOSessao extends TOBase{
     public TOSessao() {
     }
 
-    public TOSessao(long idsessao, long login_idlogin, String sessao, String newSessao, String datalogin) {
-        this.idsessao = idsessao;
-        this.login_idlogin = login_idlogin;
-        this.sessao = sessao;
-        this.datarequisicao = datalogin;
-        this.newSessao = newSessao;
-    }
     
-    public TOSessao(ResultSet rs) throws Exception{
+    public TOSessao(ResultSet rs, String metodo) throws Exception{
         this.idsessao = rs.getLong("idsessao");
         this.login_idlogin = rs.getLong("login_idlogin");
         this.sessao = rs.getString("sessao");
@@ -87,7 +80,7 @@ public class TOSessao extends TOBase{
     }
     
     @Override
-    public JSONObject getJson() throws Exception {
+    public JSONObject getJson(String metodo) throws Exception {
          //variavel para retorno do json contendo as informacoes do login
         JSONObject j = new JSONObject();
         

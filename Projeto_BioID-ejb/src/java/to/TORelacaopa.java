@@ -36,24 +36,30 @@ public class TORelacaopa extends TOBase {
     public TORelacaopa() {
     }
 
-    public TORelacaopa(long agricultor_pessoa_idpessoa, long propriedade_idpropriedade) {
-        this.agricultor_pessoa_idpessoa = agricultor_pessoa_idpessoa;
-        this.propriedade_idpropriedade = propriedade_idpropriedade;
-    }
-    
-     public TORelacaopa(ResultSet rs) throws Exception{
-        this.agricultor_pessoa_idpessoa = rs.getLong("agricultor_pessoa_idpessoa");
-        this.propriedade_idpropriedade = rs.getLong("propriedade_idpropriedade");
+    public TORelacaopa(ResultSet rs, String metodo) throws Exception{
+         
+         switch(metodo){
+             default:
+                this.agricultor_pessoa_idpessoa = rs.getLong("agricultor_pessoa_idpessoa");
+                this.propriedade_idpropriedade = rs.getLong("propriedade_idpropriedade");
+                break;
+         }
         
     }
+    
     @Override
-    public JSONObject getJson() throws Exception {
+    public JSONObject getJson(String metodo) throws Exception {
          //variavel para retorno do json contendo as informacoes do produto
         JSONObject j = new JSONObject();
         
-        //populando o objeto j
-        j.put("agricultor_pessoa_idpessoa", agricultor_pessoa_idpessoa);
-        j.put("propriedade_idpropriedade", propriedade_idpropriedade);
+        switch(metodo){
+            default:
+                //populando o objeto j
+                j.put("agricultor_pessoa_idpessoa", agricultor_pessoa_idpessoa);
+                j.put("propriedade_idpropriedade", propriedade_idpropriedade);
+          
+                break;
+        }
         
         return j;
     }

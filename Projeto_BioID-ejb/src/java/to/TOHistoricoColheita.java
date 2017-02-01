@@ -68,39 +68,38 @@ public class TOHistoricoColheita extends TOBase{
     public TOHistoricoColheita() {
     }
 
-    public TOHistoricoColheita(long idhistoricocolheita, long safra_idsafra, String datacolheita, float qtdcolhida, float somaqtdcolhida) {
-        this.idhistoricocolheita = idhistoricocolheita;
-        this.safra_idsafra = safra_idsafra;
-        this.datacolheita = datacolheita;
-        this.qtdcolhida = qtdcolhida;
-        this.somaqtdcolhida = somaqtdcolhida;
-    }
 
- 
-
-
-    public TOHistoricoColheita(ResultSet rs) throws Exception{
-        //this.idhistoricocolheita = rs.getLong("idhistoricocolheita");
-        //this.safra_idsafra = rs.getLong("safra_idsafra");
-        //this.datacolheita = rs.getString("datacolheita");
-        //this.qtdcolhida = rs.getFloat("qtdcolhida");
-        this.somaqtdcolhida = rs.getFloat("somaqtdcolhida");
+    public TOHistoricoColheita(ResultSet rs, String metodo) throws Exception{
+        
+        switch(metodo){
+            default:
+                //this.idhistoricocolheita = rs.getLong("idhistoricocolheita");
+                //this.safra_idsafra = rs.getLong("safra_idsafra");
+                //this.datacolheita = rs.getString("datacolheita");
+                //this.qtdcolhida = rs.getFloat("qtdcolhida");
+                this.somaqtdcolhida = rs.getFloat("somaqtdcolhida");
+                break;
+        }
+       
 
     }
 
 
     @Override
-    public JSONObject getJson() throws Exception {
+    public JSONObject getJson(String metodo) throws Exception {
         //variavel para retorno do json contendo as informacoes do produto
         JSONObject j = new JSONObject();
         
-        //populando o objeto j
-        j.put("idhistoricocolheita", idhistoricocolheita);
-        j.put("safra_idsafra", safra_idsafra);
-        j.put("datacolheita", datacolheita);
-        j.put("qtdcolhida", qtdcolhida);
-        j.put("somaqtdcolhida", somaqtdcolhida);
-        
+        switch(metodo){
+            default:
+                //populando o objeto j
+                j.put("idhistoricocolheita", idhistoricocolheita);
+                j.put("safra_idsafra", safra_idsafra);
+                j.put("datacolheita", datacolheita);
+                j.put("qtdcolhida", qtdcolhida);
+                j.put("somaqtdcolhida", somaqtdcolhida);
+                break;
+        }
         
         return j;
     }

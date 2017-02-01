@@ -92,28 +92,37 @@ public class TOIOEstoque extends TOBase{
     
 
     
-    public TOIOEstoque (ResultSet rs) throws Exception{
-        this.unidade_idunidade = rs.getLong("unidade_idunidade");
-        this.cultivar_idcultivar = rs.getLong("cultivar_idcultivar");
-        this.unidademedida_idunidademedida = rs.getLong("unidademedida_idunidademedida");
-        this.quantidade = rs.getFloat("quantidade");
-        this.data_io = rs.getString("data_io");
-        this.operacao = rs.getInt("operacao");
-        this.login_idlogin = rs.getLong("login_idlogin");
+    public TOIOEstoque (ResultSet rs, String metodo) throws Exception{
         
+        switch(metodo){
+            default:
+                this.unidade_idunidade = rs.getLong("unidade_idunidade");
+                this.cultivar_idcultivar = rs.getLong("cultivar_idcultivar");
+                this.unidademedida_idunidademedida = rs.getLong("unidademedida_idunidademedida");
+                this.quantidade = rs.getFloat("quantidade");
+                this.data_io = rs.getString("data_io");
+                this.operacao = rs.getInt("operacao");
+                this.login_idlogin = rs.getLong("login_idlogin");
+                break;
+        }
     }
 
     @Override
-    public JSONObject getJson() throws Exception {
+    public JSONObject getJson(String metodo) throws Exception {
         JSONObject j = new JSONObject();
         
-        j.put("unidade_idunidade", unidade_idunidade);
-        j.put("cultivar_idcultivar", cultivar_idcultivar);
-        j.put("unidademedida_idunidademedida", unidademedida_idunidademedida);
-        j.put("quantidade", quantidade);
-        j.put("data_io", data_io);
-        j.put("operacao", operacao);
-        j.put("login_idlogin", login_idlogin);
+        switch(metodo){
+            default:
+                j.put("unidade_idunidade", unidade_idunidade);
+                j.put("cultivar_idcultivar", cultivar_idcultivar);
+                j.put("unidademedida_idunidademedida", unidademedida_idunidademedida);
+                j.put("quantidade", quantidade);
+                j.put("data_io", data_io);
+                j.put("operacao", operacao);
+                j.put("login_idlogin", login_idlogin);
+                break;
+        }
+        
         
         return j;
                 

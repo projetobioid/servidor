@@ -91,37 +91,38 @@ public class TOLogin extends TOBase{
     public TOLogin() {
     }
 
-    public TOLogin(long idlogin, long pessoa_idpessoa, long unidade_idunidade, String usuario, String senha, String papel) {
-        this.idlogin = idlogin;
-        this.pessoa_idpessoa = pessoa_idpessoa;
-        this.unidade_idunidade = unidade_idunidade;
-        this.usuario = usuario;
-        this.senha = senha;
-        this.papel = papel;
-    }
 
-     
-    
-    public TOLogin(ResultSet rs) throws Exception{
-        this.idlogin = rs.getLong("idlogin");
-        this.pessoa_idpessoa = rs.getLong("pessoa_idpessoa");
-        this.unidade_idunidade = rs.getLong("unidade_idunidade");
-        this.usuario = rs.getString("usuario");
-        this.papel = rs.getString("papel");
-        this.nome = rs.getString("nome");
+    public TOLogin(ResultSet rs, String metodo) throws Exception{
+        
+        switch(metodo){
+            default:
+                this.idlogin = rs.getLong("idlogin");
+                this.pessoa_idpessoa = rs.getLong("pessoa_idpessoa");
+                this.unidade_idunidade = rs.getLong("unidade_idunidade");
+                this.usuario = rs.getString("usuario");
+                this.papel = rs.getString("papel");
+                this.nome = rs.getString("nome");
+                break;
+        }
+        
     }
 
     @Override
-    public JSONObject getJson() throws Exception {
+    public JSONObject getJson(String metodo) throws Exception {
         //variavel para retorno do json contendo as informacoes do login
         JSONObject j = new JSONObject();
         
-        //populando o objeto j
-        j.put("idlogin", idlogin);
-        j.put("unidade_idunidade", unidade_idunidade);
-        j.put("usuario", usuario);
-        j.put("papel", papel);
-        j.put("nome", nome);
+        switch(metodo){
+            default:
+                //populando o objeto j
+                j.put("idlogin", idlogin);
+                j.put("unidade_idunidade", unidade_idunidade);
+                j.put("usuario", usuario);
+                j.put("papel", papel);
+                j.put("nome", nome);
+                break;
+        }
+        
         
         return j;
     }

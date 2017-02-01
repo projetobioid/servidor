@@ -19,7 +19,7 @@ import to.TODestinacao;
 public class DAODestinacao extends DAOBase{
 
     @Override
-    public long inserir(Connection c, TOBase t) throws Exception {
+    public long inserir(Connection c, TOBase t, String metodo) throws Exception {
         String sql = "INSERT INTO destinacao(safra_idsafra, tipodestinacao_idtipodestinacao, datadestinada, qtddestinada) VALUES (?, ?, ?, ?)";
         
         TODestinacao to = (TODestinacao)t;

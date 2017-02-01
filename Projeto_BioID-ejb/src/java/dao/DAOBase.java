@@ -18,89 +18,32 @@ public class DAOBase {
     protected long idretorno;
 
     
-    
-    public TOBase get(Connection c, TOBase t, String metodo) throws Exception{
-        return null;
-    }
-    
-    public TOBase get(Connection c, TOBase t) throws Exception{
-        return null;
-    }
-    
-    
-    
-    
-    
     public long inserir(Connection c, TOBase t, String metodo) throws Exception{
         return this.idretorno;
-    }
-    
-    public long inserir(Connection c, TOBase t) throws Exception{
-        return this.idretorno;
-    }
-    
-    
-    
-    
+    }    
     
     public void editar(Connection c, TOBase t, String metodo) throws Exception{
-    }
-    
-    public void editar(Connection c, TOBase t) throws Exception{
-    }
-    
-    
-    
-    
-    public void excluir(Connection c, TOBase t) throws Exception{
     }
     
     public void excluir(Connection c, TOBase t, String metodo) throws Exception{
     }
     
-    
-    
-    
-    
-    
+    public TOBase get(Connection c, TOBase t, String metodo) throws Exception{
+        return null;
+    }
+        
     public JSONArray listar(Connection c, String metodo) throws Exception{
         return null;
     }
-    
-    public JSONArray listar(Connection c) throws Exception{
-        return null;
-    }
-    
-    
-    
-    
+
     public JSONArray listar(Connection c, TOBase t, String metodo) throws Exception{
         return null;
     }
-    
-    public JSONArray listar(Connection c, TOBase t) throws Exception{
-        return null;
-    }
-    
-    
-    
-    
-    
-    
-//    
-//    
-//    
-//    public JSONArray listarAgricultoresUnidade(Connection c, TOBase t) throws Exception{
+
+//    public JSONArray listar(Connection c) throws Exception{
 //        return null;
 //    }
-//    
-//    public JSONArray listarUsuarios(Connection c) throws Exception{
-//        return null;
-//    }
-//    
-//    public JSONArray backupentrevista(Connection c, TOBase t) throws Exception{
-//        return null;
-//    }
+    
     
     
 }

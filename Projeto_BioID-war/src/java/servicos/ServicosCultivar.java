@@ -7,7 +7,6 @@ package servicos;
 
 import bo.BOFactory;
 import dao.DAOCultivar;
-import dao.DAOPropriedade;
 import dao.DAOSafra;
 import dao.DAODestinacao;
 import dao.DAOEstoque;
@@ -27,13 +26,11 @@ import javax.ws.rs.core.MediaType;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import to.TOCultivar;
-import to.TOPropriedade;
 import to.TOSafra;
 import to.TOHistoricoColheita;
 import to.TODestinacao;
 import to.TOEstoque;
 import to.TOIOEstoque;
-import to.TOLogin;
 
 /**
  * REST Web Service
@@ -112,20 +109,39 @@ public class ServicosCultivar {
             //verificar sessao
             JSONObject js = new VerificarSessao().VerificarSessao(k.getLong("id"), k.getString("sessao"));
             
-            
+            //nao existe sessao
             if((boolean) js.get("sucesso") == false){
                 j.put("sucesso", false);
                 j.put("mensagem", "Sessao não encontrada!");
+            //existe sessao e sera executado
             }else{
                 JSONArray ja = null;
                 
-                if(k.getString("metodo").equals("listarcultivares")){
-                    ja = BOFactory.listar(new DAOCultivar(), k.getString("metodo"));
-                
-//                }else if(k.getString("metodo").equals("listarcultivaresUn")){
-//                    
-//                    ja = BOFactory.listar(new DAOCultivar(), k.getString("metodo"));
+                switch (k.getString("metodo")) {
+                    case "listar_bio":
+                        ja = BOFactory.listar(new DAOCultivar(), k.getString("metodo"));
+                    break;
+                    
+                    case "listar_naobio":
+//                        ja = BOFactory.listar(new DAOCultivar(), k.getString("metodo"));
+                    break;
+                    
+                    case "listar_recebidos":
+//                        ja = BOFactory.listar(new DAOCultivar(), k.getString("metodo"));
+                    break;
+                    
+                    case "listar_estoqueunidade":
+                        TOEstoque t = new TOEstoque();
+                        t.setUnidade_idunidade(k.getLong("idunidade"));
+                        //lista os cultivares do estoque
+                        ja = BOFactory.listar(new DAOEstoque(), t, k.getString("metodo") );
+                        break;
+                    default:
+                        break;
                 }
+                
+                
+                
                 
                 if(ja.length() > 0){
                     j.put("data", ja);
@@ -179,7 +195,8 @@ public class ServicosCultivar {
                 t.setNomecultivar(k.getString("nomecultivar"));
                 t.setBiofortificado(k.getBoolean("biofortificado"));
 
-                if(BOFactory.get(new DAOCultivar(), t)== null){
+                //se nao existe o cultivar no sistema, pelo nome e por ser biofortificado
+                if(BOFactory.get(new DAOCultivar(), t, null) == null){
                     t.setImagem(k.getString("imagem"));
                     t.setDescricao(k.getString("descricao"));
                     t.setUnidademedida_idunidademedida(k.getLong("unidademedida_idunidademedida"));
@@ -188,7 +205,7 @@ public class ServicosCultivar {
                     t.setTempodestinacao(k.getInt("tempodestinacao"));
                     t.setPeso_saca(k.getDouble("pesoSaca"));
 
-                    BOFactory.inserir(new DAOCultivar(), t);
+                    BOFactory.inserir(new DAOCultivar(), t, k.getString("metodo"));
 
                     j.put("sucesso", true);
                     j.put("mensagem", "Cultivar cadastrado com sucesso!");
@@ -209,82 +226,82 @@ public class ServicosCultivar {
         return j.toString(); 
     }
     
-    //metodo que insere no banco de dados
-    @Path("editar")
-    @POST
-    public String editar(
-            @FormParam("id") int id,
-            @FormParam("nome") String nome,
-            @FormParam("descricao") String descricao,
-            @FormParam("biofortificado") boolean biofortificado,
-            @FormParam("tipo") String tipo,
-            @FormParam("sessao") String sessao
-            ) throws Exception{
-        
-                
-        JSONObject j = new JSONObject();
-        
-        try{    
-            
-            TOCultivar t = new TOCultivar();
-           // t.setIdCultivar(id);
-            
-            t = (TOCultivar) BOFactory.get(new DAOCultivar(), t);
-            
-            if(t == null){
-                j.put("sucesso", false);
-                j.put("mensagem", "Produto não encontrado");
-            }else{
-                t.setNomecultivar(nome);
-                t.setDescricao(descricao);
-                t.setBiofortificado(biofortificado);
-                //t.setTipo(tipo); 
-                
-                BOFactory.editar(new DAOCultivar(), t);
-                j.put("sucesso", true); 
-            }
-           
-        }catch(Exception e){
-            j.put("sucesso", false);
-            j.put("mensagem", e.getMessage());
-        }
-        
-        return j.toString(); 
-    }
-    
-    
-
-    @Path("excluir")
-    @POST
-    public String excluir(
-                        @FormParam("id") int id,
-                        @FormParam("sessao") String sessao
-                        ) throws Exception{
-        
-        JSONObject j = new JSONObject();
-        
-        try{               
-            
-            TOCultivar p = new TOCultivar();
-            //p.setIdCultivar(id);
-            
-            p = (TOCultivar) BOFactory.get(new DAOCultivar(), p);
-            
-            if(p == null){
-                j.put("sucesso", false);
-                j.put("mensagem", "Produto não encontrado");
-            }else{
-                BOFactory.excluir(new DAOCultivar(), p);
-                j.put("sucesso", true);
-            }
-        }catch(Exception e){
-            j.put("sucesso", false);
-            j.put("mensagem", e.getMessage());
-        }
-        
-        return j.toString(); 
-        
-    }
+//    //metodo que insere no banco de dados
+//    @Path("editar")
+//    @POST
+//    public String editar(
+//            @FormParam("id") int id,
+//            @FormParam("nome") String nome,
+//            @FormParam("descricao") String descricao,
+//            @FormParam("biofortificado") boolean biofortificado,
+//            @FormParam("tipo") String tipo,
+//            @FormParam("sessao") String sessao
+//            ) throws Exception{
+//        
+//                
+//        JSONObject j = new JSONObject();
+//        
+//        try{    
+//            
+//            TOCultivar t = new TOCultivar();
+//           // t.setIdCultivar(id);
+//            
+//            t = (TOCultivar) BOFactory.get(new DAOCultivar(), t,);
+//            
+//            if(t == null){
+//                j.put("sucesso", false);
+//                j.put("mensagem", "Produto não encontrado");
+//            }else{
+//                t.setNomecultivar(nome);
+//                t.setDescricao(descricao);
+//                t.setBiofortificado(biofortificado);
+//                //t.setTipo(tipo); 
+//                
+//                BOFactory.editar(new DAOCultivar(), t);
+//                j.put("sucesso", true); 
+//            }
+//           
+//        }catch(Exception e){
+//            j.put("sucesso", false);
+//            j.put("mensagem", e.getMessage());
+//        }
+//        
+//        return j.toString(); 
+//    }
+//    
+//    
+//
+//    @Path("excluir")
+//    @POST
+//    public String excluir(
+//                        @FormParam("id") int id,
+//                        @FormParam("sessao") String sessao
+//                        ) throws Exception{
+//        
+//        JSONObject j = new JSONObject();
+//        
+//        try{               
+//            
+//            TOCultivar p = new TOCultivar();
+//            //p.setIdCultivar(id);
+//            
+//            p = (TOCultivar) BOFactory.get(new DAOCultivar(), p);
+//            
+//            if(p == null){
+//                j.put("sucesso", false);
+//                j.put("mensagem", "Produto não encontrado");
+//            }else{
+//                BOFactory.excluir(new DAOCultivar(), p);
+//                j.put("sucesso", true);
+//            }
+//        }catch(Exception e){
+//            j.put("sucesso", false);
+//            j.put("mensagem", e.getMessage());
+//        }
+//        
+//        return j.toString(); 
+//        
+//    }
     
     @Path("distribuir")
     @POST
@@ -308,12 +325,13 @@ public class ServicosCultivar {
                 j.put("mensagem", "Sessao não encontrada!");
             }else{
                 
-                //verifica a quantidade e diminui quantidade do cultivar na unidade
+                
                 TOEstoque te = new TOEstoque();
                 
                 te.setUnidade_idunidade(k.getLong("idunidade"));
                 te.setCultivar_idcultivar(k.getLong("idcultivar"));
                 
+                //verifica a quantidade e diminui quantidade do cultivar na unidade
                 te  = (TOEstoque) BOFactory.get(new DAOEstoque(), te, k.getString("metodo"));
                
                 BigDecimal bd = new BigDecimal(te.getQuantidade()).setScale(2, RoundingMode.HALF_EVEN);
@@ -325,7 +343,7 @@ public class ServicosCultivar {
                     te.setCultivar_idcultivar(k.getLong("idcultivar"));
                     te.setQuantidade(bd.doubleValue() - k.getDouble("qtdrecebida"));
                     //atualiza o estoque
-                    BOFactory.editar(new DAOEstoque(), te);
+                    BOFactory.editar(new DAOEstoque(), te, k.getString("metodo"));
                     //cria uma tabela de entrada e saida do estoque
                     TOIOEstoque tio = new TOIOEstoque();
                     tio.setCultivar_idcultivar(k.getLong("idcultivar"));
@@ -337,7 +355,7 @@ public class ServicosCultivar {
                     tio.setUnidademedida_idunidademedida(k.getLong("um"));
                     tio.setLogin_idlogin(k.getLong("id"));
                     
-                    BOFactory.inserir(new DAOIOEstoque(), tio);
+                    BOFactory.inserir(new DAOIOEstoque(), tio, k.getString("metodo"));
                             
                    //cria um objeto
                     TOSafra ts = new TOSafra();
@@ -354,7 +372,7 @@ public class ServicosCultivar {
 
 
 
-                    BOFactory.inserir(new DAOSafra(), ts);
+                    BOFactory.inserir(new DAOSafra(), ts, k.getString("metodo"));
 
 
 
@@ -378,159 +396,159 @@ public class ServicosCultivar {
         return j.toString(); 
     }
     
-    //metodo que lista todos os cultivares recebido
-    @Path("listarrecebidos")
-    @POST
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
-    public String listarrecebido(
-                        String dataJson
-                        ) throws Exception{
-        
-        JSONObject j = new JSONObject();
-        
-        JSONObject k = new JSONObject(dataJson);
-        
-         
-        
-        try{ 
-            //verificar sessao
-            JSONObject js = new VerificarSessao().VerificarSessao(k.getLong("id"), k.getString("sessao"));
-            
-            
-            if((boolean) js.get("sucesso") == false){
-                j.put("sucesso", false);
-                j.put("mensagem", "Sessao não encontrada!");
-            }else{
-                //lista os cultivares recebidos
-                TOLogin t = new TOLogin();
-                t.setPessoa_idpessoa(k.getLong("idpessoa"));
-
-                //lista os cultivares recebidos
-                JSONArray ja = BOFactory.listar(new DAOSafra(), t);           
-
-
-                //lista dados dos cultivares
-                JSONArray jc = BOFactory.listar(new DAOCultivar(), t);
-
-
-
-                //lista as perguntas da propriedade
-                //JSONArray jper = BOFactory.listar(new DAOPerguntas(), t);
-
-                if(ja.length() > 0){
-                    j.put("sucesso", true);
-                    j.put("cultivaresrecebidos", ja);
-                    j.put("cultivares", jc);
-                    j.put("sessao", js.get("sessao"));
-
-                }else{
-                    j.put("sucesso", false);
-                    j.put("mensagem", "Nenhum cultivar recebido");
-                    j.put("sessao", js.get("sessao"));
-                }
-            }
-        }catch(Exception e){
-            j.put("sucesso", false);
-            j.put("mensagem", e.getMessage());
-        }
-        
-        return j.toString();
-    }
+//    //metodo que lista todos os cultivares recebido
+//    @Path("listarrecebidos")
+//    @POST
+//    @Consumes(MediaType.APPLICATION_JSON)
+//    @Produces(MediaType.APPLICATION_JSON)
+//    public String listarrecebido(
+//                        String dataJson
+//                        ) throws Exception{
+//        
+//        JSONObject j = new JSONObject();
+//        
+//        JSONObject k = new JSONObject(dataJson);
+//        
+//         
+//        
+//        try{ 
+//            //verificar sessao
+//            JSONObject js = new VerificarSessao().VerificarSessao(k.getLong("id"), k.getString("sessao"));
+//            
+//            
+//            if((boolean) js.get("sucesso") == false){
+//                j.put("sucesso", false);
+//                j.put("mensagem", "Sessao não encontrada!");
+//            }else{
+//                //lista os cultivares recebidos
+//                TOLogin t = new TOLogin();
+//                t.setPessoa_idpessoa(k.getLong("idpessoa"));
+//
+//                //lista os cultivares recebidos
+//                JSONArray ja = BOFactory.listar(new DAOSafra(), t);           
+//
+//
+//                //lista dados dos cultivares
+//                JSONArray jc = BOFactory.listar(new DAOCultivar(), t);
+//
+//
+//
+//                //lista as perguntas da propriedade
+//                //JSONArray jper = BOFactory.listar(new DAOPerguntas(), t);
+//
+//                if(ja.length() > 0){
+//                    j.put("sucesso", true);
+//                    j.put("cultivaresrecebidos", ja);
+//                    j.put("cultivares", jc);
+//                    j.put("sessao", js.get("sessao"));
+//
+//                }else{
+//                    j.put("sucesso", false);
+//                    j.put("mensagem", "Nenhum cultivar recebido");
+//                    j.put("sessao", js.get("sessao"));
+//                }
+//            }
+//        }catch(Exception e){
+//            j.put("sucesso", false);
+//            j.put("mensagem", e.getMessage());
+//        }
+//        
+//        return j.toString();
+//    }
     
-    //metodo que relata a colheita da safra
-    @Path("relatarcolheita")
-    @POST
-    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    @Produces(MediaType.APPLICATION_JSON)
-    public String relatarcolheita(
-            @FormParam("idsafra") long idsafra,
-            @FormParam("ultimadatacolheita") String ultimadatacolheita,
-            @FormParam("qtdcolhida") float qtdcolhida,
-            @FormParam("statussafra_idstatussafra") long statussafra_idstatussafra,
-            @FormParam("sessao") String sessao
-            ) throws Exception{
-        
-        JSONObject j = new JSONObject();
-        
-        try{
-            //cria um historico da nova colheita
-            TOHistoricoColheita th = new TOHistoricoColheita();
-            th.setSafra_idsafra(idsafra);
-            th.setDatacolheita(ultimadatacolheita);
-            th.setQtdcolhida(qtdcolhida);
-            BOFactory.inserir(new DAOHistoricoColheita(), th);
-            
-            //tras o valor da soma das colheitas
-            th = (TOHistoricoColheita) BOFactory.get(new DAOHistoricoColheita(), th);
-            
-            //atualiza a tabela safra
-            TOSafra ts = new TOSafra();
-            ts.setIdsafra(idsafra);
-            ts.setUltimadatacolheita(ultimadatacolheita);
-            ts.setQtdcolhida(th.getSomaqtdcolhida());
-            ts.setStatussafra_idstatussafra(statussafra_idstatussafra);
-            BOFactory.editar(new DAOSafra(), ts);
-            
-            j.put("sucesso", true);
-            j.put("mensagem", "Colheita relatada!");
-            
-        }catch(Exception e){
-            j.put("sucesso", false);
-            j.put("mensagem", e.getMessage());
-        }
-        
-        
-        return j.toString();
-    }
-    
-    //metodo que relata a colheita da safra
-    @Path("relatardestinacao")
-    @POST
-    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    @Produces(MediaType.APPLICATION_JSON)
-    public String relatardestinacao(
-            @FormParam("idsafra") long idsafra,
-            @FormParam("tipodestinacao_idtipodestinacao") long tipodestinacao_idtipodestinacao,
-            @FormParam("datadestinada") String datadestinada,
-            @FormParam("qtddestinada") float qtddestinada,
-            @FormParam("statussafra_idstatussafra") long statussafra_idstatussafra,
-            @FormParam("sessao") String sessao
-            ) throws Exception{
-        
-        JSONObject j = new JSONObject();
-        
-        try{
-            //cria um historico da nova colheita
-            TODestinacao td = new TODestinacao();
-            td.setSafra_idsafra(idsafra);
-            td.setTipodestinacao_idtipodestinacao(tipodestinacao_idtipodestinacao);
-            td.setDatadestinada(datadestinada);
-            td.setQtddestinada(qtddestinada);
-            
-            BOFactory.inserir(new DAODestinacao(), td);
-            
-            //atualiza o status da safra
-            TOSafra ts = new TOSafra();
-            
-            ts.setIdsafra(idsafra);
-            //tras o valor da soma das colheitas
-            ts = (TOSafra) BOFactory.get(new DAOSafra(), ts);
-            
-            ts.setStatussafra_idstatussafra(statussafra_idstatussafra);
-            BOFactory.editar(new DAOSafra(), ts);
-            
-            j.put("sucesso", true);
-            j.put("mensagem", "Destinacao relatada!");
-            
-        }catch(Exception e){
-            j.put("sucesso", false);
-            j.put("mensagem", e.getMessage());
-        }
-        
-        
-        return j.toString();
-    }
+//    //metodo que relata a colheita da safra
+//    @Path("relatarcolheita")
+//    @POST
+//    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+//    @Produces(MediaType.APPLICATION_JSON)
+//    public String relatarcolheita(
+//            @FormParam("idsafra") long idsafra,
+//            @FormParam("ultimadatacolheita") String ultimadatacolheita,
+//            @FormParam("qtdcolhida") float qtdcolhida,
+//            @FormParam("statussafra_idstatussafra") long statussafra_idstatussafra,
+//            @FormParam("sessao") String sessao
+//            ) throws Exception{
+//        
+//        JSONObject j = new JSONObject();
+//        
+//        try{
+//            //cria um historico da nova colheita
+//            TOHistoricoColheita th = new TOHistoricoColheita();
+//            th.setSafra_idsafra(idsafra);
+//            th.setDatacolheita(ultimadatacolheita);
+//            th.setQtdcolhida(qtdcolhida);
+//            BOFactory.inserir(new DAOHistoricoColheita(), th);
+//            
+//            //tras o valor da soma das colheitas
+//            th = (TOHistoricoColheita) BOFactory.get(new DAOHistoricoColheita(), th);
+//            
+//            //atualiza a tabela safra
+//            TOSafra ts = new TOSafra();
+//            ts.setIdsafra(idsafra);
+//            ts.setUltimadatacolheita(ultimadatacolheita);
+//            ts.setQtdcolhida(th.getSomaqtdcolhida());
+//            ts.setStatussafra_idstatussafra(statussafra_idstatussafra);
+//            BOFactory.editar(new DAOSafra(), ts);
+//            
+//            j.put("sucesso", true);
+//            j.put("mensagem", "Colheita relatada!");
+//            
+//        }catch(Exception e){
+//            j.put("sucesso", false);
+//            j.put("mensagem", e.getMessage());
+//        }
+//        
+//        
+//        return j.toString();
+//    }
+//    
+//    //metodo que relata a colheita da safra
+//    @Path("relatardestinacao")
+//    @POST
+//    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+//    @Produces(MediaType.APPLICATION_JSON)
+//    public String relatardestinacao(
+//            @FormParam("idsafra") long idsafra,
+//            @FormParam("tipodestinacao_idtipodestinacao") long tipodestinacao_idtipodestinacao,
+//            @FormParam("datadestinada") String datadestinada,
+//            @FormParam("qtddestinada") float qtddestinada,
+//            @FormParam("statussafra_idstatussafra") long statussafra_idstatussafra,
+//            @FormParam("sessao") String sessao
+//            ) throws Exception{
+//        
+//        JSONObject j = new JSONObject();
+//        
+//        try{
+//            //cria um historico da nova colheita
+//            TODestinacao td = new TODestinacao();
+//            td.setSafra_idsafra(idsafra);
+//            td.setTipodestinacao_idtipodestinacao(tipodestinacao_idtipodestinacao);
+//            td.setDatadestinada(datadestinada);
+//            td.setQtddestinada(qtddestinada);
+//            
+//            BOFactory.inserir(new DAODestinacao(), td);
+//            
+//            //atualiza o status da safra
+//            TOSafra ts = new TOSafra();
+//            
+//            ts.setIdsafra(idsafra);
+//            //tras o valor da soma das colheitas
+//            ts = (TOSafra) BOFactory.get(new DAOSafra(), ts);
+//            
+//            ts.setStatussafra_idstatussafra(statussafra_idstatussafra);
+//            BOFactory.editar(new DAOSafra(), ts);
+//            
+//            j.put("sucesso", true);
+//            j.put("mensagem", "Destinacao relatada!");
+//            
+//        }catch(Exception e){
+//            j.put("sucesso", false);
+//            j.put("mensagem", e.getMessage());
+//        }
+//        
+//        
+//        return j.toString();
+//    }
 
    /* private JSONArray verificasSafra(JSONArray ja) throws JSONException {
                         
