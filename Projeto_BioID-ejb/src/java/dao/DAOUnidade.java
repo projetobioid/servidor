@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 import org.json.JSONArray;
 import to.TOBase;
-import to.TOPessoa;
 import to.TOUnidade;
 
 /**
@@ -57,10 +56,10 @@ public class DAOUnidade extends DAOBase{
         
         try{
             TOUnidade to = (TOUnidade)t;
-             String sql;
+             String sql = null;
              
             switch(metodo){
-                default:
+                case "get_unidade":
                     sql = "SELECT u.idunidade, c.nomecidade, u.nomeunidade, e.rua, e.bairro, e.numero, e.complemento, e.gps_lat, e.gps_long, es.nomeestado, p.nomepais, u.telefone1, u.telefone2, u.email, u.cnpj, u.razao_social, u.nome_fanta "
                         + "FROM unidade u "
                         + "INNER JOIN endereco e ON (e.idendereco = u.endereco_idendereco) "
@@ -98,8 +97,8 @@ public class DAOUnidade extends DAOBase{
             String sql = null;
             
             switch(metodo){
-                case "listar_unidades":
-                    sql = "SELECT u.idunidade, c.nomecidade, u.nomeunidade, es.nomeestado, p.nomepais, u.telefone1, u.telefone2, u.email, u.cnpj "
+                case "unidades":
+                    sql = "SELECT u.idunidade, c.nomecidade, u.nomeunidade, es.nomeestado, p.nomepais, u.telefone1, u.email, u.cnpj "
                         + "FROM unidade u "
                         + "INNER JOIN endereco e ON (e.idendereco = u.endereco_idendereco) "
                         + "INNER JOIN cidade c ON (c.idcidade= e.cidade_idcidade) "

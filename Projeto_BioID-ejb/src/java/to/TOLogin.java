@@ -95,6 +95,10 @@ public class TOLogin extends TOBase{
     public TOLogin(ResultSet rs, String metodo) throws Exception{
         
         switch(metodo){
+            case "get_usuario":
+                this.idlogin = rs.getLong("idlogin");
+                this.usuario = rs.getString("usuario");
+                break;
             default:
                 this.idlogin = rs.getLong("idlogin");
                 this.pessoa_idpessoa = rs.getLong("pessoa_idpessoa");

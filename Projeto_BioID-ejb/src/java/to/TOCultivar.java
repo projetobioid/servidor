@@ -147,11 +147,28 @@ public class TOCultivar extends TOBase{
     //retorna consulta do banco de dados tipo resultset
     public TOCultivar (ResultSet rs , String metodo) throws Exception{
         switch(metodo){
+            case "listar_bio" :
+                this.idcultivar = rs.getLong("idcultivar");
+                this.nomecultivar = rs.getString("nomecultivar");
+                this.grandeza = rs.getString("grandeza");
+                break;
             case "buscar_cultivar" :
                 this.idcultivar = rs.getLong("idcultivar");
                 this.nomecultivar = rs.getString("nomecultivar");
                 this.unidademedida_idunidademedida= rs.getLong("unidademedida_idunidademedida");
                 this.grandeza = rs.getString("grandeza");
+                break;
+            case "get_cultivar":
+                this.idcultivar = rs.getLong("idcultivar");
+                this.nomecultivar = rs.getString("nomecultivar");
+                this.imagem = rs.getString("imagem");
+                this.descricao = rs.getString("descricao");
+                this.biofortificado = rs.getBoolean("biofortificado");
+                this.grandeza = rs.getString("grandeza");
+                this.valornutricional = rs.getString("valornutricional");
+                this.tempodecolheita = rs.getInt("tempodecolheita");
+                this.tempodestinacao = rs.getInt("tempodestinacao");
+                this.peso_saca = rs.getInt("peso_saca");
                 break;
             default:
                 this.idcultivar = rs.getLong("idcultivar");
@@ -174,11 +191,28 @@ public class TOCultivar extends TOBase{
         JSONObject j = new JSONObject();
         
         switch(metodo){
+            case "listar_bio":
+                j.put("idcultivar", idcultivar);
+                j.put("nomecultivar", nomecultivar);
+                j.put("grandeza", grandeza);
+                break;
             case "buscar_cultivar":
                 j.put("idcultivar", idcultivar);
                 j.put("nomecultivar", nomecultivar);
                 j.put("unidademedida_idunidademedida", unidademedida_idunidademedida);
                 j.put("grandeza", grandeza);
+                break;
+            case "get_cultivar":
+                j.put("idcultivar", idcultivar);
+                j.put("nomecultivar", nomecultivar);
+                j.put("imagem", imagem);
+                j.put("descricao", descricao);
+                j.put("biofortificado", biofortificado);
+                j.put("grandeza", grandeza);
+                j.put("valornutricional", valornutricional);
+                j.put("tempodecolheita", tempodecolheita);
+                j.put("tempodestinacao", tempodestinacao);
+                j.put("peso_saca", peso_saca);
                 break;
             default:
                 j.put("idcultivar", idcultivar);

@@ -60,6 +60,11 @@ public class DAOLogin extends DAOBase{
             
             //testa o metodo a ser executado
             switch(metodo){
+                case "get_usuario" :
+                sql = "SELECT idlogin, usuario FROM login l WHERE usuario IN(?)";
+                
+                u.add(to.getUsuario());
+                break;
                 default :
                 sql = "SELECT l.idlogin, l.pessoa_idpessoa, l.unidade_idunidade, l.usuario, l.papel, p.nome "
                     + "FROM login l "

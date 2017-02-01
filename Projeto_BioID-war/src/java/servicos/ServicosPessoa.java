@@ -84,7 +84,7 @@ public class ServicosPessoa {
                 
                 //testa se a busca vai ser por id, ou cpf/nome/rg
                 //if(k.getString("metodo").equals("buscaragricultorid")){
-                    p.setIdpessoa(k.getLong("idpessoa"));
+               p.setIdpessoa(k.getLong("idpessoa"));
                 //}else{
                    // p.setNome(k.getString("campo"));
                     //p.setCpf(k.getString("campo"));
@@ -444,12 +444,12 @@ public class ServicosPessoa {
                 t.setCpf(k.getString("cpf"));
 
                 //se nao existe cpf cadastrado no banco, prosegue o cadastro
-                if(BOFactory.get(new DAOPessoa(), t, null) == null ){
+                if(BOFactory.get(new DAOPessoa(), t, "get_pessoa_por_cpf") == null ){
                     TOLogin tl = new TOLogin();
 
                     tl.setUsuario(k.getString("usuario"));
                     //teste se existe o usuario cadastrado
-                    if(BOFactory.get(new DAOLogin(), tl, null) == null ){
+                    if(BOFactory.get(new DAOLogin(), tl, "get_usuario") == null ){
                         long idGeradoPessoa;
                         long idGeradoEndereco;
                         TOEndereco te = new TOEndereco();

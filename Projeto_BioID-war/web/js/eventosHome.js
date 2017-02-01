@@ -1,5 +1,5 @@
-//var ipServidor = 'localhost:8080';
-var ipServidor = "187.19.101.252:8082";
+var ipServidor = 'localhost:8080';
+//var ipServidor = "187.19.101.252:8082";
 //var ipServidor = "10.1.2.52:8080";
 
 
@@ -133,7 +133,7 @@ $(document).on("dblclick", "#divItens tr", function(evt)
 function carregaAgricultor(idClicado, opcao){
     var Sessao = getSessao();
     var envio = {
-        metodo: "buscaragricultor",
+        metodo: "get_agricultor",
         idpessoa: idClicado,
         id: Sessao.idpessoa,
         sessao: Sessao.sessao
@@ -168,7 +168,7 @@ function carregaAgricultor(idClicado, opcao){
 function carregaCultivar(idClicado, opcao){
     var Sessao = getSessao();
     var envio = {
-        metodo: "buscarcultivar",
+        metodo: "get_cultivar",
         idcultivar: idClicado,
         id: Sessao.idpessoa,
         sessao: Sessao.sessao
@@ -204,7 +204,7 @@ function carregaCultivar(idClicado, opcao){
 function carregaUnidade(idClicado, opcao){
     var Sessao = getSessao();
     var envio = {
-        metodo: "buscarunidade",
+        metodo: "get_unidade",
         idunidade: idClicado,
         id: Sessao.idpessoa,
         sessao: Sessao.sessao
@@ -238,7 +238,7 @@ function carregaUnidade(idClicado, opcao){
 function carregaUsuario(idClicado, opcao){
     var Sessao = getSessao();
     var envio = {
-        metodo: "buscarusuario",
+        metodo: "get_usuario",
         idpessoa: idClicado,
         id: Sessao.idpessoa,
         sessao: Sessao.sessao
@@ -651,7 +651,7 @@ function verificaPagina(){
 function listarAgricultores(){
     var Sessao = getSessao();
     var envio = {
-        metodo: "listaragricultores",
+        metodo: "agricultores",
         id: Sessao.idpessoa,
         sessao: Sessao.sessao,
         idunidade: Sessao.idunidade
@@ -690,7 +690,7 @@ function listarCultivares(){
     
     var Sessao = getSessao();
     var envio = {
-        metodo: "listarcultivares",
+        metodo: "listar_bio",
         id: Sessao.idpessoa,
         sessao: Sessao.sessao,
         idunidade: Sessao.idunidade
@@ -730,6 +730,7 @@ function listarCultivares(){
 function listarUnidades(){
     var Sessao = getSessao();
     var envio = {
+        metodo: "unidades",
         id: Sessao.idpessoa,
         sessao: Sessao.sessao
     };
@@ -742,12 +743,12 @@ function listarUnidades(){
             var item = "";
 
             $.each(dadosRetorno.data, function(i, valor){
-                item += "<tr><td>"+valor.idunidade+"</td><td>"+valor.nomeunidade+"</td><td>"+valor.telefone1+"</td><td>"+valor.telefone2+"</td><td>"+valor.email+"</td><td>"+valor.nomepais+"</td><td>"+valor.nomeestado+"</td><td>"+valor.nomecidade+"</td></tr>";
+                item += "<tr><td>"+valor.idunidade+"</td><td>"+valor.nomeunidade+"</td><td>"+valor.telefone1+"</td><td>"+valor.cnpj+"</td><td>"+valor.email+"</td><td>"+valor.nomecidade+"</td><td>"+valor.nomeestado+"</td><td>"+valor.nomepais+"</td></tr>";
 
             });
 
             $("#page").fadeOut(400, function(){
-                $("#divItens").empty().append('<h2 class="sub-header">Lista de unidades</h2><div class="table-responsive"><table class="table table-hover"><thead><tr><th>ID</th><th>Nome da Unidade</th><th>Telefone1</th><th>Telefone2</th><th>E-mail</th><th>País</th><th>Estado</th><th>Cidade</th></tr></thead><tbody>'+item+'</tbody></table></div>');
+                $("#divItens").empty().append('<h2 class="sub-header">Lista de unidades</h2><div class="table-responsive"><table class="table table-hover"><thead><tr><th>ID</th><th>Nome da Unidade</th><th>Telefone1</th><th>CNPJ</th><th>E-mail</th><th>Cidade</th><th>Estado</th><th>País</th></tr></thead><tbody>'+item+'</tbody></table></div>');
                 $("#divItens").show();
                 $("#page").fadeIn(400);
             });
@@ -768,7 +769,7 @@ function listarUsuarios(){
 
     var Sessao = getSessao();
     var envio = {
-        metodo: "listarusuarios",
+        metodo: "usuarios",
         id: Sessao.idpessoa,
         sessao: Sessao.sessao,
         idunidade: Sessao.idunidade
@@ -995,6 +996,7 @@ function salvarNovoAgricultor(){
 //        metodo: "inseriragricultor",
         id: Sessao.idpessoa,
         sessao: Sessao.sessao,
+        metodo: "agricultor",
         cidade_idcidade : $("#cidadeAgricultor").prop("value"),
         rua: $("#rua").val(),
         gps_lat: $("#gps_lat").val(),
@@ -1030,7 +1032,7 @@ function salvarNovoAgricultor(){
     
   
     //chama a requisicao do servidor, o resultado é listado em uma tabela
-    requisicao("pessoa/inseriragricultor", envio, function(dadosRetorno) {
+    requisicao("pessoa/inserir", envio, function(dadosRetorno) {
         if(dadosRetorno.sucesso){
             $(".painelCarregando").fadeOut(400);
             alerta("Alerta!", dadosRetorno.mensagem);
@@ -1231,6 +1233,7 @@ var Sessao = getSessao();
 //        metodo: "inserirusuario",
         id: Sessao.idpessoa,
         sessao: Sessao.sessao,
+        metodo: "usuario",
         cidade_idcidade : $("#cidadeNovoUsuario").prop("value"),
         rua: $("#ruaNovoUsuario").val(),
         gps_lat: $("#gps_latNovoUsuario").val(),
@@ -1259,7 +1262,7 @@ var Sessao = getSessao();
     
     
     //chama a requisicao do servidor, o resultado é listado em uma tabela
-    requisicao("pessoa/inserirusuario", envio, function(dadosRetorno) {
+    requisicao("pessoa/inserir", envio, function(dadosRetorno) {
         if(dadosRetorno.sucesso){
             
             $(".painelCarregando").fadeOut(400);
@@ -1348,13 +1351,13 @@ function testeRadioPapel(){
 //carrega a lista de pais do banco de dados e lista em um select
 $(document).on("focusin", ".carregaPais", function(){
     var envio = {
-        metodo: "listarpais"
+        metodo: "pais"
     };
     
     var idSelect = $(this).prop("id");
 
     //chama a requisicao do servidor, o resultado é listado em um select
-    requisicao("outros/listarsp", envio, function(dadosRetorno) {
+    requisicao("outros/listar", envio, function(dadosRetorno) {
         if(dadosRetorno.sucesso){
 
             $("#"+idSelect).empty();
@@ -1383,8 +1386,8 @@ $(document).on("focusin", ".carregaPais", function(){
 //carrega do banco de dados os estados
 $(document).on("focusin", ".carregaEstado", function(){
     var envio = {
-        metodo: "listarestados",
-        id: $(".carregaPais").prop("value")
+        metodo: "estados",
+        idpais: $(".carregaPais").prop("value")
     };
     
     var idSelect = $(this).prop("id");
@@ -1419,8 +1422,8 @@ $(document).on("focusin", ".carregaEstado", function(){
 //carrega do banco de dados os estados
 $(document).on("focusin", ".carregaCidade", function(){
     var envio = {
-        metodo: "listarcidades",
-        id: $(".carregaEstado").prop("value")
+        metodo: "cidades",
+        idestado: $(".carregaEstado").prop("value")
     };
     
     var idSelect = $(this).prop("id");
@@ -1453,13 +1456,13 @@ $(document).on("focusin", ".carregaCidade", function(){
 //carrega a lista de unidades do banco de dados e lista em um select
 $(document).on("focusin", ".carregaUnidades", function(){
     var envio = {
-        metodo: "listarunidades"
+        metodo: "nome_id_unidades"
     };
     
     var idSelect = $(this).prop("id");
 
     //chama a requisicao do servidor, o resultado é listado em um select
-    requisicao("outros/listarsp", envio, function(dadosRetorno) {
+    requisicao("outros/listar", envio, function(dadosRetorno) {
         if(dadosRetorno.sucesso){
             
             $("#"+idSelect).empty();

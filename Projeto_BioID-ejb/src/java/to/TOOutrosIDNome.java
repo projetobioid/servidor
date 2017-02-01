@@ -49,19 +49,19 @@ public class TOOutrosIDNome extends TOBase{
         JSONObject j = new JSONObject();
         
         switch (metodo) {
-            case "listarpais":
+            case "pais":
                 this.id = rs.getLong("idpais");
                 this.nome = rs.getString("nomepais");
                 break;
-            case "listarestados":
+            case "estados":
                 this.id = rs.getLong("idestado");
                 this.nome = rs.getString("nomeestado");
                 break;
-            case "listarcidades":
+            case "cidades":
                 this.id = rs.getLong("idcidade");
                 this.nome = rs.getString("nomecidade");
                 break;
-            case "listarunidades":
+            case "nome_id_unidades":
                 this.id = rs.getLong("idunidade");
                 this.nome = rs.getString("nomeunidade");
                 break;
@@ -97,20 +97,20 @@ public class TOOutrosIDNome extends TOBase{
         JSONObject j = new JSONObject();
         
         switch (metodo) {
-            case "listarpais":
+            case "pais":
                 //populando o objeto j
                 j.put("idpais", id);
                 j.put("nomepais", nome);
                 break;
-            case "listarestados":
+            case "estados":
                 j.put("idestado", id);
                 j.put("nomeestado", nome);
                 break;
-            case "listarcidades":
+            case "cidades":
                 j.put("idcidade", id);
                 j.put("nomecidade", nome);
                 break;
-            case "listarunidades":
+            case "nome_id_unidades":
                 j.put("idunidade", id);
                 j.put("nomeunidade", nome);
                 break;

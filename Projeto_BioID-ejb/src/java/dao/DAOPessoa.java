@@ -103,27 +103,33 @@ public class DAOPessoa extends DAOBase{
         TOPessoa to = (TOPessoa)t;
         
         try{
-            
+            List<Object> u = new ArrayList<Object>();
             switch(metodo){
-                case "buscaragricultor":
+                case "get_agricultor":
                     sql = "SELECT p.idpessoa, p.nome, p.sobrenome, p.apelido, p.cpf, p.rg, p.datanascimento, p.sexo, p.telefone1, p.telefone2, p.email, a.qtdintegrantes, a.qtdcriancas, a.qtdgravidas, est.descricao as estadocivil, esc.descricao as escolaridade "
                         + "FROM pessoa p "
                         + "INNER JOIN agricultor a ON(a.pessoa_idpessoa = p.idpessoa) "
                         + "INNER JOIN estadocivil est ON(est.idestadocivil = p.estadocivil_idestadocivil) "
                         + "INNER JOIN escolaridade esc ON(esc.idescolaridade = p.escolaridade_idescolaridade) "
                         + "WHERE p.idpessoa IN(?)"; 
+                    u.add(to.getIdpessoa());
                     break;
-                case "buscarusuario":
+                case "get_usuario":
                     sql = "SELECT p.idpessoa, p.nome, p.sobrenome, p.apelido, p.cpf, p.rg, p.datanascimento, p.sexo, p.telefone1, p.telefone2, p.email, est.descricao as estadocivil, esc.descricao as escolaridade "
                         + "FROM pessoa p "
                         + "INNER JOIN estadocivil est ON(est.idestadocivil = p.estadocivil_idestadocivil) "
                         + "INNER JOIN escolaridade esc ON(esc.idescolaridade = p.escolaridade_idescolaridade) "
                         + "WHERE p.idpessoa IN(?)";
+                    u.add(to.getIdpessoa());
+                    break;
+                case "get_pessoa_por_cpf":
+                    sql = "SELECT idpessoa, cpf FROM pessoa WHERE cpf IN(?)";
+                    u.add(to.getCpf());
                     break;
             }
          
             
-            rs = Data.executeQuery(c, sql, to.getIdpessoa());
+            rs = Data.executeQuery(c, sql, u);
             
             if(rs.next()){
                 return new TOPessoa(rs, metodo);
@@ -186,36 +192,40 @@ public class DAOPessoa extends DAOBase{
             //variavel com lista dos parametros
             List<Object> u = new ArrayList<Object>();
             
-            if(metodo.equals("listaragricultores")){
-                sql = "SELECT p.idpessoa, p.nome, p.sobrenome, p.cpf, p.rg, p.telefone1, u.nomeunidade"
-                        + " FROM pessoa p"
-                        + " INNER JOIN login l ON (l.pessoa_idpessoa = p.idpessoa)"
-                        + " INNER JOIN unidade u ON (u.idunidade = l.unidade_idunidade)"
-                        + " WHERE l.papel IN('a') AND l.unidade_idunidade IN(?)";
-                u.add(to.getIdunidade());
-            }else if(metodo.equals("listarusuarios")){
-                sql = "SELECT p.idpessoa, p.nome, p.sobrenome, p.cpf, p.rg, p.telefone1, u.nomeunidade, l.papel "
-                    + "FROM pessoa p "
-                    + "INNER JOIN login l ON (l.pessoa_idpessoa = p.idpessoa) "
-                    + "INNER JOIN unidade u ON (u.idunidade = l.unidade_idunidade) "
-                    + "WHERE l.papel IN('x') OR l.papel IN('e') OR l.papel IN('g') AND l.unidade_idunidade IN(?)";
-                u.add(to.getIdunidade());
-            }else if(metodo.equals("procuraragricultor")){ 
-                sql = "SELECT p.idpessoa, p.nome, p.sobrenome, p.cpf, p.rg FROM pessoa p "
-                        + "INNER JOIN agricultor a ON (a.pessoa_idpessoa = p.idpessoa) "
-                        + "INNER JOIN login l ON(l.pessoa_idpessoa = p.idpessoa) "
-                        + "WHERE p.nome ILIKE ? AND l.unidade_idunidade IN(?)";  
-                u.add(to.getNome());
-                u.add(to.getIdunidade());
-            }else{
-                sql = "SELECT p.idpessoa, p.nome, p.sobrenome, p.cpf, p.rg FROM pessoa p "
-                        + "INNER JOIN agricultor a ON (a.pessoa_idpessoa = p.idpessoa) "
-                        + "INNER JOIN login l ON(l.pessoa_idpessoa = p.idpessoa) "
-                        + "WHERE p.nome ILIKE ? AND p.sobrenome ILIKE ? AND l.unidade_idunidade IN(?)"; 
-                 
-                u.add(to.getNome());
-                u.add(to.getSobrenome());
-                u.add(to.getIdunidade());
+            switch (metodo) {
+                case "agricultores":
+                    sql = "SELECT p.idpessoa, p.nome, p.sobrenome, p.cpf, p.rg, p.telefone1, u.nomeunidade"
+                            + " FROM pessoa p"
+                            + " INNER JOIN login l ON (l.pessoa_idpessoa = p.idpessoa)"
+                            + " INNER JOIN unidade u ON (u.idunidade = l.unidade_idunidade)"
+                            + " WHERE l.papel IN('a') AND l.unidade_idunidade IN(?)";
+                    u.add(to.getIdunidade());
+                    break;
+                case "usuarios":
+                    sql = "SELECT p.idpessoa, p.nome, p.sobrenome, p.cpf, p.rg, p.telefone1, u.nomeunidade, l.papel "
+                            + "FROM pessoa p "
+                            + "INNER JOIN login l ON (l.pessoa_idpessoa = p.idpessoa) "
+                            + "INNER JOIN unidade u ON (u.idunidade = l.unidade_idunidade) "
+                            + "WHERE l.papel IN('x') OR l.papel IN('e') OR l.papel IN('g') AND l.unidade_idunidade IN(?)";
+                    u.add(to.getIdunidade());
+                    break;
+                case "procuraragricultor":
+                    sql = "SELECT p.idpessoa, p.nome, p.sobrenome, p.cpf, p.rg FROM pessoa p "
+                            + "INNER JOIN agricultor a ON (a.pessoa_idpessoa = p.idpessoa) "
+                            + "INNER JOIN login l ON(l.pessoa_idpessoa = p.idpessoa) "
+                            + "WHERE p.nome ILIKE ? AND l.unidade_idunidade IN(?)";
+                    u.add(to.getNome());
+                    u.add(to.getIdunidade());
+                    break;
+                default:
+                    sql = "SELECT p.idpessoa, p.nome, p.sobrenome, p.cpf, p.rg FROM pessoa p "
+                            + "INNER JOIN agricultor a ON (a.pessoa_idpessoa = p.idpessoa) "
+                            + "INNER JOIN login l ON(l.pessoa_idpessoa = p.idpessoa) "
+                            + "WHERE p.nome ILIKE ? AND p.sobrenome ILIKE ? AND l.unidade_idunidade IN(?)";
+                    u.add(to.getNome());
+                    u.add(to.getSobrenome());
+                    u.add(to.getIdunidade());
+                    break;
             }
         
                 

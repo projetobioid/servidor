@@ -62,7 +62,7 @@ public class TOSessao extends TOBase{
     public TOSessao(ResultSet rs, String metodo) throws Exception{
         
         switch(metodo){
-            case "getSessao":
+            case "get_sessao":
                 //retorna sessao antiga
                 this.idsessao = rs.getLong("idsessao");
                 this.login_idlogin = rs.getLong("login_idlogin");

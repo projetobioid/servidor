@@ -31,24 +31,25 @@ public class DAOOutrosIDNome extends DAOBase{
             List<Object> u = new ArrayList<Object>();
             
             switch(metodo){
-                case "listar_pais":
+                case "pais":
                     sql = "SELECT idpais, nomepais FROM pais ORDER BY nomepais ASC";
                     break;
-                case "listarestados":
+                case "estados":
                     sql = "SELECT idestado, nomeestado FROM estado WHERE pais_idpais IN(?) ORDER BY nomeestado ASC";
+                    u.add(((TOOutrosIDNome) t).getId());
                     break;
-                case "listar_cidades":
+                case "cidades":
                      sql = "SELECT idcidade, nomecidade FROM cidade WHERE estado_idestado IN(?) ORDER BY nomecidade ASC";
+                     u.add(((TOOutrosIDNome) t).getId());
+                    break;
+                case "nome_id_unidades":
+                     sql = "SELECT idunidade, nomeunidade FROM unidade ORDER BY nomeunidade ASC";
                     break;
                 
             }
-          
             
-            u.add(((TOOutrosIDNome) t).getId());
             rs = Data.executeQuery(c, sql, u);
             
-            
-        
             while (rs.next()){
                 TOOutrosIDNome ts = new TOOutrosIDNome(rs, metodo);
                 ja.put(ts.getJson(metodo));

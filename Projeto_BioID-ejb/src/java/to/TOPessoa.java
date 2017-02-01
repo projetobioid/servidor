@@ -212,7 +212,7 @@ public class TOPessoa extends TOBase{
 public TOPessoa(ResultSet rs, String metodo) throws Exception{
         
         switch (metodo) {
-            case "buscaragricultor":
+            case "get_agricultor":
                 this.agricultor = new TOAgricultor();
                 this.idpessoa = rs.getLong("idpessoa");
                 this.nome = rs.getString("nome");
@@ -231,7 +231,7 @@ public TOPessoa(ResultSet rs, String metodo) throws Exception{
                 this.estadocivil = rs.getString("estadocivil");
                 this.escolaridade = rs.getString("escolaridade");
                 break;
-            case "buscarusuario":
+            case "get_usuario":
                 this.idpessoa = rs.getLong("idpessoa");
                 this.nome = rs.getString("nome");
                 this.sobrenome = rs.getString("sobrenome");
@@ -246,7 +246,7 @@ public TOPessoa(ResultSet rs, String metodo) throws Exception{
                 this.estadocivil = rs.getString("estadocivil");
                 this.escolaridade = rs.getString("escolaridade");
                 break;
-            case "listaragricultores":
+            case "agricultores":
                 this.idpessoa = rs.getLong("idpessoa");
                 this.nome = rs.getString("nome");
                 this.sobrenome = rs.getString("sobrenome");
@@ -255,7 +255,7 @@ public TOPessoa(ResultSet rs, String metodo) throws Exception{
                 this.telefone1 = rs.getString("telefone1");
                 this.nomeunidade = rs.getString("nomeunidade");
                 break;
-            case "listarusuarios":
+            case "usuarios":
                 this.idpessoa = rs.getLong("idpessoa");
                 this.nome = rs.getString("nome");
                 this.sobrenome = rs.getString("sobrenome");
@@ -273,6 +273,10 @@ public TOPessoa(ResultSet rs, String metodo) throws Exception{
                 this.rg = rs.getString("rg");
 //            this.idunidade = rs.getLong("idunidade");
                 break;
+            case "get_pessoa_por_cpf":
+                this.idpessoa = rs.getLong("idpessoa");;
+                this.cpf = rs.getString("cpf");
+                break;
             default:
                 break;
         }
@@ -286,7 +290,7 @@ public TOPessoa(ResultSet rs, String metodo) throws Exception{
         JSONObject j = new JSONObject();
         
         switch (metodo) {
-            case "listaragricultores":
+            case "agricultores":
                 //populando o objeto j
                 j.put("idpessoa", idpessoa);
                 j.put("nome", nome);
@@ -296,7 +300,7 @@ public TOPessoa(ResultSet rs, String metodo) throws Exception{
                 j.put("telefone1", telefone1);
                 j.put("nomeunidade", nomeunidade);
                 break;
-            case "listarusuarios":
+            case "usuarios":
                 //populando o objeto j
                 j.put("idpessoa", idpessoa);
                 j.put("nome", nome);
@@ -307,7 +311,7 @@ public TOPessoa(ResultSet rs, String metodo) throws Exception{
                 j.put("nomeunidade", nomeunidade);
                 j.put("papel", papel);
                 break;
-            case "buscaragricultor":
+            case "get_agricultor":
                 //populando o objeto j
                 j.put("idpessoa", idpessoa);
                 j.put("nome", nome);
@@ -326,7 +330,7 @@ public TOPessoa(ResultSet rs, String metodo) throws Exception{
                 j.put("estadocivil", estadocivil);
                 j.put("escolaridade", escolaridade);
                 break;
-            case "buscarusuario":
+            case "get_usuario":
                 //populando o objeto j
                 j.put("idpessoa", idpessoa);
                 j.put("endereco_idendereco", endereco_idendereco);

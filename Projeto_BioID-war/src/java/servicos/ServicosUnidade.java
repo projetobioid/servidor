@@ -207,7 +207,7 @@ public class ServicosUnidade {
                 JSONArray ja = null;
                 
                 switch(k.getString("metodo")){
-                    case "listar_unidades": 
+                    case "unidades": 
 //                        t.setIdunidade(k.getLong("idunidade"));
                         ja = BOFactory.listar(new DAOUnidade(), t, k.getString("metodo"));
                         break;

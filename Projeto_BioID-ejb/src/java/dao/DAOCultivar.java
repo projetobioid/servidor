@@ -91,7 +91,7 @@ public class DAOCultivar extends DAOBase {
         try{
             
             switch(metodo){
-                case "":
+                case "get_cultivar":
                     sql = "SELECT c.idcultivar, um.grandeza, c.nomecultivar, c.imagem, c.descricao, c.biofortificado, c.valornutricional, c.tempodecolheita, c.tempodestinacao, c.peso_saca "
                         + "FROM cultivar c INNER JOIN unidademedida um ON(um.idunidademedida = c.unidademedida_idunidademedida)"
                         + " where c.idcultivar IN(?)";
@@ -130,9 +130,9 @@ public class DAOCultivar extends DAOBase {
             
             switch (metodo) {
                 case "listar_bio":
-                    sql = "select c.idcultivar, c.nomecultivar, c.unidademedida_idunidademedida, um.grandeza from cultivar c "
+                    sql = "select c.idcultivar, c.nomecultivar, um.grandeza from cultivar c "
                         + "INNER JOIN unidademedida um ON (um.idunidademedida = c.unidademedida_idunidademedida) "
-                        + "order by c.nomecultivar WHERE c.bioforticado IN(true)";
+                        + "WHERE c.biofortificado IN(true) order by c.nomecultivar";
                     rs = Data.executeQuery(c, sql);
                     while (rs.next()){
                         TOCultivar tc = new TOCultivar(rs, metodo);

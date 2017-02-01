@@ -138,7 +138,7 @@ public class TOUnidade extends TOBase{
     public TOUnidade(ResultSet rs, String metodo) throws Exception{
         
         switch(metodo){
-            case "endereco":
+            case "get_unidade":
                 this.endereco = new TOEndereco();
                 this.idunidade = rs.getLong("idunidade");
                 this.nomecidade = rs.getString("nomecidade");
@@ -157,6 +157,16 @@ public class TOUnidade extends TOBase{
                 this.endereco.setNumero(rs.getInt("numero"));
                 this.endereco.setGps_lat(rs.getInt("gps_lat"));
                 this.endereco.setGps_long(rs.getInt("gps_long"));
+                break;
+            case "unidades":
+                this.idunidade = rs.getLong("idunidade");
+                this.nomecidade = rs.getString("nomecidade");
+                this.nomeestado = rs.getString("nomeestado");
+                this.nomepais = rs.getString("nomepais");
+                this.nomeunidade = rs.getString("nomeunidade");
+                this.telefone1 = rs.getString("telefone1");
+                this.email = rs.getString("email");
+                this.cnpj = rs.getString("cnpj");   
                 break;
             default:
                 this.idunidade = rs.getLong("idunidade");
@@ -181,7 +191,7 @@ public class TOUnidade extends TOBase{
         JSONObject j = new JSONObject();
         
         switch(metodo){
-            case "buscarunidade":
+            case "get_unidade":
                 //populando o objeto j
                 j.put("idunidade", idunidade);
                 j.put("nomecidade", nomecidade);
@@ -200,6 +210,17 @@ public class TOUnidade extends TOBase{
                 j.put("complemento", endereco.getComplemento());
                 j.put("gps_lat", endereco.getGps_lat());
                 j.put("gps_long", endereco.getGps_long());
+                break;
+            case "unidades":
+                //populando o objeto j
+                j.put("idunidade", idunidade);
+                j.put("nomecidade", nomecidade);
+                j.put("nomeestado", nomeestado);
+                j.put("nomepais", nomepais);
+                j.put("nomeunidade", nomeunidade);
+                j.put("telefone1", telefone1);
+                j.put("email", email);
+                j.put("cnpj", cnpj);
                 break;
             default:
                 //populando o objeto j

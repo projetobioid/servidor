@@ -49,18 +49,21 @@ public class ServicosOutros {
         try{ 
             JSONArray ja = null;
             switch(k.getString("metodo")){
-                case "listar_pais":
+                case "pais":
                     ja = BOFactory.listar(new DAOOutrosIDNome(), null, k.getString("metodo"));
                     break;
-                case "listar_estados":
+                case "estados":
                     TOOutrosIDNome tp = new TOOutrosIDNome();
                     tp.setId(k.getLong("idpais"));
                     ja = BOFactory.listar(new DAOOutrosIDNome(), tp, k.getString("metodo"));
                     break;
-                case "listar_cidades":
+                case "cidades":
                     TOOutrosIDNome te = new TOOutrosIDNome();
                     te.setId(k.getLong("idestado"));
                     ja = BOFactory.listar(new DAOOutrosIDNome(), te, k.getString("metodo"));
+                    break;
+                case "nome_id_unidades":
+                    ja = BOFactory.listar(new DAOOutrosIDNome(), null, k.getString("metodo"));
                     break;
             }
 
