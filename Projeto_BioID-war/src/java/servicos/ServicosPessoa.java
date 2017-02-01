@@ -680,7 +680,7 @@ public class ServicosPessoa {
             
             if(to == null){
                 j.put("sucesso", false);
-                j.put("messangem", "Usuário não encontrado");
+                j.put("mensagem", "Usuário ou senha incorretos!");
             }else{
                 //gera um idsessao e cria um novo registro
                 TOSessao ts = new TOSessao();
@@ -712,7 +712,7 @@ public class ServicosPessoa {
             }
         }catch (Exception e){
             j.put("sucesso", false);
-            j.put("messangem", e.getMessage());
+            j.put("mensagem", e.getMessage());
         }
         
         return j.toString();
