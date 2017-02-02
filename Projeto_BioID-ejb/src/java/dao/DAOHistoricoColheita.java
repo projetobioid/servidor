@@ -24,16 +24,16 @@ public class DAOHistoricoColheita extends DAOBase{
         String sql = null;
         
         
-        TOHistoricoColheita to = (TOHistoricoColheita)t;
+//        TOHistoricoColheita to = ((TOHistoricoColheita)t);
         
         List<Object> p = new ArrayList<Object>();
         
         switch(metodo){
             default:
                 sql = "INSERT INTO historicocolheita(safra_idsafra, datacolheita, qtdcolhida) VALUES ( ?, ?, ?)";
-                p.add(to.getSafra_idsafra());
-                p.add(to.getDatacolheita());
-                p.add(to.getQtdcolhida());
+                p.add(((TOHistoricoColheita)t).getSafra_idsafra());
+                p.add(((TOHistoricoColheita)t).getDatacolheita());
+                p.add(((TOHistoricoColheita)t).getQtdcolhida());
                 break;
         }
         

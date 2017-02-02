@@ -8,7 +8,6 @@ package dao;
 import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
-import org.json.JSONArray;
 import to.TOBase;
 import to.TODestinacao;
 
@@ -22,15 +21,15 @@ public class DAODestinacao extends DAOBase{
     public long inserir(Connection c, TOBase t, String metodo) throws Exception {
         String sql = "INSERT INTO destinacao(safra_idsafra, tipodestinacao_idtipodestinacao, datadestinada, qtddestinada) VALUES (?, ?, ?, ?)";
         
-        TODestinacao to = (TODestinacao)t;
+//        TODestinacao to = ((TODestinacao)t);
         
         List<Object> p = new ArrayList<Object>();
         
         
-        p.add(to.getSafra_idsafra());
-        p.add(to.getTipodestinacao_idtipodestinacao());
-        p.add(to.getDatadestinada());
-        p.add(to.getQtddestinada());
+        p.add(((TODestinacao)t).getSafra_idsafra());
+        p.add(((TODestinacao)t).getTipodestinacao_idtipodestinacao());
+        p.add(((TODestinacao)t).getDatadestinada());
+        p.add(((TODestinacao)t).getQtddestinada());
         
         
         //passa por parametros a conexao e a lista de objetos da insercao de um novo produto

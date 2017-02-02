@@ -134,19 +134,20 @@ public class ServicosCultivar {
                 JSONArray ja = null;
                 
                 switch (k.getString("metodo")) {
-                    case "listar_bio":
+                    case "bio":
                         ja = BOFactory.listar(new DAOCultivar(), null, k.getString("metodo"));
                     break;
                     
-                    case "listar_naobio":
+                    case "naobio":
 //                        ja = BOFactory.listar(new DAOCultivar(), k.getString("metodo"));
                     break;
                     
-                    case "listar_recebidos":
+                    case "recebidos":
 //                        ja = BOFactory.listar(new DAOCultivar(), k.getString("metodo"));
                     break;
                     
-                    case "listar_estoqueunidade":
+                    case "estoqueunidade":
+                    case "estoqueunidade_select":
                         TOEstoque t = new TOEstoque();
                         t.setUnidade_idunidade(k.getLong("idunidade"));
                         //lista os cultivares do estoque
@@ -368,6 +369,7 @@ public class ServicosCultivar {
                 //verifica a quantidade e diminui quantidade do cultivar na unidade
                 te  = (TOEstoque) BOFactory.get(new DAOEstoque(), te, k.getString("metodo"));
                
+                //quantidade em precisao aredondada
                 BigDecimal bd = new BigDecimal(te.getQuantidade()).setScale(2, RoundingMode.HALF_EVEN);
 
                 //verifica se tem a quantidade menor ou igual de cultivares no estoque
@@ -386,7 +388,6 @@ public class ServicosCultivar {
                     // zero igual a saida
                     tio.setOperacao(0);
                     tio.setQuantidade(k.getDouble("qtdrecebida"));
-                    tio.setUnidademedida_idunidademedida(k.getLong("um"));
                     tio.setLogin_idlogin(k.getLong("id"));
                     
                     BOFactory.inserir(new DAOIOEstoque(), tio, k.getString("metodo"));
@@ -396,7 +397,6 @@ public class ServicosCultivar {
 
     //                popula a classe para armazenar no banco de dados
                     tsf.setStatussafra_idstatussafra(1);
-                    tsf.setUnidademedida_idunidademedida(k.getLong("um"));
                     tsf.setPropriedade_idpropriedade(k.getLong("idpropriedade"));
                     tsf.setCultivar_idcultivar(k.getLong("idcultivar"));
                     tsf.setSafra(k.getString("safra"));

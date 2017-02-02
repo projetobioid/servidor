@@ -17,9 +17,7 @@ public class TOIOEstoque extends TOBase{
     private long unidade_idunidade;
     
     private long cultivar_idcultivar;
-    
-    private long unidademedida_idunidademedida;
-    
+        
     private double quantidade;
     
     private String data_io;
@@ -42,14 +40,6 @@ public class TOIOEstoque extends TOBase{
 
     public void setCultivar_idcultivar(long cultivar_idcultivar) {
         this.cultivar_idcultivar = cultivar_idcultivar;
-    }
-
-    public long getUnidademedida_idunidademedida() {
-        return unidademedida_idunidademedida;
-    }
-
-    public void setUnidademedida_idunidademedida(long unidademedida_idunidademedida) {
-        this.unidademedida_idunidademedida = unidademedida_idunidademedida;
     }
 
     public double getQuantidade() {
@@ -98,7 +88,6 @@ public class TOIOEstoque extends TOBase{
             default:
                 this.unidade_idunidade = rs.getLong("unidade_idunidade");
                 this.cultivar_idcultivar = rs.getLong("cultivar_idcultivar");
-                this.unidademedida_idunidademedida = rs.getLong("unidademedida_idunidademedida");
                 this.quantidade = rs.getFloat("quantidade");
                 this.data_io = rs.getString("data_io");
                 this.operacao = rs.getInt("operacao");
@@ -115,7 +104,6 @@ public class TOIOEstoque extends TOBase{
             default:
                 j.put("unidade_idunidade", unidade_idunidade);
                 j.put("cultivar_idcultivar", cultivar_idcultivar);
-                j.put("unidademedida_idunidademedida", unidademedida_idunidademedida);
                 j.put("quantidade", quantidade);
                 j.put("data_io", data_io);
                 j.put("operacao", operacao);

@@ -65,7 +65,7 @@ public class DAOPessoa extends DAOBase{
         String sql = null;
         
         //variavel sendo convertida para toUsuarios
-        TOPessoa to = (TOPessoa)t;
+//        TOPessoa to = ((TOPessoa)t);
         //variavel com lista dos parametros
         List<Object> u = new ArrayList<Object>();
         
@@ -75,19 +75,19 @@ public class DAOPessoa extends DAOBase{
                 + " sobrenome, apelido, cpf, rg, datanascimento, sexo, telefone1, telefone2, email) "
                 + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
                 
-                u.add(to.getEstadocivil_idestadocivil());
-                u.add(to.getEscolaridade_idescolaridade());
-                u.add(to.getEndereco_idendereco());
-                u.add(to.getNome());
-                u.add(to.getSobrenome());
-                u.add(to.getApelido());
-                u.add(to.getCpf());
-                u.add(to.getRg());
-                u.add(to.getDatanascimento());
-                u.add(to.getSexo());
-                u.add(to.getTelefone1());
-                u.add(to.getTelefone2());
-                u.add(to.getEmail());
+                u.add(((TOPessoa)t).getEstadocivil_idestadocivil());
+                u.add(((TOPessoa)t).getEscolaridade_idescolaridade());
+                u.add(((TOPessoa)t).getEndereco_idendereco());
+                u.add(((TOPessoa)t).getNome());
+                u.add(((TOPessoa)t).getSobrenome());
+                u.add(((TOPessoa)t).getApelido());
+                u.add(((TOPessoa)t).getCpf());
+                u.add(((TOPessoa)t).getRg());
+                u.add(((TOPessoa)t).getDatanascimento());
+                u.add(((TOPessoa)t).getSexo());
+                u.add(((TOPessoa)t).getTelefone1());
+                u.add(((TOPessoa)t).getTelefone2());
+                u.add(((TOPessoa)t).getEmail());
                 break;
         }
         
@@ -100,7 +100,7 @@ public class DAOPessoa extends DAOBase{
     public TOBase get(Connection c, TOBase t, String metodo) throws Exception {
         ResultSet rs = null;
         String sql = null;
-        TOPessoa to = (TOPessoa)t;
+//        TOPessoa to = (TOPessoa)t;
         
         try{
             List<Object> u = new ArrayList<Object>();
@@ -112,7 +112,7 @@ public class DAOPessoa extends DAOBase{
                         + "INNER JOIN estadocivil est ON(est.idestadocivil = p.estadocivil_idestadocivil) "
                         + "INNER JOIN escolaridade esc ON(esc.idescolaridade = p.escolaridade_idescolaridade) "
                         + "WHERE p.idpessoa IN(?)"; 
-                    u.add(to.getIdpessoa());
+                    u.add(((TOPessoa)t).getIdpessoa());
                     break;
                 case "get_usuario":
                     sql = "SELECT p.idpessoa, p.nome, p.sobrenome, p.apelido, p.cpf, p.rg, p.datanascimento, p.sexo, p.telefone1, p.telefone2, p.email, est.descricao as estadocivil, esc.descricao as escolaridade "
@@ -120,11 +120,11 @@ public class DAOPessoa extends DAOBase{
                         + "INNER JOIN estadocivil est ON(est.idestadocivil = p.estadocivil_idestadocivil) "
                         + "INNER JOIN escolaridade esc ON(esc.idescolaridade = p.escolaridade_idescolaridade) "
                         + "WHERE p.idpessoa IN(?)";
-                    u.add(to.getIdpessoa());
+                    u.add(((TOPessoa)t).getIdpessoa());
                     break;
                 case "get_pessoa_por_cpf":
                     sql = "SELECT idpessoa, cpf FROM pessoa WHERE cpf IN(?)";
-                    u.add(to.getCpf());
+                    u.add(((TOPessoa)t).getCpf());
                     break;
             }
          
@@ -187,7 +187,7 @@ public class DAOPessoa extends DAOBase{
         ResultSet rs = null;
         try{
             
-            TOPessoa to = (TOPessoa)t;
+//            TOPessoa to = (TOPessoa)t;
             
             //variavel com lista dos parametros
             List<Object> u = new ArrayList<Object>();
@@ -199,7 +199,7 @@ public class DAOPessoa extends DAOBase{
                             + " INNER JOIN login l ON (l.pessoa_idpessoa = p.idpessoa)"
                             + " INNER JOIN unidade u ON (u.idunidade = l.unidade_idunidade)"
                             + " WHERE l.papel IN('a') AND l.unidade_idunidade IN(?)";
-                    u.add(to.getIdunidade());
+                    u.add(((TOPessoa)t).getIdunidade());
                     break;
                 case "usuarios":
                     sql = "SELECT p.idpessoa, p.nome, p.sobrenome, p.cpf, p.rg, p.telefone1, u.nomeunidade, l.papel "
@@ -207,24 +207,24 @@ public class DAOPessoa extends DAOBase{
                             + "INNER JOIN login l ON (l.pessoa_idpessoa = p.idpessoa) "
                             + "INNER JOIN unidade u ON (u.idunidade = l.unidade_idunidade) "
                             + "WHERE l.papel IN('x') OR l.papel IN('e') OR l.papel IN('g') AND l.unidade_idunidade IN(?)";
-                    u.add(to.getIdunidade());
+                    u.add(((TOPessoa)t).getIdunidade());
                     break;
-                case "procuraragricultor":
+                case "agricultor_select":
                     sql = "SELECT p.idpessoa, p.nome, p.sobrenome, p.cpf, p.rg FROM pessoa p "
                             + "INNER JOIN agricultor a ON (a.pessoa_idpessoa = p.idpessoa) "
                             + "INNER JOIN login l ON(l.pessoa_idpessoa = p.idpessoa) "
                             + "WHERE p.nome ILIKE ? AND l.unidade_idunidade IN(?)";
-                    u.add(to.getNome());
-                    u.add(to.getIdunidade());
+                    u.add(((TOPessoa)t).getNome());
+                    u.add(((TOPessoa)t).getIdunidade());
                     break;
                 default:
                     sql = "SELECT p.idpessoa, p.nome, p.sobrenome, p.cpf, p.rg FROM pessoa p "
                             + "INNER JOIN agricultor a ON (a.pessoa_idpessoa = p.idpessoa) "
                             + "INNER JOIN login l ON(l.pessoa_idpessoa = p.idpessoa) "
                             + "WHERE p.nome ILIKE ? AND p.sobrenome ILIKE ? AND l.unidade_idunidade IN(?)";
-                    u.add(to.getNome());
-                    u.add(to.getSobrenome());
-                    u.add(to.getIdunidade());
+                    u.add(((TOPessoa)t).getNome());
+                    u.add(((TOPessoa)t).getSobrenome());
+                    u.add(((TOPessoa)t).getIdunidade());
                     break;
             }
         

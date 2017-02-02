@@ -23,21 +23,21 @@ public class DAOUnidade extends DAOBase{
     public long inserir(Connection c, TOBase t, String metodo) throws Exception {
         String sql = null;
      
-        TOUnidade to = (TOUnidade)t;
+//        TOUnidade to = ((TOUnidade)t);
         
         List<Object> p = new ArrayList<Object>();
         
         switch(metodo){
             default:
                 sql = "INSERT INTO unidade(endereco_idendereco, nomeunidade, telefone1, telefone2, email, cnpj, razao_social, nome_fanta) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-                p.add(to.getEndereco_idendereco());
-                p.add(to.getNomeunidade());
-                p.add(to.getTelefone1());
-                p.add(to.getTelefone2());
-                p.add(to.getEmail());
-                p.add(to.getCnpj());
-                p.add(to.getRazao_social());
-                p.add(to.getNome_fanta());
+                p.add(((TOUnidade)t).getEndereco_idendereco());
+                p.add(((TOUnidade)t).getNomeunidade());
+                p.add(((TOUnidade)t).getTelefone1());
+                p.add(((TOUnidade)t).getTelefone2());
+                p.add(((TOUnidade)t).getEmail());
+                p.add(((TOUnidade)t).getCnpj());
+                p.add(((TOUnidade)t).getRazao_social());
+                p.add(((TOUnidade)t).getNome_fanta());
                 break;
         }
         
@@ -55,7 +55,7 @@ public class DAOUnidade extends DAOBase{
         List<Object> p = new ArrayList<Object>();
         
         try{
-            TOUnidade to = (TOUnidade)t;
+//            TOUnidade to = (TOUnidade)t;
              String sql = null;
              
             switch(metodo){
@@ -70,7 +70,7 @@ public class DAOUnidade extends DAOBase{
                     break;
                 
             }
-            p.add(to.getIdunidade());
+            p.add(((TOUnidade)t).getIdunidade());
             
             rs = Data.executeQuery(c, sql, p);
             

@@ -19,8 +19,6 @@ public class TOEstoque extends TOBase{
     
     private long cultivar_idcultivar;
     
-    private long unidademedida_idunidademedida;
-    
     private double quantidade;
     
     
@@ -46,14 +44,6 @@ public class TOEstoque extends TOBase{
 
     public void setCultivar_idcultivar(long cultivar_idcultivar) {
         this.cultivar_idcultivar = cultivar_idcultivar;
-    }
-
-    public long getUnidademedida_idunidademedida() {
-        return unidademedida_idunidademedida;
-    }
-
-    public void setUnidademedida_idunidademedida(long unidademedida_idunidademedida) {
-        this.unidademedida_idunidademedida = unidademedida_idunidademedida;
     }
 
     public double getQuantidade() {
@@ -96,11 +86,8 @@ public class TOEstoque extends TOBase{
 
     public TOEstoque (ResultSet rs, String metodo) throws Exception{
         switch (metodo) {
-            case "listar_estoqueunidade_input":
-                this.nomecultivar = rs.getString("nomecultivar");
-                this.cultivar_idcultivar = rs.getLong("cultivar_idcultivar");
-                break;
-            case "listar_estoqueunidade":
+            case "estoqueunidade":
+            case "estoqueunidade_select":
                 this.quantidade = rs.getFloat("quantidade");
                 this.nomecultivar = rs.getString("nomecultivar");
                 this.cultivar_idcultivar = rs.getLong("cultivar_idcultivar");
@@ -111,9 +98,6 @@ public class TOEstoque extends TOBase{
                 this.unidade_idunidade = rs.getLong("unidade_idunidade");
                 this.cultivar_idcultivar = rs.getLong("cultivar_idcultivar");
                 this.quantidade = rs.getFloat("quantidade");
-                this.unidademedida_idunidademedida = rs.getLong("unidademedida_idunidademedida");
-                this.grandeza = rs.getString("grandeza");
-                this.nomecultivar = rs.getString("nomecultivar");
                 break;
         }
 
@@ -125,15 +109,11 @@ public class TOEstoque extends TOBase{
     public JSONObject getJson(String metodo) throws Exception {
         JSONObject j = new JSONObject();
         switch (metodo) {
-            case "listarestoqueunidade":
+            case "estoqueunidade":
+            case "estoqueunidade_select":
                 j.put("grandeza", grandeza);
                 BigDecimal bd = new BigDecimal(quantidade).setScale(2, RoundingMode.HALF_EVEN);
                 j.put("quantidade", bd.doubleValue());
-                j.put("nomecultivar", nomecultivar);
-                j.put("idcultivar", cultivar_idcultivar);
-                break;
-            case "listarestoqueunidadeselect":
-                //j.put("quantidade", quantidade);
                 j.put("nomecultivar", nomecultivar);
                 j.put("idcultivar", cultivar_idcultivar);
                 break;
@@ -143,7 +123,6 @@ public class TOEstoque extends TOBase{
             default:
                 j.put("unidade_idunidade", unidade_idunidade);
                 j.put("cultivar_idcultivar", cultivar_idcultivar);
-                j.put("unidademedida_idunidademedida", unidademedida_idunidademedida);
                 j.put("quantidade", quantidade);
                 break;
         }

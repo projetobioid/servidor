@@ -1,6 +1,6 @@
-var ipServidor = 'localhost:8080';
-//var ipServidor = "187.19.101.252:8082";
-//var ipServidor = "10.1.2.52:8080";
+//var ipServidor = 'localhost:8080'; //sistema em producao
+var ipServidor = "187.19.101.252:8082"; //sistema rodando fora
+//var ipServidor = "10.1.2.52:8080"; //sistema teste interno
 
 
 
@@ -103,7 +103,7 @@ $(document).on("dblclick", "#divItens tr", function(evt)
 
             switch (verificaPagina()){
                         case 1:
-                                    carregaAgricultor($(this).find('td:eq(0)').html(), "modal");  
+                            carregaAgricultor($(this).find('td:eq(0)').html(), "modal");  
                         break;
                         case 2:
                         case 5:
@@ -129,19 +129,54 @@ $(document).on("dblclick", "#divItens tr", function(evt)
     return false;
 });
 
+///marcacao da tabela lista de agricultores/ cultivares/ unidades/ usuarios
+
+$(document).on("click", "tbody > tr", function(evt)
+{
+   
+
+//    //marcar de laranja a row
+    if($(this).hasClass("warning")){
+        $(this).removeClass("warning");
+        //se estiver na pagina estoque desativa o botao saida de estoque
+        if(verificaPagina() === 5 ){
+            $("#saidaEstoque").attr("disabled", true);
+        }
+    }else{
+        //percorer a tabela e desmarcar os itens marcados
+        var tabela = $(this).parent();
+        tabela.find('tr').each(function (i){
+            if($(this).hasClass("warning")){
+                $(this).removeClass("warning");
+                return false;
+            }
+        });
+        $(this).addClass("warning");
+        
+        //verifica se esta na pagina estoque dai ativa o botao
+        if(verificaPagina() === 5 ){
+            $("#saidaEstoque").removeAttr("disabled");
+        }else{
+            $("#Alertar").fadeOut(400);
+        }
+    }
+
+     return false;
+});
+
 //busca no servidor dados do agricultor para ser apresentado em um modal
 function carregaAgricultor(idClicado, opcao){
     var Sessao = getSessao();
     var envio = {
         metodo: "get_agricultor",
         idpessoa: idClicado,
-        id: Sessao.idpessoa,
+        id: Sessao.idlogin,
         sessao: Sessao.sessao
     };
     
     
     //chama a requisicao do servidor, o resultado é listado em uma tabela
-    requisicao("pessoa/buscar", envio, function(dadosRetorno) {
+    requisicao(true, "pessoa/buscar", envio, function(dadosRetorno) {
         if(dadosRetorno.sucesso){
             //testa qual opcao sera, editar ou mostrar
             if(opcao === "modal"){
@@ -170,12 +205,12 @@ function carregaCultivar(idClicado, opcao){
     var envio = {
         metodo: "get_cultivar",
         idcultivar: idClicado,
-        id: Sessao.idpessoa,
+        id: Sessao.idlogin,
         sessao: Sessao.sessao
     };
     
     //chama a requisicao do servidor, o resultado é listado em uma tabela
-    requisicao("cultivar/buscar", envio, function(dadosRetorno) {
+    requisicao(true, "cultivar/buscar", envio, function(dadosRetorno) {
         if(dadosRetorno.sucesso){
             
             //testa qual opcao sera, editar ou mostrar
@@ -206,12 +241,12 @@ function carregaUnidade(idClicado, opcao){
     var envio = {
         metodo: "get_unidade",
         idunidade: idClicado,
-        id: Sessao.idpessoa,
+        id: Sessao.idlogin,
         sessao: Sessao.sessao
     };
     
     //chama a requisicao do servidor, o resultado é listado em uma tabela
-    requisicao("unidade/buscar", envio, function(dadosRetorno) {
+    requisicao(true, "unidade/buscar", envio, function(dadosRetorno) {
         if(dadosRetorno.sucesso){
             
             //testa qual opcao sera, editar ou mostrar
@@ -240,12 +275,12 @@ function carregaUsuario(idClicado, opcao){
     var envio = {
         metodo: "get_usuario",
         idpessoa: idClicado,
-        id: Sessao.idpessoa,
+        id: Sessao.idlogin,
         sessao: Sessao.sessao
     };
     
     //chama a requisicao do servidor, o resultado é listado em uma tabela
-    requisicao("pessoa/buscar", envio, function(dadosRetorno) {
+    requisicao(true, "pessoa/buscar", envio, function(dadosRetorno) {
         if(dadosRetorno.sucesso){
             
             //testa qual opcao sera, editar ou mostrar
@@ -324,10 +359,10 @@ function preEventosPaginaGerenciamento(itemSelecionado, icone, titulo){
     $(item).fadeOut(400, function(){
         $(".paginas").hide();
         $("#identificacaoPage").show();
-        
+        var inputFocus;
         
         if(titulo === "Distribuir cultivares"){
-            progDistCultivares();
+            inputFocus = progDistCultivares();
         }else if(titulo === "Estoque da unidade"){
             progEstoqueUnidade();
         }else if(titulo === "Relatar safra"){
@@ -346,6 +381,7 @@ function preEventosPaginaGerenciamento(itemSelecionado, icone, titulo){
         $(itemSelecionado).css("background", "#FFCC00");
         $("#tituloIdPage").empty().append('<spam class="fa '+icone+'" aria-hidden="true">'+titulo+'</spam>');
         $("#page").fadeIn(400);
+        $(inputFocus).focus();
     });
     
      
@@ -652,13 +688,13 @@ function listarAgricultores(){
     var Sessao = getSessao();
     var envio = {
         metodo: "agricultores",
-        id: Sessao.idpessoa,
+        id: Sessao.idlogin,
         sessao: Sessao.sessao,
         idunidade: Sessao.idunidade
     };
     
     //chama a requisicao do servidor, o resultado é listado em uma tabela
-    requisicao("pessoa/listar", envio, function(dadosRetorno) {
+    requisicao(true, "pessoa/listar", envio, function(dadosRetorno) {
         
         if(dadosRetorno.sucesso){
             var item = "";
@@ -690,14 +726,14 @@ function listarCultivares(){
     
     var Sessao = getSessao();
     var envio = {
-        metodo: "listar_bio",
-        id: Sessao.idpessoa,
+        metodo: "bio",
+        id: Sessao.idlogin,
         sessao: Sessao.sessao,
         idunidade: Sessao.idunidade
     };
     
     //chama a requisicao do servidor, o resultado é listado em uma tabela
-    requisicao("cultivar/listar", envio, function(dadosRetorno) {
+    requisicao(true, "cultivar/listar", envio, function(dadosRetorno) {
         
         if(dadosRetorno.sucesso){
             var item = "";
@@ -731,12 +767,12 @@ function listarUnidades(){
     var Sessao = getSessao();
     var envio = {
         metodo: "unidades",
-        id: Sessao.idpessoa,
+        id: Sessao.idlogin,
         sessao: Sessao.sessao
     };
     
     //chama a requisicao do servidor, o resultado é listado em uma tabela
-    requisicao("unidade/listar", envio, function(dadosRetorno) {
+    requisicao(true, "unidade/listar", envio, function(dadosRetorno) {
         
         if(dadosRetorno.sucesso){
             
@@ -770,13 +806,13 @@ function listarUsuarios(){
     var Sessao = getSessao();
     var envio = {
         metodo: "usuarios",
-        id: Sessao.idpessoa,
+        id: Sessao.idlogin,
         sessao: Sessao.sessao,
         idunidade: Sessao.idunidade
     };
     
     //chama a requisicao do servidor, o resultado é listado em uma tabela
-    requisicao("pessoa/listar", envio, function(dadosRetorno) {
+    requisicao(true, "pessoa/listar", envio, function(dadosRetorno) {
         
         if(dadosRetorno.sucesso){
             var item = "";
@@ -816,12 +852,12 @@ function mostrarPapel(papel){
     }
 }
 //function requisicao(url, envio, metodo){
-function requisicao(url, envio, callback) {
+function requisicao(painelCarregando, url, envio, callback) {
   
-
-  
-    $(".painelCarregando").fadeIn(400);
-        
+  //testa se nescessita de painel de carregando
+    if(painelCarregando){
+        $(".painelCarregando").fadeIn(400);
+    }  
         //alert(JSON.stringify(envio));
        $.ajax({
             type: 'POST',
@@ -835,7 +871,9 @@ function requisicao(url, envio, callback) {
                 callback(retorno);
             },
             error: function() {
-                $(".painelCarregando").fadeOut(400);
+                if(painelCarregando){
+                    $(".painelCarregando").fadeOut(400);
+                }
                 alerta("Alerta!", "Sem conexão com o servidor!");
             }
         });
@@ -843,30 +881,7 @@ function requisicao(url, envio, callback) {
  
 }
 
-///marcacao da tabela lista de agricultores/ cultivares/ unidades/ usuarios
 
-$(document).on("click", "tbody > tr", function(evt)
-{
-   
-
-//    //marcar de laranja a row
-    if($(this).hasClass("warning")){
-        $(this).removeClass("warning");
-    }else{
-        //percorer a tabela e desmarcar os itens marcados
-        var tabela = $(this).parent();
-        tabela.find('tr').each(function (i){
-            if($(this).hasClass("warning")){
-                $(this).removeClass("warning");
-                return false;
-            }
-        });
-        $(this).addClass("warning");
-        $("#Alertar").fadeOut(400);
-    }
-
-     return false;
-});
 
 
 
@@ -894,12 +909,12 @@ function salvarNovoCultivar(){
             tempodestinacao: $("#tempoDestinacao").val(),
             pesoSaca: $("#pesoSaca").val(),
 //            metodo: "inserirCultivar",
-            id: Sessao.idpessoa,
+            id: Sessao.idlogin,
             sessao: Sessao.sessao
         };
     
     //chama a requisicao do servidor, o resultado é listado em uma tabela
-    requisicao("cultivar/inserir", envio, function(dadosRetorno) {
+    requisicao(true, "cultivar/inserir", envio, function(dadosRetorno) {
         if(dadosRetorno.sucesso){
             
             $(".painelCarregando").fadeOut(400);
@@ -994,7 +1009,7 @@ function salvarNovoAgricultor(){
 
     var envio = {
 //        metodo: "inseriragricultor",
-        id: Sessao.idpessoa,
+        id: Sessao.idlogin,
         sessao: Sessao.sessao,
         metodo: "agricultor",
         cidade_idcidade : $("#cidadeAgricultor").prop("value"),
@@ -1021,7 +1036,7 @@ function salvarNovoAgricultor(){
         qtdCriancas: $("#qtdCriancas").val(),
         qtdGravidas: $("#qtdGravidas").val(),
         usuario: $("#usuarioAgricultor").val(),
-        senha: $("#senhaAgricultor").val(),
+        senha: $.md5($("#senhaAgricultor").val()),
         unidade_idunidade: $("#unidade").prop("value"),
         nomepropriedade: $("#nomePropriedade").val(),
         area: $("#area").val(),
@@ -1032,7 +1047,7 @@ function salvarNovoAgricultor(){
     
   
     //chama a requisicao do servidor, o resultado é listado em uma tabela
-    requisicao("pessoa/inserir", envio, function(dadosRetorno) {
+    requisicao(true, "pessoa/inserir", envio, function(dadosRetorno) {
         if(dadosRetorno.sucesso){
             $(".painelCarregando").fadeOut(400);
             alerta("Alerta!", dadosRetorno.mensagem);
@@ -1169,7 +1184,7 @@ function salvarNovaUnidade(){
     
 
     var envio = {
-        id: Sessao.idpessoa,
+        id: Sessao.idlogin,
         sessao: Sessao.sessao,
         
         cidade_idcidade : $("#cidadeNovaUnidade").prop("value"),
@@ -1191,7 +1206,7 @@ function salvarNovaUnidade(){
     
     
     //chama a requisicao do servidor, o resultado é listado em uma tabela
-    requisicao("unidade/inserir", envio, function(dadosRetorno) {
+    requisicao(true, "unidade/inserir", envio, function(dadosRetorno) {
         if(dadosRetorno.sucesso){
             
             $(".painelCarregando").fadeOut(400);
@@ -1231,7 +1246,7 @@ var Sessao = getSessao();
 
     var envio = {
 //        metodo: "inserirusuario",
-        id: Sessao.idpessoa,
+        id: Sessao.idlogin,
         sessao: Sessao.sessao,
         metodo: "usuario",
         cidade_idcidade : $("#cidadeNovoUsuario").prop("value"),
@@ -1255,14 +1270,14 @@ var Sessao = getSessao();
         telefone2: $("#telefone2NovoUsuario").val(),
         email: $("#emailNovoUsuario").val(),
         usuario: $("#usuarioNovoUsuario").val(),
-        senha: $("#senhaNovoUsuario").val(),
+        senha: $.md5($("#senhaNovoUsuario").val()),
         papel: $("#papelNovoUsuario").prop("value"),
         unidade_idunidade: $("#unidadeAtuacaoNovoUsuario").prop("value")
     };
     
     
     //chama a requisicao do servidor, o resultado é listado em uma tabela
-    requisicao("pessoa/inserir", envio, function(dadosRetorno) {
+    requisicao(true, "pessoa/inserir", envio, function(dadosRetorno) {
         if(dadosRetorno.sucesso){
             
             $(".painelCarregando").fadeOut(400);
@@ -1285,7 +1300,7 @@ function salvarNovaUnidade(){
     
 
     var envio = {
-        id: Sessao.idpessoa,
+        id: Sessao.idlogin,
         sessao: Sessao.sessao,
         
         cidade_idcidade : $("#cidadeNovaUnidade").prop("value"),
@@ -1307,7 +1322,7 @@ function salvarNovaUnidade(){
     
     
     //chama a requisicao do servidor, o resultado é listado em uma tabela
-    requisicao("unidade/inserir", envio, function(dadosRetorno) {
+    requisicao(true, "unidade/inserir", envio, function(dadosRetorno) {
         if(dadosRetorno.sucesso){
             
             $(".painelCarregando").fadeOut(400);
@@ -1357,7 +1372,7 @@ $(document).on("focusin", ".carregaPais", function(){
     var idSelect = $(this).prop("id");
 
     //chama a requisicao do servidor, o resultado é listado em um select
-    requisicao("outros/listar", envio, function(dadosRetorno) {
+    requisicao(true, "outros/listar", envio, function(dadosRetorno) {
         if(dadosRetorno.sucesso){
 
             $("#"+idSelect).empty();
@@ -1393,7 +1408,7 @@ $(document).on("focusin", ".carregaEstado", function(){
     var idSelect = $(this).prop("id");
 //    alert(idSelect);
     //chama a requisicao do servidor, o resultado é listado em uma tabela
-    requisicao("outros/listar", envio, function(dadosRetorno) {
+    requisicao(true, "outros/listar", envio, function(dadosRetorno) {
         if(dadosRetorno.sucesso){
             //
             //alerta("Alerta!", dadosRetorno.mensagem);
@@ -1429,7 +1444,7 @@ $(document).on("focusin", ".carregaCidade", function(){
     var idSelect = $(this).prop("id");
 //    alert(idSelect);
     //chama a requisicao do servidor, o resultado é listado em uma tabela
-    requisicao("outros/listar", envio, function(dadosRetorno) {
+    requisicao(true, "outros/listar", envio, function(dadosRetorno) {
         if(dadosRetorno.sucesso){
             //
             //alerta("Alerta!", dadosRetorno.mensagem);
@@ -1462,7 +1477,7 @@ $(document).on("focusin", ".carregaUnidades", function(){
     var idSelect = $(this).prop("id");
 
     //chama a requisicao do servidor, o resultado é listado em um select
-    requisicao("outros/listar", envio, function(dadosRetorno) {
+    requisicao(true, "outros/listar", envio, function(dadosRetorno) {
         if(dadosRetorno.sucesso){
             
             $("#"+idSelect).empty();
@@ -1569,48 +1584,30 @@ $(document).on("click", "#sair", function(){
 //carrega o progresso de distribuir cultivares
 function progDistCultivares(){
 
-                //Adicionar agricultor, limpa o progresso e adiciona os itens
-                $("#tituloProgresso").text("Distribuir cultivares");
-                $("#progressoRef").text("Agricultor");
-                
-                $("#qtdProgresso").empty().append('<li role="presentation" class="active"><a href="#progresso1" data-toggle="tab" aria-controls="progresso1" role="tab" title="Agricultor"><span class="round-tab"><i class="fa fa-user"></i></span></a></li>\n\
-                                                   <li role="presentation" class="disabled"><a href="#progresso2" data-toggle="tab" aria-controls="progresso2" role="tab" title="Cultivar"><span class="round-tab"><i class="fa fa-envira"></i></span></a></li>\n\
-                                                   <li role="presentation" class="disabled"><a href="#progresso3" data-toggle="tab" aria-controls="progresso3" role="tab" title="Quantidade"><span class="round-tab"><i class="fa fa-shopping-basket"></i></span></a></li>\n\
-                                                   <li role="presentation" class="disabled"><a href="#completo" data-toggle="tab" aria-controls="completo" role="tab" title="Distribuir"><span class="round-tab"><i class="fa fa-save"></i></span></a></li>');
+    //Adicionar agricultor, limpa o progresso e adiciona os itens
+    $("#tituloProgresso").text("Distribuir cultivares");
+    $("#progressoRef").text("Agricultor");
 
-                $("#formProgresso").empty().append('<div class="tab-pane active" role="tabpanel" id="progresso1">       <form  data-toggle="validator" role="form" class="formDistribuir" >    <div class="form-group"><label for="campoBuscaAgri" class="control-label" id="labelProcuraAgricultor">Nome do agricultor:</label><input type="text" class="form-control " id="campoBuscaAgri" value="" placeholder="Digite o nome do agricultor..." data-error="Por favor, informe algum dado do agricultor." required><div class="help-block with-errors"></div></div>      <div class="form-group"><label for="listaPropriedades" class="control-label">Propriedade:</label><select class="form-control" id="listaPropriedades" value="" data-error="Por favor, informe a propriedade do agricultor." required></select><div class="help-block with-errors"></div></div>                    <div class="form-group"> <button type="submit" style="float: right;" class="btn btn-warning next-step" >Continuar</button> </div>                          </form>     </div>\n\
-                                                    <div class="tab-pane"  id="progresso2">                             <form  data-toggle="validator" role="form" class="formDistribuir" >    <div class="form-group"><label for="listaCultivares" class="control-label">Cultivar:</label><select class="form-control" id="listaCultivares" data-error="Por favor, informe algum dado do agricultor." required></select><div class="help-block with-errors"></div></div>   <div class="form-group"> <button type="submit" style="float: right;" class="btn btn-warning next-step">Continuar</button> </div>  </form>       </div>\n\
-                                                    <div class="tab-pane"  id="progresso3">                             <form  data-toggle="validator" role="form" class="formDistribuir" >    <div class="form-group"><label for="safraDist" class="control-label" >Safra:</label><input type="text" class="form-control camposSafra" id="safraDist" value="" placeholder="id/ano .... 01/2017" pattern=".{7,}" data-error="Por favor, informe a safra." required><div class="help-block with-errors"></div></div><div class="form-group"><label for="datarecebDist" class="control-label">Data do recebimento:</label><input type="date" class="form-control camposData" placeholder="dd/mm/aaaa" pattern=".{10,}" id="datarecebDist" data-error="Por favor, informe a data do recebimento." required ><div class="help-block with-errors"></div></div><div class="form-group"><label for="qtdCultivarDist" class="control-label">Quantidade:</label><input type="number" class="form-control " min="0.01" id="qtdCultivarDist" placeholder="Digite a quantidade..." step="0.01" data-error="Por favor, informe a quantidade." required ><div class="help-block with-errors"></div></div>      <div class="form-group"><label for="umDistCultivar" class="control-label">Unidade de medida:</label><select class="form-control" id="umDistCultivar" data-error="Por favor, informe a unidade de medida." required ><option></option><option value="7">Kilo(s)</option><option value="6">Maniva(s)</option><option value="5">Rama(s)</option></select><div class="help-block with-errors"></div></div>    <div class="form-group"> <button type="submit" style="float: right;" class="btn btn-warning next-step">Continuar</button> </div>  </form>       </div>\n\
-                                                    <div class="tab-pane"  id="completo"><h3>Deseja realmente distribuir este cultivar?</h3><div class="form-group"> <button type="submit" style="float: right;" id="distribuirCultivar" class="btn btn-warning">Distribuir</button> </div></div>                                         <div class="clearfix"></div>');
+    $("#qtdProgresso").empty().append('<li role="presentation" class="active"><a href="#progresso1" data-toggle="tab" aria-controls="progresso1" role="tab" title="Agricultor"><span class="round-tab"><i class="fa fa-user"></i></span></a></li>\n\
+                                       <li role="presentation" class="disabled"><a href="#progresso2" data-toggle="tab" aria-controls="progresso2" role="tab" title="Cultivar"><span class="round-tab"><i class="fa fa-shopping-basket"></i></span></a></li>\n\
+                                       <li role="presentation" class="disabled"><a href="#progresso3" data-toggle="tab" aria-controls="progresso3" role="tab" title="Quantidade"><span class="round-tab"><i class="fa fa-calendar-check-o "></i></span></a></li>\n\
+                                       <li role="presentation" class="disabled"><a href="#completo" data-toggle="tab" aria-controls="completo" role="tab" title="Distribuir"><span class="round-tab"><i class="fa fa-save"></i></span></a></li>');
 
-                
-                //tamanho do icone do progresso de acordo com a quantidade
-                $("#qtdProgresso li").css("width", 100/4  + "%");
-                
-                var inputFocus = "#campoBuscaAgri";
-                $('.formDistribuir').validator();
-           
-           
-           
-           
-        $("#iconesProgresso").fadeIn(400);
-        
-//        $("#page").fadeIn(400, function(){
-            $(inputFocus).focus(); 
-//        });
-        
+    $("#formProgresso").empty().append('<div class="tab-pane active" role="tabpanel" id="progresso1">       <form  data-toggle="validator" role="form" class="formDistribuir" >    <div class="form-group"><label for="campoBuscaAgri" class="control-label" id="labelProcuraAgricultor">Nome do agricultor:</label><input type="text" class="form-control " id="campoBuscaAgri" value="" placeholder="Digite o nome do agricultor..." data-error="Por favor, informe algum dado do agricultor." required><div class="help-block with-errors"></div></div>      <div class="form-group"><label for="listaPropriedades" class="control-label">Propriedade:</label><select class="form-control" id="listaPropriedades" value="" data-error="Por favor, informe a propriedade do agricultor." required></select><div class="help-block with-errors"></div></div>                    <div class="form-group"> <button type="submit" style="float: right;" class="btn btn-warning next-step" >Continuar</button> </div>                          </form>     </div>\n\
+                                        <div class="tab-pane"  id="progresso2">                             <form  data-toggle="validator" role="form" class="formDistribuir" >    <div class="form-group"><label for="listaCultivares" class="control-label">Cultivar:</label><select class="form-control" id="listaCultivares" data-error="Por favor, informe algum dado do agricultor." required></select><div class="help-block with-errors"></div></div>   <div class="form-group"><label id ="labelQtdCultivarDist" for="qtdCultivarDist" class="control-label">Quantidade:</label><input type="number" class="form-control " min="0.01" id="qtdCultivarDist" placeholder="Digite a quantidade..." step="0.01" data-error="Por favor, informe a quantidade." required ><div class="help-block with-errors"></div></div>   <div class="form-group"> <button type="submit" style="float: right;" class="btn btn-warning next-step">Continuar</button> </div>  </form>       </div>\n\
+                                        <div class="tab-pane"  id="progresso3">                             <form  data-toggle="validator" role="form" class="formDistribuir" >    <div class="form-group"><label for="safraDist" class="control-label" >Safra:</label><input type="text" class="form-control camposSafra" id="safraDist" value="" placeholder="id/ano .... 01/2017" pattern=".{7,}" data-error="Por favor, informe a safra." required><div class="help-block with-errors"></div></div><div class="form-group"><label for="datarecebDist" class="control-label">Data do recebimento:</label><input type="date" class="form-control camposData" placeholder="dd/mm/aaaa" pattern=".{10,}" id="datarecebDist" data-error="Por favor, informe a data do recebimento." required ><div class="help-block with-errors"></div></div>                  <div class="form-group"> <button type="submit" style="float: right;" class="btn btn-warning next-step">Continuar</button> </div>  </form>       </div>\n\
+                                        <div class="tab-pane"  id="completo"><h3>Deseja realmente distribuir este cultivar?</h3><div class="form-group"> <button type="submit" style="float: right;" id="distribuirCultivar" class="btn btn-warning">Distribuir</button> </div></div>                                         <div class="clearfix"></div>');
 
-//    }).promise().done(function(){
-////        alert($(".navbar").height());
-////        alert($("#tamanhoSessao").height());
-////        alert($("#tamanhoIdentificacao").height());
-//   
-//       var a = $("#formProgresso").offset().top;
-//        $("#formProgresso").css("height", $( window ).height() - a );
-//
-//
-////        $("#formProgresso").css("height", $( window ).height() );
-//    });
+
+    //tamanho do icone do progresso de acordo com a quantidade
+    $("#qtdProgresso li").css("width", 100/4  + "%");
+
+    $('.formDistribuir').validator();
+
+           
+    $("#iconesProgresso").fadeIn(400);
+
+    return "#campoBuscaAgri";
 }
 
 //carrega o estoque da unidade
@@ -1619,14 +1616,14 @@ function progEstoqueUnidade(){
     //pesquisa a unidade do agricultor
         var Sessao = getSessao();
         var envio = {
-            metodo: "listarestoqueunidade",
+            metodo: "estoqueunidade",
             idunidade: Sessao.idunidade,
-            id: Sessao.idpessoa,
+            id: Sessao.idlogin,
             sessao: Sessao.sessao
         };
         
     //chama a requisicao do servidor, o resultado é listado em uma tabela
-        requisicao("unidade/listarestoqueunidade", envio, function(dadosRetorno) {
+        requisicao(true, "cultivar/listar", envio, function(dadosRetorno) {
             if(dadosRetorno.sucesso){
 
                 var items = "";
@@ -1637,7 +1634,7 @@ function progEstoqueUnidade(){
 
 
 
-                $("#divItens").empty().append('<h2 class="sub-header">Cultivares no estoque</h2>  <button type="button" title="Entrada de estoque" class="btn btn-warning" id="entradaEstoque" ><span class="fa fa-plus-square" aria-hidden="true"></span></button><button type="button" title="Saída de estoque" class="btn btn-warning" id="saidaEstoque" ><span class="fa fa-minus-square" aria-hidden="true"></span></button>               <div class="table-responsive"><table class="table table-hover"><thead><tr><th>ID</th><th>Nome cultivar</th><th>Quantidade</th><th>Unidade de medida</th></tr></thead><tbody>'+items+'</tbody></table></div>');
+                $("#divItens").empty().append('<h2 class="sub-header">Cultivares no estoque</h2>  <button type="button" title="Entrada de estoque" class="btn btn-warning" id="entradaEstoque" ><span class="fa fa-plus-square" aria-hidden="true"></span></button><button type="button" title="Saída de estoque" class="btn btn-warning" disabled id="saidaEstoque" ><span class="fa fa-minus-square" aria-hidden="true"></span></button>               <div id="teste" class="table-responsive"><table class="table table-hover"><thead><tr><th>ID</th><th>Nome cultivar</th><th>Quantidade</th><th>Unidade de medida</th></tr></thead><tbody>'+items+'</tbody></table></div>');
                 $("#divItens").show();
 
 
@@ -1665,7 +1662,7 @@ function progEstoqueUnidade(){
 $(document).on("keyup", "#campoBuscaAgri", function(){
 
     $('#campoBuscaAgri').autocomplete({
-      source: retornoProduraAgricultores,
+      source: retornoProcuraAgricultores,
 
       select: function (event, ui) {
 //           $('#labelProcuraAgricultor').text("Nome, ...{ RG: "+ ui.item.rg +" / CPF: "+ui.item.cpf +" }...");
@@ -1681,95 +1678,131 @@ $(document).on("keyup", "#campoBuscaAgri", function(){
     return false;
 });
 
-retornoProduraAgricultores = function( request, response ) {
+retornoProcuraAgricultores = function( request, response ) {
     var Sessao = getSessao();
+    var envio = {
+        valor: request.term +"%",
+        metodo: "agricultor_select",
+        idunidade: Sessao.idunidade,
+        id: Sessao.idlogin,
+        sessao: Sessao.sessao
+    };
+//	$.ajax({
+//		url: "http://"+ipServidor+"/Projeto_BioID-war/servico/pessoa/listar",
+//		type: 'POST',
+//		data: JSON.stringify(envio),
+//                headers: { 
+//                'Accept': 'application/json',
+//                'Content-Type': 'application/json'
+//                },	
+//		success: function(dadosRetorno) {
+//
+//                    response( $.map(dadosRetorno.data , function( valor ) {
+//                    return {
+//                        value: valor.nome +" "+valor.sobrenome,
+//                        label: valor.nome +" "+valor.sobrenome +"...{ RG: "+ valor.rg +" / CPF: "+valor.cpf +" }...",
+//                        idpessoa: valor.idpessoa
+//                    };
+//                    }));
+//		},
+//                error: function() {
+//                    alerta("Alerta!", "erro na requisição procura do agricultor!");
+//                }
+//	});
 
-	$.ajax({
-		url: "http://"+ipServidor+"/Projeto_BioID-war/servico/pessoa/procuraragricultor",
-		type: 'POST',
-		data: JSON.stringify({valor: request.term +"%",
-                       metodo: "procuraragricultor",
-                       idunidade: Sessao.idunidade
-                
-                }),
-                headers: { 
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-                },	
-		success: function(dadosRetorno) {
-    
 
-   
-//                    response( $.map( c.countries, function( item ) {
-                    response( $.map(dadosRetorno.data , function( valor ) {
-                    return {
-                        value: valor.nome +" "+valor.sobrenome,
-                        label: valor.nome +" "+valor.sobrenome +"...{ RG: "+ valor.rg +" / CPF: "+valor.cpf +" }...",
-                        idpessoa: valor.idpessoa
-                    };
-                    }));
-		},
-                error: function() {
-//                  $(".painelCarregando").fadeOut(400);
-                    alerta("Alerta!", "erro na requisição procura do agricultor!");
-                }
-	});
+
+    //chama a requisicao do servidor, o resultado é listado em um select
+    requisicao(false, "pessoa/listar", envio, function(dadosRetorno) {
+        if(dadosRetorno.sucesso){
+            
+            response( $.map(dadosRetorno.data , function( valor ) {
+                return {
+                    value: valor.nome +" "+valor.sobrenome,
+                    label: valor.nome +" "+valor.sobrenome +"...{ RG: "+ valor.rg +" / CPF: "+valor.cpf +" }...",
+                    idpessoa: valor.idpessoa
+                };
+            }));
+            //retira o painel loading
+            $(".painelCarregando").fadeOut(400);
+        }else{
+            
+            //retira o painel loading
+            $(".painelCarregando").fadeOut(400);
+        }
+        //atualiza a sessao
+        updateSessao(dadosRetorno.sessao);
+        
+    });
 };
 
-
-
-//pesquisa a propriedade pegando o id do agricultor selecionado no input nome agricultor
-$(document).on("click", "#listaPropriedades", function(){
-//$("#listaPropriedades").select(function(){
-
-    if($('#campoBuscaAgri').attr('value') === ""){
-        $("#itenFocus").text("#"+ $('#campoBuscaAgri').prop("id"));
-        alerta("Alerta!", "Selecione um agricultor");
-    }else if($(this).attr('value') !== $('#campoBuscaAgri').attr('value')){
-
+//pesquisa a propriedade pegando o id do agricultor selecionado no input nome agricultor e o foco sai do input
+$(document).on("blur", "#campoBuscaAgri", function(){
+    if($(this).val()!== ""){
         //pesquisa a unidade do agricultor
         var Sessao = getSessao();
         var envio = {
             metodo: "listarpropriedades",
             idpessoa: $('#campoBuscaAgri').attr('value'),
             idunidade: Sessao.idunidade,
-            id: Sessao.idpessoa,
+            id: Sessao.idlogin,
             sessao: Sessao.sessao
         };
+
+        //chama a requisicao do servidor, o resultado é listado em uma tabela
+        requisicao(true, "pessoa/listarpropriedades", envio, function(dadosRetorno) {
+            if(dadosRetorno.sucesso){
+
+                var items = "";
+                    $.each(dadosRetorno.data, function(i, valor){
+                        items +='<option value="'+valor.idpropriedade+'">'+valor.nomepropriedade+'</option>';
+                    });
+
+
+    //            $('#listaPropriedades').attr('value', envio.idpessoa).empty().append(items);
+                $('#listaPropriedades').empty().append(items);
+                          //retira o painel loading
+                $(".painelCarregando").fadeOut(400);
+            }else{
+
+                //retira o painel loading
+                $(".painelCarregando").fadeOut(400);
+                alerta("Alerta!", dadosRetorno.mensagem);
+                $('#listaPropriedades').attr('value', "");
+            }
+            //atualiza a sessao
+            updateSessao(dadosRetorno.sessao);
+
+        });
     
-    //chama a requisicao do servidor, o resultado é listado em uma tabela
-    requisicao("pessoa/listarpropriedades", envio, function(dadosRetorno) {
-        if(dadosRetorno.sucesso){
-            
-            var items = "";
-                $.each(dadosRetorno.data, function(i, valor){
-                    items +='<option value="'+valor.idpropriedade+'">'+valor.nomepropriedade+'</option>';
-                });
-            
-            
-            $('#listaPropriedades').attr('value', envio.idpessoa).empty().append(items);
-                      //retira o painel loading
-            $(".painelCarregando").fadeOut(400);
-        }else{
-            
-            //retira o painel loading
-            $(".painelCarregando").fadeOut(400);
-            alerta("Alerta!", dadosRetorno.mensagem);
-            $('#listaPropriedades').attr('value', "");
-        }
-        //atualiza a sessao
-        updateSessao(dadosRetorno.sessao);
-        
-    });
-    }else{
-        $(this).focusout();
     }
     
  
     
 });
 
-//
+
+$(document).on("blur", "#listaCultivares", function(){
+    var valores = JSON.parse($('#listaCultivares :selected').prop('value'));
+    
+    
+    //muda para inteiro ou decimal os valores aceito pelo input
+    //kilos =7
+    if(valores.grandeza === "Kilo(s)"){
+        $("#qtdCultivarDist").attr("min", "0.01");
+        $("#qtdCultivarDist").attr("step", "0.01");
+    //ramas =5 e maniva =6    
+    }else{
+        $("#qtdCultivarDist").attr("min", "1");
+        $("#qtdCultivarDist").attr("step", "1");
+    }
+    
+    $("#qtdCultivarDist").attr("max", valores.quantidade);
+    //muda o label de acordo com a quantidade e grandeza do cultivar selecionado
+    $("#labelQtdCultivarDist").text("Quantidade em "+valores.grandeza +"...{Qtd no estoque "+ valores.quantidade+"}...");
+});
+
+
 $(document).on("click", "#listaCultivares", function(){
     
     if($(this).children('option').length < 1){
@@ -1777,19 +1810,24 @@ $(document).on("click", "#listaCultivares", function(){
         //pesquisa a unidade do agricultor
         var Sessao = getSessao();
         var envio = {
-            metodo: "listarestoqueunidadeselect",
+            metodo: "estoqueunidade_select",
             idunidade: Sessao.idunidade,
-            id: Sessao.idpessoa,
+            id: Sessao.idlogin,
             sessao: Sessao.sessao
         };
 
         //chama a requisicao do servidor, o resultado é listado em uma tabela
-        requisicao("unidade/listarestoqueunidade", envio, function(dadosRetorno) {
+        requisicao(true, "cultivar/listar", envio, function(dadosRetorno) {
             if(dadosRetorno.sucesso){
 
                 var items = "";
+                var values = {};
                     $.each(dadosRetorno.data, function(i, valor){
-                        items +='<option value="'+valor.idcultivar+'">'+valor.nomecultivar+'</option>';
+                        values = {idcultivar: valor.idcultivar,
+                                  quantidade: valor.quantidade,
+                                  grandeza: valor.grandeza
+                        };
+                        items +='<option value='+JSON.stringify(values)+'>'+valor.nomecultivar+'</option>';
                     });
 
 
@@ -1807,30 +1845,36 @@ $(document).on("click", "#listaCultivares", function(){
 
         });
     }
+    //limpa o valor da quantidade
+    $("#qtdCultivarDist").val("");
     return false;
 });
 
 
 
+
+
+//enviar a requisicao para o servidor de distribuir cultivares
 $(document).on("click", "#distribuirCultivar", function(){
 
         //pesquisa a unidade do agricultor
         var Sessao = getSessao();
+        var dadosCultivar = JSON.parse($('#listaCultivares :selected').prop('value'));
         var envio = {
-            metodo: "distribuircultivar",
+            metodo: "distribuir",
             idunidade: Sessao.idunidade,
-            um: $('#umDistCultivar').prop('value'),
-            idpropriedade: $('#listaPropriedades').prop('value'),
-            idcultivar: $('#listaCultivares').prop('value'),
+            idpropriedade: $('#listaPropriedades :selected').prop('value'),
+            idcultivar: dadosCultivar.idcultivar,
+            qtdrecebida: $('#qtdCultivarDist').val(),
             safra: $('#safraDist').val(),
             datareceb: $('#datarecebDist').val(),
-            qtdrecebida: $('#qtdCultivarDist').val(),
-            id: Sessao.idpessoa,
+            
+            id: Sessao.idlogin,
             sessao: Sessao.sessao
         };
     
     //chama a requisicao do servidor, o resultado é listado em uma tabela
-    requisicao("cultivar/distribuir", envio, function(dadosRetorno) {
+    requisicao(true, "cultivar/distribuir", envio, function(dadosRetorno) {
         if(dadosRetorno.sucesso){
             
             $(".painelCarregando").fadeOut(400);
@@ -1839,12 +1883,12 @@ $(document).on("click", "#distribuirCultivar", function(){
         }else{
             //retira o painel loading
             $(".painelCarregando").fadeOut(400);
-//            seta o id do input que tera o focus
+//            seta o id do input que tera o focus apos fechar o modal
             $("#itenFocus").text("#qtdCultivarDist");
             alerta("Alerta!", dadosRetorno.mensagem);
 
-            //ativa o form de quantidade e da focus no input 
-            $('#qtdProgresso li:nth-child(3)').addClass('active');
+            //ativa o form de quantidade de cultivares para distribuir e da focus no input 
+            $('#qtdProgresso li:nth-child(2)').addClass('active');
             $('#qtdProgresso li:nth-child(4)').removeClass('active');
             $('#progresso3').addClass('active');
             $('#completo').removeClass('active');
@@ -1939,37 +1983,6 @@ $(document).on("click", "#entradaEstoque", function(e){
     
     });
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-   
-//    alerta('Nova entrada', '<form  data-toggle="validator" role="form" id="entradaCultiEstoque" >          <div class="form-group"><label for="cultEntEstoque" class="control-label">Cultivares:</label><select class="form-control " id="cultEntEstoque" data-error="Por favor, informe o cultivar." required ></select><div class="help-block with-errors"></div></div>      <div class="form-group"><label id="labQtdCultivarEnt" for="qtdCultivarEnt" class="control-label">Quantidade:</label><input type="number" class="form-control " min="0.01" id="qtdCultivarEnt" placeholder="Digite a quantidade de entrada..." step="0.01" data-error="Por favor, informe a quantidade de entrada." required ><div class="help-block with-errors"></div></div>            <hr><button type="submit" class="btn btn-warning">Salvar <span class="fa fa-save" aria-hidden="true"></span></button></form>');
-//  $("#entradaCultiEstoque").validator();
     return false;
 });
 
@@ -2000,18 +2013,17 @@ function submeterEntradaCult(){
 
     var envio = {    
         idcultivar: valores.idcultivar,
-        um: valores.um,
         qtd: $('#qtdCultivarEnt').val(),
         operacao: 1,
         idunidade: Sessao.idunidade,
-        id: Sessao.idpessoa,
+        id: Sessao.idlogin,
         sessao: Sessao.sessao
     };
 
     
     
     //chama a requisicao do servidor, o resultado é listado em uma tabela
-    requisicao("unidade/ioestoque", envio, function(dadosRetorno) {
+    requisicao(true, "unidade/ioestoque", envio, function(dadosRetorno) {
 
         if(dadosRetorno.sucesso){
 
@@ -2039,20 +2051,19 @@ $(document).on("click", "#cultEntEstoque", function(e){
     if($(this).children('option').length < 1){
         var Sessao = getSessao();
         var envio = {
-            metodo: "listarcultivares",
-            id: Sessao.idpessoa,
+            metodo: "bio",
+            id: Sessao.idlogin,
             sessao: Sessao.sessao
         };
 
         //chama a requisicao do servidor, o resultado é listado em uma tabela
-        requisicao("cultivar/listar", envio, function(dadosRetorno) {
+        requisicao(true, "cultivar/listar", envio, function(dadosRetorno) {
 
             if(dadosRetorno.sucesso){
                 var item = "";
                 var valores;
                 $.each(dadosRetorno.data, function(i, valor){
                     valores = JSON.stringify({ idcultivar:valor.idcultivar,
-                          um: valor.unidademedida_idunidademedida,
                           grandeza: valor.grandeza
                     });
 //                    item += '<option value="{"id":"'+valor.idcultivar+'", "um": "teste"}" >'+valor.nomecultivar+'</option>';
@@ -2076,18 +2087,18 @@ $(document).on("click", "#cultEntEstoque", function(e){
     return false;
 });
 
-$(document).on("change", "#cultEntEstoque", function(e){
+$(document).on("blur", "#cultEntEstoque", function(e){
     //pega os valores selecionado
     var valores = JSON.parse($('#cultEntEstoque :selected').prop('value'));
     
     //muda o label
-    $("#labQtdCultivarEnt").text("Quantidade em "+ valores.grandeza);
+    $("#labQtdCultivarEnt").text("Quantidade em "+ valores.grandeza + " :");
     $("#qtdCultivarEnt").val("");
     
 
     //muda para inteiro ou decimal os valores aceito pelo input
     //kilos =7
-    if(valores.um === 7){
+    if(valores.grandeza === "Kilo(s)"){
         $("#qtdCultivarEnt").attr("min", "0.01");
         $("#qtdCultivarEnt").attr("step", "0.01");
     //ramas =5 e maniva =6    
@@ -2096,5 +2107,61 @@ $(document).on("change", "#cultEntEstoque", function(e){
         $("#qtdCultivarEnt").attr("step", "1");
     }
     
+    return false;
+});
+
+//botao saida de estoque
+$(document).on("click", "#saidaEstoque", function(e){
+    $("#divItens").fadeOut(400, function (){
+    $("#divItens").hide(); 
+    
+    
+
+                $("#tituloProgresso").text("Saída de estoque");
+                $("#progressoRef").text("");
+                
+                $("#qtdProgresso").empty().append('<li role="presentation" class="active"><a href="#progresso1" data-toggle="tab" aria-controls="progresso1" role="tab" title="Cultivar e quantidade"><span class="round-tab"><i class="fa fa-bullhorn"></i></span></a></li>\n\
+                                                   <li role="presentation" class="disabled"><a href="#completo" data-toggle="tab" aria-controls="completo" role="tab" title="Salvar"><span class="round-tab"><i class="fa fa-save"></i></span></a></li>');
+
+                $("#formProgresso").empty().append('<div class="tab-pane active" role="tabpanel" id="progresso1">       <form  data-toggle="validator" role="form" id="saidaCultiEstoque" >          <div class="form-group"><label for="motivoSaida" class="control-label">Motivo:</label><select class="form-control " id="motivoSaida" data-error="Por favor, informe o cultivar." required ><option></option><option>Perda</option><option>Outros</option></select><div class="help-block with-errors"></div></div>      <div class="form-group"><label for="qtdCultivarSaida" class="control-label">Quantidade:</label><input type="number" class="form-control " min="0.01" id="qtdCultivarSaida" placeholder="Digite a quantidade de entrada..." step="0.01" data-error="Por favor, informe a quantidade de saída." required ><div class="help-block with-errors"></div></div>            <div class="form-group"> <button type="submit" style="float: right;" class="btn btn-warning next-step">Continuar</button> </div>   </form>     </div>\n\
+                                                    <div class="tab-pane"  id="completo"><h3>Deseja realmente dar saída no estoque?</h3><div class="form-group"> <button type="click" style="float: right;" id="salvarSaidaEstoque" class="btn btn-warning">Salvar</button> </div></div>                                         <div class="clearfix"></div>');
+
+                
+                //tamanho do icone do progresso de acordo com a quantidade
+                $("#qtdProgresso li").css("width", 100/2  + "%");
+                
+                var inputFocus = "#cultSaidaEstoque";
+                $('#saidaCultiEstoque').validator();
+           
+           
+           
+           
+        $("#iconesProgresso").fadeIn(400);
+        
+
+            $(inputFocus).focus();    
+    
+    
+
+    
+    });
+    
+    return false;
+});
+
+//chama a requisicao para salvar a saida de estoque
+$(document).on("submit", "#saidaCultiEstoque", function(e){
+    if(!e.isDefaultPrevented()){
+        continuarProgresso();
+    }
+    
+
+    return false;
+});
+
+//chama a requisicao para salvar a saida de estoque
+$(document).on("click", "#salvarSaidaEstoque", function(e){
+    alerta("Alerta","Em construcao");
+
     return false;
 });

@@ -29,21 +29,20 @@ public class DAOSafra extends DAOBase{
         
         
         
-        TOSafra to = (TOSafra)t;
+//        TOSafra to = ((TOSafra)t);
         List<Object> p = new ArrayList<Object>();
         
         switch(metodo){
             default:
-                sql = "INSERT INTO safra(statussafra_idstatussafra, unidademedida_idunidademedida, propriedade_idpropriedade, cultivar_idcultivar, safra,"
-                + " datareceb, qtdrecebida, status_entrevistador) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+                sql = "INSERT INTO safra(statussafra_idstatussafra, propriedade_idpropriedade, cultivar_idcultivar, safra,"
+                + " datareceb, qtdrecebida, status_entrevistador) VALUES (?, ?, ?, ?, ?, ?, ?)";
                 
-                p.add(to.getStatussafra_idstatussafra());
-                p.add(to.getUnidademedida_idunidademedida());
-                p.add(to.getPropriedade_idpropriedade());
-                p.add(to.getCultivar_idcultivar());
-                p.add(to.getSafra());
-                p.add(to.getDatareceb());
-                p.add(to.getQtdrecebida());
+                p.add(((TOSafra)t).getStatussafra_idstatussafra());
+                p.add(((TOSafra)t).getPropriedade_idpropriedade());
+                p.add(((TOSafra)t).getCultivar_idcultivar());
+                p.add(((TOSafra)t).getSafra());
+                p.add(((TOSafra)t).getDatareceb());
+                p.add(((TOSafra)t).getQtdrecebida());
                 p.add(9);
                 break;
         }
@@ -58,17 +57,17 @@ public class DAOSafra extends DAOBase{
                 
 
         
-        TOSafra to = (TOSafra)t;
+//        TOSafra to = (TOSafra)t;
         
         List<Object> p = new ArrayList<Object>();
         
         switch(metodo){
             default:
                 sql = "UPDATE safra SET qtdcolhida=?, ultimadatacolheita=?, statussafra_idstatussafra=? WHERE idsafra = ?";
-                p.add(to.getQtdcolhida());
-                p.add(to.getUltimadatacolheita());
-                p.add(to.getStatussafra_idstatussafra());
-                p.add(to.getIdsafra());
+                p.add(((TOSafra)t).getQtdcolhida());
+                p.add(((TOSafra)t).getUltimadatacolheita());
+                p.add(((TOSafra)t).getStatussafra_idstatussafra());
+                p.add(((TOSafra)t).getIdsafra());
         
                 break;
         }
@@ -86,14 +85,14 @@ public class DAOSafra extends DAOBase{
         ResultSet rs = null;
         
         try{
-            TOSafra to = (TOSafra)t;
+//            TOSafra to = (TOSafra)t;
             
             switch(metodo){
                 default:
                     sql = "select * from safra where idsafra IN(?)";
                     break;
             }
-            rs = Data.executeQuery(c, sql, to.getIdsafra());
+            rs = Data.executeQuery(c, sql, ((TOSafra)t).getIdsafra());
             
             if(rs.next()){
                 return new TOSafra(rs, metodo);
@@ -135,39 +134,39 @@ public class DAOSafra extends DAOBase{
             rs = Data.executeQuery(c, sql, u);
             
             while (rs.next()){
-                TOSafra ts = new TOSafra(rs, metodo);
+//                TOSafra ts = new TOSafra(rs, metodo);
 
-                switch ((int)ts.getStatussafra_idstatussafra()) {
+                switch ((int)((TOSafra)t).getStatussafra_idstatussafra()) {
                     case 1:
                     case 2:
                     case 3:
-                        ts.setPrazo_colheita(verificarPrazoColheita(ts, metodo));
-                        ts.setPrazo_destinacao(verificarPrazoDestinacao(ts, metodo));
+                        ((TOSafra)t).setPrazo_colheita(verificarPrazoColheita(((TOSafra)t), metodo));
+                        ((TOSafra)t).setPrazo_destinacao(verificarPrazoDestinacao(((TOSafra)t), metodo));
                         break;
                     case 4:
                     case 5:
-                        ts.setPrazo_colheita("relatada");
-                        ts.setPrazo_destinacao(verificarPrazoDestinacao(ts, metodo));
+                        ((TOSafra)t).setPrazo_colheita("relatada");
+                        ((TOSafra)t).setPrazo_destinacao(verificarPrazoDestinacao(((TOSafra)t), metodo));
                         break;
                
                     case 6:
                
-                        ts.setPrazo_colheita("relatada");
-                        ts.setPrazo_destinacao("relatada");
+                        ((TOSafra)t).setPrazo_colheita("relatada");
+                        ((TOSafra)t).setPrazo_destinacao("relatada");
                         break;
                     case 7:
-                        ts.setPrazo_colheita("relatada");
-                        ts.setPrazo_destinacao("expirada");
+                        ((TOSafra)t).setPrazo_colheita("relatada");
+                        ((TOSafra)t).setPrazo_destinacao("expirada");
                         break;
                     case 8:
-                        ts.setPrazo_colheita("expirada");
-                        ts.setPrazo_destinacao("expirada");
+                        ((TOSafra)t).setPrazo_colheita("expirada");
+                        ((TOSafra)t).setPrazo_destinacao("expirada");
                         break;
                     
                 }
                 
                 
-                ja.put(ts.getJson(metodo));
+                ja.put(((TOSafra)t).getJson(metodo));
             }
             
                         

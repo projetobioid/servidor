@@ -24,16 +24,16 @@ public class DAOAgricultor extends DAOBase{
         
         
         
-        TOAgricultor to = (TOAgricultor)t;
+//        TOAgricultor to = ((TOAgricultor)t);
         
         List<Object> p = new ArrayList<Object>();
         switch(metodo){
             default:
                 sql = "INSERT INTO agricultor(pessoa_idpessoa, qtdintegrantes, qtdcriancas, qtdgravidas)VALUES (?, ?, ?, ?)";
-                p.add(to.getPessoa_idpessoa());
-                p.add(to.getQtdIntegrantes());
-                p.add(to.getQtdCriancas());
-                p.add(to.getQtdGravidas());
+                p.add(((TOAgricultor)t).getPessoa_idpessoa());
+                p.add(((TOAgricultor)t).getQtdIntegrantes());
+                p.add(((TOAgricultor)t).getQtdCriancas());
+                p.add(((TOAgricultor)t).getQtdGravidas());
                 break;
         }
         
@@ -56,8 +56,8 @@ public class DAOAgricultor extends DAOBase{
         ResultSet rs = null;
         
         try{
-            TOAgricultor to = (TOAgricultor)t;
-            rs = Data.executeQuery(c, sql, to.getPessoa_idpessoa());
+//            TOAgricultor to = (TOAgricultor)t;
+            rs = Data.executeQuery(c, sql, ((TOAgricultor)t).getPessoa_idpessoa());
             
             if(rs.next()){
                 return null;//new TOAgricultor(rs);

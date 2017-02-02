@@ -21,15 +21,15 @@ public class DAORelacaopa extends DAOBase{
     public long inserir(Connection c, TOBase t, String metodo) throws Exception {
         String sql = null;
 
-        TORelacaopa to = (TORelacaopa)t;
+//        TORelacaopa to = ((TORelacaopa)t);
         
         List<Object> p = new ArrayList<Object>();
         
         switch(metodo){
             default:
                 sql = "INSERT INTO relacaopa(agricultor_pessoa_idpessoa, propriedade_idpropriedade) VALUES (?, ?)";
-                p.add(to.getAgricultor_pessoa_idpessoa());
-                p.add(to.getPropriedade_idpropriedade());
+                p.add(((TORelacaopa)t).getAgricultor_pessoa_idpessoa());
+                p.add(((TORelacaopa)t).getPropriedade_idpropriedade());
                 break;
         }
         

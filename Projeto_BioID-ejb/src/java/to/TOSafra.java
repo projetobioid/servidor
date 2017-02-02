@@ -17,8 +17,6 @@ public class TOSafra extends TOBase {
     
     private long statussafra_idstatussafra;
     
-    private long unidademedida_idunidademedida;
-    
     private long propriedade_idpropriedade;
      
     private long cultivar_idcultivar;
@@ -70,14 +68,6 @@ public class TOSafra extends TOBase {
 
     public void setStatussafra_idstatussafra(long statussafra_idstatussafra) {
         this.statussafra_idstatussafra = statussafra_idstatussafra;
-    }
-
-    public long getUnidademedida_idunidademedida() {
-        return unidademedida_idunidademedida;
-    }
-
-    public void setUnidademedida_idunidademedida(long unidademedida_idunidademedida) {
-        this.unidademedida_idunidademedida = unidademedida_idunidademedida;
     }
 
     public long getPropriedade_idpropriedade() {

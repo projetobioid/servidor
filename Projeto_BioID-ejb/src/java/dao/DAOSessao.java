@@ -25,7 +25,7 @@ public class DAOSessao extends DAOBase{
         String sql = null;
         
         //variavel sendo convertida para toUsuarios
-        TOSessao to = (TOSessao)t;
+        TOSessao to = ((TOSessao)t);
         //variavel com lista dos parametros
         List<Object> u = new ArrayList<Object>();
         //testa o metodo a ser executado
@@ -34,8 +34,8 @@ public class DAOSessao extends DAOBase{
             
             case "validacao":
                 sql = "INSERT INTO sessao(login_idlogin, sessao, datarequisicao) VALUES (?, ?, ?)";
-            u.add(to.getLogin_idlogin());
-            u.add(to.getSessao());
+            u.add(((TOSessao)t).getLogin_idlogin());
+            u.add(((TOSessao)t).getSessao());
             u.add(new Date().toString()); 
                 break;
             default:
@@ -52,7 +52,7 @@ public class DAOSessao extends DAOBase{
         String sql = null;
       
         
-        TOSessao to = (TOSessao)t;
+//        TOSessao to = (TOSessao)t;
         
         List<Object> p = new ArrayList<Object>();
         //testa o metodo a ser executado
@@ -60,9 +60,9 @@ public class DAOSessao extends DAOBase{
         switch(metodo){
             case "update_sessao":
                 sql =   "update sessao set sessao = ?, datarequisicao = ? where idsessao IN(?)";
-                p.add(to.getSessao());
+                p.add(((TOSessao)t).getSessao());
                 p.add(new Date().toString());
-                p.add(to.getIdsessao());
+                p.add(((TOSessao)t).getIdsessao());
                 break;
             
         }
@@ -86,7 +86,7 @@ public class DAOSessao extends DAOBase{
         
         try{
             //variavel sendo convertida para toUsuarios
-            TOSessao to = (TOSessao)t;
+//            TOSessao to = (TOSessao)t;
             //variavel com lista dos parametros
             List<Object> u = new ArrayList<Object>();
             
@@ -94,8 +94,8 @@ public class DAOSessao extends DAOBase{
             switch(metodo){
                 case "get_sessao":
                     sql = "SELECT idsessao, login_idlogin, sessao, datarequisicao FROM sessao where sessao IN(?) AND login_idlogin IN(?)";
-                    u.add(to.getSessao());
-                    u.add(to.getLogin_idlogin());
+                    u.add(((TOSessao)t).getSessao());
+                    u.add(((TOSessao)t).getLogin_idlogin());
            
                     break;
             }

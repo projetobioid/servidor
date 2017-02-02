@@ -13,6 +13,7 @@ import dao.DAOPessoa;
 import dao.DAOPropriedade;
 import dao.DAORelacaopa;
 import dao.DAOSessao;
+import fw.Criptografia;
 import java.math.BigInteger;
 import java.security.SecureRandom;
 import javax.ws.rs.Consumes;
@@ -152,7 +153,19 @@ public class ServicosPessoa {
                 //comeca a requisicao
                 
                 TOPessoa to = new TOPessoa();
-                to.setIdunidade(k.getLong("idunidade"));
+                
+                //adiciona atributos de acordo com o metodo
+                switch(k.getString("metodo")){
+                    case "agricultor_select":
+                        to.setNome(k.getString("valor"));
+                        to.setIdunidade(k.getLong("idunidade"));
+                        break;
+                    case "agricultores":
+                    case "usuarios":
+                        to.setIdunidade(k.getLong("idunidade"));
+                        break;
+                }
+                
                 JSONArray ja = BOFactory.listar(new DAOPessoa(),to , k.getString("metodo")) ;
 
                 if(ja.length() > 0){
@@ -487,7 +500,7 @@ public class ServicosPessoa {
                         //tabela login
                         tl.setPessoa_idpessoa(idGeradoPessoa);
                         tl.setUnidade_idunidade(k.getLong("unidade_idunidade"));
-                        tl.setSenha(k.getString("senha"));
+                        tl.setSenha(Criptografia.md5(k.getString("senha")));
                         tl.setPapel("a");
                         //grava no banco de dados os dados da classe TOLogin
                         BOFactory.inserir(new DAOLogin(), tl, null);
@@ -672,8 +685,11 @@ public class ServicosPessoa {
         
         try{
             TOLogin to = new TOLogin();
+            
+           
+
             to.setUsuario(k.getString("usuario"));
-            to.setSenha(k.getString("senha"));
+            to.setSenha(Criptografia.md5(k.getString("senha")));
             
             
             to = (TOLogin) BOFactory.get(new DAOLogin(), to, k.getString("metodo"));
@@ -689,21 +705,15 @@ public class ServicosPessoa {
                 ts.setLogin_idlogin(to.getIdlogin());
                 ts.setSessao(new BigInteger(130, random).toString(32));
                 
+                
              
                 //salva uma nova sessao no banco de dados
                 BOFactory.inserir(new DAOSessao(), ts, k.getString("metodo"));
                 
+                //atribui o valor da nova sessao para o retorno
+                to.setSessao(ts.getSessao());
                 //retorna valores do login
-     
-                j.put("idpessoa", to.getPessoa_idpessoa());
-                j.put("papel", to.getPapel());
-                j.put("idunidade", to.getUnidade_idunidade());
-                j.put("nome", to.getNome());
-                j.put("sessao", ts.getSessao());
-                
-                
-                //j.put("tempoLogin", ts.getDatalogin());
-                
+                j.put("data", to.getJson("default"));
                 j.put("sucesso", true);
                 //retorna a data de login que espirará em um tempo determinado
                 //j.put("logTempo", ((730 * Float.parseFloat(getData("M"))) - (730 - (Float.parseFloat(getData("d"))*24)))+168 );

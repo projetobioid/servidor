@@ -265,7 +265,7 @@ public TOPessoa(ResultSet rs, String metodo) throws Exception{
                 this.nomeunidade = rs.getString("nomeunidade");
                 this.papel = rs.getString("papel");
                 break;
-            case "procuraragricultor":
+            case "agricultor_select":
                 this.idpessoa = rs.getLong("idpessoa");
                 this.nome = rs.getString("nome");
                 this.sobrenome = rs.getString("sobrenome");
@@ -349,7 +349,7 @@ public TOPessoa(ResultSet rs, String metodo) throws Exception{
                 j.put("estadocivil", estadocivil);
                 j.put("papel", papel);
                 break;
-            case "procuraragricultor":
+            case "agricultor_select":
                 //populando o objeto j
                 j.put("idpessoa", idpessoa);
                 j.put("nome", nome);

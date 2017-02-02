@@ -1,6 +1,6 @@
-//var ipServidor = 'localhost:8080';
-var ipServidor = "187.19.101.252:8082";
-//var ipServidor = "10.1.2.52:8080";
+//var ipServidor = 'localhost:8080'; //sistema em producao
+var ipServidor = "187.19.101.252:8082"; //sistema rodando fora
+//var ipServidor = "10.1.2.52:8080"; //sistema teste interno
 
 /* button carregar page entrar*/
 $(document).on("click", "#goPagEntrar", function(evt)
@@ -52,14 +52,19 @@ $(document).on("click", "#fecharAlert", function(evt)
     return false;
 });
 
+$(document).on("click", "#esqueceuSenha", function(evt)
+{
+    
+    alert("Em construção!");
+
+    return false;
+});
+
 function enviarRequisicao(){
     var envio = {usuario: $("#inputUsuario").val(),
-                    senha: $("#inputSenha").val(),
+                    senha: $.md5($("#inputSenha").val()),
                     metodo: "validacao"
                 };
-
-
-
 
 
     $.ajax({
@@ -72,25 +77,17 @@ function enviarRequisicao(){
         },
         success: function(retorno){
             if(retorno.sucesso){
-                //guarda dados do usuario no session storge
-            var logSessao = JSON.stringify({
-                idpessoa:  JSON.stringify(dados.idpessoa),
-                sessao: dados.sessao,
-               // tempoLogin: dados.tempoLogin,
-                papel: dados.papel,
-                idunidade: dados.idunidade,
-                nome: dados.nome
-            });
 
+                localStorage.setItem("logSessao", JSON.stringify(retorno.data));
 
-
-            localStorage.setItem("logSessao", logSessao);
-
-            window.location.href = 'home.html';
-            //$("#bemVindo").val(dados.nome);  
+                window.location.href = 'home.html';
+                //$("#bemVindo").val(dados.nome);  
             }else{
-                $("#alerta").empty().append('<a href="#" id="fecharAlert" class="close">&times;</a><strong>Erro!</strong> '+retorno.mensagem).fadeIn(400);
-          
+                if(retorno.mensagem === null){
+                    $("#alerta").empty().append('<a href="#" id="fecharAlert" class="close">&times;</a><strong>Erro!</strong> Sem conexão com o servidor!').fadeIn(400);   
+                }else{
+                    $("#alerta").empty().append('<a href="#" id="fecharAlert" class="close">&times;</a><strong>Erro!</strong> '+retorno.mensagem).fadeIn(400);
+                }
             }
             
             

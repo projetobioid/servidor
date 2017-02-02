@@ -25,20 +25,20 @@ public class DAOCultivar extends DAOBase {
     public long inserir(Connection c, TOBase t, String metodo) throws Exception {
         String sql = "INSERT INTO cultivar(nomecultivar, imagem, descricao, biofortificado, unidademedida_idunidademedida, valornutricional, tempodecolheita, tempodestinacao, peso_saca) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
         
-        TOCultivar to = (TOCultivar)t;
+//        TOCultivar to = ((TOCultivar)t);
         
         List<Object> p = new ArrayList<Object>();
         
         if(metodo.equals("inserir_cultivar")){
-            p.add(to.getNomecultivar());
-            p.add(to.getImagem());
-            p.add(to.getDescricao());
-            p.add(to.isBiofortificado());
-            p.add(to.getUnidademedida_idunidademedida());
-            p.add(to.getValornutricional());
-            p.add(to.getTempodecolheita());
-            p.add(to.getTempodestinacao());
-            p.add(to.getPeso_saca()); 
+            p.add(((TOCultivar)t).getNomecultivar());
+            p.add(((TOCultivar)t).getImagem());
+            p.add(((TOCultivar)t).getDescricao());
+            p.add(((TOCultivar)t).isBiofortificado());
+            p.add(((TOCultivar)t).getUnidademedida_idunidademedida());
+            p.add(((TOCultivar)t).getValornutricional());
+            p.add(((TOCultivar)t).getTempodecolheita());
+            p.add(((TOCultivar)t).getTempodestinacao());
+            p.add(((TOCultivar)t).getPeso_saca()); 
         }
         
         
@@ -51,13 +51,13 @@ public class DAOCultivar extends DAOBase {
     public void editar(Connection c, TOBase t, String metodo) throws Exception {
         String sql = "update cultivar set nome = ?, descricao = ?, biofortificado = ?, tipo = ? where id = ? ";
         
-        TOCultivar to = (TOCultivar)t;
+//        TOCultivar to = (TOCultivar)t;
         
         List<Object> p = new ArrayList<Object>();
         
         
-        p.add(to.getNomecultivar());
-        p.add(to.getDescricao());
+        p.add(((TOCultivar)t).getNomecultivar());
+        p.add(((TOCultivar)t).getDescricao());
         //p.add(to.getBiofortificado());
         //p.add(to.getTipo());
         //p.add(to.getIdCultivar());
@@ -70,11 +70,11 @@ public class DAOCultivar extends DAOBase {
     public void excluir(Connection c, TOBase t, String metodo) throws Exception {
         String sql = "delete from cultivar where id = ? ";
         
-        TOCultivar to = (TOCultivar)t;
+//        TOCultivar to = (TOCultivar)t;
         
         List<Object> p = new ArrayList<Object>();
         
-       // p.add(to.getIdCultivar());
+       // p.add(((TOCultivar)t).getIdCultivar());
         
         Data.executeUpdate(c, sql, p);
     } 
@@ -102,8 +102,8 @@ public class DAOCultivar extends DAOBase {
                 break;
                 
             }
-            TOCultivar to = (TOCultivar)t;
-            p.add(to.getIdcultivar());
+//            TOCultivar to = (TOCultivar)t;
+            p.add(((TOCultivar)t).getIdcultivar());
             
             rs = Data.executeQuery(c, sql, p);
             
@@ -129,7 +129,7 @@ public class DAOCultivar extends DAOBase {
             String sql = null;
             
             switch (metodo) {
-                case "listar_bio":
+                case "bio":
                     sql = "select c.idcultivar, c.nomecultivar, um.grandeza from cultivar c "
                         + "INNER JOIN unidademedida um ON (um.idunidademedida = c.unidademedida_idunidademedida) "
                         + "WHERE c.biofortificado IN(true) order by c.nomecultivar";
@@ -139,7 +139,7 @@ public class DAOCultivar extends DAOBase {
                         ja.put(tc.getJson(metodo));
                     }
                     break;
-                case "":
+                case "x":
                     sql = "SELECT DISTINCT c.idcultivar, c.nomecultivar, c.imagem, c.descricao, c.biofortificado, um.grandeza, c.valornutricional, c.tempodecolheita, c.peso_saca "
                             + "FROM login l "
                             + "INNER JOIN pessoa p ON( p.idpessoa = l.pessoa_idpessoa) "
@@ -155,7 +155,7 @@ public class DAOCultivar extends DAOBase {
                         TOCultivar tc = new TOCultivar(rs, metodo);
                         ja.put(tc.getJson(metodo));
                     }   break;
-                case "listar_estoqueunidade":
+                case "estoqueunidade":
                     sql = "SELECT e.cultivar_idcultivar, c.nomecultivar, e.quantidade, u.grandeza FROM estoque e "
                             + "INNER JOIN cultivar c ON (c.idcultivar = e.cultivar_idcultivar) "
                             + " INNER JOIN unidademedida u ON (u.idunidademedida = e.unidademedida_idunidademedida)"
@@ -168,7 +168,7 @@ public class DAOCultivar extends DAOBase {
                         TOEstoque tc = new TOEstoque(rs, metodo);
                         ja.put(tc.getJson(metodo));
                     }   break;
-                case "listar_estoqueunidade_input":
+                case "estoqueunidade_select":
                     sql = "SELECT e.cultivar_idcultivar, c.nomecultivar FROM estoque e "
                             + "INNER JOIN cultivar c ON (c.idcultivar = e.cultivar_idcultivar) "
                             + "WHERE e.unidade_idunidade IN(?)";

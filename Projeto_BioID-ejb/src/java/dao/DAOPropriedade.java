@@ -23,7 +23,7 @@ public class DAOPropriedade extends DAOBase{
     @Override
     public long inserir(Connection c, TOBase t, String metodo) throws Exception {
         String sql = null;
-        TOPropriedade to = (TOPropriedade)t;
+//        TOPropriedade to = ((TOPropriedade)t);
         List<Object> p = new ArrayList<Object>();
         
         switch(metodo){
@@ -32,13 +32,13 @@ public class DAOPropriedade extends DAOBase{
                 sql = "INSERT INTO propriedade(endereco_idendereco, unidade_idunidade, nomepropriedade, area, "
                     + "unidadedemedida, areautilizavel, unidadedemedidaau) VALUES (?, ?, ?, ?, ?, ?, ?)";
                 
-                p.add(to.getEndereco_idendereco());
-                p.add(to.getUnidade_idunidade());
-                p.add(to.getNomepropriedade());
-                p.add(to.getArea());
-                p.add(to.getUnidadedemedida());
-                p.add(to.getAreautilizavel());
-                p.add(to.getUnidadedemedidaau()); 
+                p.add(((TOPropriedade)t).getEndereco_idendereco());
+                p.add(((TOPropriedade)t).getUnidade_idunidade());
+                p.add(((TOPropriedade)t).getNomepropriedade());
+                p.add(((TOPropriedade)t).getArea());
+                p.add(((TOPropriedade)t).getUnidadedemedida());
+                p.add(((TOPropriedade)t).getAreautilizavel());
+                p.add(((TOPropriedade)t).getUnidadedemedidaau()); 
                 break;
         }
         
@@ -57,7 +57,7 @@ public class DAOPropriedade extends DAOBase{
         
         try{
             String sql = null;
-            TOPropriedade to = (TOPropriedade)t;
+//            TOPropriedade to = (TOPropriedade)t;
             
             switch(metodo){
                 default:
@@ -66,8 +66,8 @@ public class DAOPropriedade extends DAOBase{
                         + "INNER JOIN pessoa p ON(p.idpessoa = r.agricultor_pessoa_idpessoa)"
                         + "WHERE LOWER(pr.nomepropriedade) = LOWER(?) and p.cpf = ?";
                     
-                    p.add(to.getNomepropriedade());
-                    p.add(to.getCpf());
+                    p.add(((TOPropriedade)t).getNomepropriedade());
+                    p.add(((TOPropriedade)t).getCpf());
                     break;
             }
             
@@ -98,7 +98,7 @@ public class DAOPropriedade extends DAOBase{
             String sql = null;
             //variavel com lista dos parametros
             List<Object> u = new ArrayList<Object>();
-            TOPessoa tp = (TOPessoa)t;
+//            TOPessoa tp = ((TOPessoa)t);
             
             switch(metodo){
                 case "listarpropriedades":
@@ -108,8 +108,8 @@ public class DAOPropriedade extends DAOBase{
                         + "INNER JOIN pessoa p ON(p.idpessoa = a.pessoa_idpessoa) "
                         + "INNER JOIN login l ON(l.pessoa_idpessoa = p.idpessoa) "
                         + "WHERE p.idpessoa IN(?) AND l.unidade_idunidade IN(?)";
-                    u.add(tp.getIdpessoa());
-                    u.add(tp.getIdunidade());
+                    u.add(((TOPessoa)t).getIdpessoa());
+                    u.add(((TOPessoa)t).getIdunidade());
                     break;
                 default:
                     sql = "SELECT cdd.nomecidade, e.rua, e.numero, e.bairro, e.cep, e.complemento, e.gps_lat, e.gps_long, pr.nomepropriedade, pr.idpropriedade "

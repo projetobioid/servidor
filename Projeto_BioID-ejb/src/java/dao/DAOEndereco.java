@@ -23,7 +23,7 @@ public class DAOEndereco extends DAOBase{
         String sql = null;
         
         //variavel sendo convertida para toUsuarios
-        TOEndereco to = (TOEndereco)t;
+//        TOEndereco to = ((TOEndereco)t);
         //variavel com lista dos parametros
         List<Object> u = new ArrayList<Object>();
         
@@ -31,14 +31,14 @@ public class DAOEndereco extends DAOBase{
             default:
                 sql = "INSERT INTO endereco(cidade_idcidade, rua, gps_lat, gps_long, bairro, complemento, cep, numero) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         
-                u.add(to.getCidade_idcidade());
-                u.add(to.getRua());
-                u.add(to.getGps_lat());
-                u.add(to.getGps_long());
-                u.add(to.getBairro());
-                u.add(to.getComplemento());
-                u.add(to.getCep());
-                u.add(to.getNumero());
+                u.add(((TOEndereco)t).getCidade_idcidade());
+                u.add(((TOEndereco)t).getRua());
+                u.add(((TOEndereco)t).getGps_lat());
+                u.add(((TOEndereco)t).getGps_long());
+                u.add(((TOEndereco)t).getBairro());
+                u.add(((TOEndereco)t).getComplemento());
+                u.add(((TOEndereco)t).getCep());
+                u.add(((TOEndereco)t).getNumero());
         
                 break;
         }

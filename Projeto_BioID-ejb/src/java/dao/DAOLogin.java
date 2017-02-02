@@ -25,18 +25,18 @@ public class DAOLogin extends DAOBase{
         
         
         //variavel sendo convertida para toUsuarios
-        TOLogin to = (TOLogin)t;
+//        TOLogin to = ((TOLogin)t);
         //variavel com lista dos parametros
         List<Object> u = new ArrayList<Object>();
         
         switch(metodo){
             default:
             sql = "INSERT INTO login(pessoa_idpessoa, unidade_idunidade, usuario, senha, papel) VALUES (?, ?, ?, ?, ?)";
-            u.add(to.getPessoa_idpessoa());
-            u.add(to.getUnidade_idunidade());
-            u.add(to.getUsuario());
-            u.add(to.getSenha());
-            u.add(to.getPapel());
+            u.add(((TOLogin)t).getPessoa_idpessoa());
+            u.add(((TOLogin)t).getUnidade_idunidade());
+            u.add(((TOLogin)t).getUsuario());
+            u.add(((TOLogin)t).getSenha());
+            u.add(((TOLogin)t).getPapel());
             break;
         }
         
@@ -54,7 +54,7 @@ public class DAOLogin extends DAOBase{
         
         try{
             //variavel sendo convertida para tologin
-            TOLogin to = (TOLogin)t;
+//            TOLogin to = (TOLogin)t;
             //variavel com lista dos parametros
             List<Object> u = new ArrayList<Object>();
             
@@ -63,16 +63,16 @@ public class DAOLogin extends DAOBase{
                 case "get_usuario" :
                 sql = "SELECT idlogin, usuario FROM login l WHERE usuario IN(?)";
                 
-                u.add(to.getUsuario());
+                u.add(((TOLogin)t).getUsuario());
                 break;
-                default :
+                case "validacao" :
                 sql = "SELECT l.idlogin, l.pessoa_idpessoa, l.unidade_idunidade, l.usuario, l.papel, p.nome "
                     + "FROM login l "
                     + "INNER JOIN pessoa p ON(p.idpessoa = l.pessoa_idpessoa) "
                     + "WHERE usuario IN(?) AND senha IN(?)";
                 
-                u.add(to.getUsuario());
-                u.add(to.getSenha());
+                u.add(((TOLogin)t).getUsuario());
+                u.add(((TOLogin)t).getSenha());
                 break;
             }
             
@@ -97,15 +97,15 @@ public class DAOLogin extends DAOBase{
         String sql = null;
                 
         
-        TOLogin to = (TOLogin)t;
+//        TOLogin to = (TOLogin)t;
         
         List<Object> u = new ArrayList<Object>();
         
         switch(metodo){
             default:
                 sql = "update login set sessao = ? where idlogin = ? ";
-                u.add(to.getUsuario());
-                u.add(to.getSenha());
+                u.add(((TOLogin)t).getUsuario());
+                u.add(((TOLogin)t).getSenha());
             break;
         }
         

@@ -23,21 +23,20 @@ public class DAOIOEstoque extends DAOBase{
         String sql = null;
         
         //variavel sendo convertida para toUsuarios
-        TOIOEstoque to = (TOIOEstoque)t;
+//        TOIOEstoque to = ((TOIOEstoque)t);
         //variavel com lista dos parametros
         List<Object> u = new ArrayList<Object>();
         
         switch(metodo){
             default:
-                sql = "INSERT INTO ioestoque(estoque_unidade_idunidade, estoque_cultivar_idcultivar, unidademedida_idunidademedida, quantidade, data_io, operacao, login_idlogin) VALUES (?, ?, ?, ?, ?, ?, ?)";
+                sql = "INSERT INTO ioestoque(estoque_unidade_idunidade, estoque_cultivar_idcultivar, quantidade, data_io, operacao, login_idlogin) VALUES (?, ?, ?, ?, ?, ?)";
         
-                u.add(to.getUnidade_idunidade());
-                u.add(to.getCultivar_idcultivar());
-                u.add(to.getUnidademedida_idunidademedida());
-                u.add(to.getQuantidade());
-                u.add(to.getData_io());
-                u.add(to.getOperacao());
-                u.add(to.getLogin_idlogin());
+                u.add(((TOIOEstoque)t).getUnidade_idunidade());
+                u.add(((TOIOEstoque)t).getCultivar_idcultivar());
+                u.add(((TOIOEstoque)t).getQuantidade());
+                u.add(((TOIOEstoque)t).getData_io());
+                u.add(((TOIOEstoque)t).getOperacao());
+                u.add(((TOIOEstoque)t).getLogin_idlogin());
                 break;
         }
         //passa por parametros a conexao e a lista de objetos da insercao

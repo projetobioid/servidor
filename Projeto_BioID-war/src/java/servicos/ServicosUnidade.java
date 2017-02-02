@@ -134,7 +134,7 @@ public class ServicosUnidade {
                 t.setCnpj(k.getString("cnpj"));
 
                 //teste se existe a unidade cadastrada, senao cadastra
-                if(BOFactory.get(new DAOUnidade(), t, null)== null){
+                if(BOFactory.get(new DAOUnidade(), t, "default")== null){
                     //objeto TOEndereco
                     TOEndereco te = new TOEndereco();
                     te.setCidade_idcidade(k.getLong("cidade_idcidade"));
@@ -146,7 +146,7 @@ public class ServicosUnidade {
                     te.setCep(k.getString("cep"));
                     te.setNumero(k.getInt("numero"));
                     //grava no banco de dados os dados da classe TOLogin e retorna o id gerado
-                    t.setEndereco_idendereco(BOFactory.inserir(new DAOEndereco(), te, null));
+                    t.setEndereco_idendereco(BOFactory.inserir(new DAOEndereco(), te, "default"));
                     t.setNomeunidade(k.getString("nomeunidade"));
                     t.setTelefone1(k.getString("telefone1"));
                     t.setTelefone2(k.getString("telefone2"));
@@ -154,7 +154,7 @@ public class ServicosUnidade {
                     t.setRazao_social(k.getString("razao_social"));
                     t.setNome_fanta(k.getString("nome_fanta"));
 
-                    BOFactory.inserir(new DAOUnidade(), t, null);
+                    BOFactory.inserir(new DAOUnidade(), t, "default");
 
                     j.put("sucesso", true);
                     j.put("mensagem", "Unidade cadastrada!");
@@ -212,7 +212,7 @@ public class ServicosUnidade {
                         ja = BOFactory.listar(new DAOUnidade(), t, k.getString("metodo"));
                         break;
                     default:
-                        ja = BOFactory.listar(new DAOUnidade(), t, null);
+                        ja = BOFactory.listar(new DAOUnidade(), t, "default");
                         break;
                 }
                 
@@ -272,17 +272,16 @@ public class ServicosUnidade {
                 if(k.getInt("operacao") == 1){
                     
                     //busca se existe o cultivar no estoque
-                    te = (TOEstoque) BOFactory.get(new DAOEstoque(), te, null);
+                    te = (TOEstoque) BOFactory.get(new DAOEstoque(), te, "default");
 
 //                    se nao existe cria uma nova entrada
                     if(te == null){
                         te = new TOEstoque();
-                        te.setUnidademedida_idunidademedida(k.getLong("um"));
                         te.setQuantidade(k.getDouble("qtd"));
                         te.setUnidade_idunidade(k.getLong("idunidade"));
                         te.setCultivar_idcultivar(k.getLong("idcultivar"));
                         
-                        BOFactory.inserir(new DAOEstoque(), te, null);
+                        BOFactory.inserir(new DAOEstoque(), te, "default");
                         
                         if(historicoIOEstoque(k)){
                             j.put("sucesso", true);
@@ -301,7 +300,7 @@ public class ServicosUnidade {
                         
                         te.setQuantidade(te.getQuantidade() + k.getDouble("qtd"));
                         
-                        BOFactory.editar(new DAOEstoque(), te, null);
+                        BOFactory.editar(new DAOEstoque(), te, "default");
                         
                         if(historicoIOEstoque(k)){
                             j.put("sucesso", true);
@@ -320,7 +319,7 @@ public class ServicosUnidade {
                     te = (TOEstoque) BOFactory.get(new DAOEstoque(), te, k.getString("metodo"));
                     
                     te.setQuantidade(te.getQuantidade() - k.getDouble("qtd"));
-                    BOFactory.editar(new DAOEstoque(), te, null);
+                    BOFactory.editar(new DAOEstoque(), te, "default");
                     
    
                     
@@ -455,13 +454,12 @@ public class ServicosUnidade {
             TOIOEstoque tio = new TOIOEstoque();
             tio.setUnidade_idunidade(k.getLong("idunidade"));
             tio.setCultivar_idcultivar(k.getLong("idcultivar"));
-            tio.setUnidademedida_idunidademedida(k.getLong("um"));
             tio.setQuantidade(k.getDouble("qtd"));
             tio.setData_io(getDataAtual());
             tio.setOperacao(k.getInt("operacao"));
             tio.setLogin_idlogin(k.getLong("id"));
 
-            BOFactory.inserir(new DAOIOEstoque(), tio, null);
+            BOFactory.inserir(new DAOIOEstoque(), tio, "default");
             
             return true;
         }catch(Exception e){
