@@ -1,5 +1,5 @@
-//var ipServidor = 'localhost:8080'; //sistema em producao
-var ipServidor = "187.19.101.252:8082"; //sistema rodando fora
+var ipServidor = 'localhost:8080'; //sistema em producao
+//var ipServidor = "187.19.101.252:8082"; //sistema rodando fora
 //var ipServidor = "10.1.2.52:8080"; //sistema teste interno
 
 
@@ -1634,7 +1634,7 @@ function progEstoqueUnidade(){
 
 
 
-                $("#divItens").empty().append('<h2 class="sub-header">Cultivares no estoque</h2>  <button type="button" title="Entrada de estoque" class="btn btn-warning" id="entradaEstoque" ><span class="fa fa-plus-square" aria-hidden="true"></span></button><button type="button" title="Saída de estoque" class="btn btn-warning" disabled id="saidaEstoque" ><span class="fa fa-minus-square" aria-hidden="true"></span></button>               <div id="teste" class="table-responsive"><table class="table table-hover"><thead><tr><th>ID</th><th>Nome cultivar</th><th>Quantidade</th><th>Unidade de medida</th></tr></thead><tbody>'+items+'</tbody></table></div>');
+                $("#divItens").empty().append('<h2 class="sub-header">Cultivares no estoque</h2>  <button type="button" title="Entrada de estoque" class="btn btn-warning" id="entradaEstoque" ><span class="fa fa-plus-square" aria-hidden="true"></span></button><button type="button" title="Saída de estoque" class="btn btn-warning" disabled id="saidaEstoque" ><span class="fa fa-minus-square" aria-hidden="true"></span></button>               <div class="table-responsive"><table id="tabEstoqueUnidade" class="table table-hover"><thead><tr><th>ID</th><th>Nome cultivar</th><th>Quantidade</th><th>Unidade de medida</th></tr></thead><tbody>'+items+'</tbody></table></div>');
                 $("#divItens").show();
 
 
@@ -1787,15 +1787,10 @@ $(document).on("blur", "#listaCultivares", function(){
     
     
     //muda para inteiro ou decimal os valores aceito pelo input
-    //kilos =7
-    if(valores.grandeza === "Kilo(s)"){
-        $("#qtdCultivarDist").attr("min", "0.01");
-        $("#qtdCultivarDist").attr("step", "0.01");
-    //ramas =5 e maniva =6    
-    }else{
-        $("#qtdCultivarDist").attr("min", "1");
-        $("#qtdCultivarDist").attr("step", "1");
-    }
+
+    $("#qtdCultivarDist").attr("min", get_nin_step(valores.grandeza).min);
+    $("#qtdCultivarDist").attr("step", get_nin_step(valores.grandeza).step);
+
     
     $("#qtdCultivarDist").attr("max", valores.quantidade);
     //muda o label de acordo com a quantidade e grandeza do cultivar selecionado
@@ -2096,55 +2091,91 @@ $(document).on("blur", "#cultEntEstoque", function(e){
     $("#qtdCultivarEnt").val("");
     
 
-    //muda para inteiro ou decimal os valores aceito pelo input
-    //kilos =7
-    if(valores.grandeza === "Kilo(s)"){
-        $("#qtdCultivarEnt").attr("min", "0.01");
-        $("#qtdCultivarEnt").attr("step", "0.01");
-    //ramas =5 e maniva =6    
-    }else{
-        $("#qtdCultivarEnt").attr("min", "1");
-        $("#qtdCultivarEnt").attr("step", "1");
-    }
-    
+
+    $("#qtdCultivarEnt").attr("min", get_nin_step(valores.grandeza).min);
+    $("#qtdCultivarEnt").attr("step", get_nin_step(valores.grandeza).step);
+      
+
     return false;
 });
 
+
+function get_nin_step(grandeza){
+    //muda para inteiro ou decimal os valores aceito pelo input
+
+    var min_step = {};
+    //kilos =7 
+    if(grandeza === "Kilo(s)"){
+        min_step = {
+            min: "0.01",
+            step: "0.01"
+        };
+    
+    //ramas =5 e maniva =6      
+    }else{
+        min_step = {
+            min: "1",
+            step: "1"
+        };
+    }
+
+    return min_step;
+}
+
 //botao saida de estoque
 $(document).on("click", "#saidaEstoque", function(e){
-    $("#divItens").fadeOut(400, function (){
-    $("#divItens").hide(); 
-    
     
 
-                $("#tituloProgresso").text("Saída de estoque");
-                $("#progressoRef").text("");
+    var Sessao = getSessao();
+    var envio = {
+        metodo: "get_cultivar_estoque",
+        idcultivar: $('#tabEstoqueUnidade').find('.warning').find('td:eq(0)').html(),
+        idunidade: Sessao.idunidade,
+        id: Sessao.idlogin,
+        sessao: Sessao.sessao
+    };
+    //chama a requisicao do servidor, o resultado a quantidade de cultivar no estoque
+        requisicao(true, "cultivar/buscar", envio, function(dadosRetorno) {
+
+            if(dadosRetorno.sucesso){
                 
-                $("#qtdProgresso").empty().append('<li role="presentation" class="active"><a href="#progresso1" data-toggle="tab" aria-controls="progresso1" role="tab" title="Cultivar e quantidade"><span class="round-tab"><i class="fa fa-bullhorn"></i></span></a></li>\n\
-                                                   <li role="presentation" class="disabled"><a href="#completo" data-toggle="tab" aria-controls="completo" role="tab" title="Salvar"><span class="round-tab"><i class="fa fa-save"></i></span></a></li>');
+                $("#divItens").fadeOut(400, function (){
+                    $("#divItens").hide(); 
 
-                $("#formProgresso").empty().append('<div class="tab-pane active" role="tabpanel" id="progresso1">       <form  data-toggle="validator" role="form" id="saidaCultiEstoque" >          <div class="form-group"><label for="motivoSaida" class="control-label">Motivo:</label><select class="form-control " id="motivoSaida" data-error="Por favor, informe o cultivar." required ><option></option><option>Perda</option><option>Outros</option></select><div class="help-block with-errors"></div></div>      <div class="form-group"><label for="qtdCultivarSaida" class="control-label">Quantidade:</label><input type="number" class="form-control " min="0.01" id="qtdCultivarSaida" placeholder="Digite a quantidade de entrada..." step="0.01" data-error="Por favor, informe a quantidade de saída." required ><div class="help-block with-errors"></div></div>            <div class="form-group"> <button type="submit" style="float: right;" class="btn btn-warning next-step">Continuar</button> </div>   </form>     </div>\n\
-                                                    <div class="tab-pane"  id="completo"><h3>Deseja realmente dar saída no estoque?</h3><div class="form-group"> <button type="click" style="float: right;" id="salvarSaidaEstoque" class="btn btn-warning">Salvar</button> </div></div>                                         <div class="clearfix"></div>');
+                    $("#tituloProgresso").text("Saída de estoque");
+                    $("#progressoRef").text("");
 
-                
-                //tamanho do icone do progresso de acordo com a quantidade
-                $("#qtdProgresso li").css("width", 100/2  + "%");
-                
-                var inputFocus = "#cultSaidaEstoque";
-                $('#saidaCultiEstoque').validator();
-           
-           
-           
-           
-        $("#iconesProgresso").fadeIn(400);
-        
+                    $("#qtdProgresso").empty().append('<li role="presentation" class="active"><a href="#progresso1" data-toggle="tab" aria-controls="progresso1" role="tab" title="Cultivar e quantidade"><span class="round-tab"><i class="fa fa-bullhorn"></i></span></a></li>\n\
+                                                       <li role="presentation" class="disabled"><a href="#completo" data-toggle="tab" aria-controls="completo" role="tab" title="Salvar"><span class="round-tab"><i class="fa fa-save"></i></span></a></li>');
 
-            $(inputFocus).focus();    
+                    $("#formProgresso").empty().append('<div class="tab-pane active" role="tabpanel" id="progresso1">       <form  data-toggle="validator" role="form" id="saidaCultiEstoque" >          <div class="form-group"><label for="motivoSaida" class="control-label">Motivo:</label><select class="form-control " id="motivoSaida" data-error="Por favor, informe o cultivar." required ><option></option><option>Perda</option><option>Outros</option></select><div class="help-block with-errors"></div></div>   <div class="form-group"><label for="obsmotivo" class="control-label">Observação:</label><textarea class="form-control" id="obsmotivo" placeholder="Digite uma observação do motivo..." ></textarea></div>    <div class="form-group"><label for="qtdCultivarSaida" class="control-label">Quantidade em '+ dadosRetorno.data.grandeza+':</label><input type="number" class="form-control" id="qtdCultivarSaida" max='+ dadosRetorno.data.quantidade +' min='+ get_nin_step(dadosRetorno.data.grandeza).min +' step='+ get_nin_step(dadosRetorno.data.grandeza).step +' placeholder="Digite a quantidade de entrada..."  data-error="Por favor, informe a quantidade de saída." required ><div class="help-block with-errors"></div></div>            <div class="form-group"> <button type="submit" style="float: right;" class="btn btn-warning next-step">Continuar</button> </div>   </form>     </div>\n\
+                                                        <div class="tab-pane"  id="completo"><h3>Deseja realmente dar saída no estoque?</h3><div class="form-group"> <button type="click" style="float: right;" id="salvarSaidaEstoque" class="btn btn-warning">Salvar</button> </div></div>                                         <div class="clearfix"></div>');
+
+
+                    //tamanho do icone do progresso de acordo com a quantidade
+                    $("#qtdProgresso li").css("width", 100/2  + "%");
+
+                    var inputFocus = "#cultSaidaEstoque";
+                    $('#saidaCultiEstoque').validator();
+
+                    $("#iconesProgresso").fadeIn(400);
+                    $(inputFocus).focus();    
+
+                });
+
+                //retira o painel loading
+                $(".painelCarregando").fadeOut(400);
+            }else{
+                //retira o painel loading
+                $(".painelCarregando").fadeOut(400);
+                alerta("Alerta!", dadosRetorno.mensagem);
+            }
+            //atualiza a sessao
+            updateSessao(dadosRetorno.sessao);
+        });
     
     
-
     
-    });
     
     return false;
 });

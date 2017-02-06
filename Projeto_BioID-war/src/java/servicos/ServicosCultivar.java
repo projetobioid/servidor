@@ -75,19 +75,41 @@ public class ServicosCultivar {
                 BOFactory.editar(new DAOSessao(), ts, "update_sessao");  
                 
                 //comeca a requisicao
-                TOCultivar p = new TOCultivar();
-                p.setIdcultivar(k.getLong("idcultivar"));
-                p = (TOCultivar) BOFactory.get(new DAOCultivar(), p, k.getString("metodo"));
+                switch(k.getString("metodo")){
+                    case "get_cultivar":
+                        TOCultivar p = new TOCultivar();
+                        p.setIdcultivar(k.getLong("idcultivar"));
+                        p = (TOCultivar) BOFactory.get(new DAOCultivar(), p, k.getString("metodo"));
+                        if(p == null){
+                            j.put("sucesso", false);
+                            j.put("sessao", novaSessao);
+                            j.put("mensagem", "Cultivar não encontrado");
+                        }else{
+                            j.put("data", p.getJson(k.getString("metodo")));
+                            j.put("sessao", novaSessao);
+                            j.put("sucesso", true);
+                        }
+                    
+                        break;
+                    case "get_cultivar_estoque":
+                        TOEstoque te = new TOEstoque();
+                        te.setCultivar_idcultivar(k.getLong("idcultivar"));
+                        te.setUnidade_idunidade(k.getLong("idunidade"));
+                        te = (TOEstoque) BOFactory.get(new DAOEstoque(), te, k.getString("metodo"));
+                        
+                        if(te == null){
+                            j.put("sucesso", false);
+                            j.put("sessao", novaSessao);
+                            j.put("mensagem", "Cultivar no estoque não encontrado!");
+                        }else{
+                            j.put("data", te.getJson(k.getString("metodo")));
+                            j.put("sessao", novaSessao);
+                            j.put("sucesso", true);
+                        }
 
-                if(p == null){
-                    j.put("sucesso", false);
-                    j.put("sessao", novaSessao);
-                    j.put("mensagem", "Cultivar não encontrado");
-                }else{
-                    j.put("data", p.getJson(k.getString("metodo")));
-                    j.put("sessao", novaSessao);
-                    j.put("sucesso", true);
+                        break;
                 }
+                
             }
         }catch(Exception e){
             j.put("sucesso", false);

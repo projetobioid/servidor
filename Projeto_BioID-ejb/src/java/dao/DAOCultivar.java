@@ -94,7 +94,7 @@ public class DAOCultivar extends DAOBase {
                 case "get_cultivar":
                     sql = "SELECT c.idcultivar, um.grandeza, c.nomecultivar, c.imagem, c.descricao, c.biofortificado, c.valornutricional, c.tempodecolheita, c.tempodestinacao, c.peso_saca "
                         + "FROM cultivar c INNER JOIN unidademedida um ON(um.idunidademedida = c.unidademedida_idunidademedida)"
-                        + " where c.idcultivar IN(?)";
+                        + " WHERE c.idcultivar IN(?)";
                 break;
                 
                 default:

@@ -88,12 +88,18 @@ public class TOEstoque extends TOBase{
         switch (metodo) {
             case "estoqueunidade":
             case "estoqueunidade_select":
-                this.quantidade = rs.getFloat("quantidade");
+                this.quantidade = rs.getDouble("quantidade");
                 this.nomecultivar = rs.getString("nomecultivar");
                 this.cultivar_idcultivar = rs.getLong("cultivar_idcultivar");
                 this.grandeza = rs.getString("grandeza");
                 break;
             //retorna toda a classe
+            case "get_cultivar_estoque":
+                this.unidade_idunidade = rs.getLong("unidade_idunidade");
+                this.cultivar_idcultivar = rs.getLong("cultivar_idcultivar");
+                this.quantidade = rs.getFloat("quantidade");
+                this.grandeza = rs.getString("grandeza");
+                break;
             default:
                 this.unidade_idunidade = rs.getLong("unidade_idunidade");
                 this.cultivar_idcultivar = rs.getLong("cultivar_idcultivar");
@@ -118,12 +124,21 @@ public class TOEstoque extends TOBase{
                 j.put("idcultivar", cultivar_idcultivar);
                 break;
             case "distribuircultivar":
-                j.put("quantidade", quantidade);
+                BigDecimal bd1 = new BigDecimal(quantidade).setScale(2, RoundingMode.HALF_EVEN);
+                j.put("quantidade", bd1.doubleValue());
+                break;
+            case "get_cultivar_estoque":
+                j.put("unidade_idunidade", unidade_idunidade);
+                j.put("cultivar_idcultivar", cultivar_idcultivar);
+                BigDecimal bd2 = new BigDecimal(quantidade).setScale(2, RoundingMode.HALF_EVEN);
+                j.put("quantidade", bd2.doubleValue());
+                j.put("grandeza", grandeza);
                 break;
             default:
                 j.put("unidade_idunidade", unidade_idunidade);
                 j.put("cultivar_idcultivar", cultivar_idcultivar);
-                j.put("quantidade", quantidade);
+                BigDecimal bd3 = new BigDecimal(quantidade).setScale(2, RoundingMode.HALF_EVEN);
+                j.put("quantidade", bd3.doubleValue());
                 break;
         }
         

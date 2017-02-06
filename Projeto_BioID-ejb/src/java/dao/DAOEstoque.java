@@ -34,10 +34,19 @@ public class DAOEstoque extends DAOBase{
             List<Object> u = new ArrayList<Object>();
             
             switch(metodo){
-                default:
-                    sql = "SELECT * FROM estoque WHERE unidade_idunidade IN(?) AND cultivar_idcultivar IN (?)";
-                    u.add(((TOEstoque)t).getUnidade_idunidade());
+                case "get_cultivar_estoque":
+                    sql = "SELECT e.unidade_idunidade, e.cultivar_idcultivar, e.quantidade, um.grandeza FROM estoque e "
+                            + "INNER JOIN cultivar c ON(c.idcultivar = e.cultivar_idcultivar) "
+                            + "INNER JOIN unidademedida um ON(um.idunidademedida = c.unidademedida_idunidademedida) "
+                            + "WHERE cultivar_idcultivar IN(?) AND unidade_idunidade IN(?)";
                     u.add(((TOEstoque)t).getCultivar_idcultivar()); 
+                    u.add(((TOEstoque)t).getUnidade_idunidade());
+                    break;
+                default:
+                    sql = "SELECT * FROM estoque "
+                            + "WHERE cultivar_idcultivar IN(?) AND unidade_idunidade IN(?)";
+                    u.add(((TOEstoque)t).getCultivar_idcultivar()); 
+                    u.add(((TOEstoque)t).getUnidade_idunidade());
                     break;
             }
             
