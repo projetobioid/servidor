@@ -33,6 +33,8 @@
                 $("#modalApresentacao").on('hidden.bs.modal', function () {
                     alertFocus();
                 });
+                
+//                camposOcultos();
             };
             
         </script>
@@ -76,10 +78,11 @@
               <div id="navbar" class="navbar-collapse collapse">
                 <ul id="listaCollapse" class="nav navbar-nav navbar-right">
                     <li><a href="#" id="configuracoes" >Configurações</a></li>
-                  <li><a href="#" id="ajuda" >Ajuda</a></li>
-                  <li><a href="#" id="sair" >Sair</a></li>
+                  <!--<li><a href="#" id="ajuda" >Ajuda</a></li>-->
+                  <li><a href="#" id="deslogar" >Deslogar</a></li>
                 </ul>
               </div>
+                
 <!--                <div class="nha">
                     <p>aisdjfasdh</p>
                 </div>-->
@@ -98,20 +101,20 @@
     <div class="container-fluid">
       <div class="row main">
           <!--menu lateral-->
-        <div class="col-sm-3 col-md-2 sidebar">
+        <div id = "sidebarMenu" class="col-sm-3 col-md-2 sidebar">
           <ul class="nav nav-sidebar" id="painelGerenciamento">
             <li class="active"><a href="#">Gerenciamento: <span class="sr-only">(current)</span></a></li>
-            <li><a class="a" href="#">Distribuir cultivares</a></li>
-            <li><a class="a" href="#">Estoque da unidade</a></li>
-            <li><a class="a" href="#">Relatar safra</a></li>
-            <li><a class="a" href="#">Sincronizar app</a></li>
+            <li><a class="a " href="#">Distribuir cultivares</a></li>
+            <li><a class="a " href="#">Estoque da unidade</a></li>
+            <li><a class="a " href="#">Relatar safra</a></li>
+            <li><a class="a " href="#">Sincronizar app</a></li>
           </ul>
-          <ul class="nav nav-sidebar" id="painelCadastros">
+          <ul class="nav nav-sidebar  " id="painelCadastros">
             <li class="active"><a href="#">Cadastros: <span class="sr-only">(current)</span></a></li>
-            <li><a class="a" href="#" >Agricultores</a></li>
-            <li><a class="a" href="#" >Cultivares</a></li>
-            <li><a class="a" href="#" >Unidades</a></li>
-            <li><a class="a" href="#" >Usuários</a></li>
+            <li><a class="a " href="#" >Agricultores</a></li>
+            <li><a class="a " href="#" >Cultivares</a></li>
+            <li><a class="a " href="#" >Unidades</a></li>
+            <li><a class="a " href="#" >Usuários</a></li>
           </ul>
 <!--          <ul class="nav nav-sidebar">
             <li class="active"><a href="#">Unidade: <span class="sr-only">(current)</span></a></li>
@@ -321,6 +324,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-warning" data-dismiss="modal">Sair</button>
+                    
                 </div>
               </div>
             </div>
@@ -369,17 +373,17 @@
             <p></p>
 
             <hr>
-            <a class="backgroundVerde" href="#" style="font-size: 25px;"><span class="fa fa-commenting" ></span><span class="fa fa-chevron-right" style="float: right; font-size: 30px"></span>Relatar safra</a>
+            <a class="backgroundVerde  hidden" href="#" style="font-size: 25px;"><span class="fa fa-commenting" ></span><span class="fa fa-chevron-right" style="float: right; font-size: 30px"></span>Relatar safra</a>
             <hr>
-            <a class="backgroundVerde" href="#" style="font-size: 25px"><span class="fa fa-cloud-upload" ></span><span class="fa fa-chevron-right" style="float: right; font-size: 30px"></span>Sincronizar app</a>
+            <a class="backgroundVerde  hidden" href="#" style="font-size: 25px"><span class="fa fa-cloud-upload" ></span><span class="fa fa-chevron-right" style="float: right; font-size: 30px"></span>Sincronizar app</a>
             <hr>
-            <a class="backgroundVerde" href="#" style="font-size: 25px"><span class="fa fa-users" ></span><span class="fa fa-chevron-right" style="float: right; font-size: 30px"></span>Agricultores</a>
+            <a class="backgroundVerde hidden" href="#" style="font-size: 25px"><span class="fa fa-users" ></span><span class="fa fa-chevron-right" style="float: right; font-size: 30px"></span>Agricultores</a>
             <hr>
-            <a class="backgroundVerde" href="#" style="font-size: 25px"><span class="fa fa-leaf" ></span><span class="fa fa-chevron-right" style="float: right; font-size: 30px"></span>Cultivares</a>
+            <a class="backgroundVerde hidden" href="#" style="font-size: 25px"><span class="fa fa-leaf" ></span><span class="fa fa-chevron-right" style="float: right; font-size: 30px"></span>Cultivares</a>
             <hr>
-            <a class="backgroundVerde" href="#" style="font-size: 25px"><span class="fa fa-university" ></span><span class="fa fa-chevron-right" style="float: right; font-size: 30px"></span>Unidades</a>
+            <a class="backgroundVerde hidden" href="#" style="font-size: 25px"><span class="fa fa-university" ></span><span class="fa fa-chevron-right" style="float: right; font-size: 30px"></span>Unidades</a>
             <hr>
-            <a class="backgroundVerde" href="#" style="font-size: 25px"><span class="fa fa-user-secret" ></span><span class="fa fa-chevron-right" style="float: right; font-size: 30px"></span>Usuários</a>
+            <a class="backgroundVerde hidden" href="#" style="font-size: 25px"><span class="fa fa-user-secret" ></span><span class="fa fa-chevron-right" style="float: right; font-size: 30px"></span>Usuários</a>
         </div>
          
     </div>
