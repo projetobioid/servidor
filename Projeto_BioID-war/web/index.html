@@ -36,8 +36,16 @@
         <div class="container" >
 
 
-
-          <div class="row">
+            <div>
+             <form method="post" action="j_security_check" class="login">
+                 <h3>Digite seu login e senha:</h3>   
+                 <input type="text" id="username" name="j_username"value="usuario"/>
+                 <input type ="password" id="password" name="j_password" value="senha"/>
+                 <input type="submit" name="submit" value="Login"/>
+             </form>    
+            </div>
+            
+            <div class="row" hidden="">
 
               <!--<div class="col-xs-6 col-xs-offset-3 col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1 text-center">-->
                   <div class="col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1 col-lg-4 col-lg-offset-4 text-center">
