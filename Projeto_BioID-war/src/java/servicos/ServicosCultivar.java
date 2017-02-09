@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package servicos;
 
 import bo.BOFactory;
@@ -10,11 +5,9 @@ import dao.DAOCultivar;
 import dao.DAOSafra;
 import dao.DAOEstoque;
 import dao.DAOIOEstoque;
-import dao.DAOSessao;
+import fw.VerificarSessao;
 import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.math.RoundingMode;
-import java.security.SecureRandom;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
@@ -28,7 +21,6 @@ import to.TOCultivar;
 import to.TOSafra;
 import to.TOEstoque;
 import to.TOIOEstoque;
-import to.TOSessao;
 
 /**
  * REST Web Service
@@ -56,59 +48,28 @@ public class ServicosCultivar {
         JSONObject j = new JSONObject();
         JSONObject k = new JSONObject(dataJson);
         
-        try{               
-            //verificar sessao
-            TOSessao ts = new TOSessao();
-            ts.setLogin_idlogin(k.getLong("id"));
-            ts.setSessao(k.getString("sessao"));
+        try{       
+            //verifica  a sessao
+            VerificarSessao vs = new VerificarSessao();
+            String sessao = vs.VerificarSessao(k.getLong("id"), k.getString("sessao"));
             
-            ts = (TOSessao) BOFactory.get(new DAOSessao(), ts, "get_sessao");
-            
-            
-            if(ts == null){
+            if( sessao == null){
                 j.put("sucesso", false);
                 j.put("mensagem", "Sessao não encontrada!");
             }else{
-                SecureRandom random = new SecureRandom();
-                String novaSessao = new BigInteger(130, random).toString(32);
-                ts.setSessao(novaSessao);
-                BOFactory.editar(new DAOSessao(), ts, "update_sessao");  
-                
                 //comeca a requisicao
-                switch(k.getString("metodo")){
-                    case "get_cultivar":
-                        TOCultivar p = new TOCultivar();
-                        p.setIdcultivar(k.getLong("idcultivar"));
-                        p = (TOCultivar) BOFactory.get(new DAOCultivar(), p, k.getString("metodo"));
-                        if(p == null){
-                            j.put("sucesso", false);
-                            j.put("sessao", novaSessao);
-                            j.put("mensagem", "Cultivar não encontrado");
-                        }else{
-                            j.put("data", p.getJson(k.getString("metodo")));
-                            j.put("sessao", novaSessao);
-                            j.put("sucesso", true);
-                        }
-                    
-                        break;
-                    case "get_cultivar_estoque":
-                        TOEstoque te = new TOEstoque();
-                        te.setCultivar_idcultivar(k.getLong("idcultivar"));
-                        te.setUnidade_idunidade(k.getLong("idunidade"));
-                        te = (TOEstoque) BOFactory.get(new DAOEstoque(), te, k.getString("metodo"));
-                        
-                        if(te == null){
-                            j.put("sucesso", false);
-                            j.put("sessao", novaSessao);
-                            j.put("mensagem", "Cultivar no estoque não encontrado!");
-                        }else{
-                            j.put("data", te.getJson(k.getString("metodo")));
-                            j.put("sessao", novaSessao);
-                            j.put("sucesso", true);
-                        }
-
-                        break;
-                }
+                TOCultivar p = new TOCultivar();
+                p.setIdcultivar(k.getLong("idcultivar"));
+                p = (TOCultivar) BOFactory.get(new DAOCultivar(), p, k.getString("metodo"));
+                if(p == null){
+                    j.put("sucesso", false);
+                    j.put("sessao", sessao);
+                    j.put("mensagem", "Cultivar não encontrado");
+                }else{
+                    j.put("data", p.getJson(k.getString("metodo")));
+                    j.put("sessao", sessao);
+                    j.put("sucesso", true);
+                }           
                 
             }
         }catch(Exception e){
@@ -125,71 +86,35 @@ public class ServicosCultivar {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public String listar(
-            String dataJson
-            
-            ) throws Exception{
+    public String listar(String dataJson) throws Exception{
         
         JSONObject j = new JSONObject();
         JSONObject k = new JSONObject(dataJson);
         
         try{
             
-            //verificar sessao
-            TOSessao ts = new TOSessao();
-            ts.setLogin_idlogin(k.getLong("id"));
-            ts.setSessao(k.getString("sessao"));
+            //verifica  a sessao
+            VerificarSessao vs = new VerificarSessao();
+            String sessao = vs.VerificarSessao(k.getLong("id"), k.getString("sessao"));
             
-            ts = (TOSessao) BOFactory.get(new DAOSessao(), ts, "get_sessao");
-            
-            
-            if(ts == null){
+            if( sessao == null){
                 j.put("sucesso", false);
                 j.put("mensagem", "Sessao não encontrada!");
             }else{
-                SecureRandom random = new SecureRandom();
-                String novaSessao = new BigInteger(130, random).toString(32);
-                ts.setSessao(novaSessao);
-                BOFactory.editar(new DAOSessao(), ts, "update_sessao");  
-                
                 //comeca a requisicao
                 JSONArray ja = null;
                 
-                switch (k.getString("metodo")) {
-                    case "bio":
                         ja = BOFactory.listar(new DAOCultivar(), null, k.getString("metodo"));
-                    break;
-                    
-                    case "naobio":
-//                        ja = BOFactory.listar(new DAOCultivar(), k.getString("metodo"));
-                    break;
-                    
-                    case "recebidos":
-//                        ja = BOFactory.listar(new DAOCultivar(), k.getString("metodo"));
-                    break;
-                    
-                    case "estoqueunidade":
-                    case "estoqueunidade_select":
-                        TOEstoque t = new TOEstoque();
-                        t.setUnidade_idunidade(k.getLong("idunidade"));
-                        //lista os cultivares do estoque
-                        ja = BOFactory.listar(new DAOEstoque(), t, k.getString("metodo") );
-                        break;
-                    default:
-                        break;
-                }
-                
-                
-                
+                   
                 
                 if(ja.length() > 0){
                     j.put("data", ja);
                     j.put("sucesso", true);
-                    j.put("sessao", novaSessao);
+                    j.put("sessao", sessao);
                 }else{
                     j.put("sucesso", false);
                     j.put("mensagem", "Sem "+ k.getString("metodo"));
-                    j.put("sessao", novaSessao);
+                    j.put("sessao", sessao);
                 }
                 
             }
@@ -208,9 +133,7 @@ public class ServicosCultivar {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public String inserir(
-            String dataJson
-            ) throws Exception{
+    public String inserir(String dataJson) throws Exception{
         
        
                 
@@ -219,23 +142,14 @@ public class ServicosCultivar {
         
         try{
             
-            //verificar sessao
-            TOSessao ts = new TOSessao();
-            ts.setLogin_idlogin(k.getLong("id"));
-            ts.setSessao(k.getString("sessao"));
+             //verifica  a sessao
+            VerificarSessao vs = new VerificarSessao();
+            String sessao = vs.VerificarSessao(k.getLong("id"), k.getString("sessao"));
             
-            ts = (TOSessao) BOFactory.get(new DAOSessao(), ts, "get_sessao");
-            
-            
-            if(ts == null){
+            if( sessao == null){
                 j.put("sucesso", false);
                 j.put("mensagem", "Sessao não encontrada!");
             }else{
-                SecureRandom random = new SecureRandom();
-                String novaSessao = new BigInteger(130, random).toString(32);
-                ts.setSessao(novaSessao);
-                BOFactory.editar(new DAOSessao(), ts, "update_sessao");  
-                
                 //comeca a requisicao
             
             
@@ -258,10 +172,10 @@ public class ServicosCultivar {
 
                     j.put("sucesso", true);
                     j.put("mensagem", "Cultivar cadastrado com sucesso!");
-                    j.put("sessao", novaSessao);
+                    j.put("sessao", sessao);
                 }else{
                    j.put("sucesso", false);
-                   j.put("sessao", novaSessao);
+                   j.put("sessao", sessao);
                    j.put("mensagem", "Cultivar já cadastrado!");
                 }
             
@@ -364,23 +278,14 @@ public class ServicosCultivar {
         
         try{
             
-            //verificar sessao
-            TOSessao ts = new TOSessao();
-            ts.setLogin_idlogin(k.getLong("id"));
-            ts.setSessao(k.getString("sessao"));
+             //verifica  a sessao
+            VerificarSessao vs = new VerificarSessao();
+            String sessao = vs.VerificarSessao(k.getLong("id"), k.getString("sessao"));
             
-            ts = (TOSessao) BOFactory.get(new DAOSessao(), ts, "get_sessao");
-            
-            
-            if(ts == null){
+            if( sessao == null){
                 j.put("sucesso", false);
                 j.put("mensagem", "Sessao não encontrada!");
             }else{
-                SecureRandom random = new SecureRandom();
-                String novaSessao = new BigInteger(130, random).toString(32);
-                ts.setSessao(novaSessao);
-                BOFactory.editar(new DAOSessao(), ts, "update_sessao");  
-                
                 //comeca a requisicao
                 
                 TOEstoque te = new TOEstoque();
@@ -434,10 +339,10 @@ public class ServicosCultivar {
 
                     j.put("sucesso", true);
                     j.put("mensagem", "Distribuição com sucesso!");
-                    j.put("sessao", novaSessao); 
+                    j.put("sessao", sessao); 
                 }else{
                     j.put("sucesso", false);
-                    j.put("sessao", novaSessao); 
+                    j.put("sessao", sessao); 
                     j.put("mensagem", "Quantidade não equivalente no estoque da unidade!");
                 }
                 

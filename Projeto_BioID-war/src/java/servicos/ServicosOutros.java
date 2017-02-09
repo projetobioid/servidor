@@ -6,7 +6,12 @@ lista cidade
 package servicos;
 
 import bo.BOFactory;
+import dao.DAOLogin;
 import dao.DAOOutrosIDNome;
+import dao.DAOSessao;
+import fw.Criptografia;
+import java.math.BigInteger;
+import java.security.SecureRandom;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
@@ -16,7 +21,9 @@ import javax.ws.rs.Path;
 import javax.ws.rs.core.MediaType;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import to.TOLogin;
 import to.TOOutrosIDNome;
+import to.TOSessao;
 
 /**
  * REST Web Service
@@ -33,12 +40,67 @@ public class ServicosOutros {
     public ServicosOutros() {
     }
 
+    //login
+    @Path("validacao")
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public String login(String dataJson) throws Exception{
+        
+        //objeto de retorno da requisicao
+        JSONObject j = new JSONObject();
+        JSONObject k = new JSONObject(dataJson);
+        
+        try{
+            TOLogin to = new TOLogin();
+            
+           
+
+            to.setUsuario(k.getString("usuario"));
+            to.setSenha(Criptografia.md5(k.getString("senha")));
+            
+            
+            to = (TOLogin) BOFactory.get(new DAOLogin(), to, k.getString("metodo"));
+            
+            if(to == null){
+                j.put("sucesso", false);
+                j.put("mensagem", "Usuário ou senha incorretos!");
+            }else{
+                //gera um idsessao e cria um novo registro
+                TOSessao ts = new TOSessao();
+                SecureRandom random = new SecureRandom();     
+        
+                ts.setLogin_idlogin(to.getIdlogin());
+                ts.setSessao(new BigInteger(130, random).toString(32));
+                
+                
+             
+                //salva uma nova sessao no banco de dados
+                BOFactory.inserir(new DAOSessao(), ts, k.getString("metodo"));
+                
+                //atribui o valor da nova sessao para o retorno
+                to.setSessao(ts.getSessao());
+                //retorna valores do login
+                j.put("data", to.getJson("default"));
+                j.put("sucesso", true);
+                //retorna a data de login que espirará em um tempo determinado
+                //j.put("logTempo", ((730 * Float.parseFloat(getData("M"))) - (730 - (Float.parseFloat(getData("d"))*24)))+168 );
+                
+                
+            }
+        }catch (Exception e){
+            j.put("sucesso", false);
+            j.put("mensagem", e.getMessage());
+        }
+        
+        return j.toString();
+    }
     
-   @POST
-   @Path("listar")  
-   @Consumes(MediaType.APPLICATION_JSON)
-   @Produces(MediaType.APPLICATION_JSON)
-   public String listar(String dataJson) throws Exception{
+    @POST
+    @Path("listar")  
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public String listar(String dataJson) throws Exception{
         
         JSONObject j = new JSONObject();
         

@@ -69,7 +69,7 @@ function enviarRequisicao(){
 
     $.ajax({
         type: 'POST',
-        url: "http://"+ipServidor+"/Projeto_BioID-war/servico/pessoa/validacao",
+        url: "http://"+ipServidor+"/Projeto_BioID-war/servico/outros/validacao",
         data: JSON.stringify(envio),
         headers: { 
         'Accept': 'application/json',
