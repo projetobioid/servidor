@@ -5,14 +5,14 @@ var ipServidor = 'localhost:8080'; //sistema em producao
 /* button carregar page entrar*/
 $(document).on("click", "#goPagEntrar", function(evt)
 {
-    $("#inputUsuario").val("");
-    $("#inputSenha").val("");
+    $("#username").val("");
+    $("#password").val("");
     $("#formLogin").validator();
     
     $("#page_inicial").fadeOut(100, function(evt){
 
         $("#page_entrar").fadeIn(100);
-        $("#inputUsuario").focus();
+        $("#username").focus();
     });
     
     
@@ -34,114 +34,84 @@ $(document).on("click", "#voltarInicio", function(evt)
 });
 
 
-//entar
-$(document).on("submit", "#formLogin", function(evt)
-{
-
-    if(!evt.isDefaultPrevented()){
-        enviarRequisicao();
-    }
-
-    return false;
-});
-
 $(document).on("click", "#fecharAlert", function(evt)
 {
     $("#alerta").fadeOut(400);
+//    window.location.href = 'home.html';
+//    $("#page_inicial").fadeOut(100, function(evt){
+//
+//        $("#page_entrar").fadeIn(100);
+//        $("#inputUsuario").focus();
+//    });
 
     return false;
 });
-
-$(document).on("click", "#esqueceuSenha", function(evt)
+$(document).on("click", "#test", function(evt)
 {
-    
-    alert("Em construção!");
+// deleteAllCookies();
+alert(document.cookie);
 
     return false;
 });
 
-function enviarRequisicao(){
-    var envio = {usuario: $("#inputUsuario").val(),
-                    senha: $.md5($("#inputSenha").val()),
-                    metodo: "validacao"
-                };
 
 
-    $.ajax({
-        type: 'POST',
-        url: "http://"+ipServidor+"/Projeto_BioID-war/servico/outros/validacao",
-        data: JSON.stringify(envio),
-        headers: { 
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-        },
-        success: function(retorno){
-            if(retorno.sucesso){
+function deleteAllCookies() {
+    var cookies = document.cookie.split(";");
 
-                localStorage.setItem("logSessao", JSON.stringify(retorno.data));
+    for (var i = 0; i < cookies.length; i++) {
+        var cookie = cookies[i];
+        var eqPos = cookie.indexOf("=");
+        var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+        document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
+    }
+}
 
-                window.location.href = 'home.html';
-                //$("#bemVindo").val(dados.nome);  
-            }else{
-                if(retorno.mensagem === null){
-                    $("#alerta").empty().append('<a href="#" id="fecharAlert" class="close">&times;</a><strong>Erro!</strong> Sem conexão com o servidor!').fadeIn(400);   
-                }else{
-                    $("#alerta").empty().append('<a href="#" id="fecharAlert" class="close">&times;</a><strong>Erro!</strong> '+retorno.mensagem).fadeIn(400);
-                }
-            }
-            
-            
-        },
-        error: function() {
-//            $(".painelCarregando").fadeOut(400);
-            $("#alerta").empty().append('<a href="#" id="fecharAlert" class="close">&times;</a><strong>Erro!</strong> Sem comunicação com o servidor!').fadeIn(400);
-        }
-    });
+
+//entar
+//$(document).on("submit", "#formLogin", function(evt)
+//{
+//
+//    if(!evt.isDefaultPrevented()){
+//        enviarRequisicao();
+//    }
+//
+//    return false;
+//});
 
 
 
+//
+//
+//$(document).on("click", "#esqueceuSenha", function(evt)
+//{
+//    
+//    alert("Em construção!");
+//
+//    return false;
+//});
+//
+//function enviarRequisicao(){
+//
+//
 //    $.ajax({
 //        type: 'POST',
-//        url: "http://"+ipServidor+"/Projeto_BioID-war/servico/pessoa/validacao",
-//        data: envio,
-//        headers: { 
-//        'Accept': 'application/json',
-//        'Content-Type': 'application/json' 
-//        }
-//    }).done(function(dados) {
-//        if(dados.sucesso){
-//
-//            //guarda dados do usuario no session storge
-//            var logSessao = JSON.stringify({
-//                idpessoa:  JSON.stringify(dados.idpessoa),
-//                sessao: dados.sessao,
-//               // tempoLogin: dados.tempoLogin,
-//                papel: dados.papel,
-//                idunidade: dados.idunidade,
-//                nome: dados.nome
-//            });
-//
-//
-//
-//            localStorage.setItem("logSessao", logSessao);
-//
+//        url: "j_security_check",
+//        data: {     j_username: $("#inputUsuario").val(),
+//                    j_password:$("#inputSenha").val()
+//              },
+////        headers: { 
+////        'Accept': 'application/json',
+////        'Content-Type': 'application/json'
+////        },
+//        success: function(a, b, xhr){
+////            alert(JSON.stringify(xhr));
 //            window.location.href = 'home.html';
-//            //$("#bemVindo").val(dados.nome);
-//
-//            //informa se o usuario ou senha esta incorreta
-//        }else{
 //            
-//            $("#alertaTitulo").text("Erro!");
-//            $("#itensAlerta").empty().append('Usuário ou Senha incorretos!');
-//            $("#modalAlerta").modal('toggle');
-//            $("#inputUsuario").focus();
+//        },
+//        error: function() {
+//    
 //        }
-//    }).fail(function(){
-//        
-//        $("#alertaTitulo").text("Erro!");
-//        $("#itensAlerta").empty().append("Erro de requisição!");
-//        $("#modalAlerta").modal('toggle');
 //    });
-        
-       
-}
+
+//}
