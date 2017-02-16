@@ -13,6 +13,7 @@ import fw.Criptografia;
 import java.math.BigInteger;
 import java.security.SecureRandom;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.Produces;
@@ -31,11 +32,14 @@ import to.TOSessao;
  * @author daniel
  */
 @Path("outros")
+
 public class ServicosOutros {
 
     @Context
     private UriInfo context;
 
+//    @Inject
+//    private OutletService outletService;
    
     public ServicosOutros() {
     }
@@ -57,7 +61,7 @@ public class ServicosOutros {
            
 
             to.setUsuario(k.getString("usuario"));
-            to.setSenha(Criptografia.md5(k.getString("senha")));
+            to.setSenha(k.getString("senha"));
             
             
             to = (TOLogin) BOFactory.get(new DAOLogin(), to, k.getString("metodo"));
@@ -70,13 +74,13 @@ public class ServicosOutros {
                 TOSessao ts = new TOSessao();
                 SecureRandom random = new SecureRandom();     
         
-                ts.setLogin_idlogin(to.getIdlogin());
+//                ts.setLogin_idlogin(to.getIdlogin());
                 ts.setSessao(new BigInteger(130, random).toString(32));
                 
                 
              
                 //salva uma nova sessao no banco de dados
-                BOFactory.inserir(new DAOSessao(), ts, k.getString("metodo"));
+//                BOFactory.inserir(new DAOSessao(), ts, k.getString("metodo"));
                 
                 //atribui o valor da nova sessao para o retorno
                 to.setSessao(ts.getSessao());
@@ -97,7 +101,7 @@ public class ServicosOutros {
     }
     
     @POST
-    @Path("listar")  
+    @Path("listar")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public String listar(String dataJson) throws Exception{
@@ -149,19 +153,17 @@ public class ServicosOutros {
    
   
    
-   
-   @POST
+//   @RolesAllowed("agricultores")
+   @GET
    @Path("teste")  
-   @Consumes(MediaType.APPLICATION_JSON)
+//   @Consumes(MediaType.APPLICATION_JSON)
    @Produces(MediaType.APPLICATION_JSON)
-   public String teste(String dataJson
-                      ) throws Exception{
+   public String teste() throws Exception{
         
 
         
         JSONArray  ja = new JSONArray();
-        
-        ja.put(dataJson);
+
         ja.put("AppleScript");
         ja.put("Asp");
         ja.put("BASIC");

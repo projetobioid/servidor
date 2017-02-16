@@ -6,6 +6,7 @@
 package dao;
 
 import java.sql.Connection;
+import javax.ejb.Stateless;
 import org.json.JSONArray;
 import to.TOBase;
 
@@ -13,6 +14,7 @@ import to.TOBase;
  *
  * @author daniel
  */
+@Stateless
 public class DAOBase {
     
     protected long idretorno;

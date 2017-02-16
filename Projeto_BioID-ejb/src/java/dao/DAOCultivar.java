@@ -7,7 +7,6 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
-import javax.ejb.Stateless;
 import org.json.JSONArray;
 import to.TOBase;
 import to.TOCultivar;
@@ -18,7 +17,7 @@ import to.TOLogin;
  *
  * @author daniel
  */
-@Stateless
+
 public class DAOCultivar extends DAOBase {
 
     @Override

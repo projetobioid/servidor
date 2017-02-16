@@ -6,13 +6,15 @@
 package servicos;
 
 import java.util.Set;
+import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
 
 /**
  *
  * @author daniel
  */
-@javax.ws.rs.ApplicationPath("servico")
+//@javax.ws.rs.ApplicationPath("servico")
+@ApplicationPath(value = "servico")
 public class ApplicationConfig extends Application {
 
     @Override

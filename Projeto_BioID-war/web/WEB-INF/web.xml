@@ -6,21 +6,20 @@
         </session-timeout>
     </session-config>
     <welcome-file-list>
-        <welcome-file>administrador/home.html</welcome-file>
-        <welcome-file>gerenciador/home.html</welcome-file>
-        <welcome-file>entrevistador/home.html</welcome-file>
-        <welcome-file>agricultor/home.html</welcome-file>
+        <welcome-file>paginas/home.html</welcome-file>
     </welcome-file-list>
     <error-page>
         <error-code>403</error-code>
-        <location>/erro.html</location>
+        <location>/seguranca/erro.html</location>
     </error-page>
     <security-constraint>
         <display-name>pagina administrador</display-name>
         <web-resource-collection>
             <web-resource-name>paginas administrador</web-resource-name>
             <description/>
-            <url-pattern>/administrador/*</url-pattern>
+            <!--<url-pattern>/servicos/*</url-pattern>-->
+            <url-pattern>/paginas/administrador.html</url-pattern>
+            <url-pattern>/paginas/home.html</url-pattern>
         </web-resource-collection>
         <auth-constraint>
             <role-name>administrador-role</role-name>
@@ -31,7 +30,8 @@
         <web-resource-collection>
             <web-resource-name>paginas para gerenciador</web-resource-name>
             <description/>
-            <url-pattern>/gerenciador/*</url-pattern>
+            <url-pattern>/paginas/gerenciador.html</url-pattern>
+            <url-pattern>/paginas/home.html</url-pattern>
         </web-resource-collection>
         <auth-constraint>
             <role-name>gerenciador-role</role-name>
@@ -42,7 +42,8 @@
         <web-resource-collection>
             <web-resource-name>paginas para agricultores</web-resource-name>
             <description/>
-            <url-pattern>/agricultor/*</url-pattern>
+            <url-pattern>/paginas/agricultor.html</url-pattern>
+            <url-pattern>/paginas/home.html</url-pattern>
         </web-resource-collection>
         <auth-constraint>
             <role-name>agricultor-role</role-name>
@@ -53,7 +54,8 @@
         <web-resource-collection>
             <web-resource-name>pagina entrevistador</web-resource-name>
             <description/>
-            <url-pattern>/entrevistador/*</url-pattern>
+            <url-pattern>/paginas/entrevistador.html</url-pattern>
+            <url-pattern>/paginas/home.html</url-pattern>
         </web-resource-collection>
         <auth-constraint>
             <role-name>entrevistador-role</role-name>

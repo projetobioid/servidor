@@ -36,7 +36,7 @@ public class DAOLogin extends DAOBase{
             u.add(((TOLogin)t).getUnidade_idunidade());
             u.add(((TOLogin)t).getUsuario());
             u.add(((TOLogin)t).getSenha());
-            u.add(((TOLogin)t).getPapel());
+//            u.add(((TOLogin)t).getPapel());
             break;
         }
         
@@ -66,7 +66,7 @@ public class DAOLogin extends DAOBase{
                 u.add(((TOLogin)t).getUsuario());
                 break;
                 case "validacao" :
-                sql = "SELECT l.idlogin, l.pessoa_idpessoa, l.unidade_idunidade, l.usuario, l.papel, p.nome "
+                sql = "SELECT l.usuario, l.unidade_idunidade, p.nome "
                     + "FROM login l "
                     + "INNER JOIN pessoa p ON(p.idpessoa = l.pessoa_idpessoa) "
                     + "WHERE usuario IN(?) AND senha IN(?)";

@@ -12,11 +12,8 @@ import dao.DAOLogin;
 import dao.DAOPessoa;
 import dao.DAOPropriedade;
 import dao.DAORelacaopa;
-import dao.DAOSessao;
 import fw.Criptografia;
 import fw.VerificarSessao;
-import java.math.BigInteger;
-import java.security.SecureRandom;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
@@ -32,7 +29,6 @@ import to.TOLogin;
 import to.TOPessoa;
 import to.TOPropriedade;
 import to.TORelacaopa;
-import to.TOSessao;
 
 /**
  * REST Web Service
@@ -465,7 +461,7 @@ public class ServicosAgricultor {
                         tl.setPessoa_idpessoa(idGeradoPessoa);
                         tl.setUnidade_idunidade(k.getLong("unidade_idunidade"));
                         tl.setSenha(Criptografia.md5(k.getString("senha")));
-                        tl.setPapel("a");
+//                        tl.setPapel("a");
                         //grava no banco de dados os dados da classe TOLogin
                         BOFactory.inserir(new DAOLogin(), tl, null);
 

@@ -6,31 +6,23 @@
 package servicos;
 
 import bo.BOFactory;
-import dao.DAOAgricultor;
 import dao.DAOEndereco;
 import dao.DAOLogin;
 import dao.DAOPessoa;
-import dao.DAOPropriedade;
-import dao.DAORelacaopa;
 import fw.Criptografia;
 import fw.VerificarSessao;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.Produces;
 import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
-import javax.ws.rs.PUT;
 import javax.ws.rs.core.MediaType;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import to.TOAgricultor;
 import to.TOEndereco;
 import to.TOLogin;
 import to.TOPessoa;
-import to.TOPropriedade;
-import to.TORelacaopa;
 
 /**
  * REST Web Service
@@ -168,7 +160,7 @@ public class ServicoUsuario {
                         tl.setPessoa_idpessoa(idGeradoPessoa);
                         tl.setUnidade_idunidade(k.getLong("unidade_idunidade"));
                         tl.setSenha(Criptografia.md5(k.getString("senha")));
-                        tl.setPapel(k.getString("papel"));
+//                        tl.setPapel(k.getString("papel"));
                         
                         //grava no banco de dados os dados da classe TOLogin
                         BOFactory.inserir(new DAOLogin(), tl, null);

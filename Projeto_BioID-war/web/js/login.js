@@ -15,8 +15,7 @@ $(document).on("click", "#goPagEntrar", function(evt)
         $("#username").focus();
     });
     
-    
-    
+
      return false;
 });
 
@@ -37,81 +36,58 @@ $(document).on("click", "#voltarInicio", function(evt)
 $(document).on("click", "#fecharAlert", function(evt)
 {
     $("#alerta").fadeOut(400);
-//    window.location.href = 'home.html';
-//    $("#page_inicial").fadeOut(100, function(evt){
-//
-//        $("#page_entrar").fadeIn(100);
-//        $("#inputUsuario").focus();
-//    });
 
     return false;
 });
-$(document).on("click", "#test", function(evt)
+
+$(document).on("click", "#logar", function(evt)
 {
-// deleteAllCookies();
-alert(document.cookie);
+    enviarR().done(function() { 
+        simularClick();
+    
+    });
+
+    
+
+    
 
     return false;
+    
 });
 
-
-
-function deleteAllCookies() {
-    var cookies = document.cookie.split(";");
-
-    for (var i = 0; i < cookies.length; i++) {
-        var cookie = cookies[i];
-        var eqPos = cookie.indexOf("=");
-        var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
-        document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
-    }
+function simularClick(){
+    $("#logar").trigger('click');
 }
 
 
-//entar
-//$(document).on("submit", "#formLogin", function(evt)
-//{
-//
-//    if(!evt.isDefaultPrevented()){
-//        enviarRequisicao();
-//    }
-//
-//    return false;
-//});
+function enviarR(){
+    var envio = {usuario: $("#username").val(),
+                    senha: $.sha256($("#password").val()),
+                    metodo: "validacao"
+                };
+                
+    $.ajax({
+        type: 'POST',
+        url: "http://"+ipServidor+"/Projeto_BioID-war/servico/outros/validacao",
+        data: JSON.stringify(envio),
+        headers: { 
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+        },
+        success: function(retorno){
+            if(retorno.sucesso){
 
+                localStorage.setItem("logSessao", JSON.stringify(retorno.data));
+               
 
-
-//
-//
-//$(document).on("click", "#esqueceuSenha", function(evt)
-//{
-//    
-//    alert("Em construção!");
-//
-//    return false;
-//});
-//
-//function enviarRequisicao(){
-//
-//
-//    $.ajax({
-//        type: 'POST',
-//        url: "j_security_check",
-//        data: {     j_username: $("#inputUsuario").val(),
-//                    j_password:$("#inputSenha").val()
-//              },
-////        headers: { 
-////        'Accept': 'application/json',
-////        'Content-Type': 'application/json'
-////        },
-//        success: function(a, b, xhr){
-////            alert(JSON.stringify(xhr));
-//            window.location.href = 'home.html';
-//            
-//        },
-//        error: function() {
-//    
-//        }
-//    });
-
-//}
+            }else{
+                alert(retorno.mensagem);
+            }
+            
+            
+        },
+        error: function() {
+          alert("error");
+        }
+    });
+}

@@ -13,31 +13,26 @@ import org.json.JSONObject;
  * @author daniel
  */
 public class TOLogin extends TOBase{
-    private long idlogin;
+
+    private String usuario;
     
     private long pessoa_idpessoa;
     
     private long unidade_idunidade;
         
-    private String usuario;
-   
     private String senha;
     
-    private String papel;
+
     
+    
+    //retorno
     private String nome;
     
     private String sessao;
     
 
     
-    public long getIdlogin() {
-        return idlogin;
-    }
 
-    public void setIdlogin(long idlogin) {
-        this.idlogin = idlogin;
-    }
 
     public long getPessoa_idpessoa() {
         return pessoa_idpessoa;
@@ -72,14 +67,6 @@ public class TOLogin extends TOBase{
         this.senha = senha;
     }
 
-    public String getPapel() {
-        return papel;
-    }
-
-    public void setPapel(String papel) {
-        this.papel = papel;
-    }
-
     public String getNome() {
         return nome;
     }
@@ -106,16 +93,13 @@ public class TOLogin extends TOBase{
         
         switch(metodo){
             case "get_usuario":
-                this.idlogin = rs.getLong("idlogin");
                 this.usuario = rs.getString("usuario");
                 break;
             default:
-                this.idlogin = rs.getLong("idlogin");
-                this.pessoa_idpessoa = rs.getLong("pessoa_idpessoa");
-                this.unidade_idunidade = rs.getLong("unidade_idunidade");
                 this.usuario = rs.getString("usuario");
-                this.papel = rs.getString("papel");
                 this.nome = rs.getString("nome");
+                this.unidade_idunidade = rs.getLong("unidade_idunidade");
+                
                 break;
         }
         
@@ -129,11 +113,9 @@ public class TOLogin extends TOBase{
         switch(metodo){
             default:
                 //populando o objeto j
-                j.put("idlogin", idlogin);
-                j.put("idunidade", unidade_idunidade);
                 j.put("usuario", usuario);
-                j.put("papel", papel);
                 j.put("nome", nome);
+                j.put("idunidade", unidade_idunidade);
                 j.put("sessao", sessao);
                 break;
         }
