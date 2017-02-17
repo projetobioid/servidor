@@ -40,7 +40,7 @@ $(document).on("click", "#fecharAlert", function(evt)
     return false;
 });
 
-$(document).on("click", "#logar", function(evt)
+$(document).on("click", "#logars", function(evt)
 {
     enviarR().done(function() { 
         simularClick();
@@ -91,3 +91,37 @@ function enviarR(){
         }
     });
 }
+
+
+
+$(document).on("click", "#aqui2", function(evt)
+{
+    
+    
+    $.when(
+
+	    $.get( 'http://localhost:8080/Projeto_BioID-war/servico/outros/teste'), 
+
+	    $.post( 'http://localhost:8080/Projeto_BioID-war/j_security_check', $('.login').serialize())
+
+	).then(function(a) {  // or ".done"
+            localStorage.setItem('validacao', a);
+            location.href = 'paginas/home.html';
+	});
+    
+ 
+    return false;
+});
+
+
+$(document).on("click", "#aqui", function(evt)
+{
+    //Send data to the other script
+    $.post( 'http://localhost:8080/Projeto_BioID-war/j_security_check', $('.login').serialize(), function(data, textStatus, x) {
+        //data is the result from the script
+//        alert(data);
+    $('html').html(data);
+    });
+
+    return false;
+});
