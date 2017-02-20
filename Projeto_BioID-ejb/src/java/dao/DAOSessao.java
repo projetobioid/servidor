@@ -33,10 +33,10 @@ public class DAOSessao extends DAOBase{
         switch(metodo){
             
             case "validacao":
-                sql = "INSERT INTO sessao(login_idlogin, sessao, datarequisicao) VALUES (?, ?, ?)";
-            u.add(((TOSessao)t).getLogin_idlogin());
+                sql = "INSERT INTO sessao(login_usuario, sessao, datarequisicao) VALUES (?, ?, ?)";
+            u.add(((TOSessao)t).getLogin_usuario());
             u.add(((TOSessao)t).getSessao());
-            u.add(new Date().toString()); 
+            u.add(((TOSessao)t).getDatarequisicao()); 
                 break;
             default:
                 break;
@@ -93,9 +93,9 @@ public class DAOSessao extends DAOBase{
             //testa o metodo a ser executado
             switch(metodo){
                 case "get_sessao":
-                    sql = "SELECT idsessao, login_idlogin, sessao, datarequisicao FROM sessao where sessao IN(?) AND login_idlogin IN(?)";
+                    sql = "SELECT idsessao, login_usuario, sessao, datarequisicao FROM sessao where sessao IN(?) AND login_usuario IN(?)";
                     u.add(((TOSessao)t).getSessao());
-                    u.add(((TOSessao)t).getLogin_idlogin());
+                    u.add(((TOSessao)t).getLogin_usuario());
            
                     break;
             }

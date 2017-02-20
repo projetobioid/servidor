@@ -53,7 +53,7 @@ public class ServicoUsuario {
         try{
              //verifica  a sessao
             VerificarSessao vs = new VerificarSessao();
-            String sessao = vs.VerificarSessao(k.getLong("id"), k.getString("sessao"));
+            String sessao = vs.VerificarSessao(k.getString("usuario"), k.getString("sessao"));
             
             if( sessao == null){
                 j.put("sucesso", false);
@@ -101,7 +101,7 @@ public class ServicoUsuario {
         try{
              //verifica  a sessao
             VerificarSessao vs = new VerificarSessao();
-            String sessao = vs.VerificarSessao(k.getLong("id"), k.getString("sessao"));
+            String sessao = vs.VerificarSessao(k.getString("usuario"), k.getString("sessao"));
             
             if( sessao == null){
                 j.put("sucesso", false);

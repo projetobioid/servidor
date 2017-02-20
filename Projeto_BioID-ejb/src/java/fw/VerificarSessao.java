@@ -17,10 +17,10 @@ import to.TOSessao;
  */
 public class VerificarSessao {
 
-    public String VerificarSessao(long id, String sessao) throws Exception {
+    public String VerificarSessao(String usuario, String sessao) throws Exception {
 
         TOSessao ts = new TOSessao();
-        ts.setLogin_idlogin(id);
+        ts.setLogin_usuario(usuario);
         ts.setSessao(sessao);
 
         ts = (TOSessao) BOFactory.get(new DAOSessao(), ts, "get_sessao");

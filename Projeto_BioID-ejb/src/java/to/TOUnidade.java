@@ -158,6 +158,7 @@ public class TOUnidade extends TOBase{
                 this.endereco.setGps_lat(rs.getInt("gps_lat"));
                 this.endereco.setGps_long(rs.getInt("gps_long"));
                 break;
+            case "todas":
             case "unidades":
                 this.idunidade = rs.getLong("idunidade");
                 this.nomecidade = rs.getString("nomecidade");
@@ -212,6 +213,7 @@ public class TOUnidade extends TOBase{
                 j.put("gps_long", endereco.getGps_long());
                 break;
             case "unidades":
+            case "todas":
                 //populando o objeto j
                 j.put("idunidade", idunidade);
                 j.put("nomecidade", nomecidade);

@@ -12,6 +12,7 @@ import dao.DAOSessao;
 import fw.Criptografia;
 import java.math.BigInteger;
 import java.security.SecureRandom;
+import java.util.Date;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.core.Context;
@@ -74,13 +75,14 @@ public class ServicosOutros {
                 TOSessao ts = new TOSessao();
                 SecureRandom random = new SecureRandom();     
         
-//                ts.setLogin_idlogin(to.getIdlogin());
+                ts.setLogin_usuario(to.getUsuario());
+                ts.setDatarequisicao(new Date().toString());
                 ts.setSessao(new BigInteger(130, random).toString(32));
                 
                 
              
                 //salva uma nova sessao no banco de dados
-//                BOFactory.inserir(new DAOSessao(), ts, k.getString("metodo"));
+                BOFactory.inserir(new DAOSessao(), ts, k.getString("metodo"));
                 
                 //atribui o valor da nova sessao para o retorno
                 to.setSessao(ts.getSessao());

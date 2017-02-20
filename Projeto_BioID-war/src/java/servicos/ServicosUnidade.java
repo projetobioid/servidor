@@ -52,7 +52,7 @@ public class ServicosUnidade {
             
              //verifica  a sessao
             VerificarSessao vs = new VerificarSessao();
-            String sessao = vs.VerificarSessao(k.getLong("id"), k.getString("sessao"));
+            String sessao = vs.VerificarSessao(k.getString("usuario"), k.getString("sessao"));
             
             if( sessao == null){
                 j.put("sucesso", false);
@@ -95,7 +95,7 @@ public class ServicosUnidade {
         try{
              //verifica  a sessao
             VerificarSessao vs = new VerificarSessao();
-            String sessao = vs.VerificarSessao(k.getLong("id"), k.getString("sessao"));
+            String sessao = vs.VerificarSessao(k.getString("usuario"), k.getString("sessao"));
             
             if( sessao == null){
                 j.put("sucesso", false);
@@ -159,7 +159,7 @@ public class ServicosUnidade {
         try{
              //verifica  a sessao
             VerificarSessao vs = new VerificarSessao();
-            String sessao = vs.VerificarSessao(k.getLong("id"), k.getString("sessao"));
+            String sessao = vs.VerificarSessao(k.getString("usuario"), k.getString("sessao"));
             
             if( sessao == null){
                 j.put("sucesso", false);
@@ -171,6 +171,7 @@ public class ServicosUnidade {
                 JSONArray ja = null;
                 
                 switch(k.getString("metodo")){
+                    case "todas": 
                     case "unidades": 
 //                        t.setIdunidade(k.getLong("idunidade"));
                         ja = BOFactory.listar(new DAOUnidade(), t, k.getString("metodo"));
@@ -211,7 +212,7 @@ public class ServicosUnidade {
 //        
 //        try{ 
 //            //verificar sessao
-//            JSONObject js = new VerificarSessao().VerificarSessao(k.getLong("id"), k.getString("sessao"));
+//            JSONObject js = new VerificarSessao().VerificarSessao(k.getString("usuario"), k.getString("sessao"));
 //            
 //            
 //            if((boolean) js.get("sucesso") == false){

@@ -32,6 +32,7 @@
     <script type="text/javascript">
             window.onload = function(){
                     $(".painelCarregando").fadeOut(400, function(){
+                        $("#goPagEntrar").focus();
                 });
             };
             
@@ -108,9 +109,9 @@
                     <div class="col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1 col-lg-4 col-lg-offset-4">
                     <div class="panel panel-default painelInicial">
                         <div class="panel-body">
-                            <form data-toggle="validator" role="form" method="post" class="login" action="j_security_check">
+                            <form data-toggle="validator" role="form" method="post" class="login" action="j_security_check" id="formLogin">
                                 <div class="form-group"><label for="username" class="control-label">Usuário:</label>
-                                    <input type="text" class="form-control" id="username" name="j_username" placeholder="Digite o usuário..." data-error="Por favor, informe o usuário." required >
+                                    <input  type="text" class="form-control" id="username" name="j_username" placeholder="Digite o usuário..." data-error="Por favor, informe o usuário." required >
                                     <div class="help-block with-errors"></div>
                                 </div>
                                 

@@ -59,7 +59,7 @@ public class ServicosAgricultor {
         try{
              //verifica  a sessao
             VerificarSessao vs = new VerificarSessao();
-            String sessao = vs.VerificarSessao(k.getLong("id"), k.getString("sessao"));
+            String sessao = vs.VerificarSessao(k.getString("usuario"), k.getString("sessao"));
             
             if( sessao == null){
                 j.put("sucesso", false);
@@ -121,7 +121,7 @@ public class ServicosAgricultor {
         try{
              //verifica  a sessao
             VerificarSessao vs = new VerificarSessao();
-            String sessao = vs.VerificarSessao(k.getLong("id"), k.getString("sessao"));
+            String sessao = vs.VerificarSessao(k.getString("usuario"), k.getString("sessao"));
             
             if( sessao == null){
                 j.put("sucesso", false);
@@ -169,7 +169,7 @@ public class ServicosAgricultor {
 //        try{
 //                //verificar sessao
 //            TOSessao ts = new TOSessao();
-//            ts.setLogin_idlogin(k.getLong("id"));
+//            ts.setLogin_idlogin(k.getString("usuario"));
 //            ts.setSessao(k.getString("sessao"));
 //            
 //            ts = (TOSessao) BOFactory.get(new DAOSessao(), ts, "get_sessao");
@@ -308,7 +308,7 @@ public class ServicosAgricultor {
 //        try{
 //            
 //             //verificar sessao
-//            JSONObject js = new VerificarSessao().VerificarSessao(k.getLong("id"), k.getString("sessao"));
+//            JSONObject js = new VerificarSessao().VerificarSessao(k.getString("usuario"), k.getString("sessao"));
 //            
 //            if((boolean) js.get("sucesso") == false){
 //                j.put("sucesso", false);
@@ -402,7 +402,7 @@ public class ServicosAgricultor {
         try{
              //verifica  a sessao
             VerificarSessao vs = new VerificarSessao();
-            String sessao = vs.VerificarSessao(k.getLong("id"), k.getString("sessao"));
+            String sessao = vs.VerificarSessao(k.getString("usuario"), k.getString("sessao"));
             
             if( sessao == null){
                 j.put("sucesso", false);
@@ -533,7 +533,7 @@ public class ServicosAgricultor {
         try{
              //verifica  a sessao
             VerificarSessao vs = new VerificarSessao();
-            String sessao = vs.VerificarSessao(k.getLong("id"), k.getString("sessao"));
+            String sessao = vs.VerificarSessao(k.getString("usuario"), k.getString("sessao"));
             
             if( sessao == null){
                 j.put("sucesso", false);
@@ -579,7 +579,7 @@ public class ServicosAgricultor {
             
             //verifica  a sessao
             VerificarSessao vs = new VerificarSessao();
-            String sessao = vs.VerificarSessao(k.getLong("id"), k.getString("sessao"));
+            String sessao = vs.VerificarSessao(k.getString("usuario"), k.getString("sessao"));
             
             if( sessao == null){
                 j.put("sucesso", false);

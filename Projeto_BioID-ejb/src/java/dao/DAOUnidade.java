@@ -97,6 +97,7 @@ public class DAOUnidade extends DAOBase{
             String sql = null;
             
             switch(metodo){
+                case "todas":
                 case "unidades":
                     sql = "SELECT u.idunidade, c.nomecidade, u.nomeunidade, es.nomeestado, p.nomepais, u.telefone1, u.email, u.cnpj "
                         + "FROM unidade u "

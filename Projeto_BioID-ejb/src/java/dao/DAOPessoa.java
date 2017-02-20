@@ -198,15 +198,17 @@ public class DAOPessoa extends DAOBase{
                             + " FROM pessoa p"
                             + " INNER JOIN login l ON (l.pessoa_idpessoa = p.idpessoa)"
                             + " INNER JOIN unidade u ON (u.idunidade = l.unidade_idunidade)"
-                            + " WHERE l.papel IN('a') AND l.unidade_idunidade IN(?)";
+                            + " INNER JOIN grupos g ON (g.loginusuario = l.usuario)"
+                            + " WHERE g.grupo IN('agricultores') AND l.unidade_idunidade IN(?)";
                     u.add(((TOPessoa)t).getIdunidade());
                     break;
                 case "usuarios":
-                    sql = "SELECT p.idpessoa, p.nome, p.sobrenome, p.cpf, p.rg, p.telefone1, u.nomeunidade, l.papel "
+                    sql = "SELECT p.idpessoa, p.nome, p.sobrenome, p.cpf, p.rg, p.telefone1, u.nomeunidade, g.grupo "
                             + "FROM pessoa p "
                             + "INNER JOIN login l ON (l.pessoa_idpessoa = p.idpessoa) "
                             + "INNER JOIN unidade u ON (u.idunidade = l.unidade_idunidade) "
-                            + "WHERE l.papel IN('x') OR l.papel IN('e') OR l.papel IN('g') AND l.unidade_idunidade IN(?)";
+                            + " INNER JOIN grupos g ON (g.loginusuario = l.usuario)"
+                            + "WHERE g.grupo IN('administradores') OR g.grupo IN('entrevistadores') OR g.grupo IN('gerenciadores') AND l.unidade_idunidade IN(?)";
                     u.add(((TOPessoa)t).getIdunidade());
                     break;
                 case "agricultor_select":

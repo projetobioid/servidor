@@ -5,8 +5,8 @@ var ipServidor = 'localhost:8080'; //sistema em producao
 /* button carregar page entrar*/
 $(document).on("click", "#goPagEntrar", function(evt)
 {
-    $("#username").val("");
-    $("#password").val("");
+    $("#username").val("admin");
+    $("#password").val("admin");
     $("#formLogin").validator();
     
     $("#page_inicial").fadeOut(100, function(evt){
@@ -42,8 +42,9 @@ $(document).on("click", "#fecharAlert", function(evt)
 
 
 
-$(document).on("click", "#logar", function(evt)
+function login()
 {
+    
     var envio = {usuario: $("#username").val(),
                     senha: $.sha256($("#password").val()),
                     metodo: "validacao"
@@ -102,5 +103,15 @@ $(document).on("click", "#logar", function(evt)
 	});
     
  
+ }
+ 
+//cadastro de um novo agricultor parte de dados pessoais
+$(document).on("submit", "#formLogin", function(e){
+
+        
+    if(!e.isDefaultPrevented()){
+        login();
+
+    }
     return false;
 });

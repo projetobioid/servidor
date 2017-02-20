@@ -51,7 +51,7 @@ public class ServicosCultivar {
         try{       
             //verifica  a sessao
             VerificarSessao vs = new VerificarSessao();
-            String sessao = vs.VerificarSessao(k.getLong("id"), k.getString("sessao"));
+            String sessao = vs.VerificarSessao(k.getString("usuario"), k.getString("sessao"));
             
             if( sessao == null){
                 j.put("sucesso", false);
@@ -95,7 +95,7 @@ public class ServicosCultivar {
             
             //verifica  a sessao
             VerificarSessao vs = new VerificarSessao();
-            String sessao = vs.VerificarSessao(k.getLong("id"), k.getString("sessao"));
+            String sessao = vs.VerificarSessao(k.getString("usuario"), k.getString("sessao"));
             
             if( sessao == null){
                 j.put("sucesso", false);
@@ -144,7 +144,7 @@ public class ServicosCultivar {
             
              //verifica  a sessao
             VerificarSessao vs = new VerificarSessao();
-            String sessao = vs.VerificarSessao(k.getLong("id"), k.getString("sessao"));
+            String sessao = vs.VerificarSessao(k.getString("usuario"), k.getString("sessao"));
             
             if( sessao == null){
                 j.put("sucesso", false);
@@ -159,7 +159,7 @@ public class ServicosCultivar {
                 t.setBiofortificado(k.getBoolean("biofortificado"));
 
                 //se nao existe o cultivar no sistema, pelo nome e por ser biofortificado
-                if(BOFactory.get(new DAOCultivar(), t, null) == null){
+                if(BOFactory.get(new DAOCultivar(), t, "GET_NOME") == null){
                     t.setImagem(k.getString("imagem"));
                     t.setDescricao(k.getString("descricao"));
                     t.setUnidademedida_idunidademedida(k.getLong("unidademedida_idunidademedida"));
@@ -168,7 +168,7 @@ public class ServicosCultivar {
                     t.setTempodestinacao(k.getInt("tempodestinacao"));
                     t.setPeso_saca(k.getDouble("pesoSaca"));
 
-                    BOFactory.inserir(new DAOCultivar(), t, k.getString("metodo"));
+                    BOFactory.inserir(new DAOCultivar(), t, "DEFAULT");
 
                     j.put("sucesso", true);
                     j.put("mensagem", "Cultivar cadastrado com sucesso!");
@@ -280,7 +280,7 @@ public class ServicosCultivar {
             
              //verifica  a sessao
             VerificarSessao vs = new VerificarSessao();
-            String sessao = vs.VerificarSessao(k.getLong("id"), k.getString("sessao"));
+            String sessao = vs.VerificarSessao(k.getString("usuario"), k.getString("sessao"));
             
             if( sessao == null){
                 j.put("sucesso", false);

@@ -147,6 +147,7 @@ public class TOCultivar extends TOBase{
     //retorna consulta do banco de dados tipo resultset
     public TOCultivar (ResultSet rs , String metodo) throws Exception{
         switch(metodo){
+            case "todos" :
             case "bio" :
                 this.idcultivar = rs.getLong("idcultivar");
                 this.nomecultivar = rs.getString("nomecultivar");
@@ -176,7 +177,7 @@ public class TOCultivar extends TOBase{
                 this.imagem = rs.getString("imagem");
                 this.descricao = rs.getString("descricao");
                 this.biofortificado = rs.getBoolean("biofortificado");
-                this.grandeza = rs.getString("grandeza");
+                this.grandeza = rs.getString("unidademedida_idunidademedida");
                 this.valornutricional = rs.getString("valornutricional");
                 this.tempodecolheita = rs.getInt("tempodecolheita");
                 this.tempodestinacao = rs.getInt("tempodestinacao");
@@ -191,6 +192,7 @@ public class TOCultivar extends TOBase{
         JSONObject j = new JSONObject();
         
         switch(metodo){
+            case "todos":
             case "bio":
                 j.put("idcultivar", idcultivar);
                 j.put("nomecultivar", nomecultivar);
@@ -220,7 +222,7 @@ public class TOCultivar extends TOBase{
                 j.put("imagem", imagem);
                 j.put("descricao", descricao);
                 j.put("biofortificado", biofortificado);
-                j.put("grandeza", grandeza);
+                j.put("unidademedida_idunidademedida", unidademedida_idunidademedida);
                 j.put("valornutricional", valornutricional);
                 j.put("tempodecolheita", tempodecolheita);
                 j.put("tempodestinacao", tempodestinacao);

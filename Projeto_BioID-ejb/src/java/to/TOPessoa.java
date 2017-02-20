@@ -30,7 +30,7 @@ public class TOPessoa extends TOBase{
     
     
     private String usuario;
-    private String papel;
+    private String grupo;
     private String nomeunidade;
     private String escolaridade;
     private String estadocivil;
@@ -47,11 +47,11 @@ public class TOPessoa extends TOBase{
     }
 
     public String getPapel() {
-        return papel;
+        return grupo;
     }
 
-    public void setPapel(String papel) {
-        this.papel = papel;
+    public void setPapel(String grupo) {
+        this.grupo = grupo;
     }
 
     public long getIdunidade() {
@@ -263,7 +263,7 @@ public TOPessoa(ResultSet rs, String metodo) throws Exception{
                 this.rg = rs.getString("rg");
                 this.telefone1 = rs.getString("telefone1");
                 this.nomeunidade = rs.getString("nomeunidade");
-                this.papel = rs.getString("papel");
+                this.grupo = rs.getString("grupo");
                 break;
             case "agricultor_select":
                 this.idpessoa = rs.getLong("idpessoa");
@@ -309,7 +309,7 @@ public TOPessoa(ResultSet rs, String metodo) throws Exception{
                 j.put("rg", rg);
                 j.put("telefone1", telefone1);
                 j.put("nomeunidade", nomeunidade);
-                j.put("papel", papel);
+                j.put("grupo", grupo);
                 break;
             case "get_agricultor":
                 //populando o objeto j
@@ -347,7 +347,7 @@ public TOPessoa(ResultSet rs, String metodo) throws Exception{
                 j.put("email", email);
                 j.put("nomeunidade", nomeunidade);
                 j.put("estadocivil", estadocivil);
-                j.put("papel", papel);
+                j.put("grupo", grupo);
                 break;
             case "agricultor_select":
                 //populando o objeto j

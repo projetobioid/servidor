@@ -14,10 +14,8 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.Produces;
 import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
-import javax.ws.rs.PUT;
 import javax.ws.rs.core.MediaType;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -54,7 +52,7 @@ public class ServicosEstoque {
         try{       
             
             VerificarSessao vs = new VerificarSessao();
-            String sessao = vs.VerificarSessao(k.getLong("id"), k.getString("sessao"));
+            String sessao = vs.VerificarSessao(k.getString("usuario"), k.getString("sessao"));
             
             if( sessao == null){
                 j.put("sucesso", false);
@@ -101,7 +99,7 @@ public class ServicosEstoque {
             
             //verificar sessao
             VerificarSessao vs = new VerificarSessao();
-            String sessao = vs.VerificarSessao(k.getLong("id"), k.getString("sessao"));
+            String sessao = vs.VerificarSessao(k.getString("usuario"), k.getString("sessao"));
             
             if( sessao == null){
                 j.put("sucesso", false);
@@ -151,7 +149,7 @@ public class ServicosEstoque {
         try{    
              //verifica  a sessao
             VerificarSessao vs = new VerificarSessao();
-            String sessao = vs.VerificarSessao(k.getLong("id"), k.getString("sessao"));
+            String sessao = vs.VerificarSessao(k.getString("usuario"), k.getString("sessao"));
             
             if( sessao == null){
                 j.put("sucesso", false);
@@ -230,7 +228,7 @@ public class ServicosEstoque {
         try{    
              //verifica  a sessao
             VerificarSessao vs = new VerificarSessao();
-            String sessao = vs.VerificarSessao(k.getLong("id"), k.getString("sessao"));
+            String sessao = vs.VerificarSessao(k.getString("usuario"), k.getString("sessao"));
             
             if( sessao == null){
                 j.put("sucesso", false);
@@ -286,7 +284,7 @@ public class ServicosEstoque {
             tio.setQuantidade(k.getDouble("qtd"));
             tio.setData_io(getDataAtual());
             tio.setOperacao(k.getInt("operacao"));
-            tio.setLogin_idlogin(k.getLong("id"));
+//            tio.setLogin_idlogin(k.getString("usuario"));
 
             BOFactory.inserir(new DAOIOEstoque(), tio, "default");
             

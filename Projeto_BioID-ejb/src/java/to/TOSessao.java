@@ -16,7 +16,7 @@ public class TOSessao extends TOBase{
 
     public long idsessao;
     
-    public long login_idlogin;
+    public String login_usuario;
     
     public String sessao;
     
@@ -30,12 +30,12 @@ public class TOSessao extends TOBase{
         this.idsessao = idsessao;
     }
 
-    public long getLogin_idlogin() {
-        return login_idlogin;
+    public String getLogin_usuario() {
+        return login_usuario;
     }
 
-    public void setLogin_idlogin(long login_idlogin) {
-        this.login_idlogin = login_idlogin;
+    public void setLogin_usuario(String login_usuario) {
+        this.login_usuario = login_usuario;
     }
 
     public String getSessao() {
@@ -65,28 +65,30 @@ public class TOSessao extends TOBase{
             case "get_sessao":
                 //retorna sessao antiga
                 this.idsessao = rs.getLong("idsessao");
-                this.login_idlogin = rs.getLong("login_idlogin");
+                this.login_usuario = rs.getString("login_usuario");
                 this.sessao = rs.getString("sessao");
                 this.datarequisicao = rs.getString("datarequisicao");
+                
+                
                 break;
         }
         
        
     }
     
-    @Override
-    public JSONObject getJson(String metodo) throws Exception {
-         //variavel para retorno do json contendo as informacoes do login
-        JSONObject j = new JSONObject();
-        
-        //populando o objeto j
-        j.put("idsessao", idsessao);
-        j.put("login_idlogin", login_idlogin);
-        j.put("sessao", sessao);
-        j.put("datarequisicao", datarequisicao);
-        
-        return j;
-    }
+//    @Override
+//    public JSONObject getJson(String metodo) throws Exception {
+//         //variavel para retorno do json contendo as informacoes do login
+//        JSONObject j = new JSONObject();
+//        
+//        //populando o objeto j
+//        j.put("idsessao", idsessao);
+//        j.put("usuario", login_usuario);
+//        j.put("sessao", sessao);
+//        j.put("datarequisicao", datarequisicao);
+//        
+//        return j;
+//    }
 
    
     

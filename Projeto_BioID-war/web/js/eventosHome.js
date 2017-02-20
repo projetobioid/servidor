@@ -62,43 +62,6 @@ $(document).on("keypress", ".camposSafra", function(evt)
 });
 
 
-function getSessao(){
-    var logSessao = JSON.parse(localStorage.getItem("logSessao"));
-    return logSessao;
-}
-
-function updateSessao(novaSessao){
-    var logSessao = JSON.parse(localStorage.getItem("logSessao"));
-    logSessao.sessao = novaSessao;
-    localStorage.setItem("logSessao", JSON.stringify(logSessao));
-}
-
-//funcao modal de uma mensagem que o usuario terá, quando fechado será chamada a funcao alertFocus
-function alerta(titulo, msg){
-    $("#itensModal").empty().append(msg);
-    $("#modalTitulo").text(titulo);
-    $('#modalApresentacao').modal('toggle');
-    
-}
-
-//funcao chamada quando se fecha o modal, e se tiver armazenado no itenFocus o id do compo será focado
-function alertFocus(){
-    var componente = $("#itenFocus").text();
-    if(componente !== "null"){
-        $('html,body').animate({scrollTop: $(componente).offset()}, 400, function() {
-            $(componente).focus();
-        });
-    $("#itenFocus").text("null");
-    }
-}
-
-function camposOcultos(){
-    $(".a").each(function(i, elemento){
-//       if(elemento.hasClass("hidden")){
-           alert(elemento.text);
-//       }
-    });
-}
 
 //dois clicks tabela aparece modal com atributos referentes ao item selecionado
 $(document).on("dblclick", "#divItens tr", function(evt)
@@ -463,10 +426,10 @@ function testeListar(){
         case 2:
             listarCultivares();    
         break;
-        case 3:
+        case 2:
             listarUnidades();
         break;
-        case 4:
+        case 3:
             listarUsuarios();
         break;
         default:
@@ -647,10 +610,10 @@ $(document).on("click", "#novo", function(evt)
                         case 2:
                             carregaCultivar($(this).find('td:eq(0)').html(), "editar");
                         break;
-                        case 3:
+                        case 2:
                             carregaUnidade($(this).find('td:eq(0)').html(), "editar");
                         break;
-                        case 4:
+                        case 3:
                             carregaUsuario($(this).find('td:eq(0)').html(), "editar");
                         break;
                         default:
@@ -700,7 +663,7 @@ function listarAgricultores(){
         sessao: Sessao.sessao,
         idunidade: Sessao.idunidade
     };
-    
+
     //chama a requisicao do servidor, o resultado é listado em uma tabela
     requisicao(true, "pessoa/listar", envio, function(dadosRetorno) {
         
@@ -826,7 +789,7 @@ function listarUsuarios(){
             var item = "";
 
             $.each(dadosRetorno.data, function(i, valor){
-                item += "<tr><td>"+valor.idpessoa+"</td><td>"+valor.nome+"</td><td>"+valor.sobrenome+"</td><td>"+valor.rg+"</td><td>"+valor.cpf+"</td><td>"+valor.telefone1+"</td><td>"+valor.nomeunidade+"</td><td>"+mostrarPapel(valor.papel)+"</td></tr>";
+                item += "<tr><td>"+valor.idpessoa+"</td><td>"+valor.nome+"</td><td>"+valor.sobrenome+"</td><td>"+valor.rg+"</td><td>"+valor.cpf+"</td><td>"+valor.telefone1+"</td><td>"+valor.nomeunidade+"</td><td>"+valor.grupos+"</td></tr>";
 
             });
 
@@ -861,7 +824,7 @@ function mostrarPapel(papel){
 }
 //function requisicao(url, envio, metodo){
 function requisicao(painelCarregando, url, envio, callback) {
-  
+
   //testa se nescessita de painel de carregando
     if(painelCarregando){
         $(".painelCarregando").fadeIn(400);
@@ -885,8 +848,8 @@ function requisicao(painelCarregando, url, envio, callback) {
                 alerta("Alerta!", "Sem conexão com o servidor!");
             }
         });
-             
- 
+
+
 }
 
 
