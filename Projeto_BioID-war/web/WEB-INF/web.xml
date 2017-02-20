@@ -17,8 +17,7 @@
         <web-resource-collection>
             <web-resource-name>paginas administrador</web-resource-name>
             <description/>
-            <!--<url-pattern>/servicos/*</url-pattern>-->
-            <url-pattern>/paginas/administrador.html</url-pattern>
+            <url-pattern>/paginas/administrador/administrador.html</url-pattern>
             <url-pattern>/paginas/home.html</url-pattern>
         </web-resource-collection>
         <auth-constraint>
@@ -30,7 +29,7 @@
         <web-resource-collection>
             <web-resource-name>paginas para gerenciador</web-resource-name>
             <description/>
-            <url-pattern>/paginas/gerenciador.html</url-pattern>
+            <url-pattern>/paginas/gerenciador/gerenciador.html</url-pattern>
             <url-pattern>/paginas/home.html</url-pattern>
         </web-resource-collection>
         <auth-constraint>
@@ -42,7 +41,7 @@
         <web-resource-collection>
             <web-resource-name>paginas para agricultores</web-resource-name>
             <description/>
-            <url-pattern>/paginas/agricultor.html</url-pattern>
+            <url-pattern>/paginas/agricultor/agricultor.html</url-pattern>
             <url-pattern>/paginas/home.html</url-pattern>
         </web-resource-collection>
         <auth-constraint>
@@ -54,7 +53,7 @@
         <web-resource-collection>
             <web-resource-name>pagina entrevistador</web-resource-name>
             <description/>
-            <url-pattern>/paginas/entrevistador.html</url-pattern>
+            <url-pattern>/paginas/entrevistador/entrevistador.html</url-pattern>
             <url-pattern>/paginas/home.html</url-pattern>
         </web-resource-collection>
         <auth-constraint>

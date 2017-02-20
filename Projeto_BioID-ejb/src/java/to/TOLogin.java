@@ -30,6 +30,8 @@ public class TOLogin extends TOBase{
     
     private String sessao;
     
+    private String grupo;
+    
 
     
 
@@ -83,6 +85,14 @@ public class TOLogin extends TOBase{
         this.sessao = sessao;
     }
 
+    public String getGrupo() {
+        return grupo;
+    }
+
+    public void setGrupo(String grupo) {
+        this.grupo = grupo;
+    }
+
 
 
     public TOLogin() {
@@ -99,6 +109,7 @@ public class TOLogin extends TOBase{
                 this.usuario = rs.getString("usuario");
                 this.nome = rs.getString("nome");
                 this.unidade_idunidade = rs.getLong("unidade_idunidade");
+                this.grupo = rs.getString("grupo");
                 
                 break;
         }
@@ -117,6 +128,7 @@ public class TOLogin extends TOBase{
                 j.put("nome", nome);
                 j.put("idunidade", unidade_idunidade);
                 j.put("sessao", sessao);
+                j.put("grupo", grupo);
                 break;
         }
         

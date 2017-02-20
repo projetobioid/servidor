@@ -66,9 +66,10 @@ public class DAOLogin extends DAOBase{
                 u.add(((TOLogin)t).getUsuario());
                 break;
                 case "validacao" :
-                sql = "SELECT l.usuario, l.unidade_idunidade, p.nome "
+                sql = "SELECT l.usuario, l.unidade_idunidade, p.nome, g.grupo "
                     + "FROM login l "
                     + "INNER JOIN pessoa p ON(p.idpessoa = l.pessoa_idpessoa) "
+                    + "INNER JOIN grupos g ON(g.loginusuario = l.usuario) "
                     + "WHERE usuario IN(?) AND senha IN(?)";
                 
                 u.add(((TOLogin)t).getUsuario());

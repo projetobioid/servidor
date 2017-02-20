@@ -29,7 +29,13 @@
     <script type="text/javascript" src="js/validator.js"></script>
     <link rel="stylesheet" href="css/loading.min.css">
     
-    
+    <script type="text/javascript">
+            window.onload = function(){
+                    $(".painelCarregando").fadeOut(400, function(){
+                });
+            };
+            
+    </script>
   </head>
 
   <body class="backgroundInicial">
@@ -118,7 +124,7 @@
                                     <a id="esqueceuSenha">Esqueceu sua senha?</a>
                                 </p>
                                 
-                                <div id="alerta" class="alert alert-danger alert-dismissable">
+                                <div id="alerta" class="alert alert-danger alert-dismissable" hidden="">
                                     
                                 </div>
 
@@ -128,8 +134,6 @@
                                 </button>
                             </form>
                             
-                            <a id="aqui">aqui</a>
-                            <a id="aqui2">aqui2</a>
                         </div>
                     </div>
                 </div>
@@ -140,7 +144,7 @@
     </div>
     
 
-    <script>
+<!--    <script>
         var url = window.location.pathname;
         if(url !== "/Projeto_BioID-war/j_security_check"){
             
@@ -163,7 +167,7 @@
         }
         
     
-    </script>
+    </script>-->
     
   </body>
 </html>

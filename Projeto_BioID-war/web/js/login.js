@@ -40,88 +40,67 @@ $(document).on("click", "#fecharAlert", function(evt)
     return false;
 });
 
-$(document).on("click", "#logars", function(evt)
+
+
+$(document).on("click", "#logar", function(evt)
 {
-    enviarR().done(function() { 
-        simularClick();
-    
-    });
-
-    
-
-    
-
-    return false;
-    
-});
-
-function simularClick(){
-    $("#logar").trigger('click');
-}
-
-
-function enviarR(){
     var envio = {usuario: $("#username").val(),
                     senha: $.sha256($("#password").val()),
                     metodo: "validacao"
                 };
-                
-    $.ajax({
-        type: 'POST',
-        url: "http://"+ipServidor+"/Projeto_BioID-war/servico/outros/validacao",
-        data: JSON.stringify(envio),
-        headers: { 
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-        },
-        success: function(retorno){
-            if(retorno.sucesso){
-
-                localStorage.setItem("logSessao", JSON.stringify(retorno.data));
-               
-
-            }else{
-                alert(retorno.mensagem);
-            }
-            
-            
-        },
-        error: function() {
-          alert("error");
-        }
-    });
-}
-
-
-
-$(document).on("click", "#aqui2", function(evt)
-{
-    
     
     $.when(
 
-	    $.get( 'http://localhost:8080/Projeto_BioID-war/servico/outros/teste'), 
+        $.ajax({
+            type: 'POST',
+            url: "http://"+ipServidor+"/Projeto_BioID-war/servico/outros/validacao",
+            data: JSON.stringify(envio),
+            headers: { 
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+            }
+        })
 
-	    $.post( 'http://localhost:8080/Projeto_BioID-war/j_security_check', $('.login').serialize())
+//	    $.post( 'http://localhost:8080/Projeto_BioID-war/j_security_check', $('.login').serialize())
 
-	).then(function(a) {  // or ".done"
-            localStorage.setItem('validacao', a);
-            location.href = 'paginas/home.html';
+	).then(function(dadosRetorno) {  
+        
+            if(dadosRetorno.sucesso){
+                
+                localStorage.setItem('logSessao', JSON.stringify(dadosRetorno.data));
+
+                $.ajax({
+                    type: 'POST',
+                    url : 'http://'+ipServidor+'/Projeto_BioID-war/j_security_check',
+                    data: $('.login').serialize()
+                            
+                    
+                }).done(function (){
+                    switch(dadosRetorno.data.grupo){
+                        case "administradores":
+                            location.href = "paginas/administrador/administrador.html";
+                            break;
+                        case "gerenciadores":
+                            location.href = "paginas/gerenciador/gerenciadores.html";
+                            break;
+                        case "entrevistadores":
+                            location.href = "paginas/entrevistador/entrevistadores.html";
+                            break;
+                        case "agricultores":
+                            location.href = "paginas/agricultor/agricultores.html";
+                            break;
+                        default:
+                            location.href = "seguranca/erro.html";
+                            break;
+                    }
+                });
+                
+                
+            }else{
+                $("#alerta").empty().append('<a href="#" id="fecharAlert" class="close">&times;</a><strong>Erro!</strong> Usuário ou senha incorreta!').fadeIn();
+            }
 	});
     
  
-    return false;
-});
-
-
-$(document).on("click", "#aqui", function(evt)
-{
-    //Send data to the other script
-    $.post( 'http://localhost:8080/Projeto_BioID-war/j_security_check', $('.login').serialize(), function(data, textStatus, x) {
-        //data is the result from the script
-//        alert(data);
-    $('html').html(data);
-    });
-
     return false;
 });
