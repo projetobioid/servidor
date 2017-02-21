@@ -1,12 +1,13 @@
-var ipServidor = 'localhost:8080'; //sistema em producao
+//var ipServidor = 'localhost:8080'; //sistema em producao
 //var ipServidor = "187.19.101.252:8082"; //sistema rodando fora
 //var ipServidor = "10.1.2.52:8080"; //sistema teste interno
+var ipServidor = "10.2.10.200:8080"; //sistema teste interno
 
 /* button carregar page entrar*/
 $(document).on("click", "#goPagEntrar", function(evt)
 {
-    $("#username").val("admin");
-    $("#password").val("admin");
+    $("#username").val("");
+    $("#password").val("");
     $("#formLogin").validator();
     
     $("#page_inicial").fadeOut(100, function(evt){
@@ -47,9 +48,10 @@ function login()
     
     var envio = {usuario: $("#username").val(),
                     senha: $.sha256($("#password").val()),
-                    metodo: "validacao"
+                    metodo: "VALIDACAO",
+                    ip: ipServidor
                 };
-    
+    alert(JSON.stringify(envio));
     $.when(
 
         $.ajax({
@@ -82,13 +84,13 @@ function login()
                             location.href = "paginas/administrador/administrador.html";
                             break;
                         case "gerenciadores":
-                            location.href = "paginas/gerenciador/gerenciadores.html";
+                            location.href = "paginas/gerenciador/gerenciador.html";
                             break;
                         case "entrevistadores":
-                            location.href = "paginas/entrevistador/entrevistadores.html";
+                            location.href = "paginas/entrevistador/entrevistador.html";
                             break;
                         case "agricultores":
-                            location.href = "paginas/agricultor/agricultores.html";
+                            location.href = "paginas/agricultor/agricultor.html";
                             break;
                         default:
                             location.href = "seguranca/erro.html";

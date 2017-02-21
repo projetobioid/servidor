@@ -5,6 +5,7 @@
  */
 package dao;
 
+import fw.Data;
 import bo.BOFactory;
 import java.sql.Connection;
 import java.sql.ResultSet;

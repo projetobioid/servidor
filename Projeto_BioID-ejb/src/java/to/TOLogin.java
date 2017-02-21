@@ -102,14 +102,18 @@ public class TOLogin extends TOBase{
     public TOLogin(ResultSet rs, String metodo) throws Exception{
         
         switch(metodo){
-            case "get_usuario":
-                this.usuario = rs.getString("usuario");
-                break;
-            default:
+            case "VALIDACAO":
                 this.usuario = rs.getString("usuario");
                 this.nome = rs.getString("nome");
                 this.unidade_idunidade = rs.getLong("unidade_idunidade");
                 this.grupo = rs.getString("grupo");
+                
+                break;
+            default:
+                this.usuario = rs.getString("usuario");
+                this.pessoa_idpessoa = rs.getLong("pessoa_idpessoa");
+                this.unidade_idunidade = rs.getLong("unidade_idunidade");
+                this.senha = rs.getString("senha");
                 
                 break;
         }
@@ -122,13 +126,20 @@ public class TOLogin extends TOBase{
         JSONObject j = new JSONObject();
         
         switch(metodo){
-            default:
+            case "VALIDACAO":
                 //populando o objeto j
                 j.put("usuario", usuario);
                 j.put("nome", nome);
                 j.put("idunidade", unidade_idunidade);
                 j.put("sessao", sessao);
                 j.put("grupo", grupo);
+                break;
+            default:
+                //populando o objeto j
+                j.put("usuario", usuario);
+                j.put("nome", nome);
+                j.put("idunidade", unidade_idunidade);
+                j.put("senha", senha);
                 break;
         }
         

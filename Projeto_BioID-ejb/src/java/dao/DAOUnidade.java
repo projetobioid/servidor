@@ -5,6 +5,7 @@
  */
 package dao;
 
+import fw.Data;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -52,7 +53,7 @@ public class DAOUnidade extends DAOBase{
                 //+ "where LOWER(nomeunidade) = LOWER(?) OR cnpj = ?";
         
         ResultSet rs = null;
-        List<Object> p = new ArrayList<Object>();
+        List<Object> u = new ArrayList<Object>();
         
         try{
 //            TOUnidade to = (TOUnidade)t;
@@ -67,12 +68,20 @@ public class DAOUnidade extends DAOBase{
                         + "INNER JOIN estado es ON (es.idestado = c.estado_idestado) "
                         + "INNER JOIN pais p ON (p.idpais= es.pais_idpais) "
                         + "WHERE idunidade IN(?)";
+                    u.add(((TOUnidade)t).getIdunidade());
+                    break;
+                case "GET_POR_CNPJ":
+                    sql = "SELECT * FROM unidade where cnpj IN(?)";
+                    u.add(((TOUnidade)t).getCnpj());
+                    break;
+                default:
+                    sql = "SELECT * FROM unidade";
                     break;
                 
             }
-            p.add(((TOUnidade)t).getIdunidade());
             
-            rs = Data.executeQuery(c, sql, p);
+            
+            rs = Data.executeQuery(c, sql, u);
             
             if(rs.next()){
                 return new TOUnidade(rs, metodo);
@@ -97,8 +106,13 @@ public class DAOUnidade extends DAOBase{
             String sql = null;
             
             switch(metodo){
-                case "todas":
-                case "unidades":
+                case "ID_NOME_CIDADE":
+                    sql = "SELECT u.idunidade, c.nomecidade, u.nomeunidade "
+                        + "FROM unidade u "
+                        + "INNER JOIN endereco e ON (e.idendereco = u.endereco_idendereco) "
+                        + "INNER JOIN cidade c ON (c.idcidade= e.cidade_idcidade) ";
+                    break;
+                case "TODAS":
                     sql = "SELECT u.idunidade, c.nomecidade, u.nomeunidade, es.nomeestado, p.nomepais, u.telefone1, u.email, u.cnpj "
                         + "FROM unidade u "
                         + "INNER JOIN endereco e ON (e.idendereco = u.endereco_idendereco) "

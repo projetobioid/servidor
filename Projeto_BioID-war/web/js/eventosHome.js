@@ -1193,9 +1193,9 @@ function salvarNovaUnidade(){
 }
 
 //cadastro de uma nova unidade, chama a funcao que fara o json
-$(document).on("click", "#salvarNovoUsuario", function(){
+$(document).on("click", "#salvarNovoUsuarios", function(){
 
-    salvarNovoUsuario();
+    salvarNovoUsuarios();
 
     return false;
 });
@@ -1209,7 +1209,7 @@ $(document).on("click", "#salvarNovoUsuario", function(){
 //    }
 //}
 //manda a requisição para o servidor com os dados referentes a uma novo usuario
-function salvarNovoUsuario(){
+function salvarNovoUsuarios(){
 //    alert("mandar requisição");
     
 var Sessao = getSessao();

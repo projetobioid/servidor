@@ -24,6 +24,9 @@ public class DAOBase {
         return this.idretorno;
     }    
     
+    public void inserirIDString(Connection c, TOBase t) throws Exception{
+    }    
+    
     public void editar(Connection c, TOBase t, String metodo) throws Exception{
     }
     

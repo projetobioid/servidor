@@ -273,11 +273,26 @@ public TOPessoa(ResultSet rs, String metodo) throws Exception{
                 this.rg = rs.getString("rg");
 //            this.idunidade = rs.getLong("idunidade");
                 break;
-            case "get_pessoa_por_cpf":
-                this.idpessoa = rs.getLong("idpessoa");;
-                this.cpf = rs.getString("cpf");
-                break;
+            case "GET_POR_CPF":
             default:
+                this.idpessoa = rs.getLong("idpessoa");
+                this.estadocivil_idestadocivil = rs.getLong("estadocivil_idestadocivil");
+                this.escolaridade_idescolaridade = rs.getLong("escolaridade_idescolaridade");
+                this.endereco_idendereco = rs.getLong("endereco_idendereco");
+                this.escolaridade_idescolaridade = rs.getLong("escolaridade_idescolaridade");
+                this.nome = rs.getString("nome");
+                this.sobrenome = rs.getString("sobrenome");
+                this.cpf = rs.getString("cpf");
+                this.rg = rs.getString("rg");
+                this.datanascimento = rs.getString("datanascimento");
+                this.sexo = rs.getString("sexo");
+                this.telefone1 = rs.getString("telefone1");
+                this.telefone2 = rs.getString("telefone2");
+                this.email = rs.getString("email");
+
+                
+                
+                
                 break;
         }
         
@@ -358,7 +373,23 @@ public TOPessoa(ResultSet rs, String metodo) throws Exception{
                 j.put("rg", rg);
 //            j.put("idunidade", idunidade);
                 break;
+            case "GET_POR_CPF":
             default:
+                j.put("idpessoa", idpessoa);
+                j.put("endereco_idendereco", endereco_idendereco);
+                j.put("escolaridade_idescolaridade", escolaridade_idescolaridade);
+                j.put("estadocivil_idestadocivil", estadocivil_idestadocivil);
+                j.put("nome", nome);
+                j.put("sobrenome", sobrenome);
+                j.put("apelido", apelido);
+                j.put("cpf", cpf);
+                j.put("rg", rg);
+                j.put("datanascimento", datanascimento);
+                j.put("sexo", sexo);
+                j.put("telefone1", telefone1);
+                j.put("telefone2", telefone2);
+                j.put("email", email);
+                
                 break;
         }
         

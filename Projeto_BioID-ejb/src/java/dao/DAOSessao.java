@@ -5,6 +5,7 @@
  */
 package dao;
 
+import fw.Data;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -32,13 +33,11 @@ public class DAOSessao extends DAOBase{
         
         switch(metodo){
             
-            case "validacao":
+            case "VALIDACAO":
                 sql = "INSERT INTO sessao(login_usuario, sessao, datarequisicao) VALUES (?, ?, ?)";
-            u.add(((TOSessao)t).getLogin_usuario());
-            u.add(((TOSessao)t).getSessao());
-            u.add(((TOSessao)t).getDatarequisicao()); 
-                break;
-            default:
+                u.add(((TOSessao)t).getLogin_usuario());
+                u.add(((TOSessao)t).getSessao());
+                u.add(((TOSessao)t).getDatarequisicao()); 
                 break;
                 
         }

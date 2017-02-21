@@ -1,6 +1,7 @@
-var ipServidor = 'localhost:8080'; //sistema em producao
+//var ipServidor = 'localhost:8080'; //sistema em producao
 //var ipServidor = "187.19.101.252:8082"; //sistema rodando fora
 //var ipServidor = "10.1.2.52:8080"; //sistema teste interno
+var ipServidor = "10.2.10.200:8080"; //sistema teste interno
 
   
   
@@ -175,7 +176,7 @@ function listarCultivares(){
 function listarUnidades(){
     var Sessao = getSessao();
     var envio = {
-        metodo: "todas",
+        metodo: "TODAS",
         usuario: Sessao.usuario,
         sessao: Sessao.sessao
     };
@@ -297,7 +298,7 @@ $(document).on("click", "#novo", function(evt)
                                                    <li role="presentation" class="disabled"><a href="#completo" data-toggle="tab" aria-controls="completo" role="tab" title="Salvar"><span class="round-tab"><i class="fa fa-save"></i></span></a></li>');
 
                 $("#formProgresso").empty().append('<div class="tab-pane active" role="tabpanel" id="progresso1">       <form data-toggle="validator" role="form" class="formNovaUnidade" >     <div class="form-group"><label for="nomeNovaUnidade" class="control-label">Nome unidade:</label><input type="text" class="form-control " id="nomeNovaUnidade" placeholder="Digite da unidade..." pattern="[a-zA-Z çÇãÃâÂáÁàÀéÉêÊíÍìÌõÕôÔóÓúÚ]+" data-error="Por favor, informe o nome da unidade." required ><div class="help-block with-errors"></div></div><div class="form-group"><label for="cnpjNovaUnidade" class="control-label">CNPJ:</label><input type="text" pattern=".{18,}" class="form-control camposCNPJ" id="cnpjNovaUnidade" placeholder="Digite o cnpj..." data-error="Por favor, informe o CNPJ da unidade." required ><div class="help-block with-errors"></div></div><div class="form-group"><label for="nomeFantaNovaUnidade" class="control-label">Nome fantasia:</label><input type="text" class="form-control " id="nomeFantaNovaUnidade" placeholder="Digite o nome fantasia..."></div><div class="form-group"><label for="razaoSocialNovaUnidade" class="control-label">Razão social:</label><input type="text" class="form-control " id="razaoSocialNovaUnidade" placeholder="Digite a razão social..."></div><div class="form-group"><label for="telefone1NovaUnidade" class="control-label">Telefone 1:</label><input type="tel" class="form-control camposTelefone" placeholder="(xx) xxxxx-xxxx" pattern=".{14,}" id="telefone1NovaUnidade" placeholder="Digite o telefone 1..." data-error="Por favor, informe o telefone da unidade." required ><div class="help-block with-errors"></div></div><div class="form-group"><label for="telefone2NovaUnidade" class="control-label">Telefone 2:</label><input type="tel" class="form-control camposTelefone" placeholder="(xx) xxxxx-xxxx" pattern=".{14,}" id="telefone2NovaUnidade"></div><div class="form-group"><label for="emailNovaUnidade" class="control-label">Email:</label><input type="email" class="form-control " id="emailNovaUnidade" placeholder="Digite o email..." data-error="Por favor, informe o email da unidade." required ><div class="help-block with-errors"></div></div><div class="form-group"> <button type="submit" style="float: right;" class="btn btn-warning next-step">Continuar</button> </div>  </form>       </div>\n\
-                                                    <div class="tab-pane"  id="progresso2">                             <form data-toggle="validator" role="form" class="formNovaUnidade" >     <div class="form-group"><label for="ruaNovaUnidade" class="control-label">Rua:</label><input type="text" class="form-control " id="ruaNovaUnidade" placeholder="Digite o nome da rua..." pattern="[a-zA-Z0-9 çÇãÃâÂáÁàÀéÉêÊíÍìÌõÕôÔóÓúÚ]+" data-error="Por favor, informe a rua da unidade." required ><div class="help-block with-errors"></div></div><div class="form-group"><label for="numeroNovaUnidade" class="control-label">Número:</label><input type="number" min="0" class="form-control " id="numeroNovaUnidade" placeholder="Digite o número..." data-error="Por favor, informe o numero da unidade." required ><div class="help-block with-errors"></div></div><div class="form-group"><label for="bairroNovaUnidade" class="control-label">Bairro:</label><input type="text" class="form-control " id="bairroNovaUnidade" placeholder="Digite o nome do bairro..." pattern="[a-zA-Z çÇãÃâÂáÁàÀéÉêÊíÍìÌõÕôÔóÓúÚ]+" data-error="Por favor, informe o bairro da unidade." required ><div class="help-block with-errors"></div></div><div class="form-group"><label for="complementoNovaUnidade" class="control-label">Complemento:</label><input type="text" class="form-control" id="complementoNovaUnidade" placeholder="Digite o complemento..." ></div><div class="form-group"><label for="cepNovaUnidade" class="control-label">Cep:</label><input type="text" class="form-control  camposCEP" id="cepNovaUnidade" placeholder="Digite o cep da propriedade..." ></div><div class="form-group"><label for="gps_latNovaUnidade" class="control-label">Latitude:</label><input type="number" class="form-control " id="gps_latNovaUnidade" placeholder="Digite a latitude..." value="0" ></div><div class="form-group"><label for="gps_longNovaUnidade" class="control-label">Longitude:</label><input type="number" class="form-control " id="gps_longNovaUnidade" value="0" placeholder="Digite a longitude..." ></div><div class="form-group"><label for="paisNovaUnidade" class="control-label">País:</label><select class="form-control  carregaPais" id="paisNovaUnidade" data-error="Por favor, selecione o país da unidade." required ><option></option></select><div class="help-block with-errors"></div></div><div class="form-group"><label for="estadoNovaUnidade" class="control-label">Estado:</label><select class="form-control carregaEstado" id="estadoNovaUnidade" data-error="Por favor, selecione o estado da unidade." required ><option></option></select><div class="help-block with-errors"></div></div><div class="form-group"><label for="cidadeNovaUnidade" class="control-label">Cidade:</label><select class="form-control carregaCidade" id="cidadeNovaUnidade" carregaPais" data-error="Por favor, selecione a cidade da unidade." required ><option></option></select><div class="help-block with-errors"></div></div><div class="form-group"> <button type="submit" style="float: right;" class="btn btn-warning next-step">Continuar</button> </div>  </form>       </div>\n\
+                                                    <div class="tab-pane"  id="progresso2">                             <form data-toggle="validator" role="form" class="formNovaUnidade" >     <div class="form-group"><label for="ruaNovaUnidade" class="control-label">Rua:</label><input type="text" class="form-control " id="ruaNovaUnidade" placeholder="Digite o nome da rua..." pattern="[a-zA-Z0-9 çÇãÃâÂáÁàÀéÉêÊíÍìÌõÕôÔóÓúÚ.]+" data-error="Por favor, informe a rua da unidade." required ><div class="help-block with-errors"></div></div><div class="form-group"><label for="numeroNovaUnidade" class="control-label">Número:</label><input type="number" min="0" class="form-control " id="numeroNovaUnidade" placeholder="Digite o número..." data-error="Por favor, informe o numero da unidade." required ><div class="help-block with-errors"></div></div><div class="form-group"><label for="bairroNovaUnidade" class="control-label">Bairro:</label><input type="text" class="form-control " id="bairroNovaUnidade" placeholder="Digite o nome do bairro..." pattern="[a-zA-Z çÇãÃâÂáÁàÀéÉêÊíÍìÌõÕôÔóÓúÚ]+" data-error="Por favor, informe o bairro da unidade." required ><div class="help-block with-errors"></div></div><div class="form-group"><label for="complementoNovaUnidade" class="control-label">Complemento:</label><input type="text" class="form-control" id="complementoNovaUnidade" placeholder="Digite o complemento..." ></div><div class="form-group"><label for="cepNovaUnidade" class="control-label">Cep:</label><input type="text" class="form-control  camposCEP" id="cepNovaUnidade" placeholder="Digite o cep da propriedade..." ></div><div class="form-group"><label for="gps_latNovaUnidade" class="control-label">Latitude:</label><input type="number" class="form-control " id="gps_latNovaUnidade" placeholder="Digite a latitude..." value="0" ></div><div class="form-group"><label for="gps_longNovaUnidade" class="control-label">Longitude:</label><input type="number" class="form-control " id="gps_longNovaUnidade" value="0" placeholder="Digite a longitude..." ></div><div class="form-group"><label for="paisNovaUnidade" class="control-label">País:</label><select class="form-control  carregaPais" id="paisNovaUnidade" data-error="Por favor, selecione o país da unidade." required ><option></option></select><div class="help-block with-errors"></div></div><div class="form-group"><label for="estadoNovaUnidade" class="control-label">Estado:</label><select class="form-control carregaEstado" id="estadoNovaUnidade" data-error="Por favor, selecione o estado da unidade." required ><option></option></select><div class="help-block with-errors"></div></div><div class="form-group"><label for="cidadeNovaUnidade" class="control-label">Cidade:</label><select class="form-control carregaCidade" id="cidadeNovaUnidade" carregaPais" data-error="Por favor, selecione a cidade da unidade." required ><option></option></select><div class="help-block with-errors"></div></div><div class="form-group"> <button type="submit" style="float: right;" class="btn btn-warning next-step">Continuar</button> </div>  </form>       </div>\n\
                                                     <div class="tab-pane"  id="completo"><h3>Deseja realmente salvar a unidade?</h3><div class="form-group"> <button type="submit" style="float: right;" id="salvarNovaUnidade" class="btn btn-warning">Salvar</button> </div></div><div class="clearfix"></div>');
   
                 //tamanho do icone do progresso de acordo com a quantidade
@@ -321,9 +322,9 @@ $(document).on("click", "#novo", function(evt)
                                                    <li role="presentation" class="disabled"><a href="#completo" data-toggle="tab" aria-controls="completo" role="tab" title="Salvar"><span class="round-tab"><i class="fa fa-save"></i></span></a></li>');
 
                 $("#formProgresso").empty().append('<div class="tab-pane active" role="tabpanel" id="progresso1">   <form class="formNovoUsuario" data-toggle="validator" role="form">    <div class="form-group"><label for="nomeNovoUsuario" class="control-label">Nome:</label><input type="text" class="form-control " id="nomeNovoUsuario" placeholder="Digite o nome do usuário..." pattern="[a-zA-ZçÇãÃâÂáÁàÀéÉêÊíÍìÌõÕôÔóÓúÚ]+" data-error="Por favor, informe o nome do usuário." required ><div class="help-block with-errors"></div></div><div class="form-group"><label for="sobrenomeNovoUsuario" class="control-label">Sobrenome:</label><input type="text" class="form-control " id="sobrenomeNovoUsuario" placeholder="Digite o sobrenome do usuário..." pattern="[a-zA-Z çÇãÃâÂáÁàÀéÉêÊíÍìÌõÕôÔóÓúÚ]+" data-error="Por favor, informe o sobrenome do usuário." required ><div class="help-block with-errors"></div></div><div class="form-group"><label for="rgNovoUsuario" class="control-label">RG:</label><input type="text" class="form-control camposRG" pattern=".{9,}"  placeholder="99999.999-9" id="rgNovoUsuario" data-error="Por favor, informe o RG do usuário." required ><div class="help-block with-errors"></div></div><div class="form-group"><label for="cpfNovoUsuario" class="control-label">CPF:</label><input type="text" class="form-control  camposCPF" pattern=".{14,}" placeholder="999.999.999-99" id="cpfNovoUsuario" data-error="Por favor, informe o CPF do usuário." required ><div class="help-block with-errors"></div></div><div class="form-group"><label for="apelidoNovoUsuario" class="control-label">Apelido:</label><input type="text" class="form-control" id="apelidoNovoUsuario" placeholder="Digite o apelido do usuário..." ></div><div class="form-group"><label for="dataNascNovoUsuario" class="control-label">Data de nascimento:</label><input type="text" class="form-control camposData" placeholder="dd/mm/aaaa" pattern=".{10,}" id="dataNascNovoUsuario" data-error="Por favor, informe a data de nascimento do usuário." required ><div class="help-block with-errors"></div></div><div class="form-group" id="generoNovoUsuario"><input type="radio" name="genero" value="m" checked> Masculino<br><input type="radio" name="genero" value="f"> Feminino<br> <br></div><div class="form-group"><label for="telefone1NovoUsuario" class="control-label">Telefone 1:</label><input type="tel" class="form-control  camposTelefone" placeholder="(xx) xxxxx-xxxx" pattern=".{14,}" id="telefone1NovoUsuario" data-error="Por favor, informe o telefone1 do usuário." required ><div class="help-block with-errors"></div></div><div class="form-group"><label for="telefone2NovoUsuario" class="control-label">Telefone 2:</label><input type="tel" class="form-control  camposTelefone" placeholder="(xx) xxxxx-xxxx" pattern=".{14,}" id="telefone2NovoUsuario" placeholder="Digite o telefone 2 do usuário..." ></div><div class="form-group"><label for="escolaridadeNovoUsuario" class="control-label">Escolaridade:</label><select class="form-control" id="escolaridadeNovoUsuario"><option>Ensino fundamental</option><option>Ensino fundamental incompleto</option><option>Ensino médio</option><option>Ensino médio incompleto</option><option>Ensino superior</option><option>Ensino superior incompleto</option><option>Pós-graduação</option><option>Pós-graduação incompleta</option><option>Sem escolaridade</option></select></div><div class="form-group"><label for="estadocivilNovoUsuario" class="control-label">Estado civil:</label><select class="form-control " id="estadocivilNovoUsuario"><option>Solteiro(a)</option><option>Casado(a)</option><option>Divorciado(a)</option><option>Viúvo(a)</option><option>Separado(a)</option><option>Companheiro(a)</option></select></div>   <div class="form-group"> <button type="submit" style="float: right;" class="btn btn-warning next-step">Continuar</button> </div>  </form>       </div>\n\
-                                                   <div class="tab-pane"  id="progresso2">                          <form class="formNovoUsuario" data-toggle="validator" role="form">    <div class="form-group"><label for="ruaNovoUsuario" class="control-label">Rua:</label><input type="text" class="form-control " id="ruaNovoUsuario" placeholder="Digite o nome da rua..." pattern="[a-zA-Z çÇãÃâÂáÁàÀéÉêÊíÍìÌõÕôÔóÓúÚ]+" data-error="Por favor, informe a rua do usuário." required ><div class="help-block with-errors"></div></div><div class="form-group"><label for="numeroNovoUsuario" class="control-label">Número:</label><input type="number" min="0" class="form-control " id="numeroNovoUsuario" placeholder="Digite o número..." data-error="Por favor, informe o número do usuário." required ><div class="help-block with-errors"></div></div><div class="form-group"><label for="bairroNovoUsuario" class="control-label">Bairro:</label><input type="text" class="form-control " id="bairroNovoUsuario" placeholder="Digite o nome do bairro..." pattern="[a-zA-ZçÇãÃâÂáÁàÀéÉêÊíÍìÌõÕôÔóÓúÚ]+" data-error="Por favor, informe o bairro do usuário." required ><div class="help-block with-errors"></div></div><div class="form-group"><label for="complementoNovoUsuario" class="control-label">Complemento:</label><input type="text" class="form-control" id="complementoNovoUsuario" placeholder="Digite o complemento..." ></div><div class="form-group"><label for="cepNovoUsuario" class="control-label">Cep:</label><input type="text" class="form-control  camposCEP" id="cepNovoUsuario" placeholder="Digite o cep..." ></div><div class="form-group"><label for="gps_latNovoUsuario" class="control-label">Latitude:</label><input type="number" class="form-control " id="gps_latNovoUsuario" placeholder="Digite a latitude..." min="0" value="0"></div><div class="form-group"><label for="gps_longNovoUsuario" class="control-label">Longitude:</label><input type="number" class="form-control " id="gps_longNovoUsuario" placeholder="Digite a longitude..." min="0" value="0"></div><div class="form-group"><label for="paisNovoUsuario" class="control-label">País:</label><select class="form-control  carregaPais" id="paisNovoUsuario" data-error="Por favor, informe o país do usuário." required ><option></option></select><div class="help-block with-errors"></div></div><div class="form-group"><label for="estadoNovoUsuario" class="control-label">Estado:</label><select class="form-control carregaEstado" id="estadoNovoUsuario" data-error="Por favor, informe o estado do usuário." required ><option></option></select><div class="help-block with-errors"></div></div><div class="form-group"><label for="cidadeNovoUsuario" class="control-label">Cidade:</label><select class="form-control carregaCidade" id="cidadeNovoUsuario" data-error="Por favor, informe a cidade do usuário." required ><option></option></select><div class="help-block with-errors"></div></div><div class="form-group"> <button type="submit" style="float: right;" class="btn btn-warning next-step">Continuar</button> </div>  </form>       </div>\n\
+                                                   <div class="tab-pane"  id="progresso2">                          <form class="formNovoUsuario" data-toggle="validator" role="form">    <div class="form-group"><label for="ruaNovoUsuario" class="control-label">Rua:</label><input type="text" class="form-control " id="ruaNovoUsuario" placeholder="Digite o nome da rua..." pattern="[a-zA-Z çÇãÃâÂáÁàÀéÉêÊíÍìÌõÕôÔóÓúÚ.]+" data-error="Por favor, informe a rua do usuário." required ><div class="help-block with-errors"></div></div><div class="form-group"><label for="numeroNovoUsuario" class="control-label">Número:</label><input type="number" min="0" class="form-control " id="numeroNovoUsuario" placeholder="Digite o número..." data-error="Por favor, informe o número do usuário." required ><div class="help-block with-errors"></div></div><div class="form-group"><label for="bairroNovoUsuario" class="control-label">Bairro:</label><input type="text" class="form-control " id="bairroNovoUsuario" placeholder="Digite o nome do bairro..." pattern="[a-zA- ZçÇãÃâÂáÁàÀéÉêÊíÍìÌõÕôÔóÓúÚ]+" data-error="Por favor, informe o bairro do usuário." required ><div class="help-block with-errors"></div></div><div class="form-group"><label for="complementoNovoUsuario" class="control-label">Complemento:</label><input type="text" class="form-control" id="complementoNovoUsuario" placeholder="Digite o complemento..." ></div><div class="form-group"><label for="cepNovoUsuario" class="control-label">Cep:</label><input type="text" class="form-control  camposCEP" id="cepNovoUsuario" placeholder="Digite o cep..." ></div><div class="form-group"><label for="gps_latNovoUsuario" class="control-label">Latitude:</label><input type="number" class="form-control " id="gps_latNovoUsuario" placeholder="Digite a latitude..." min="0" value="0"></div><div class="form-group"><label for="gps_longNovoUsuario" class="control-label">Longitude:</label><input type="number" class="form-control " id="gps_longNovoUsuario" placeholder="Digite a longitude..." min="0" value="0"></div><div class="form-group"><label for="paisNovoUsuario" class="control-label">País:</label><select class="form-control  carregaPais" id="paisNovoUsuario" data-error="Por favor, informe o país do usuário." required ><option></option></select><div class="help-block with-errors"></div></div><div class="form-group"><label for="estadoNovoUsuario" class="control-label">Estado:</label><select class="form-control carregaEstado" id="estadoNovoUsuario" data-error="Por favor, informe o estado do usuário." required ><option></option></select><div class="help-block with-errors"></div></div><div class="form-group"><label for="cidadeNovoUsuario" class="control-label">Cidade:</label><select class="form-control carregaCidade" id="cidadeNovoUsuario" data-error="Por favor, informe a cidade do usuário." required ><option></option></select><div class="help-block with-errors"></div></div><div class="form-group"> <button type="submit" style="float: right;" class="btn btn-warning next-step">Continuar</button> </div>  </form>       </div>\n\
                                                    <div class="tab-pane"  id="progresso3">                          <form class="formNovoUsuario" data-toggle="validator" role="form">    <div class="form-group"><label for="emailNovoUsuario" class="control-label">Email:</label><input type="email" class="form-control " id="emailNovoUsuario" placeholder="Digite o email do usuário..." data-error="Por favor, informe o email do usuário." required ><div class="help-block with-errors"></div></div><div class="form-group"><label for="usuarioNovoUsuario" class="control-label">Usuário:</label><input type="text" class="form-control " id="usuarioNovoUsuario" data-minlength="6" placeholder="Digite o usuário no mínimo 6 dígitos..." pattern="[a-zA-Z0-9]+" data-error="Por favor, informe o usuário no mínimo 6 dígitos." required ><div class="help-block with-errors"></div></div><div class="form-group"><label for="senhaNovoUsuario" class="control-label">Senha:</label><input type="password" class="form-control " id="senhaNovoUsuario" placeholder="Digite a senha..." data-minlength="6" data-error="Por favor, informe uma senha no minímo 6 dígitos." required ><div class="help-block with-errors"></div></div><div class="form-group"><label for="RsenhaNovoUsuario" class="control-label">Repita a senha:</label><input type="password" class="form-control " id="RsenhaNovoUsuario" placeholder="Digite novamente a senha..." data-match="#senhaNovoUsuario" data-error="Por favor, confirme sua senha." data-match-error="Ops, as senhas não correspondem." required ><div class="help-block with-errors"></div></div><div class="form-group"> <button type="submit" style="float: right;" class="btn btn-warning next-step">Continuar</button> </div>  </form>       </div>\n\
-                                                   <div class="tab-pane"  id="progresso4">                          <form class="formNovoUsuario" data-toggle="validator" role="form">    <div class="form-group"><label for="unidadeAtuacaoNovoUsuario" class="control-label">Unidade de atuação:</label><select class="form-control carregaUnidades" id="unidadeAtuacaoNovoUsuario" data-error="Por favor, informe a unidade do usuário." required ><option></option></select><div class="help-block with-errors"></div></div>      <div class="form-group"><label for="papelNovoUsuario" class="control-label">Papel:</label><select class="form-control" id="papelNovoUsuario" data-error="Por favor, informe o papel do usuário." required ><option></option><option value="e">Entrevistador</option><option value="g">Gerenciador</option><option value="x">Administrador</option></select><div class="help-block with-errors"></div></div>      <div class="form-group"> <button type="submit" style="float: right;" class="btn btn-warning next-step">Continuar</button> </div>  </form>       </div>\n\
+                                                   <div class="tab-pane"  id="progresso4">                          <form class="formNovoUsuario" data-toggle="validator" role="form">    <div class="form-group"><label for="unidadeAtuacaoNovoUsuario" class="control-label">Unidade de atuação:</label><select class="form-control carregaUnidades" id="unidadeAtuacaoNovoUsuario" data-error="Por favor, informe a unidade do usuário." required ><option></option></select><div class="help-block with-errors"></div></div>      <div class="form-group"><label for="grupoNovoUsuario" class="control-label">Papel:</label><select class="form-control" id="grupoNovoUsuario" data-error="Por favor, informe o grupo do usuário." required ><option></option><option value="entrevistadores">Entrevistadores</option><option value="gerenciadores">Gerenciadores</option><option value="administradores">Administradores</option></select><div class="help-block with-errors"></div></div>      <div class="form-group"> <button type="submit" style="float: right;" class="btn btn-warning next-step">Continuar</button> </div>  </form>       </div>\n\
                                                    <div class="tab-pane"  id="completo"><h3>Deseja realmente salvar o usuário?</h3><div class="form-group"> <button type="submit" style="float: right;" id="salvarNovoUsuario" class="btn btn-warning">Salvar</button> </div></div><div class="clearfix"></div>');
                                                                            
                                 
@@ -848,14 +849,45 @@ function salvarNovaUnidade(){
 //
 //
 
-//
-////cadastro de uma nova unidade, chama a funcao que fara o json
-//$(document).on("click", "#salvarNovoUsuario", function(){
-//
-//    salvarNovoUsuario();
+////carrega as unidades em um select
+//$(document).on("click", "#unidadeAtuacaoNovoUsuario", function(){
+//    var Sessao = getSessao();
+//    
+//    var envio = {
+//        usuario: Sessao.usuario,
+//        sessao: Sessao.sessao,
+//        metodo: "INPUT_SELECT"
+//        
+//    };
+//    
+//    
+//    //chama a requisicao do servidor, o resultado é listado em uma tabela
+//    requisicao(false, "unidade/listar", envio, function(dadosRetorno) {
+//       alert(dadosRetorno.data);
+//        if(dadosRetorno.sucesso){
+//            $(".painelCarregando").fadeOut(400);
+//            $.each(dadosRetorno.data, function(i, valor){
+//                $("#unidadeAtuacaoNovoUsuario").append('<select>'+valor.nomeunidade+'</select>');
+//            });
+//        }else{
+//            $(".painelCarregando").fadeOut(400);
+//            alerta("Alerta!", dadosRetorno.mensagem);
+//        }
+//        //atualiza a sessao
+//        updateSessao(dadosRetorno.sessao);
+//    });
 //
 //    return false;
 //});
+
+//cadastro de uma nova unidade, chama a funcao que fara o json
+$(document).on("click", "#salvarNovoUsuario", function(){
+
+    salvarNovoUsuario();
+
+    return false;
+});
+
 //
 //////validacao dos dados de um novo usuario
 ////function validacaoNovoUsuario(){
@@ -865,105 +897,105 @@ function salvarNovaUnidade(){
 ////        return false;
 ////    }
 ////}
-////manda a requisição para o servidor com os dados referentes a uma novo usuario
-//function salvarNovoUsuario(){
-////    alert("mandar requisição");
-//    
-//var Sessao = getSessao();
-//    
 //
-//    var envio = {
-////        metodo: "inserirusuario",
-//        usuario: Sessao.usuario,
-//        sessao: Sessao.sessao,
-//        metodo: "usuario",
-//        cidade_idcidade : $("#cidadeNovoUsuario").prop("value"),
-//        rua: $("#ruaNovoUsuario").val(),
-//        gps_lat: $("#gps_latNovoUsuario").val(),
-//        gps_long: $("#gps_longNovoUsuario").val(),
-//        bairro: $("#bairroNovoUsuario").val(),
-//        complemento: $("#complementoNovoUsuario").val(),
-//        cep: $("#cepNovoUsuario").val(),
-//        numero: $("#numeroNovoUsuario").val(),
-//        escolaridade_idescolaridade: $("#escolaridadeNovoUsuario")[0].selectedIndex,
-//        estadocivil_idestadocivil: $("#estadocivilNovoUsuario")[0].selectedIndex,
-//        nome: $("#nomeNovoUsuario").val(),
-//        sobrenome: $("#sobrenomeNovoUsuario").val(),
-//        apelido: $("#apelidoNovoUsuario").val(),
-//        cpf: $("#cpfNovoUsuario").val(),
-//        rg: $("#rgNovoUsuario").val(),
-//        datanascimento: $("#dataNascNovoUsuario").val(),
-//        sexo: $("#generoNovoUsuario input:checked").prop("value"),
-//        telefone1: $("#telefone1NovoUsuario").val(),
-//        telefone2: $("#telefone2NovoUsuario").val(),
-//        email: $("#emailNovoUsuario").val(),
-//        usuario: $("#usuarioNovoUsuario").val(),
-//        senha: $.md5($("#senhaNovoUsuario").val()),
-//        papel: $("#papelNovoUsuario").prop("value"),
-//        unidade_idunidade: $("#unidadeAtuacaoNovoUsuario").prop("value")
-//    };
-//    
-//    
-//    //chama a requisicao do servidor, o resultado é listado em uma tabela
-//    requisicao(true, "pessoa/inserir", envio, function(dadosRetorno) {
-//        if(dadosRetorno.sucesso){
-//            
-//            $(".painelCarregando").fadeOut(400);
-//            alerta("Alerta!", dadosRetorno.mensagem);
-//            preEventosPaginaCadastros($(this), "fa-user-secret","Usuários", "Listar todos os usuários", "Adicionar um novo usuário", "Editar um usuário", "Excluir um usuário");
-//        }else{
-//            $(".painelCarregando").fadeOut(400);
-//            alerta("Alerta!", dadosRetorno.mensagem);
-//        }
-//        //atualiza a sessao
-//        updateSessao(dadosRetorno.sessao);
-//    });
-//
-//}
-//
-//
-////manda a requisição para o servidor com os dados referentes a uma nova unidade
-//function salvarNovaUnidade(){
-//    var Sessao = getSessao();
-//    
-//
-//    var envio = {
-//        usuario: Sessao.usuario,
-//        sessao: Sessao.sessao,
-//        
-//        cidade_idcidade : $("#cidadeNovaUnidade").prop("value"),
-//        rua: $("#ruaNovaUnidade").val(),
-//        gps_lat: $("#gps_latNovaUnidade").val(),
-//        gps_long: $("#gps_longNovaUnidade").val(),
-//        bairro: $("#bairroNovaUnidade").val(),
-//        complemento: $("#complementoNovaUnidade").val(),
-//        cep: $("#cepNovaUnidade").val(),
-//        numero: $("#numeroNovaUnidade").val(),
-//        nomeunidade: $("#nomeNovaUnidade").val(),
-//        cnpj: $("#cnpjNovaUnidade").val(),
-//        telefone1: $("#telefone1NovaUnidade").val(),
-//        telefone2: $("#telefone2NovaUnidade").val(),
-//        email: $("#emailNovaUnidade").val(),
-//        razao_social: $("#razaoSocialNovaUnidade").val(),
-//        nome_fanta: $("#nomeFantaNovaUnidade").val()
-//    };
-//    
-//    
-//    //chama a requisicao do servidor, o resultado é listado em uma tabela
-//    requisicao(true, "unidade/inserir", envio, function(dadosRetorno) {
-//        if(dadosRetorno.sucesso){
-//            
-//            $(".painelCarregando").fadeOut(400);
-//            alerta("Alerta!", dadosRetorno.mensagem);
-//            preEventosPaginaCadastros($(this), "fa-university", "Unidades", "Listar todas as unidades", "Adicionar uma nova unidade", "Editar informações de uma unidade", "Excluir uma unidade");
-//        }else{
-//            $(".painelCarregando").fadeOut(400);
-//            alerta("Alerta!", dadosRetorno.mensagem);
-//        }
-//        //atualiza a sessao
-//        updateSessao(dadosRetorno.sessao);
-//    });
-//}
+//manda a requisição para o servidor com os dados referentes a uma novo usuario
+function salvarNovoUsuario(){
+    
+    var Sessao = getSessao();
+    
+
+    var envio = {
+//        metodo: "inserirusuario",
+        usuario: Sessao.usuario,
+        sessao: Sessao.sessao,
+        metodo: "usuario",
+        cidade_idcidade : $("#cidadeNovoUsuario").prop("value"),
+        rua: $("#ruaNovoUsuario").val(),
+        gps_lat: $("#gps_latNovoUsuario").val(),
+        gps_long: $("#gps_longNovoUsuario").val(),
+        bairro: $("#bairroNovoUsuario").val(),
+        complemento: $("#complementoNovoUsuario").val(),
+        cep: $("#cepNovoUsuario").val(),
+        numero: $("#numeroNovoUsuario").val(),
+        escolaridade_idescolaridade: $("#escolaridadeNovoUsuario")[0].selectedIndex,
+        estadocivil_idestadocivil: $("#estadocivilNovoUsuario")[0].selectedIndex,
+        nome: $("#nomeNovoUsuario").val(),
+        sobrenome: $("#sobrenomeNovoUsuario").val(),
+        apelido: $("#apelidoNovoUsuario").val(),
+        cpf: $("#cpfNovoUsuario").val(),
+        rg: $("#rgNovoUsuario").val(),
+        datanascimento: $("#dataNascNovoUsuario").val(),
+        sexo: $("#generoNovoUsuario input:checked").prop("value"),
+        telefone1: $("#telefone1NovoUsuario").val(),
+        telefone2: $("#telefone2NovoUsuario").val(),
+        email: $("#emailNovoUsuario").val(),
+        usuario_login: $("#usuarioNovoUsuario").val(),
+        senha: $.sha256($("#senhaNovoUsuario").val()),
+        grupo: $("#grupoNovoUsuario").prop("value"),
+        unidade_idunidade: $("#unidadeAtuacaoNovoUsuario").prop("value")
+    };
+    
+    
+    //chama a requisicao do servidor, o resultado é listado em uma tabela
+    requisicao(true, "usuario/inserir", envio, function(dadosRetorno) {
+        if(dadosRetorno.sucesso){
+            
+            $(".painelCarregando").fadeOut(400);
+            alerta("Alerta!", dadosRetorno.mensagem);
+            preEventosPaginaCadastros($(this), "fa-user-secret","Usuários", "Listar todos os usuários", "Adicionar um novo usuário", "Editar um usuário", "Excluir um usuário");
+        }else{
+            $(".painelCarregando").fadeOut(400);
+            alerta("Alerta!", dadosRetorno.mensagem);
+        }
+        //atualiza a sessao
+        updateSessao(dadosRetorno.sessao);
+    });
+
+}
+
+
+//manda a requisição para o servidor com os dados referentes a uma nova unidade
+function salvarNovaUnidade(){
+    var Sessao = getSessao();
+    
+
+    var envio = {
+        usuario: Sessao.usuario,
+        sessao: Sessao.sessao,
+        
+        cidade_idcidade : $("#cidadeNovaUnidade").prop("value"),
+        rua: $("#ruaNovaUnidade").val(),
+        gps_lat: $("#gps_latNovaUnidade").val(),
+        gps_long: $("#gps_longNovaUnidade").val(),
+        bairro: $("#bairroNovaUnidade").val(),
+        complemento: $("#complementoNovaUnidade").val(),
+        cep: $("#cepNovaUnidade").val(),
+        numero: $("#numeroNovaUnidade").val(),
+        nomeunidade: $("#nomeNovaUnidade").val(),
+        cnpj: $("#cnpjNovaUnidade").val(),
+        telefone1: $("#telefone1NovaUnidade").val(),
+        telefone2: $("#telefone2NovaUnidade").val(),
+        email: $("#emailNovaUnidade").val(),
+        razao_social: $("#razaoSocialNovaUnidade").val(),
+        nome_fanta: $("#nomeFantaNovaUnidade").val()
+    };
+    
+    
+    //chama a requisicao do servidor, o resultado é listado em uma tabela
+    requisicao(true, "unidade/inserir", envio, function(dadosRetorno) {
+        if(dadosRetorno.sucesso){
+            
+            $(".painelCarregando").fadeOut(400);
+            alerta("Alerta!", dadosRetorno.mensagem);
+            preEventosPaginaCadastros($(this), "fa-university", "Unidades", "Listar todas as unidades", "Adicionar uma nova unidade", "Editar informações de uma unidade", "Excluir uma unidade");
+        }else{
+            $(".painelCarregando").fadeOut(400);
+            alerta("Alerta!", dadosRetorno.mensagem);
+        }
+        //atualiza a sessao
+        updateSessao(dadosRetorno.sessao);
+    });
+}
 //
 //function testeRadioPapel(){
 //    if($("#radioEntrevistador").is(':checked') || $("#radioGerenciador").is(':checked') || $("#radioAdministrador").is(':checked')){
@@ -1096,40 +1128,44 @@ $(document).on("focusin", ".carregaCidade", function(){
 
 //
 //
-////carrega a lista de unidades do banco de dados e lista em um select
-//$(document).on("focusin", ".carregaUnidades", function(){
-//    var envio = {
-//        metodo: "nome_id_unidades"
-//    };
-//    
-//    var idSelect = $(this).prop("id");
-//
-//    //chama a requisicao do servidor, o resultado é listado em um select
-//    requisicao(true, "outros/listar", envio, function(dadosRetorno) {
-//        if(dadosRetorno.sucesso){
+//carrega a lista de unidades do banco de dados e lista em um select
+$(document).one("focusin", ".carregaUnidades", function(){
+    var Sessao = getSessao();
+    var envio = {
+        usuario: Sessao.usuario,
+        sessao: Sessao.sessao,
+        metodo: "ID_NOME_CIDADE"
+        
+    };
+    
+    var idSelect = $(this).prop("id");
+
+    //chama a requisicao do servidor, o resultado é listado em um select
+    requisicao(true, "unidade/listar", envio, function(dadosRetorno) {
+        if(dadosRetorno.sucesso){
+            
+            $("#"+idSelect).empty();
+            $.each(dadosRetorno.data, function(i, value){
+                $("#"+idSelect).append('<option value="'+value.idunidade+'">'+value.nomeunidade+' {Cidade: '+value.nomecidade+'}</option>');
+            });
 //            
-//            $("#"+idSelect).empty();
-//            $.each(dadosRetorno.data, function(i, value){
-//                $("#"+idSelect).append('<option value="'+value.idunidade+'">'+value.nomeunidade+'</option>');
-//            });
-////            
-////            //limpa os campos do estado e cidade
-////            if($(".carregaEstado").val() !== "" || $(".carregaCidade").val() !== ""){
-////                $(".carregaEstado").empty();
-////                $(".carregaCidade").empty();
-////            }
-//            
-//            $(".painelCarregando").fadeOut(400);
-//        }else{
-//            $(".painelCarregando").fadeOut(400);
-//            alerta("Alerta!", dadosRetorno.mensagem);
-//        }
-// 
-//    });
-//
-// 
-//    return false;
-//});
+//            //limpa os campos do estado e cidade
+//            if($(".carregaEstado").val() !== "" || $(".carregaCidade").val() !== ""){
+//                $(".carregaEstado").empty();
+//                $(".carregaCidade").empty();
+//            }
+            
+            $(".painelCarregando").fadeOut(400);
+        }else{
+            $(".painelCarregando").fadeOut(400);
+            alerta("Alerta!", dadosRetorno.mensagem);
+        }
+        updateSessao(dadosRetorno.sessao);
+    });
+
+ 
+    return false;
+});
 //
 //
 //
@@ -1900,214 +1936,165 @@ $(document).on("focusin", ".carregaCidade", function(){
 //
 //
 //
-////dois clicks tabela aparece modal com atributos referentes ao item selecionado
-//$(document).on("dblclick", "#divItens tr", function(evt)
-//{
-//    $("#modalTitulo").text("");
-//    $("#itensModal").empty();
-//    
-//    
-//
-//            switch (verificaPagina()){
-//                        case 1:
-//                            carregaAgricultor($(this).find('td:eq(0)').html(), "modal");  
-//                        break;
-//                        case 2:
-//                        case 5:
-//                            carregaCultivar($(this).find('td:eq(0)').html(), "modal");
-//                        break;
-//                        case 3:
-//                            carregaUnidade($(this).find('td:eq(0)').html(), "modal");
-//                        break;
-//                        case 4:
-//                            carregaUsuario($(this).find('td:eq(0)').html(), "modal");
-//                        break;
-//                //        case 5:
-//                //            carregaCultivar($(this).find('td:eq(0)').html(), "modal");
-//                //        break;
-//                        default:
-//                            alerta("Alerta!", "Erro de requisição de navegação!"); 
-//        
-//    }
-//
-//    
-//    
-//    $('#modalApresentacao').modal('toggle');
-//    return false;
-//});
-//
-/////marcacao da tabela lista de agricultores/ cultivares/ unidades/ usuarios
-//
-//$(document).on("click", "tbody > tr", function(evt)
-//{
-//   
-//
-////    //marcar de laranja a row
-//    if($(this).hasClass("warning")){
-//        $(this).removeClass("warning");
-//        //se estiver na pagina estoque desativa o botao saida de estoque
-//        if(verificaPagina() === 5 ){
-//            $("#saidaEstoque").attr("disabled", true);
-//        }
-//    }else{
-//        //percorer a tabela e desmarcar os itens marcados
-//        var tabela = $(this).parent();
-//        tabela.find('tr').each(function (i){
-//            if($(this).hasClass("warning")){
-//                $(this).removeClass("warning");
-//                return false;
-//            }
-//        });
-//        $(this).addClass("warning");
-//        
-//        //verifica se esta na pagina estoque dai ativa o botao
-//        if(verificaPagina() === 5 ){
-//            $("#saidaEstoque").removeAttr("disabled");
-//        }else{
-//            $("#Alertar").fadeOut(400);
-//        }
-//    }
-//
-//     return false;
-//});
-//
-////busca no servidor dados do agricultor para ser apresentado em um modal
-//function carregaAgricultor(idClicado, opcao){
-//    var Sessao = getSessao();
-//    var envio = {
-//        metodo: "get_agricultor",
-//        idpessoa: idClicado,
-//        usuario: Sessao.usuario,
-//        sessao: Sessao.sessao
-//    };
-//    
-//    
-//    //chama a requisicao do servidor, o resultado é listado em uma tabela
-//    requisicao(true, "pessoa/buscar", envio, function(dadosRetorno) {
-//        if(dadosRetorno.sucesso){
-//            //testa qual opcao sera, editar ou mostrar
-//            if(opcao === "modal"){
-//                //carrega atributos no painel modal que sera exibido
-//                $("#modalTitulo").text("Agricultor");
-//                $("#itensModal").append("<h3>"+dadosRetorno.data.nome+"</h3><h4> Sobrenome: "+dadosRetorno.data.sobrenome+"</h4><h4>Apelido: "+dadosRetorno.data.apelido+"</h4><h4> CPF: "+dadosRetorno.data.cpf+"</h4><h4> RG: "+dadosRetorno.data.rg+"</h4><h4> Data de nascimento: "+dadosRetorno.data.datanascimento+"</h4><h4> Sexo: "+dadosRetorno.data.sexo+"</h4><h4> Telefone1: "+dadosRetorno.data.telefone1+"</h4><h4>Telefone2"+dadosRetorno.data.telefone2+"</h4><h4>Email: "+dadosRetorno.data.email+"</h4><h4>Quantidade de crianças: "+dadosRetorno.data.qtdcriancas+"</h4><h4>Quantidade de integrantes: "+dadosRetorno.data.qtdintegrantes+"</h4><h4>Quantidade de grávidas: "+dadosRetorno.data.qtdgravidas+"</h4><h4>Estado civil: "+dadosRetorno.data.estadocivil+"</h4><h4>Escolaridade: "+dadosRetorno.data.escolaridade+"</h4>");
-//            }else if(opcao === "editar"){
-//                $("#divItens").empty().append('<h2 class="sub-header">Editar agricultor</h2>         <form  data-toggle="validator" role="form" id="salvarEditAgri" >           <div class="form-group"><label for="nomeAgricultor" class="control-label">Nome:</label><input type="text" class="form-control" id="nomeAgricultor" placeholder="Digite o nome do agricultor..." value="'+dadosRetorno.data.nome+'" data-error="Por favor, informe o nome correto do agricultor." required ><div class="help-block with-errors"></div></div><div class="form-group"><label for="sobrenomeAgricultor" class="control-label">Sobrenome:</label><input type="text" class="form-control" id="sobrenomeAgricultor" placeholder="Digite o sobrenome do agricultor..." value="'+dadosRetorno.data.sobrenome+'"></div><div class="form-group"><label for="rgAgricultor" class="control-label">RG:</label><input type="text" class="form-control" id="rgAgricultor" placeholder="Digite o rg do agricultor..." value="'+dadosRetorno.data.rg+'"></div><div class="form-group"><label for="cpfAgricultor" class="control-label">CPF:</label><input type="text" class="form-control" id="cpfAgricultor" placeholder="Digite o cpf do agricultor..." value="'+dadosRetorno.data.cpf+'" ></div><div class="form-group"><label for="apelidoAgricultor" class="control-label">Apelido:</label><input type="text" class="form-control" id="apelidoAgricultor" placeholder="Digite o apelido do agricultor..." value="'+dadosRetorno.data.apelido+'" ></div><div class="form-group"><label for="dataNascAgricultor" class="control-label">Data de nascimento:</label><input type="text" class="form-control" id="dataNascAgricultor" placeholder="Digite a data de nascimento do agricultor..." value="'+dadosRetorno.data.datanascimento+'" ></div><div class="form-group" id="genero"><input type="radio" name="genero" value="m" checked> Masculino<br><input type="radio" name="genero" value="f"> Feminino<br> <br></div><div class="form-group"><label for="telefone1Agricultor" class="control-label">Telefone 1:</label><input type="text" class="form-control" id="telefone1Agricultor" placeholder="(xx) xxxxx-xxxx" value="'+dadosRetorno.data.telefone1+'" ></div><div class="form-group"><label for="telefone2Agricultor" class="control-label">Telefone 2:</label><input type="text" class="form-control" id="telefone2Agricultor" placeholder="Digite o telefone 2 do agricultor..." value="'+dadosRetorno.data.telefone2+'" ></div><div class="form-group"><label for="emailAgricultor" class="control-label">Email:</label><input type="text" class="form-control" id="emailAgricultor" placeholder="Digite o email do agricultor..." value="'+dadosRetorno.data.email+'" ></div><div class="form-group"><label for="escolaridadeAgricultor" class="control-label">Escolaridade:</label><select class="form-control " id="escolaridadeAgricultor" value="'+dadosRetorno.data.escolaridade+'"><option>Ensino fundamental</option><option>Ensino fundamental incompleto</option><option>Ensino médio</option><option>Ensino médio incompleto</option><option>Ensino superior</option><option>Ensino superior incompleto</option><option>Pós-graduação</option><option>Pós-graduação incompleta</option><option>Sem escolaridade</option></select></div><div class="form-group"><label for="estadocivilAgricultor" class="control-label">Estado civil:</label><select class="form-control " id="estadocivilAgricultor" value="'+dadosRetorno.data.estadocivil+'"><option>Solteiro(a)</option><option>Casado(a)</option><option>Divorciado(a)</option><option>Viúvo(a)</option><option>Separado(a)</option><option>Companheiro(a)</option></select></div><hr><button type="submit" class="btn btn-warning">Salvar <span class="fa fa-save" aria-hidden="true"></span></button></form>');
-//                $('#salvarEditAgri').validator();
-//            }
-//            //retira o painel loading
-//            $(".painelCarregando").fadeOut(400);
-//        }else{
-//            //retira o painel loading
-//            $(".painelCarregando").fadeOut(400);
-//            alerta("Alerta!", dadosRetorno.mensagem);
-//        }
-//        //atualiza a sessao
-//        updateSessao(dadosRetorno.sessao);
-//    });
-//}
-//
-////busca no servidor dados do cultivar para ser apresentado em um modal
-//function carregaCultivar(idClicado, opcao){
-//    var Sessao = getSessao();
-//    var envio = {
-//        metodo: "get_cultivar",
-//        idcultivar: idClicado,
-//        usuario: Sessao.usuario,
-//        sessao: Sessao.sessao
-//    };
-//    
-//    //chama a requisicao do servidor, o resultado é listado em uma tabela
-//    requisicao(true, "cultivar/buscar", envio, function(dadosRetorno) {
-//        if(dadosRetorno.sucesso){
-//            
-//            //testa qual opcao sera, editar ou mostrar
-//            if(opcao === "modal"){
-//                //carrega atributos no painel modal que sera exibido
-//                $("#modalTitulo").text("Cultivar");
-//                //carrega atributos no painel modal que sera exibido
-//                $("#itensModal").append('<h3>'+dadosRetorno.data.nomecultivar+'</h3><img class=" img-responsive" src="'+dadosRetorno.data.imagem+'" width="180" height="180" alt="imgCultivar"/><h4> Biofortificado: '+dadosRetorno.data.biofortificado+'</h4><h4> Unidade de medida: '+dadosRetorno.data.grandeza+'</h4><h4> Tempo de colheita: '+dadosRetorno.data.tempodecolheita+'</h4><h4> Tempo de destinação: '+dadosRetorno.data.tempodestinacao+'</h4><h4> Peso da saca: '+dadosRetorno.data.peso_saca+' kilo(s)</h4><h4> Valor nutricional: '+dadosRetorno.data.valornutricional+'</h4><h4> Descrição: '+dadosRetorno.data.descricao+'</h4>');
-//            }else if(opcao === "editar"){
-//                $("#divItens").empty().append('<h2 class="sub-header">Editar cultivar</h2><form  data-toggle="validator" role="form" id="salvarEditCulti"> <div class="form-group"><label for="nomeCultivar" class="control-label">Nome cultivar:</label><input type="text" class="form-control" id="nomeCultivar" placeholder="Digite o nome do cultivar..." value="'+dadosRetorno.data.nomecultivar+'"></div><div class="form-group"><label for="umCultivar" class="control-label">Unidade de medida:</label><select class="form-control " id="umCultivar" value="'+dadosRetorno.data.grandeza+'"><option value="7">Kilo(s)</option><option value="6">Maniva(s)</option><option value="5">Rama(s)</option></select></div><div class="form-group"><label for="pesoSaca" class="control-label">Peso da saca:</label><input type="text" class="form-control" id="pesoSaca" placeholder="Digite o peso da saca..." value="'+dadosRetorno.data.peso_saca+'"></div><div class="form-group"><label for="tempoColheita" class="control-label">Dias para relatar a colheita:</label><input type="number" class="form-control" min="1" id="tempoColheita" placeholder="Digite o tempo de colheita..." value="'+dadosRetorno.data.tempodecolheita+'"></div><div class="form-group"><label for="tempoDestinacao" class="control-label">Dias para relatar a destinação:</label><input type="number" class="form-control" min="1" id="tempoDestinacao" placeholder="Digite o tempo da destinação..." value="'+dadosRetorno.data.tempodestinacao+'"></div><div class="form-group"><label for="valorNutricional" class="control-label">Valor nutricional</label><textarea class="form-control" id="valorNutricional" placeholder="Digite o valor nutricional ...">'+dadosRetorno.data.valornutricional+'</textarea></div><div class="form-group"><label for="descCultivar" class="control-label">Descrição:</label><textarea class="form-control" id="descCultivar" placeholder="Digite uma descrição...">'+dadosRetorno.data.descricao+'</textarea></div><div class="input-group"><input type="checkbox" aria-label="..." id="bio" checked="'+dadosRetorno.data.biofortificado+'">&nbsp;<label for="bio" class="control-label">Biofortificado</label></div><br><label class="control-label">Selecione uma imagem:</label><input id="imgNovoCultivar" type="file" class=""><img id="imgCultivarCarregada" class="img-responsive" src="'+dadosRetorno.data.imagem+'" width="180" height="180" alt="imgCultivar"/><hr><button type="submit" class="btn btn-warning">Salvar <span class="fa fa-save" aria-hidden="true"></span></button></form>');
-//                $('#salvarEditCulti').validator();
-//            }
-//            //retira o painel loading
-//            $(".painelCarregando").fadeOut(400);
-//        }else{
-//            //retira o painel loading
-//            $(".painelCarregando").fadeOut(400);
-//            alerta("Alerta!", dadosRetorno.mensagem);
-//        }
-//        //atualiza a sessao
-//        updateSessao(dadosRetorno.sessao);
-//    });
-//}
-//
-////busca no servidor dados da unidade para ser apresentado em um modal
-//function carregaUnidade(idClicado, opcao){
-//    var Sessao = getSessao();
-//    var envio = {
-//        metodo: "get_unidade",
-//        idunidade: idClicado,
-//        usuario: Sessao.usuario,
-//        sessao: Sessao.sessao
-//    };
-//    
-//    //chama a requisicao do servidor, o resultado é listado em uma tabela
-//    requisicao(true, "unidade/buscar", envio, function(dadosRetorno) {
-//        if(dadosRetorno.sucesso){
-//            
-//            //testa qual opcao sera, editar ou mostrar
-//            if(opcao === "modal"){
-//                //carrega atributos no painel modal que sera exibido
-//                $("#modalTitulo").text("Unidade");
-//                $("#itensModal").append('<h3>'+dadosRetorno.data.nomeunidade+'</h3><h4> Cidade: '+dadosRetorno.data.nomecidade+'</h4><h4> Estado: '+dadosRetorno.data.nomeestado+'</h4><h4> País: '+dadosRetorno.data.nomepais+'</h4><h4> Telefone1: '+dadosRetorno.data.telefone1+'</h4><h4> Telefone2: '+dadosRetorno.data.telefone2+'</h4><h4> Email: '+dadosRetorno.data.email+'</h4><h4> Cnpj: '+dadosRetorno.data.cnpj+'</h4><h4> Razão social: '+dadosRetorno.data.razao_social+'</h4><h4> Nome fantasia: '+dadosRetorno.data.nome_fanta+'</h4><h4> Rua: '+dadosRetorno.data.rua+'</h4><h4> Bairro: '+dadosRetorno.data.bairro+'</h4><h4> Complemento: '+dadosRetorno.data.complemento+'</h4><h4> Latitude: '+dadosRetorno.data.gps_lat+'</h4><h4> Longitude: '+dadosRetorno.data.gps_long+'</h4>');
-//            }else if(opcao === "editar"){
-//                $("#divItens").empty().append('<h2 class="sub-header">Editar unidade</h2><form  data-toggle="validator" role="form" id="salvarEditUnidade"><div class="form-group"><label for="nomeUnidade" class="control-label">Nome unidade:</label><input type="text" class="form-control" id="nomeUnidade" placeholder="Digite o nome da unidade..." value="'+dadosRetorno.data.nomeunidade+'"></div><div class="form-group"><label for="cnpj" class="control-label">CNPJ:</label><input type="text" class="form-control" id="cnpj" placeholder="Digite o cnpj..." value="'+dadosRetorno.data.cnpj+'"></div><div class="form-group"><label for="razaoSocial" class="control-label">Razão social:</label><input type="text" class="form-control" id="razaoSocial" placeholder="Digite a razão social..." value="'+dadosRetorno.data.razao_social+'"></div><div class="form-group"><label for="telefone1" class="control-label">Telefone 1:</label><input type="text" class="form-control" id="telefone1" placeholder="Digite o telefone 1..." value="'+dadosRetorno.data.telefone1+'"></div><div class="form-group"><label for="telefone2" class="control-label">Telefone 2:</label><input type="text" class="form-control" id="telefone2" placeholder="Digite o telefone 2..." value="'+dadosRetorno.data.telefone2+'"></div><div class="form-group"><label for="email" class="control-label">Email:</label><input type="text" class="form-control" id="email" placeholder="Digite o email..."value="'+dadosRetorno.data.email+'"></div><div class="form-group"><label for="rua" class="control-label">Rua:</label><input type="text" class="form-control" id="rua" placeholder="Digite a rua..." value="'+dadosRetorno.data.rua+'"></div><div class="form-group"><label for="bairro" class="control-label">Bairro:</label><input type="text" class="form-control" id="bairro" placeholder="Digite o bairro..." value="'+dadosRetorno.data.bairro+'"></div><div class="form-group"><label for="numero" class="control-label">Número:</label><input type="text" class="form-control" id="numero" placeholder="Digite o número..." value="'+dadosRetorno.data.numero+'"></div><div class="form-group"><label for="complemento" class="control-label">Complemento:</label><input type="text" class="form-control" id="complemento" placeholder="Digite o complemento..." value="'+dadosRetorno.data.complemento+'"></div><div class="form-group"><label for="gps_lat" class="control-label">Latitude:</label><input type="text" class="form-control" id="gps_lat" placeholder="Digite a latitude..." value="'+dadosRetorno.data.gps_lat+'"></div><div class="form-group"><label for="gps_long" class="control-label">Longitude:</label><input type="text" class="form-control" id="gps_long" placeholder="Digite a longitude..." value="'+dadosRetorno.data.gps_long+'"></div><div class="form-group"><label for="pais" class="control-label">País:</label><select class="form-control " id="pais" value="'+dadosRetorno.data.nomepais+'"><option>Brasil</option></select></div><div class="form-group"><label for="estado" class="control-label">Estado:</label><select class="form-control " id="estado value="'+dadosRetorno.data.nomeestado+'""><option>Paraná</option></select></div><div class="form-group"><label for="cidade" class="control-label">Cidade:</label><select class="form-control " id="cidade" value="'+dadosRetorno.data.nomecidade+'"><option>Cascavel</option></select></div><hr><button type="submit" class="btn btn-warning">Salvar <span class="fa fa-save" aria-hidden="true"></span></button></form>');  
-//                $('#salveEditUnidade').validator();
-//            }
-//            $(".painelCarregando").fadeOut(400);
-//        }else{
-//            //retira o painel loading
-//            $(".painelCarregando").fadeOut(400);
-//            alerta("Alerta!", dadosRetorno.mensagem);
-//        }
-//        //atualiza a sessao
-//        updateSessao(dadosRetorno.sessao);
-//    });
-//}
-//
-////busca no servidor dados do agricultor para ser apresentado em um modal
-//function carregaUsuario(idClicado, opcao){
-//    var Sessao = getSessao();
-//    var envio = {
-//        metodo: "get_usuario",
-//        idpessoa: idClicado,
-//        usuario: Sessao.usuario,
-//        sessao: Sessao.sessao
-//    };
-//    
-//    //chama a requisicao do servidor, o resultado é listado em uma tabela
-//    requisicao(true, "pessoa/buscar", envio, function(dadosRetorno) {
-//        if(dadosRetorno.sucesso){
-//            
-//            //testa qual opcao sera, editar ou mostrar
-//            if(opcao === "modal"){
-//                //carrega atributos no painel modal que sera exibido
+
+///marcacao da tabela lista de agricultores/ cultivares/ unidades/ usuarios
+
+$(document).on("click", "tbody > tr", function(evt)
+{
+
+    //marcar de laranja a row
+    if($(this).hasClass("warning")){
+        $(this).removeClass("warning");
+
+    }else{
+        //percorer a tabela e desmarcar os itens marcados
+        var tabela = $(this).parent();
+        tabela.find('tr').each(function (i){
+            if($(this).hasClass("warning")){
+                $(this).removeClass("warning");
+                return false;
+            }
+        });
+        $(this).addClass("warning");
+        
+    }
+
+     return false;
+});
+
+//dois clicks tabela aparece modal com atributos referentes ao item selecionado
+$(document).on("dblclick", "#divItens tr", function(evt)
+{
+    $("#modalTitulo").text("");
+    $("#itensModal").empty();
+    
+    
+
+            switch (verificaPagina()){
+                        case 1:
+                            carregaCultivar($(this).find('td:eq(0)').html(), "modal");
+                        break;
+                        case 2:
+                            carregaUnidade($(this).find('td:eq(0)').html(), "modal");
+                        break;
+                        case 3:
+                            carregaUsuario($(this).find('td:eq(0)').html(), "modal");
+                        break;
+
+                        default:
+                            alerta("Alerta!", "Erro de requisição de navegação!"); 
+        
+    }
+
+    
+    
+    $('#modalApresentacao').modal('toggle');
+    return false;
+});
+
+
+//busca no servidor dados do cultivar para ser apresentado em um modal
+function carregaCultivar(idClicado, opcao){
+    var Sessao = getSessao();
+    var envio = {
+        metodo: "get_cultivar",
+        idcultivar: idClicado,
+        usuario: Sessao.usuario,
+        sessao: Sessao.sessao
+    };
+    
+    //chama a requisicao do servidor, o resultado é listado em uma tabela
+    requisicao(true, "cultivar/buscar", envio, function(dadosRetorno) {
+        if(dadosRetorno.sucesso){
+            
+            //testa qual opcao sera, editar ou mostrar
+            if(opcao === "modal"){
+                //carrega atributos no painel modal que sera exibido
+                $("#modalTitulo").text("Cultivar");
+                //carrega atributos no painel modal que sera exibido
+                $("#itensModal").append('<h3>'+dadosRetorno.data.nomecultivar+'</h3><img class=" img-responsive" src="'+dadosRetorno.data.imagem+'" width="180" height="180" alt="imgCultivar"/><h4> Biofortificado: '+dadosRetorno.data.biofortificado+'</h4><h4> Unidade de medida: '+dadosRetorno.data.grandeza+'</h4><h4> Tempo de colheita: '+dadosRetorno.data.tempodecolheita+'</h4><h4> Tempo de destinação: '+dadosRetorno.data.tempodestinacao+'</h4><h4> Peso da saca: '+dadosRetorno.data.peso_saca+' kilo(s)</h4><h4> Valor nutricional: '+dadosRetorno.data.valornutricional+'</h4><h4> Descrição: '+dadosRetorno.data.descricao+'</h4>');
+            }else if(opcao === "editar"){
+                $("#divItens").empty().append('<h2 class="sub-header">Editar cultivar</h2><form  data-toggle="validator" role="form" id="salvarEditCulti"> <div class="form-group"><label for="nomeCultivar" class="control-label">Nome cultivar:</label><input type="text" class="form-control" id="nomeCultivar" placeholder="Digite o nome do cultivar..." value="'+dadosRetorno.data.nomecultivar+'"></div><div class="form-group"><label for="umCultivar" class="control-label">Unidade de medida:</label><select class="form-control " id="umCultivar" value="'+dadosRetorno.data.grandeza+'"><option value="7">Kilo(s)</option><option value="6">Maniva(s)</option><option value="5">Rama(s)</option></select></div><div class="form-group"><label for="pesoSaca" class="control-label">Peso da saca:</label><input type="text" class="form-control" id="pesoSaca" placeholder="Digite o peso da saca..." value="'+dadosRetorno.data.peso_saca+'"></div><div class="form-group"><label for="tempoColheita" class="control-label">Dias para relatar a colheita:</label><input type="number" class="form-control" min="1" id="tempoColheita" placeholder="Digite o tempo de colheita..." value="'+dadosRetorno.data.tempodecolheita+'"></div><div class="form-group"><label for="tempoDestinacao" class="control-label">Dias para relatar a destinação:</label><input type="number" class="form-control" min="1" id="tempoDestinacao" placeholder="Digite o tempo da destinação..." value="'+dadosRetorno.data.tempodestinacao+'"></div><div class="form-group"><label for="valorNutricional" class="control-label">Valor nutricional</label><textarea class="form-control" id="valorNutricional" placeholder="Digite o valor nutricional ...">'+dadosRetorno.data.valornutricional+'</textarea></div><div class="form-group"><label for="descCultivar" class="control-label">Descrição:</label><textarea class="form-control" id="descCultivar" placeholder="Digite uma descrição...">'+dadosRetorno.data.descricao+'</textarea></div><div class="input-group"><input type="checkbox" aria-label="..." id="bio" checked="'+dadosRetorno.data.biofortificado+'">&nbsp;<label for="bio" class="control-label">Biofortificado</label></div><br><label class="control-label">Selecione uma imagem:</label><input id="imgNovoCultivar" type="file" class=""><img id="imgCultivarCarregada" class="img-responsive" src="'+dadosRetorno.data.imagem+'" width="180" height="180" alt="imgCultivar"/><hr><button type="submit" class="btn btn-warning">Salvar <span class="fa fa-save" aria-hidden="true"></span></button></form>');
+                $('#salvarEditCulti').validator();
+            }
+            //retira o painel loading
+            $(".painelCarregando").fadeOut(400);
+        }else{
+            //retira o painel loading
+            $(".painelCarregando").fadeOut(400);
+            alerta("Alerta!", dadosRetorno.mensagem);
+        }
+        //atualiza a sessao
+        updateSessao(dadosRetorno.sessao);
+    });
+}
+
+//busca no servidor dados da unidade para ser apresentado em um modal
+function carregaUnidade(idClicado, opcao){
+    var Sessao = getSessao();
+    var envio = {
+        metodo: "get_unidade",
+        idunidade: idClicado,
+        usuario: Sessao.usuario,
+        sessao: Sessao.sessao
+    };
+    
+    //chama a requisicao do servidor, o resultado é listado em uma tabela
+    requisicao(true, "unidade/buscar", envio, function(dadosRetorno) {
+        if(dadosRetorno.sucesso){
+            
+            //testa qual opcao sera, editar ou mostrar
+            if(opcao === "modal"){
+                //carrega atributos no painel modal que sera exibido
+                $("#modalTitulo").text("Unidade");
+                $("#itensModal").append('<h3>'+dadosRetorno.data.nomeunidade+'</h3><h4> Cidade: '+dadosRetorno.data.nomecidade+'</h4><h4> Estado: '+dadosRetorno.data.nomeestado+'</h4><h4> País: '+dadosRetorno.data.nomepais+'</h4><h4> Telefone1: '+dadosRetorno.data.telefone1+'</h4><h4> Telefone2: '+dadosRetorno.data.telefone2+'</h4><h4> Email: '+dadosRetorno.data.email+'</h4><h4> Cnpj: '+dadosRetorno.data.cnpj+'</h4><h4> Razão social: '+dadosRetorno.data.razao_social+'</h4><h4> Nome fantasia: '+dadosRetorno.data.nome_fanta+'</h4><h4> Rua: '+dadosRetorno.data.rua+'</h4><h4> Bairro: '+dadosRetorno.data.bairro+'</h4><h4> Complemento: '+dadosRetorno.data.complemento+'</h4><h4> Latitude: '+dadosRetorno.data.gps_lat+'</h4><h4> Longitude: '+dadosRetorno.data.gps_long+'</h4>');
+            }else if(opcao === "editar"){
+                $("#divItens").empty().append('<h2 class="sub-header">Editar unidade</h2><form  data-toggle="validator" role="form" id="salvarEditUnidade"><div class="form-group"><label for="nomeUnidade" class="control-label">Nome unidade:</label><input type="text" class="form-control" id="nomeUnidade" placeholder="Digite o nome da unidade..." value="'+dadosRetorno.data.nomeunidade+'"></div><div class="form-group"><label for="cnpj" class="control-label">CNPJ:</label><input type="text" class="form-control" id="cnpj" placeholder="Digite o cnpj..." value="'+dadosRetorno.data.cnpj+'"></div><div class="form-group"><label for="razaoSocial" class="control-label">Razão social:</label><input type="text" class="form-control" id="razaoSocial" placeholder="Digite a razão social..." value="'+dadosRetorno.data.razao_social+'"></div><div class="form-group"><label for="telefone1" class="control-label">Telefone 1:</label><input type="text" class="form-control" id="telefone1" placeholder="Digite o telefone 1..." value="'+dadosRetorno.data.telefone1+'"></div><div class="form-group"><label for="telefone2" class="control-label">Telefone 2:</label><input type="text" class="form-control" id="telefone2" placeholder="Digite o telefone 2..." value="'+dadosRetorno.data.telefone2+'"></div><div class="form-group"><label for="email" class="control-label">Email:</label><input type="text" class="form-control" id="email" placeholder="Digite o email..."value="'+dadosRetorno.data.email+'"></div><div class="form-group"><label for="rua" class="control-label">Rua:</label><input type="text" class="form-control" id="rua" placeholder="Digite a rua..." value="'+dadosRetorno.data.rua+'"></div><div class="form-group"><label for="bairro" class="control-label">Bairro:</label><input type="text" class="form-control" id="bairro" placeholder="Digite o bairro..." value="'+dadosRetorno.data.bairro+'"></div><div class="form-group"><label for="numero" class="control-label">Número:</label><input type="text" class="form-control" id="numero" placeholder="Digite o número..." value="'+dadosRetorno.data.numero+'"></div><div class="form-group"><label for="complemento" class="control-label">Complemento:</label><input type="text" class="form-control" id="complemento" placeholder="Digite o complemento..." value="'+dadosRetorno.data.complemento+'"></div><div class="form-group"><label for="gps_lat" class="control-label">Latitude:</label><input type="text" class="form-control" id="gps_lat" placeholder="Digite a latitude..." value="'+dadosRetorno.data.gps_lat+'"></div><div class="form-group"><label for="gps_long" class="control-label">Longitude:</label><input type="text" class="form-control" id="gps_long" placeholder="Digite a longitude..." value="'+dadosRetorno.data.gps_long+'"></div><div class="form-group"><label for="pais" class="control-label">País:</label><select class="form-control " id="pais" value="'+dadosRetorno.data.nomepais+'"><option>Brasil</option></select></div><div class="form-group"><label for="estado" class="control-label">Estado:</label><select class="form-control " id="estado value="'+dadosRetorno.data.nomeestado+'""><option>Paraná</option></select></div><div class="form-group"><label for="cidade" class="control-label">Cidade:</label><select class="form-control " id="cidade" value="'+dadosRetorno.data.nomecidade+'"><option>Cascavel</option></select></div><hr><button type="submit" class="btn btn-warning">Salvar <span class="fa fa-save" aria-hidden="true"></span></button></form>');  
+                $('#salveEditUnidade').validator();
+            }
+            $(".painelCarregando").fadeOut(400);
+        }else{
+            //retira o painel loading
+            $(".painelCarregando").fadeOut(400);
+            alerta("Alerta!", dadosRetorno.mensagem);
+        }
+        //atualiza a sessao
+        updateSessao(dadosRetorno.sessao);
+    });
+}
+
+//busca no servidor dados do usuario para ser apresentado em um modal
+function carregaUsuario(idClicado, opcao){
+    var Sessao = getSessao();
+    var envio = {
+        metodo: "get_usuario",
+        idpessoa: idClicado,
+        usuario: Sessao.usuario,
+        sessao: Sessao.sessao
+    };
+    
+    //chama a requisicao do servidor, o resultado é listado em uma tabela
+    requisicao(true, "pessoa/buscar", envio, function(dadosRetorno) {
+        if(dadosRetorno.sucesso){
+            
+            //testa qual opcao sera, editar ou mostrar
+            if(opcao === "modal"){
+                //carrega atributos no painel modal que sera exibido
+                $("#modalTitulo").text("Usuário");
+                $("#itensModal").append("<h3>"+dadosRetorno.data.nome+"</h3><h4> Sobrenome: "+dadosRetorno.data.sobrenome+"</h4><h4>Apelido: "+dadosRetorno.data.apelido+"</h4><h4> CPF: "+dadosRetorno.data.cpf+"</h4><h4> RG: "+dadosRetorno.data.rg+"</h4><h4> Data de nascimento: "+dadosRetorno.data.datanascimento+"</h4><h4> Sexo: "+dadosRetorno.data.sexo+"</h4><h4> Telefone1: "+dadosRetorno.data.telefone1+"</h4><h4>Telefone2"+dadosRetorno.data.telefone2+"</h4><h4>Email: "+dadosRetorno.data.email+"</h4><h4>Estado civil: "+dadosRetorno.data.estadocivil+"</h4><h4>Escolaridade: "+dadosRetorno.data.escolaridade+"</h4>");
 //                $("#modalTitulo").text("Usuário");
-//                $("#itensModal").append("<h3>"+dadosRetorno.data.nome+"</h3><h4> Sobrenome: "+dadosRetorno.data.sobrenome+"</h4><h4>Apelido: "+dadosRetorno.data.apelido+"</h4><h4> CPF: "+dadosRetorno.data.cpf+"</h4><h4> RG: "+dadosRetorno.data.rg+"</h4><h4> Data de nascimento: "+dadosRetorno.data.datanascimento+"</h4><h4> Sexo: "+dadosRetorno.data.sexo+"</h4><h4> Telefone1: "+dadosRetorno.data.telefone1+"</h4><h4>Telefone2"+dadosRetorno.data.telefone2+"</h4><h4>Email: "+dadosRetorno.data.email+"</h4><h4>Estado civil: "+dadosRetorno.data.estadocivil+"</h4><h4>Escolaridade: "+dadosRetorno.data.escolaridade+"</h4>");
-////                $("#modalTitulo").text("Usuário");
-////                alerta("<h3>"+dadosRetorno.data.nome+"</h3><h4> Sobrenome: "+dadosRetorno.data.sobrenome+"</h4><h4>Apelido: "+dadosRetorno.data.apelido+"</h4><h4> CPF: "+dadosRetorno.data.cpf+"</h4><h4> RG: "+dadosRetorno.data.rg+"</h4><h4> Data de nascimento: "+dadosRetorno.data.datanascimento+"</h4><h4> Sexo: "+dadosRetorno.data.sexo+"</h4><h4> Telefone1: "+dadosRetorno.data.telefone1+"</h4><h4>Telefone2"+dadosRetorno.data.telefone2+"</h4><h4>Email: "+dadosRetorno.data.email+"</h4><h4>Estado civil: "+dadosRetorno.data.estadocivil+"</h4><h4>Escolaridade: "+dadosRetorno.data.escolaridade+"</h4>");
-//            }else if(opcao === "editar"){
-//                $("#divItens").empty().append('<h2 class="sub-header">Editar Usuário</h2><form  data-toggle="validator" role="form" id="salvarEditUser"><div class="form-group"><label for="nomeUsuario" class="control-label">Nome:</label><input type="text" class="form-control" id="nomeUsuario" placeholder="Digite o nome do agricultor..." value="'+dadosRetorno.data.nome+'"></div><div class="form-group"><label for="sobrenomeUsuario" class="control-label">Sobrenome:</label><input type="text" class="form-control" id="sobrenomeUsuario" placeholder="Digite o sobrenome do agricultor..." value="'+dadosRetorno.data.sobrenome+'"></div><div class="form-group"><label for="rgAgricultor" class="control-label">RG:</label><input type="text" class="form-control" id="rgAgricultor" placeholder="Digite o rg do agricultor..." value="'+dadosRetorno.data.rg+'"></div><div class="form-group"><label for="cpfAgricultor" class="control-label">CPF:</label><input type="text" class="form-control" id="cpfAgricultor" placeholder="Digite o cpf do agricultor..." value="'+dadosRetorno.data.cpf+'" ></div><div class="form-group"><label for="apelidoAgricultor" class="control-label">Apelido:</label><input type="text" class="form-control" id="apelidoAgricultor" placeholder="Digite o apelido do agricultor..." value="'+dadosRetorno.data.apelido+'" ></div><div class="form-group"><label for="dataNascAgricultor" class="control-label">Data de nascimento:</label><input type="text" class="form-control" id="dataNascAgricultor" placeholder="Digite a data de nascimento do agricultor..." value="'+dadosRetorno.data.datanascimento+'" ></div><input type="radio" name="genero" value="m" checked> Masculino<br><input type="radio" name="genero" value="f"> Feminino<br> <br><div class="form-group"><label for="telefone1Agricultor" class="control-label">Telefone 1:</label><input type="text" class="form-control" id="telefone1Agricultor" placeholder="Digite o telefone 1 do agricultor..." value="'+dadosRetorno.data.telefone1+'" ></div><div class="form-group"><label for="telefone2Agricultor" class="control-label">Telefone 2:</label><input type="text" class="form-control" id="telefone2Agricultor" placeholder="Digite o telefone 2 do agricultor..." value="'+dadosRetorno.data.telefone2+'" ></div><div class="form-group"><label for="emailAgricultor" class="control-label">Email:</label><input type="text" class="form-control" id="emailAgricultor" placeholder="Digite o email do agricultor..." value="'+dadosRetorno.data.email+'" ></div><div class="form-group"><label for="escolaridadeAgricultor" class="control-label">Escolaridade:</label><select class="form-control " id="escolaridadeAgricultor" value="'+dadosRetorno.data.escolaridade+'"><option>Ensino fundamental</option><option>Ensino fundamental incompleto</option><option>Ensino médio</option><option>Ensino médio incompleto</option><option>Ensino superior</option><option>Ensino superior incompleto</option><option>Pós-graduação</option><option>Pós-graduação incompleta</option><option>Sem escolaridade</option></select></div><div class="form-group"><label for="estadocivilAgricultor" class="control-label">Estado civil:</label><select class="form-control " id="estadocivilAgricultor" value="'+dadosRetorno.data.estadocivil+'"><option>Solteiro(a)</option><option>Casado(a)</option><option>Divorciado(a)</option><option>Viúvo(a)</option><option>Separado(a)</option><option>Companheiro(a)</option></select></div><hr><button type="submit" class="btn btn-warning">Salvar <span class="fa fa-save" aria-hidden="true"></span></button></form>');
-//                $('#salvarEditUser').validator();
-//            }
-//            $(".painelCarregando").fadeOut(400);
-//        }else{
-//            //retira o painel loading
-//            $(".painelCarregando").fadeOut(400);
-//            alerta("Alerta!", dadosRetorno.mensagem);
-//        }
-//        //atualiza a sessao
-//        updateSessao(dadosRetorno.sessao);
-//    });
-//}
+//                alerta("<h3>"+dadosRetorno.data.nome+"</h3><h4> Sobrenome: "+dadosRetorno.data.sobrenome+"</h4><h4>Apelido: "+dadosRetorno.data.apelido+"</h4><h4> CPF: "+dadosRetorno.data.cpf+"</h4><h4> RG: "+dadosRetorno.data.rg+"</h4><h4> Data de nascimento: "+dadosRetorno.data.datanascimento+"</h4><h4> Sexo: "+dadosRetorno.data.sexo+"</h4><h4> Telefone1: "+dadosRetorno.data.telefone1+"</h4><h4>Telefone2"+dadosRetorno.data.telefone2+"</h4><h4>Email: "+dadosRetorno.data.email+"</h4><h4>Estado civil: "+dadosRetorno.data.estadocivil+"</h4><h4>Escolaridade: "+dadosRetorno.data.escolaridade+"</h4>");
+            }else if(opcao === "editar"){
+                $("#divItens").empty().append('<h2 class="sub-header">Editar Usuário</h2><form  data-toggle="validator" role="form" id="salvarEditUser"><div class="form-group"><label for="nomeUsuario" class="control-label">Nome:</label><input type="text" class="form-control" id="nomeUsuario" placeholder="Digite o nome do agricultor..." value="'+dadosRetorno.data.nome+'"></div><div class="form-group"><label for="sobrenomeUsuario" class="control-label">Sobrenome:</label><input type="text" class="form-control" id="sobrenomeUsuario" placeholder="Digite o sobrenome do agricultor..." value="'+dadosRetorno.data.sobrenome+'"></div><div class="form-group"><label for="rgAgricultor" class="control-label">RG:</label><input type="text" class="form-control" id="rgAgricultor" placeholder="Digite o rg do agricultor..." value="'+dadosRetorno.data.rg+'"></div><div class="form-group"><label for="cpfAgricultor" class="control-label">CPF:</label><input type="text" class="form-control" id="cpfAgricultor" placeholder="Digite o cpf do agricultor..." value="'+dadosRetorno.data.cpf+'" ></div><div class="form-group"><label for="apelidoAgricultor" class="control-label">Apelido:</label><input type="text" class="form-control" id="apelidoAgricultor" placeholder="Digite o apelido do agricultor..." value="'+dadosRetorno.data.apelido+'" ></div><div class="form-group"><label for="dataNascAgricultor" class="control-label">Data de nascimento:</label><input type="text" class="form-control" id="dataNascAgricultor" placeholder="Digite a data de nascimento do agricultor..." value="'+dadosRetorno.data.datanascimento+'" ></div><input type="radio" name="genero" value="m" checked> Masculino<br><input type="radio" name="genero" value="f"> Feminino<br> <br><div class="form-group"><label for="telefone1Agricultor" class="control-label">Telefone 1:</label><input type="text" class="form-control" id="telefone1Agricultor" placeholder="Digite o telefone 1 do agricultor..." value="'+dadosRetorno.data.telefone1+'" ></div><div class="form-group"><label for="telefone2Agricultor" class="control-label">Telefone 2:</label><input type="text" class="form-control" id="telefone2Agricultor" placeholder="Digite o telefone 2 do agricultor..." value="'+dadosRetorno.data.telefone2+'" ></div><div class="form-group"><label for="emailAgricultor" class="control-label">Email:</label><input type="text" class="form-control" id="emailAgricultor" placeholder="Digite o email do agricultor..." value="'+dadosRetorno.data.email+'" ></div><div class="form-group"><label for="escolaridadeAgricultor" class="control-label">Escolaridade:</label><select class="form-control " id="escolaridadeAgricultor" value="'+dadosRetorno.data.escolaridade+'"><option>Ensino fundamental</option><option>Ensino fundamental incompleto</option><option>Ensino médio</option><option>Ensino médio incompleto</option><option>Ensino superior</option><option>Ensino superior incompleto</option><option>Pós-graduação</option><option>Pós-graduação incompleta</option><option>Sem escolaridade</option></select></div><div class="form-group"><label for="estadocivilAgricultor" class="control-label">Estado civil:</label><select class="form-control " id="estadocivilAgricultor" value="'+dadosRetorno.data.estadocivil+'"><option>Solteiro(a)</option><option>Casado(a)</option><option>Divorciado(a)</option><option>Viúvo(a)</option><option>Separado(a)</option><option>Companheiro(a)</option></select></div><hr><button type="submit" class="btn btn-warning">Salvar <span class="fa fa-save" aria-hidden="true"></span></button></form>');
+                $('#salvarEditUser').validator();
+            }
+            $(".painelCarregando").fadeOut(400);
+        }else{
+            //retira o painel loading
+            $(".painelCarregando").fadeOut(400);
+            alerta("Alerta!", dadosRetorno.mensagem);
+        }
+        //atualiza a sessao
+        updateSessao(dadosRetorno.sessao);
+    });
+}

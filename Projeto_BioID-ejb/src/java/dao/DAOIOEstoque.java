@@ -5,6 +5,7 @@
  */
 package dao;
 
+import fw.Data;
 import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;

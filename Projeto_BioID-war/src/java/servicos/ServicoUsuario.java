@@ -7,6 +7,7 @@ package servicos;
 
 import bo.BOFactory;
 import dao.DAOEndereco;
+import dao.DAOGrupos;
 import dao.DAOLogin;
 import dao.DAOPessoa;
 import fw.Criptografia;
@@ -21,6 +22,7 @@ import javax.ws.rs.core.MediaType;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import to.TOEndereco;
+import to.TOGrupos;
 import to.TOLogin;
 import to.TOPessoa;
 
@@ -116,14 +118,13 @@ public class ServicoUsuario {
                 t.setCpf(k.getString("cpf"));
 
                 //se nao existe cpf cadastrado no banco, prosegue o cadastro
-                if(BOFactory.get(new DAOPessoa(), t, "get_pessoa_por_cpf") == null ){
+                if(BOFactory.get(new DAOPessoa(), t, "GET_POR_CPF") == null ){
                     TOLogin tl = new TOLogin();
 
-                    tl.setUsuario(k.getString("usuario"));
+                    tl.setUsuario(k.getString("usuario_login"));
                     //teste se existe o usuario cadastrado
-                    if(BOFactory.get(new DAOLogin(), tl, "get_usuario") == null ){
-                        long idGeradoPessoa;
-                        long idGeradoEndereco;
+                    if(BOFactory.get(new DAOLogin(), tl, "DEFAULT") == null ){
+                        long idGerado;
                         TOEndereco te = new TOEndereco();
                         
 
@@ -138,10 +139,10 @@ public class ServicoUsuario {
                         te.setCep(k.getString("cep"));
                         te.setNumero(k.getInt("numero"));
                         //salva o endereco no banco de dados
-                        idGeradoEndereco = BOFactory.inserir(new DAOEndereco(), te, null);
+                        idGerado = BOFactory.inserir(new DAOEndereco(), te, "DEFAULT");
 
                         //tabela pessoa
-                        t.setEndereco_idendereco(idGeradoEndereco);
+                        t.setEndereco_idendereco(idGerado);
                         t.setEscolaridade_idescolaridade(k.getLong("escolaridade_idescolaridade"));
                         t.setEstadocivil_idestadocivil(k.getLong("estadocivil_idestadocivil"));
                         t.setNome(k.getString("nome"));
@@ -154,18 +155,21 @@ public class ServicoUsuario {
                         t.setTelefone2(k.getString("telefone2"));
                         t.setEmail(k.getString("email"));
                         //grava informacoes no banco de dados
-                        idGeradoPessoa = BOFactory.inserir(new DAOPessoa(), t, null);
+                        idGerado = BOFactory.inserir(new DAOPessoa(), t, "DEFAULT");
 
                         //tabela login
-                        tl.setPessoa_idpessoa(idGeradoPessoa);
+                        tl.setPessoa_idpessoa(idGerado);
                         tl.setUnidade_idunidade(k.getLong("unidade_idunidade"));
                         tl.setSenha(Criptografia.md5(k.getString("senha")));
-//                        tl.setPapel(k.getString("papel"));
-                        
                         //grava no banco de dados os dados da classe TOLogin
-                        BOFactory.inserir(new DAOLogin(), tl, null);
+                        BOFactory.inserirIDString(new DAOLogin(), tl);
 
-                      
+                        TOGrupos tg = new TOGrupos();
+                        //tabela grupos
+                        tg.setLoginusuario(k.getString("usuario_login"));
+                        tg.setGrupo(k.getString("grupo"));
+                        BOFactory.inserirIDString(new DAOGrupos(), tg);
+                        
                         j.put("sucesso", true);
                         j.put("mensagem", "Usuário cadastrado com sucesso!");
                         j.put("sessao", sessao);

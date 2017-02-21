@@ -5,6 +5,7 @@
  */
 package dao;
 
+import fw.Data;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -19,7 +20,7 @@ import to.TOLogin;
 public class DAOLogin extends DAOBase{
 
     @Override
-    public long inserir(Connection c, TOBase t, String metodo) throws Exception {
+    public void inserirIDString(Connection c, TOBase t) throws Exception {
         //string com o comando sql para editar o banco de dados
         String sql = null;
         
@@ -29,20 +30,17 @@ public class DAOLogin extends DAOBase{
         //variavel com lista dos parametros
         List<Object> u = new ArrayList<Object>();
         
-        switch(metodo){
-            default:
-            sql = "INSERT INTO login(pessoa_idpessoa, unidade_idunidade, usuario, senha, papel) VALUES (?, ?, ?, ?, ?)";
-            u.add(((TOLogin)t).getPessoa_idpessoa());
-            u.add(((TOLogin)t).getUnidade_idunidade());
-            u.add(((TOLogin)t).getUsuario());
-            u.add(((TOLogin)t).getSenha());
-//            u.add(((TOLogin)t).getPapel());
-            break;
-        }
+        
+        sql = "INSERT INTO login(pessoa_idpessoa, unidade_idunidade, usuario, senha) VALUES (?, ?, ?, ?)";
+        u.add(((TOLogin)t).getPessoa_idpessoa());
+        u.add(((TOLogin)t).getUnidade_idunidade());
+        u.add(((TOLogin)t).getUsuario());
+        u.add(((TOLogin)t).getSenha());
+   
         
         
         //passa por parametros a conexao e a lista de objetos da insercao de um novo produto
-        return Data.executeUpdate(c, sql, u);
+        Data.executeUpdateString(c, sql, u);
     }
 
    
@@ -60,12 +58,7 @@ public class DAOLogin extends DAOBase{
             
             //testa o metodo a ser executado
             switch(metodo){
-                case "get_usuario" :
-                sql = "SELECT idlogin, usuario FROM login l WHERE usuario IN(?)";
-                
-                u.add(((TOLogin)t).getUsuario());
-                break;
-                case "validacao" :
+                case "VALIDACAO" :
                 sql = "SELECT l.usuario, l.unidade_idunidade, p.nome, g.grupo "
                     + "FROM login l "
                     + "INNER JOIN pessoa p ON(p.idpessoa = l.pessoa_idpessoa) "
@@ -75,6 +68,11 @@ public class DAOLogin extends DAOBase{
                 u.add(((TOLogin)t).getUsuario());
                 u.add(((TOLogin)t).getSenha());
                 break;
+                default :
+                sql = "SELECT * FROM login WHERE usuario IN(?)";
+                
+                    u.add(((TOLogin)t).getUsuario());
+                    break;
             }
             
             

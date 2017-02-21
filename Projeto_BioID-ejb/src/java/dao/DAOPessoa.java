@@ -5,6 +5,7 @@
  */
 package dao;
 
+import fw.Data;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -122,8 +123,8 @@ public class DAOPessoa extends DAOBase{
                         + "WHERE p.idpessoa IN(?)";
                     u.add(((TOPessoa)t).getIdpessoa());
                     break;
-                case "get_pessoa_por_cpf":
-                    sql = "SELECT idpessoa, cpf FROM pessoa WHERE cpf IN(?)";
+                case "GET_POR_CPF":
+                    sql = "SELECT * FROM pessoa WHERE cpf IN(?)";
                     u.add(((TOPessoa)t).getCpf());
                     break;
             }
@@ -208,8 +209,8 @@ public class DAOPessoa extends DAOBase{
                             + "INNER JOIN login l ON (l.pessoa_idpessoa = p.idpessoa) "
                             + "INNER JOIN unidade u ON (u.idunidade = l.unidade_idunidade) "
                             + " INNER JOIN grupos g ON (g.loginusuario = l.usuario)"
-                            + "WHERE g.grupo IN('administradores') OR g.grupo IN('entrevistadores') OR g.grupo IN('gerenciadores') AND l.unidade_idunidade IN(?)";
-                    u.add(((TOPessoa)t).getIdunidade());
+                            + "WHERE g.grupo IN('administradores') OR g.grupo IN('entrevistadores') OR g.grupo IN('gerenciadores')";// AND l.unidade_idunidade IN(?)";
+//                    u.add(((TOPessoa)t).getIdunidade());
                     break;
                 case "agricultor_select":
                     sql = "SELECT p.idpessoa, p.nome, p.sobrenome, p.cpf, p.rg FROM pessoa p "

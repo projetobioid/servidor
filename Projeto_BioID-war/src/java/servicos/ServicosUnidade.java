@@ -107,7 +107,7 @@ public class ServicosUnidade {
                 t.setCnpj(k.getString("cnpj"));
 
                 //teste se existe a unidade cadastrada, senao cadastra
-                if(BOFactory.get(new DAOUnidade(), t, "default")== null){
+                if(BOFactory.get(new DAOUnidade(), t, "GET_POR_CNPJ")== null){
                     //objeto TOEndereco
                     TOEndereco te = new TOEndereco();
                     te.setCidade_idcidade(k.getLong("cidade_idcidade"));
@@ -119,7 +119,7 @@ public class ServicosUnidade {
                     te.setCep(k.getString("cep"));
                     te.setNumero(k.getInt("numero"));
                     //grava no banco de dados os dados da classe TOLogin e retorna o id gerado
-                    t.setEndereco_idendereco(BOFactory.inserir(new DAOEndereco(), te, "default"));
+                    t.setEndereco_idendereco(BOFactory.inserir(new DAOEndereco(), te, "DEFAULT"));
                     t.setNomeunidade(k.getString("nomeunidade"));
                     t.setTelefone1(k.getString("telefone1"));
                     t.setTelefone2(k.getString("telefone2"));
@@ -127,7 +127,7 @@ public class ServicosUnidade {
                     t.setRazao_social(k.getString("razao_social"));
                     t.setNome_fanta(k.getString("nome_fanta"));
 
-                    BOFactory.inserir(new DAOUnidade(), t, "default");
+                    BOFactory.inserir(new DAOUnidade(), t, "DEFAULT");
 
                     j.put("sucesso", true);
                     j.put("mensagem", "Unidade cadastrada!");
@@ -170,16 +170,9 @@ public class ServicosUnidade {
                
                 JSONArray ja = null;
                 
-                switch(k.getString("metodo")){
-                    case "todas": 
-                    case "unidades": 
-//                        t.setIdunidade(k.getLong("idunidade"));
-                        ja = BOFactory.listar(new DAOUnidade(), t, k.getString("metodo"));
-                        break;
-                    default:
-                        ja = BOFactory.listar(new DAOUnidade(), t, "default");
-                        break;
-                }
+                
+                ja = BOFactory.listar(new DAOUnidade(), t, k.getString("metodo"));
+                        
                 
         
                 j.put("data", ja);

@@ -3,6 +3,7 @@ classe de acesso ao banco de dados
  */
 package dao;
 
+import fw.Data;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.util.ArrayList;

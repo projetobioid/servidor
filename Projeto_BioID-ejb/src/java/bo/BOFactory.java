@@ -3,7 +3,7 @@
  */
 package bo;
 
-import dao.Data;
+import fw.Data;
 import to.TOBase;
 import java.sql.Connection;
 import org.json.JSONArray;
@@ -22,6 +22,17 @@ public class BOFactory {
         try{
             c =  Data.openConnection();
             return d.inserir(c, t, metodo);
+        }finally{
+            c.close();
+        }
+    }
+    
+    public static void inserirIDString(DAOBase d, TOBase t) throws Exception{
+        Connection c = null;
+        
+        try{
+            c =  Data.openConnection();
+            d.inserirIDString(c, t);
         }finally{
             c.close();
         }

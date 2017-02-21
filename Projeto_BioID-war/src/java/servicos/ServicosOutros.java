@@ -87,7 +87,7 @@ public class ServicosOutros {
                 //atribui o valor da nova sessao para o retorno
                 to.setSessao(ts.getSessao());
                 //retorna valores do login
-                j.put("data", to.getJson("default"));
+                j.put("data", to.getJson("VALIDACAO"));
                 j.put("sucesso", true);
                 //retorna a data de login que espirará em um tempo determinado
                 //j.put("logTempo", ((730 * Float.parseFloat(getData("M"))) - (730 - (Float.parseFloat(getData("d"))*24)))+168 );

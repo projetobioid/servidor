@@ -8,17 +8,20 @@
         <link href="../../css/bootstrap.min.css" rel="stylesheet">
         <link href="../../css/dashboard.css" rel="stylesheet">
         <link rel="stylesheet" href="../../css/font-awesome.min.css">
+        
         <script type="application/javascript" src="../../js/jquery.js"></script>
+        <script type="text/javascript" src="../../js/sha256.js"></script>
         <script type="application/javascript" src="../../js/jquery-ui.min.js"></script>
+        
         <link rel="stylesheet" href="../../css/jquery-ui.min.css">
         <script src="../../js/bootstrap.min.js"></script>
         <script type="text/javascript" src="../../js/administrador/eventosAdministrador.js"></script>
         <script type="text/javascript" src="../../js/padroes.js"></script>
-     
+        
         
         <script type="text/javascript">
             window.onload = function(){
-                $("#bemVindo").text("Seja bem-vindo "+getSessao().nome);
+                $("#bemVindo").text("Seja bem-vindo administrador(a) "+getSessao().nome);
                 $(".painelCarregando").fadeOut(400, function(){
                     //$("#pagCompleta").fadeIn(400);
                 });
@@ -101,10 +104,11 @@
             <li><a class="a " href="#" >Unidades</a></li>
             <li><a class="a " href="#" >Usuários</a></li>
           </ul>
-          <ul class="nav nav-sidebar" id="painelGerenciamento">
+          <ul class="nav nav-sidebar" id="painelRelatorios">
             <li class="active"><a href="#">Relátorios <span class="sr-only">(current)</span></a></li>
             <li><a class="a " href="#">...</a></li>
             <li><a class="a " href="#">...</a></li>
+          </ul>
         </div>
           
           <!--msg de inicio-->
