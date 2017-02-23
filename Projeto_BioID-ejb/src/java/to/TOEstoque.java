@@ -86,7 +86,7 @@ public class TOEstoque extends TOBase{
 
     public TOEstoque (ResultSet rs, String metodo) throws Exception{
         switch (metodo) {
-            case "estoqueunidade":
+            case "TODOS":
             case "estoqueunidade_select":
                 this.quantidade = rs.getDouble("quantidade");
                 this.nomecultivar = rs.getString("nomecultivar");
@@ -94,7 +94,7 @@ public class TOEstoque extends TOBase{
                 this.grandeza = rs.getString("grandeza");
                 break;
             //retorna toda a classe
-            case "get_cultivar_estoque":
+            case "GET_CULTIVAR":
                 this.unidade_idunidade = rs.getLong("unidade_idunidade");
                 this.cultivar_idcultivar = rs.getLong("cultivar_idcultivar");
                 this.quantidade = rs.getFloat("quantidade");
@@ -115,7 +115,7 @@ public class TOEstoque extends TOBase{
     public JSONObject getJson(String metodo) throws Exception {
         JSONObject j = new JSONObject();
         switch (metodo) {
-            case "estoqueunidade":
+            case "TODOS":
             case "estoqueunidade_select":
                 j.put("grandeza", grandeza);
                 BigDecimal bd = new BigDecimal(quantidade).setScale(2, RoundingMode.HALF_EVEN);
@@ -127,7 +127,7 @@ public class TOEstoque extends TOBase{
                 BigDecimal bd1 = new BigDecimal(quantidade).setScale(2, RoundingMode.HALF_EVEN);
                 j.put("quantidade", bd1.doubleValue());
                 break;
-            case "get_cultivar_estoque":
+            case "GET_CULTIVAR":
                 j.put("unidade_idunidade", unidade_idunidade);
                 j.put("cultivar_idcultivar", cultivar_idcultivar);
                 BigDecimal bd2 = new BigDecimal(quantidade).setScale(2, RoundingMode.HALF_EVEN);

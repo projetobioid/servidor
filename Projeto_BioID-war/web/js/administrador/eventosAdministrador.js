@@ -1,10 +1,4 @@
-//var ipServidor = 'localhost:8080'; //sistema em producao
-//var ipServidor = "187.19.101.252:8082"; //sistema rodando fora
-//var ipServidor = "10.1.2.52:8080"; //sistema teste interno
-var ipServidor = "10.2.10.200:8080"; //sistema teste interno
 
-  
-  
 ///////*painel lateral*////////////
 
 //painel escolha de opcoes de abrir pages
@@ -137,7 +131,7 @@ function listarCultivares(){
     
     var Sessao = getSessao();
     var envio = {
-        metodo: "todos",
+        metodo: "TODOS",
         usuario: Sessao.usuario,
         sessao: Sessao.sessao
     };
@@ -276,7 +270,7 @@ $(document).on("click", "#novo", function(evt)
                                                    <li role="presentation" class="disabled"><a href="#progresso2" data-toggle="tab" aria-controls="progresso2" role="tab" title="Imagem cultivar"><span class="round-tab"><i class="fa fa-child"></i></span></a></li>\n\
                                                    <li role="presentation" class="disabled"><a href="#completo" data-toggle="tab" aria-controls="completo" role="tab" title="Salvar"><span class="round-tab"><i class="fa fa-save"></i></span></a></li>');
 
-                $("#formProgresso").empty().append('<div class="tab-pane active" role="tabpanel" id="progresso1">   <form  data-toggle="validator" role="form" class="formNovoCultivar" >     <div class="form-group"><label for="nomeCultivar" class="control-label">Nome cultivar:</label><input type="text" class="form-control inputDadosCultivar" id="nomeCultivar" placeholder="Digite o nome do cultivar..." pattern="[a-zA-Z çÇãÃâÂáÁàÀéÉêÊíÍìÌõÕôÔóÓúÚ]+" data-error="Por favor, informe o nome do cultivar." required ><div class="help-block with-errors"></div></div><div class="form-group"><label for="umNovoCultivar" class="control-label" > Unidade de medida para distribuição:</label><select class="form-control inputDadosCultivar" id="umNovoCultivar" data-error="Por favor, informe a unidade de medida." required ><option></option><option value="7">Kilo(s)</option><option value="6">Maniva(s)</option><option value="5">Rama(s)</option></select><div class="help-block with-errors"></div></div><div class="form-group"><label for="pesoSaca" class="control-label">Peso da saca(kg):</label><input type="number" class="form-control inputDadosCultivar" id="pesoSaca" placeholder="Digite o peso da saca..." step="0.01" min="0.01" data-error="Por favor, informe o peso da saca do cultivar." required ><div class="help-block with-errors"></div></div><div class="form-group"><label for="tempoColheita" class="control-label">Dias para relatar a colheita:</label><input type="number" class="form-control inputDadosCultivar" min="1" id="tempoColheita" placeholder="Digite o tempo de colheita..." data-error="Por favor, informe o tempo de colheita do cultivar." required ><div class="help-block with-errors"></div></div><div class="form-group"><label for="tempoDestinacao" class="control-label">Dias para relatar a destinação:</label><input type="number" class="form-control inputDadosCultivar" min="1" id="tempoDestinacao" placeholder="Digite o tempo da destinação..." data-error="Por favor, informe o tempo de destinação do cultivar." required ><div class="help-block with-errors"></div></div><div class="form-group"><label for="valorNutricional" class="control-label">Valor nutricional</label><textarea class="form-control inputDadosCultivar" id="valorNutricional" placeholder="Digite o valor nutricional ..." data-error="Por favor, informe os valores nutricionais do cultivar." required ></textarea><div class="help-block with-errors"></div></div><div class="form-group"><label for="descNovoCultivar" class="control-label">Descrição:</label><textarea class="form-control inputDadosCultivar" id="descNovoCultivar" placeholder="Digite uma descrição..." data-error="Por favor, informe a descrição do cultivar." required ></textarea><div class="help-block with-errors"></div></div><div class="input-group"><input type="checkbox" aria-label="..." id="bioCheck" checked="">&nbsp;<label for="bioCheck" class="control-label">Biofortificado</label></div>  <div class="form-group"> <button type="submit" style="float: right;" class="btn btn-warning next-step" >Continuar</button> </div>  </form> </div>\n\
+                $("#formProgresso").empty().append('<div class="tab-pane active" role="tabpanel" id="progresso1">   <form  data-toggle="validator" role="form" class="formNovoCultivar" >     <div class="form-group"><label for="nomeCultivar" class="control-label">Nome cultivar:</label><input type="text" class="form-control inputDadosCultivar" id="nomeCultivar" placeholder="Digite o nome do cultivar..." pattern="[a-zA-Z çÇãÃâÂáÁàÀéÉêÊíÍìÌõÕôÔóÓúÚ]+" data-error="Por favor, informe o nome do cultivar." required ><div class="help-block with-errors"></div></div><div class="form-group"><label for="umNovoCultivar" class="control-label" > Unidade de medida para distribuição:</label><select class="form-control inputDadosCultivar" id="umNovoCultivar" data-error="Por favor, informe a unidade de medida." required ><option></option><option value="7">Kilo(s)</option><option value="6">Maniva(s)</option><option value="5">Rama(s)</option></select><div class="help-block with-errors"></div></div><div class="form-group"><label for="pesoSaca" class="control-label">Peso da saca(kg):</label><input type="number" class="form-control inputDadosCultivar" id="pesoSaca" placeholder="Digite o peso da saca..." step="0.01" min="0.01" data-error="Por favor, informe o peso da saca do cultivar." required ><div class="help-block with-errors"></div></div><div class="form-group"><label for="tempoColheita" class="control-label">Ciclo de produção em dia(s):</label><input type="number" class="form-control inputDadosCultivar" min="1" id="tempoColheita" placeholder="Digite o tempo de colheita..." data-error="Por favor, informe o tempo de colheita do cultivar." required ><div class="help-block with-errors"></div></div><div class="form-group"><label for="tempoDestinacao" class="control-label">Período de armazenamento e destinação em dia(s):</label><input type="number" class="form-control inputDadosCultivar" min="1" id="tempoDestinacao" placeholder="Digite o tempo da destinação..." data-error="Por favor, informe o tempo de destinação do cultivar." required ><div class="help-block with-errors"></div></div><div class="form-group"><label for="valorNutricional" class="control-label">Valor nutricional</label><textarea class="form-control inputDadosCultivar" id="valorNutricional" placeholder="Digite o valor nutricional ..." data-error="Por favor, informe os valores nutricionais do cultivar." required ></textarea><div class="help-block with-errors"></div></div><div class="form-group"><label for="descNovoCultivar" class="control-label">Descrição:</label><textarea class="form-control inputDadosCultivar" id="descNovoCultivar" placeholder="Digite uma descrição..." data-error="Por favor, informe a descrição do cultivar." required ></textarea><div class="help-block with-errors"></div></div><div class="input-group"><input type="checkbox" aria-label="..." id="bioCheck" checked="">&nbsp;<label for="bioCheck" class="control-label">Biofortificado</label></div>  <div class="form-group"> <button type="submit" style="float: right;" class="btn btn-warning next-step" >Continuar</button> </div>  </form> </div>\n\
                                                    <div class="tab-pane"  id="progresso2">                          <form  data-toggle="validator" role="form" class="formNovoCultivar" >    <div class="form-group"><label class="control-label">Selecione uma imagem:</label><input id="imgNovoCultivar" type="file" class="inputImageCultivar" accept="image/jpeg, image/png" data-error="Por favor, selecione uma imagem para o cultivar." required ><div class="help-block with-errors"></div><img id="imgCultivarCarregada" class="hidden img-responsive" src="" width="180" height="180" alt="imgCultivar"/></div>     <div class="form-group"> <button type="submit" style="float: right;" class="btn btn-warning next-step" >Continuar</button> </div>  </form>     </div>\n\
                                                    <div class="tab-pane"  id="completo"><h3>Deseja realmente salvar o cultivar?</h3><div class="form-group"> <button type="submit" style="float: right;" id="salvarNovoCultivar" class="btn btn-warning">Salvar</button> </div></div><div class="clearfix"></div>');
   
@@ -429,7 +423,7 @@ function continuarProgresso(){
                             carregaUnidade($(this).find('td:eq(0)').html(), "editar");
                         break;
                         case 3:
-                            carregaUsuario($(this).find('td:eq(0)').html(), "editar");
+                            carregaMembro($(this).find('td:eq(0)').html(), "editar");
                         break;
                         default:
                         alerta("Alerta!", "Erro em carregar!");
@@ -1023,111 +1017,7 @@ function salvarNovaUnidade(){
 //
 //
 //
-//carrega a lista de pais do banco de dados e lista em um select
-$(document).on("focusin", ".carregaPais", function(){
-    var envio = {
-        metodo: "pais"
-    };
-    
-    var idSelect = $(this).prop("id");
 
-    //chama a requisicao do servidor, o resultado é listado em um select
-    requisicao(true, "outros/listar", envio, function(dadosRetorno) {
-        if(dadosRetorno.sucesso){
-
-            $("#"+idSelect).empty();
-            $.each(dadosRetorno.data, function(i, value){
-                $("#"+idSelect).append('<option value="'+value.idpais+'">'+value.nomepais+'</option>');
-            });
-            
-            //limpa os campos do estado e cidade
-            if($(".carregaEstado").val() !== "" || $(".carregaCidade").val() !== ""){
-                $(".carregaEstado").empty();
-                $(".carregaCidade").empty();
-            }
-            
-            $(".painelCarregando").fadeOut(400);
-        }else{
-            $(".painelCarregando").fadeOut(400);
-            alerta("Alerta!", dadosRetorno.mensagem);
-        }
- 
-    });
-
- 
-    return false;
-});
-
-//carrega do banco de dados os estados
-$(document).on("focusin", ".carregaEstado", function(){
-    var envio = {
-        metodo: "estados",
-        idpais: $(".carregaPais").prop("value")
-    };
-    
-    var idSelect = $(this).prop("id");
-//    alert(idSelect);
-    //chama a requisicao do servidor, o resultado é listado em uma tabela
-    requisicao(true, "outros/listar", envio, function(dadosRetorno) {
-        if(dadosRetorno.sucesso){
-            //
-            //alerta("Alerta!", dadosRetorno.mensagem);
-            $("#"+idSelect).empty();
-            $.each(dadosRetorno.data, function(i, value){
-                $("#"+idSelect).append('<option value="'+value.idestado+'">'+value.nomeestado+'</option>');
-            });
-            
-            //limpa os campos do estado e cidade
-            if($(".carregaCidade").val() !== ""){
-                $(".carregaCidade").empty();
-            }
-            
-            $(".painelCarregando").fadeOut(400);
-        }else{
-            $(".painelCarregando").fadeOut(400);
-            alerta("Alerta!", dadosRetorno.mensagem);
-        }
- 
-    });
-
- 
-    return false;
-});
-
-//carrega do banco de dados as cidades
-$(document).on("focusin", ".carregaCidade", function(){
-    var envio = {
-        metodo: "cidades",
-        idestado: $(".carregaEstado").prop("value")
-    };
-    
-    var idSelect = $(this).prop("id");
-//    alert(idSelect);
-    //chama a requisicao do servidor, o resultado é listado em uma tabela
-    requisicao(true, "outros/listar", envio, function(dadosRetorno) {
-        if(dadosRetorno.sucesso){
-            //
-            //alerta("Alerta!", dadosRetorno.mensagem);
-            $("#"+idSelect).empty();
-            $.each(dadosRetorno.data, function(i, value){
-                $("#"+idSelect).append('<option value="'+value.idcidade+'">'+value.nomecidade+'</option>');
-            });
-            
-            
-            $(".painelCarregando").fadeOut(400);
-        }else{
-            $(".painelCarregando").fadeOut(400);
-            alerta("Alerta!", dadosRetorno.mensagem);
-        }
- 
-    });
-
- 
-    return false;
-});
-
-//
-//
 //carrega a lista de unidades do banco de dados e lista em um select
 $(document).one("focusin", ".carregaUnidades", function(){
     var Sessao = getSessao();
@@ -1939,28 +1829,6 @@ $(document).one("focusin", ".carregaUnidades", function(){
 
 ///marcacao da tabela lista de agricultores/ cultivares/ unidades/ usuarios
 
-$(document).on("click", "tbody > tr", function(evt)
-{
-
-    //marcar de laranja a row
-    if($(this).hasClass("warning")){
-        $(this).removeClass("warning");
-
-    }else{
-        //percorer a tabela e desmarcar os itens marcados
-        var tabela = $(this).parent();
-        tabela.find('tr').each(function (i){
-            if($(this).hasClass("warning")){
-                $(this).removeClass("warning");
-                return false;
-            }
-        });
-        $(this).addClass("warning");
-        
-    }
-
-     return false;
-});
 
 //dois clicks tabela aparece modal com atributos referentes ao item selecionado
 $(document).on("dblclick", "#divItens tr", function(evt)
@@ -1978,7 +1846,7 @@ $(document).on("dblclick", "#divItens tr", function(evt)
                             carregaUnidade($(this).find('td:eq(0)').html(), "modal");
                         break;
                         case 3:
-                            carregaUsuario($(this).find('td:eq(0)').html(), "modal");
+                            carregaMembro($(this).find('td:eq(0)').html(), "modal");
                         break;
 
                         default:
@@ -1993,41 +1861,41 @@ $(document).on("dblclick", "#divItens tr", function(evt)
 });
 
 
-//busca no servidor dados do cultivar para ser apresentado em um modal
-function carregaCultivar(idClicado, opcao){
-    var Sessao = getSessao();
-    var envio = {
-        metodo: "get_cultivar",
-        idcultivar: idClicado,
-        usuario: Sessao.usuario,
-        sessao: Sessao.sessao
-    };
-    
-    //chama a requisicao do servidor, o resultado é listado em uma tabela
-    requisicao(true, "cultivar/buscar", envio, function(dadosRetorno) {
-        if(dadosRetorno.sucesso){
-            
-            //testa qual opcao sera, editar ou mostrar
-            if(opcao === "modal"){
-                //carrega atributos no painel modal que sera exibido
-                $("#modalTitulo").text("Cultivar");
-                //carrega atributos no painel modal que sera exibido
-                $("#itensModal").append('<h3>'+dadosRetorno.data.nomecultivar+'</h3><img class=" img-responsive" src="'+dadosRetorno.data.imagem+'" width="180" height="180" alt="imgCultivar"/><h4> Biofortificado: '+dadosRetorno.data.biofortificado+'</h4><h4> Unidade de medida: '+dadosRetorno.data.grandeza+'</h4><h4> Tempo de colheita: '+dadosRetorno.data.tempodecolheita+'</h4><h4> Tempo de destinação: '+dadosRetorno.data.tempodestinacao+'</h4><h4> Peso da saca: '+dadosRetorno.data.peso_saca+' kilo(s)</h4><h4> Valor nutricional: '+dadosRetorno.data.valornutricional+'</h4><h4> Descrição: '+dadosRetorno.data.descricao+'</h4>');
-            }else if(opcao === "editar"){
-                $("#divItens").empty().append('<h2 class="sub-header">Editar cultivar</h2><form  data-toggle="validator" role="form" id="salvarEditCulti"> <div class="form-group"><label for="nomeCultivar" class="control-label">Nome cultivar:</label><input type="text" class="form-control" id="nomeCultivar" placeholder="Digite o nome do cultivar..." value="'+dadosRetorno.data.nomecultivar+'"></div><div class="form-group"><label for="umCultivar" class="control-label">Unidade de medida:</label><select class="form-control " id="umCultivar" value="'+dadosRetorno.data.grandeza+'"><option value="7">Kilo(s)</option><option value="6">Maniva(s)</option><option value="5">Rama(s)</option></select></div><div class="form-group"><label for="pesoSaca" class="control-label">Peso da saca:</label><input type="text" class="form-control" id="pesoSaca" placeholder="Digite o peso da saca..." value="'+dadosRetorno.data.peso_saca+'"></div><div class="form-group"><label for="tempoColheita" class="control-label">Dias para relatar a colheita:</label><input type="number" class="form-control" min="1" id="tempoColheita" placeholder="Digite o tempo de colheita..." value="'+dadosRetorno.data.tempodecolheita+'"></div><div class="form-group"><label for="tempoDestinacao" class="control-label">Dias para relatar a destinação:</label><input type="number" class="form-control" min="1" id="tempoDestinacao" placeholder="Digite o tempo da destinação..." value="'+dadosRetorno.data.tempodestinacao+'"></div><div class="form-group"><label for="valorNutricional" class="control-label">Valor nutricional</label><textarea class="form-control" id="valorNutricional" placeholder="Digite o valor nutricional ...">'+dadosRetorno.data.valornutricional+'</textarea></div><div class="form-group"><label for="descCultivar" class="control-label">Descrição:</label><textarea class="form-control" id="descCultivar" placeholder="Digite uma descrição...">'+dadosRetorno.data.descricao+'</textarea></div><div class="input-group"><input type="checkbox" aria-label="..." id="bio" checked="'+dadosRetorno.data.biofortificado+'">&nbsp;<label for="bio" class="control-label">Biofortificado</label></div><br><label class="control-label">Selecione uma imagem:</label><input id="imgNovoCultivar" type="file" class=""><img id="imgCultivarCarregada" class="img-responsive" src="'+dadosRetorno.data.imagem+'" width="180" height="180" alt="imgCultivar"/><hr><button type="submit" class="btn btn-warning">Salvar <span class="fa fa-save" aria-hidden="true"></span></button></form>');
-                $('#salvarEditCulti').validator();
-            }
-            //retira o painel loading
-            $(".painelCarregando").fadeOut(400);
-        }else{
-            //retira o painel loading
-            $(".painelCarregando").fadeOut(400);
-            alerta("Alerta!", dadosRetorno.mensagem);
-        }
-        //atualiza a sessao
-        updateSessao(dadosRetorno.sessao);
-    });
-}
+////busca no servidor dados do cultivar para ser apresentado em um modal
+//function carregaCultivar(idClicado, opcao){
+//    var Sessao = getSessao();
+//    var envio = {
+//        metodo: "get_cultivar",
+//        idcultivar: idClicado,
+//        usuario: Sessao.usuario,
+//        sessao: Sessao.sessao
+//    };
+//    
+//    //chama a requisicao do servidor, o resultado é listado em uma tabela
+//    requisicao(true, "cultivar/buscar", envio, function(dadosRetorno) {
+//        if(dadosRetorno.sucesso){
+//            
+//            //testa qual opcao sera, editar ou mostrar
+//            if(opcao === "modal"){
+//                //carrega atributos no painel modal que sera exibido
+//                $("#modalTitulo").text("Cultivar");
+//                //carrega atributos no painel modal que sera exibido
+//                $("#itensModal").append('<h3>'+dadosRetorno.data.nomecultivar+'</h3><img class=" img-responsive" src="'+dadosRetorno.data.imagem+'" width="180" height="180" alt="imgCultivar"/><h4> Biofortificado: '+dadosRetorno.data.biofortificado+'</h4><h4> Unidade de medida: '+dadosRetorno.data.grandeza+'</h4><h4> Tempo de colheita: '+dadosRetorno.data.tempodecolheita+'</h4><h4> Tempo de destinação: '+dadosRetorno.data.tempodestinacao+'</h4><h4> Peso da saca: '+dadosRetorno.data.peso_saca+' kilo(s)</h4><h4> Valor nutricional: '+dadosRetorno.data.valornutricional+'</h4><h4> Descrição: '+dadosRetorno.data.descricao+'</h4>');
+//            }else if(opcao === "editar"){
+//                $("#divItens").empty().append('<h2 class="sub-header">Editar cultivar</h2><form  data-toggle="validator" role="form" id="salvarEditCulti"> <div class="form-group"><label for="nomeCultivar" class="control-label">Nome cultivar:</label><input type="text" class="form-control" id="nomeCultivar" placeholder="Digite o nome do cultivar..." value="'+dadosRetorno.data.nomecultivar+'"></div><div class="form-group"><label for="umCultivar" class="control-label">Unidade de medida:</label><select class="form-control " id="umCultivar" value="'+dadosRetorno.data.grandeza+'"><option value="7">Kilo(s)</option><option value="6">Maniva(s)</option><option value="5">Rama(s)</option></select></div><div class="form-group"><label for="pesoSaca" class="control-label">Peso da saca:</label><input type="text" class="form-control" id="pesoSaca" placeholder="Digite o peso da saca..." value="'+dadosRetorno.data.peso_saca+'"></div><div class="form-group"><label for="tempoColheita" class="control-label">Dias para relatar a colheita:</label><input type="number" class="form-control" min="1" id="tempoColheita" placeholder="Digite o tempo de colheita..." value="'+dadosRetorno.data.tempodecolheita+'"></div><div class="form-group"><label for="tempoDestinacao" class="control-label">Dias para relatar a destinação:</label><input type="number" class="form-control" min="1" id="tempoDestinacao" placeholder="Digite o tempo da destinação..." value="'+dadosRetorno.data.tempodestinacao+'"></div><div class="form-group"><label for="valorNutricional" class="control-label">Valor nutricional</label><textarea class="form-control" id="valorNutricional" placeholder="Digite o valor nutricional ...">'+dadosRetorno.data.valornutricional+'</textarea></div><div class="form-group"><label for="descCultivar" class="control-label">Descrição:</label><textarea class="form-control" id="descCultivar" placeholder="Digite uma descrição...">'+dadosRetorno.data.descricao+'</textarea></div><div class="input-group"><input type="checkbox" aria-label="..." id="bio" checked="'+dadosRetorno.data.biofortificado+'">&nbsp;<label for="bio" class="control-label">Biofortificado</label></div><br><label class="control-label">Selecione uma imagem:</label><input id="imgNovoCultivar" type="file" class=""><img id="imgCultivarCarregada" class="img-responsive" src="'+dadosRetorno.data.imagem+'" width="180" height="180" alt="imgCultivar"/><hr><button type="submit" class="btn btn-warning">Salvar <span class="fa fa-save" aria-hidden="true"></span></button></form>');
+//                $('#salvarEditCulti').validator();
+//            }
+//            //retira o painel loading
+//            $(".painelCarregando").fadeOut(400);
+//        }else{
+//            //retira o painel loading
+//            $(".painelCarregando").fadeOut(400);
+//            alerta("Alerta!", dadosRetorno.mensagem);
+//        }
+//        //atualiza a sessao
+//        updateSessao(dadosRetorno.sessao);
+//    });
+//}
 
 //busca no servidor dados da unidade para ser apresentado em um modal
 function carregaUnidade(idClicado, opcao){
@@ -2063,25 +1931,25 @@ function carregaUnidade(idClicado, opcao){
     });
 }
 
-//busca no servidor dados do usuario para ser apresentado em um modal
-function carregaUsuario(idClicado, opcao){
+//busca no servidor dados do agricultor para ser apresentado em um modal
+function carregaMembro(idClicado, opcao){
     var Sessao = getSessao();
     var envio = {
-        metodo: "get_usuario",
+        metodo: "GET_MEMBRO",
         idpessoa: idClicado,
         usuario: Sessao.usuario,
         sessao: Sessao.sessao
     };
     
     //chama a requisicao do servidor, o resultado é listado em uma tabela
-    requisicao(true, "pessoa/buscar", envio, function(dadosRetorno) {
+    requisicao(true, "usuario/buscar", envio, function(dadosRetorno) {
         if(dadosRetorno.sucesso){
             
             //testa qual opcao sera, editar ou mostrar
             if(opcao === "modal"){
                 //carrega atributos no painel modal que sera exibido
                 $("#modalTitulo").text("Usuário");
-                $("#itensModal").append("<h3>"+dadosRetorno.data.nome+"</h3><h4> Sobrenome: "+dadosRetorno.data.sobrenome+"</h4><h4>Apelido: "+dadosRetorno.data.apelido+"</h4><h4> CPF: "+dadosRetorno.data.cpf+"</h4><h4> RG: "+dadosRetorno.data.rg+"</h4><h4> Data de nascimento: "+dadosRetorno.data.datanascimento+"</h4><h4> Sexo: "+dadosRetorno.data.sexo+"</h4><h4> Telefone1: "+dadosRetorno.data.telefone1+"</h4><h4>Telefone2"+dadosRetorno.data.telefone2+"</h4><h4>Email: "+dadosRetorno.data.email+"</h4><h4>Estado civil: "+dadosRetorno.data.estadocivil+"</h4><h4>Escolaridade: "+dadosRetorno.data.escolaridade+"</h4>");
+                $("#itensModal").append("<h3>"+dadosRetorno.data.nome+"</h3><h4> Sobrenome: "+dadosRetorno.data.sobrenome+"</h4><h4>Apelido: "+dadosRetorno.data.apelido+"</h4><h4> CPF: "+dadosRetorno.data.cpf+"</h4><h4> RG: "+dadosRetorno.data.rg+"</h4><h4> Data de nascimento: "+dadosRetorno.data.datanascimento+"</h4><h4> Sexo: "+dadosRetorno.data.sexo+"</h4><h4> Telefone1: "+dadosRetorno.data.telefone1+"</h4><h4>Telefone2:"+dadosRetorno.data.telefone2+"</h4><h4>Email: "+dadosRetorno.data.email+"</h4><h4>Estado civil: "+dadosRetorno.data.estadocivil+"</h4><h4>Escolaridade: "+dadosRetorno.data.escolaridade+"</h4><h4>Grupo: "+dadosRetorno.data.grupo+"</h4><h4>Unidade: "+dadosRetorno.data.nomeunidade+"</h4>");
 //                $("#modalTitulo").text("Usuário");
 //                alerta("<h3>"+dadosRetorno.data.nome+"</h3><h4> Sobrenome: "+dadosRetorno.data.sobrenome+"</h4><h4>Apelido: "+dadosRetorno.data.apelido+"</h4><h4> CPF: "+dadosRetorno.data.cpf+"</h4><h4> RG: "+dadosRetorno.data.rg+"</h4><h4> Data de nascimento: "+dadosRetorno.data.datanascimento+"</h4><h4> Sexo: "+dadosRetorno.data.sexo+"</h4><h4> Telefone1: "+dadosRetorno.data.telefone1+"</h4><h4>Telefone2"+dadosRetorno.data.telefone2+"</h4><h4>Email: "+dadosRetorno.data.email+"</h4><h4>Estado civil: "+dadosRetorno.data.estadocivil+"</h4><h4>Escolaridade: "+dadosRetorno.data.escolaridade+"</h4>");
             }else if(opcao === "editar"){

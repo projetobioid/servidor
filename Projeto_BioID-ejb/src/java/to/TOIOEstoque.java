@@ -24,7 +24,7 @@ public class TOIOEstoque extends TOBase{
     
     private int operacao;
     
-    private long login_idlogin;
+    private String login_usuario;
 
     public long getUnidade_idunidade() {
         return unidade_idunidade;
@@ -66,12 +66,12 @@ public class TOIOEstoque extends TOBase{
         this.operacao = operacao;
     }
 
-    public long getLogin_idlogin() {
-        return login_idlogin;
+    public String getLogin_usuario() {
+        return login_usuario;
     }
 
-    public void setLogin_idlogin(long login_idlogin) {
-        this.login_idlogin = login_idlogin;
+    public void setLogin_usuario(String login_usuario) {
+        this.login_usuario = login_usuario;
     }
 
     
@@ -91,7 +91,7 @@ public class TOIOEstoque extends TOBase{
                 this.quantidade = rs.getFloat("quantidade");
                 this.data_io = rs.getString("data_io");
                 this.operacao = rs.getInt("operacao");
-                this.login_idlogin = rs.getLong("login_idlogin");
+                this.login_usuario = rs.getString("login_idlogin");
                 break;
         }
     }
@@ -107,7 +107,7 @@ public class TOIOEstoque extends TOBase{
                 j.put("quantidade", quantidade);
                 j.put("data_io", data_io);
                 j.put("operacao", operacao);
-                j.put("login_idlogin", login_idlogin);
+                j.put("login_idlogin", login_usuario);
                 break;
         }
         

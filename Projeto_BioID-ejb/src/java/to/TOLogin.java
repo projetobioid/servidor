@@ -109,6 +109,7 @@ public class TOLogin extends TOBase{
                 this.grupo = rs.getString("grupo");
                 
                 break;
+            case "GET_POR_USUARIO":
             default:
                 this.usuario = rs.getString("usuario");
                 this.pessoa_idpessoa = rs.getLong("pessoa_idpessoa");
@@ -134,6 +135,7 @@ public class TOLogin extends TOBase{
                 j.put("sessao", sessao);
                 j.put("grupo", grupo);
                 break;
+            case "GET_POR_USUARIO":
             default:
                 //populando o objeto j
                 j.put("usuario", usuario);

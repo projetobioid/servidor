@@ -110,7 +110,8 @@ public class DAOUnidade extends DAOBase{
                     sql = "SELECT u.idunidade, c.nomecidade, u.nomeunidade "
                         + "FROM unidade u "
                         + "INNER JOIN endereco e ON (e.idendereco = u.endereco_idendereco) "
-                        + "INNER JOIN cidade c ON (c.idcidade= e.cidade_idcidade) ";
+                        + "INNER JOIN cidade c ON (c.idcidade= e.cidade_idcidade) "
+                        + "ORDER BY nomeunidade ASC";
                     break;
                 case "TODAS":
                     sql = "SELECT u.idunidade, c.nomecidade, u.nomeunidade, es.nomeestado, p.nomepais, u.telefone1, u.email, u.cnpj "
@@ -119,6 +120,7 @@ public class DAOUnidade extends DAOBase{
                         + "INNER JOIN cidade c ON (c.idcidade= e.cidade_idcidade) "
                         + "INNER JOIN estado es ON (es.idestado = c.estado_idestado) "
                         + "INNER JOIN pais p ON (p.idpais= es.pais_idpais)";
+                            
                     break;
                 default:
                     sql = "SELECT * FROM unidade";

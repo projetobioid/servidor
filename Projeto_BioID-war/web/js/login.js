@@ -1,7 +1,4 @@
-//var ipServidor = 'localhost:8080'; //sistema em producao
-//var ipServidor = "187.19.101.252:8082"; //sistema rodando fora
-//var ipServidor = "10.1.2.52:8080"; //sistema teste interno
-var ipServidor = "10.2.10.200:8080"; //sistema teste interno
+
 
 /* button carregar page entrar*/
 $(document).on("click", "#goPagEntrar", function(evt)
@@ -18,6 +15,14 @@ $(document).on("click", "#goPagEntrar", function(evt)
     
 
      return false;
+});
+//botao cadastro
+$(document).on("click", "#cadastrarSe", function(evt)
+{
+    alert("Em construção!");
+//    alert($.sha256("agricultor"));;
+
+    return false;
 });
 
 //button voltar inicio
@@ -43,20 +48,19 @@ $(document).on("click", "#fecharAlert", function(evt)
 
 
 
+
 function login()
 {
-    
+    $(".painelCarregando").fadeIn(400);
     var envio = {usuario: $("#username").val(),
                     senha: $.sha256($("#password").val()),
-                    metodo: "VALIDACAO",
-                    ip: ipServidor
+                    metodo: "VALIDACAO"
                 };
-    alert(JSON.stringify(envio));
     $.when(
 
         $.ajax({
             type: 'POST',
-            url: "http://"+ipServidor+"/Projeto_BioID-war/servico/outros/validacao",
+            url: ipServidor+"/servico/outros/validacao",
             data: JSON.stringify(envio),
             headers: { 
             'Accept': 'application/json',
@@ -74,7 +78,7 @@ function login()
 
                 $.ajax({
                     type: 'POST',
-                    url : 'http://'+ipServidor+'/Projeto_BioID-war/j_security_check',
+                    url : ipServidor+'/j_security_check',
                     data: $('.login').serialize()
                             
                     
@@ -103,7 +107,7 @@ function login()
                 $("#alerta").empty().append('<a href="#" id="fecharAlert" class="close">&times;</a><strong>Erro!</strong> Usuário ou senha incorreta!').fadeIn();
             }
 	});
-    
+        $(".painelCarregando").fadeOut(400);
  
  }
  

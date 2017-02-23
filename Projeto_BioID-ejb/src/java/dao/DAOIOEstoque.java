@@ -30,14 +30,14 @@ public class DAOIOEstoque extends DAOBase{
         
         switch(metodo){
             default:
-                sql = "INSERT INTO ioestoque(estoque_unidade_idunidade, estoque_cultivar_idcultivar, quantidade, data_io, operacao, login_idlogin) VALUES (?, ?, ?, ?, ?, ?)";
+                sql = "INSERT INTO ioestoque(estoque_unidade_idunidade, estoque_cultivar_idcultivar, quantidade, data_io, operacao, login_usuario) VALUES (?, ?, ?, ?, ?, ?)";
         
                 u.add(((TOIOEstoque)t).getUnidade_idunidade());
                 u.add(((TOIOEstoque)t).getCultivar_idcultivar());
                 u.add(((TOIOEstoque)t).getQuantidade());
                 u.add(((TOIOEstoque)t).getData_io());
                 u.add(((TOIOEstoque)t).getOperacao());
-                u.add(((TOIOEstoque)t).getLogin_idlogin());
+                u.add(((TOIOEstoque)t).getLogin_usuario());
                 break;
         }
         //passa por parametros a conexao e a lista de objetos da insercao

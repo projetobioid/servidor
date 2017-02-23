@@ -10,7 +10,6 @@ import dao.DAOEndereco;
 import dao.DAOGrupos;
 import dao.DAOLogin;
 import dao.DAOPessoa;
-import fw.Criptografia;
 import fw.VerificarSessao;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
@@ -160,7 +159,7 @@ public class ServicoUsuario {
                         //tabela login
                         tl.setPessoa_idpessoa(idGerado);
                         tl.setUnidade_idunidade(k.getLong("unidade_idunidade"));
-                        tl.setSenha(Criptografia.md5(k.getString("senha")));
+                        tl.setSenha(k.getString("senha"));
                         //grava no banco de dados os dados da classe TOLogin
                         BOFactory.inserirIDString(new DAOLogin(), tl);
 
@@ -171,7 +170,7 @@ public class ServicoUsuario {
                         BOFactory.inserirIDString(new DAOGrupos(), tg);
                         
                         j.put("sucesso", true);
-                        j.put("mensagem", "Usuário cadastrado com sucesso!");
+                        j.put("mensagem", "Cadastro com sucesso!");
                         j.put("sessao", sessao);
                     //mensagen de usuario ja existente
                     }else{
@@ -193,5 +192,63 @@ public class ServicoUsuario {
         }
         
         return j.toString();
+    }
+    
+    @Path("buscar")
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public String buscar(String dataJson) throws Exception{
+        
+        JSONObject j = new JSONObject();
+        JSONObject k = new JSONObject(dataJson);
+        
+        try{
+             //verifica  a sessao
+            VerificarSessao vs = new VerificarSessao();
+            String sessao = vs.VerificarSessao(k.getString("usuario"), k.getString("sessao"));
+            
+            if( sessao == null){
+                j.put("sucesso", false);
+                j.put("mensagem", "Sessao não encontrada!");
+            }else{
+                //comeca a requisicao
+                
+
+                TOPessoa p = new TOPessoa();
+                
+                //testa se a busca vai ser por id, ou cpf/nome/rg
+                //if(k.getString("metodo").equals("buscaragricultorid")){
+               p.setIdpessoa(k.getLong("idpessoa"));
+                //}else{
+                   // p.setNome(k.getString("campo"));
+                    //p.setCpf(k.getString("campo"));
+                   // p.setRg(k.getString("campo"));  
+               // }
+                
+//                
+                
+                p = (TOPessoa) BOFactory.get(new DAOPessoa(), p, k.getString("metodo"));
+                
+                
+                if(p == null){
+                    j.put("sucesso", false);
+                    j.put("mensagem", k.getString("metodo")+" não encontrado");
+                    j.put("sessao", sessao);
+                }else{
+                    j.put("data", p.getJson(k.getString("metodo")));
+                    j.put("sessao", sessao);
+                    j.put("sucesso", true);
+                }
+      
+                        
+            }
+        }catch(Exception e){
+            j.put("sucesso", false);
+            j.put("mensagem", e.getMessage());
+        }
+        
+        return j.toString(); 
+        
     }
 }

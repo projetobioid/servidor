@@ -40,7 +40,7 @@ public class ServicosEstoque {
     public ServicosEstoque() {
     }
 
-    @Path("buscarcultivar")
+    @Path("buscar")
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
@@ -86,7 +86,7 @@ public class ServicosEstoque {
     }
     
     
-     @Path("listar")
+    @Path("listar")
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
@@ -120,7 +120,7 @@ public class ServicosEstoque {
                     j.put("sessao", sessao);
                 }else{
                     j.put("sucesso", false);
-                    j.put("mensagem", "Sem "+ k.getString("metodo"));
+                    j.put("mensagem", "Estoque vazio!");
                     j.put("sessao", sessao);
                 }
                 
@@ -165,7 +165,7 @@ public class ServicosEstoque {
                 //entrada de estoque
                     
                 //busca se existe o cultivar no estoque
-                te = (TOEstoque) BOFactory.get(new DAOEstoque(), te, "default");
+                te = (TOEstoque) BOFactory.get(new DAOEstoque(), te, "DEFAULT");
 
                 //se nao existe cria uma nova entrada
                 if(te == null){
@@ -174,7 +174,7 @@ public class ServicosEstoque {
                     te.setUnidade_idunidade(k.getLong("idunidade"));
                     te.setCultivar_idcultivar(k.getLong("idcultivar"));
 
-                    BOFactory.inserir(new DAOEstoque(), te, "default");
+                    BOFactory.inserir(new DAOEstoque(), te, "DEFAULT");
 
                     if(historicoIOEstoque(k)){
                         j.put("sucesso", true);
@@ -193,7 +193,7 @@ public class ServicosEstoque {
 
                     te.setQuantidade(te.getQuantidade() + k.getDouble("qtd"));
 
-                    BOFactory.editar(new DAOEstoque(), te, "default");
+                    BOFactory.editar(new DAOEstoque(), te, "DEFAULT");
 
                     if(historicoIOEstoque(k)){
                         j.put("sucesso", true);
@@ -284,9 +284,9 @@ public class ServicosEstoque {
             tio.setQuantidade(k.getDouble("qtd"));
             tio.setData_io(getDataAtual());
             tio.setOperacao(k.getInt("operacao"));
-//            tio.setLogin_idlogin(k.getString("usuario"));
+            tio.setLogin_usuario(k.getString("usuario"));
 
-            BOFactory.inserir(new DAOIOEstoque(), tio, "default");
+            BOFactory.inserir(new DAOIOEstoque(), tio, "DEFAULT");
             
             return true;
         }catch(Exception e){

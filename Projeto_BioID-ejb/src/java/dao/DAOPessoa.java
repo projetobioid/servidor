@@ -106,7 +106,7 @@ public class DAOPessoa extends DAOBase{
         try{
             List<Object> u = new ArrayList<Object>();
             switch(metodo){
-                case "get_agricultor":
+                case "GET_POR_ID":
                     sql = "SELECT p.idpessoa, p.nome, p.sobrenome, p.apelido, p.cpf, p.rg, p.datanascimento, p.sexo, p.telefone1, p.telefone2, p.email, a.qtdintegrantes, a.qtdcriancas, a.qtdgravidas, est.descricao as estadocivil, esc.descricao as escolaridade "
                         + "FROM pessoa p "
                         + "INNER JOIN agricultor a ON(a.pessoa_idpessoa = p.idpessoa) "
@@ -115,11 +115,14 @@ public class DAOPessoa extends DAOBase{
                         + "WHERE p.idpessoa IN(?)"; 
                     u.add(((TOPessoa)t).getIdpessoa());
                     break;
-                case "get_usuario":
-                    sql = "SELECT p.idpessoa, p.nome, p.sobrenome, p.apelido, p.cpf, p.rg, p.datanascimento, p.sexo, p.telefone1, p.telefone2, p.email, est.descricao as estadocivil, esc.descricao as escolaridade "
+                case "GET_MEMBRO":
+                    sql = "SELECT p.idpessoa, p.nome, p.sobrenome, p.apelido, p.cpf, p.rg, p.datanascimento, p.sexo, p.telefone1, p.telefone2, p.email, est.descricao as estadocivil, esc.descricao as escolaridade, g.grupo, u.nomeunidade "
                         + "FROM pessoa p "
                         + "INNER JOIN estadocivil est ON(est.idestadocivil = p.estadocivil_idestadocivil) "
                         + "INNER JOIN escolaridade esc ON(esc.idescolaridade = p.escolaridade_idescolaridade) "
+                        + "INNER JOIN login l ON (l.pessoa_idpessoa = p.idpessoa)"
+                        + "INNER JOIN unidade u ON (u.idunidade = l.unidade_idunidade)"
+                        + "INNER JOIN grupos g ON (g.loginusuario = l.usuario)"
                         + "WHERE p.idpessoa IN(?)";
                     u.add(((TOPessoa)t).getIdpessoa());
                     break;
@@ -194,7 +197,7 @@ public class DAOPessoa extends DAOBase{
             List<Object> u = new ArrayList<Object>();
             
             switch (metodo) {
-                case "agricultores":
+                case "TODOS_DA_UNIDADE":
                     sql = "SELECT p.idpessoa, p.nome, p.sobrenome, p.cpf, p.rg, p.telefone1, u.nomeunidade"
                             + " FROM pessoa p"
                             + " INNER JOIN login l ON (l.pessoa_idpessoa = p.idpessoa)"
@@ -209,10 +212,18 @@ public class DAOPessoa extends DAOBase{
                             + "INNER JOIN login l ON (l.pessoa_idpessoa = p.idpessoa) "
                             + "INNER JOIN unidade u ON (u.idunidade = l.unidade_idunidade) "
                             + " INNER JOIN grupos g ON (g.loginusuario = l.usuario)"
-                            + "WHERE g.grupo IN('administradores') OR g.grupo IN('entrevistadores') OR g.grupo IN('gerenciadores')";// AND l.unidade_idunidade IN(?)";
-//                    u.add(((TOPessoa)t).getIdunidade());
+                            + "WHERE g.grupo IN('administradores') OR g.grupo IN('entrevistadores') OR g.grupo IN('gerenciadores')";
                     break;
-                case "agricultor_select":
+                case "EQUIPE":
+                    sql = "SELECT p.idpessoa, p.nome, p.sobrenome, p.cpf, p.rg, p.telefone1, u.nomeunidade, g.grupo "
+                            + "FROM pessoa p "
+                            + "INNER JOIN login l ON (l.pessoa_idpessoa = p.idpessoa) "
+                            + "INNER JOIN unidade u ON (u.idunidade = l.unidade_idunidade) "
+                            + " INNER JOIN grupos g ON (g.loginusuario = l.usuario)"
+                            + "WHERE (g.grupo IN('administradores') OR g.grupo IN('entrevistadores') OR g.grupo IN('gerenciadores')) AND l.unidade_idunidade IN(?)";
+                    u.add(((TOPessoa)t).getIdunidade());
+                    break;
+                case "INPUT_SELECT":
                     sql = "SELECT p.idpessoa, p.nome, p.sobrenome, p.cpf, p.rg FROM pessoa p "
                             + "INNER JOIN agricultor a ON (a.pessoa_idpessoa = p.idpessoa) "
                             + "INNER JOIN login l ON(l.pessoa_idpessoa = p.idpessoa) "

@@ -138,7 +138,7 @@ public class TOPropriedade extends TOBase {
                 this.nomepropriedade = rs.getString("nomepropriedade");
                 this.idpropriedade = rs.getLong("idpropriedade");
                 break;
-            case "listarpropriedades":
+            case "NOME_E_ID":
                 this.idpropriedade = rs.getLong("idpropriedade");
                 this.nomepropriedade = rs.getString("nomepropriedade");
                 break;
@@ -183,7 +183,7 @@ public class TOPropriedade extends TOBase {
                 j.put("gps_lat", endereco.getGps_lat());
                 j.put("gps_long", endereco.getGps_long());
                 break;
-            case "listar_propriedades":
+            case "NOME_E_ID":
                 j.put("idpropriedade", idpropriedade);
                 j.put("nomepropriedade", nomepropriedade);
                 break;

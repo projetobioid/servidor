@@ -147,8 +147,8 @@ public class TOCultivar extends TOBase{
     //retorna consulta do banco de dados tipo resultset
     public TOCultivar (ResultSet rs , String metodo) throws Exception{
         switch(metodo){
-            case "todos" :
-            case "bio" :
+            case "TODOS" :
+//            case "bio" :
                 this.idcultivar = rs.getLong("idcultivar");
                 this.nomecultivar = rs.getString("nomecultivar");
                 this.grandeza = rs.getString("grandeza");
@@ -192,8 +192,8 @@ public class TOCultivar extends TOBase{
         JSONObject j = new JSONObject();
         
         switch(metodo){
-            case "todos":
-            case "bio":
+            case "TODOS":
+//            case "bio":
                 j.put("idcultivar", idcultivar);
                 j.put("nomecultivar", nomecultivar);
                 j.put("grandeza", grandeza);

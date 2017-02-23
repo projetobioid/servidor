@@ -35,7 +35,7 @@ public class DAOEstoque extends DAOBase{
             List<Object> u = new ArrayList<Object>();
             
             switch(metodo){
-                case "get_cultivar_estoque":
+                case "GET_CULTIVAR":
                     sql = "SELECT e.unidade_idunidade, e.cultivar_idcultivar, e.quantidade, um.grandeza FROM estoque e "
                             + "INNER JOIN cultivar c ON(c.idcultivar = e.cultivar_idcultivar) "
                             + "INNER JOIN unidademedida um ON(um.idunidademedida = c.unidademedida_idunidademedida) "
@@ -123,7 +123,7 @@ public class DAOEstoque extends DAOBase{
             String sql = null;
             
             switch(metodo){
-                case "estoqueunidade":
+                case "TODOS":
                     sql = "SELECT e.unidade_idunidade, e.cultivar_idcultivar, u.grandeza, e.quantidade, c.nomecultivar FROM estoque e"
                         + " INNER JOIN cultivar c ON (c.idcultivar = e.cultivar_idcultivar)"
                         + " INNER JOIN unidademedida u ON (u.idunidademedida = c.unidademedida_idunidademedida)"

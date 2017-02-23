@@ -68,10 +68,13 @@ public class DAOLogin extends DAOBase{
                 u.add(((TOLogin)t).getUsuario());
                 u.add(((TOLogin)t).getSenha());
                 break;
-                default :
-                sql = "SELECT * FROM login WHERE usuario IN(?)";
+                case "GET_POR_USUARIO" :
+                    sql = "SELECT * FROM login WHERE usuario IN(?)";
                 
                     u.add(((TOLogin)t).getUsuario());
+                    break;
+                default:
+                    sql = "SELECT * FROM login";
                     break;
             }
             

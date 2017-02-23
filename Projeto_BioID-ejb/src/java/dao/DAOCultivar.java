@@ -133,7 +133,7 @@ public class DAOCultivar extends DAOBase {
             String sql = null;
             
             switch (metodo) {
-                case "todos":
+                case "TODOS":
                     sql = "select c.idcultivar, c.nomecultivar, um.grandeza from cultivar c "
                         + "INNER JOIN unidademedida um ON (um.idunidademedida = c.unidademedida_idunidademedida) "
                         + "order by c.nomecultivar";
@@ -143,16 +143,16 @@ public class DAOCultivar extends DAOBase {
                         ja.put(tc.getJson(metodo));
                     }
                     break;
-                case "bio":
-                    sql = "select c.idcultivar, c.nomecultivar, um.grandeza from cultivar c "
-                        + "INNER JOIN unidademedida um ON (um.idunidademedida = c.unidademedida_idunidademedida) "
-                        + "WHERE c.biofortificado IN(true) order by c.nomecultivar";
-                    rs = Data.executeQuery(c, sql);
-                    while (rs.next()){
-                        TOCultivar tc = new TOCultivar(rs, metodo);
-                        ja.put(tc.getJson(metodo));
-                    }
-                    break;
+//                case "bio":
+//                    sql = "select c.idcultivar, c.nomecultivar, um.grandeza from cultivar c "
+//                        + "INNER JOIN unidademedida um ON (um.idunidademedida = c.unidademedida_idunidademedida) "
+//                        + "WHERE c.biofortificado IN(true) order by c.nomecultivar";
+//                    rs = Data.executeQuery(c, sql);
+//                    while (rs.next()){
+//                        TOCultivar tc = new TOCultivar(rs, metodo);
+//                        ja.put(tc.getJson(metodo));
+//                    }
+//                    break;
                 case "x":
                     sql = "SELECT DISTINCT c.idcultivar, c.nomecultivar, c.imagem, c.descricao, c.biofortificado, um.grandeza, c.valornutricional, c.tempodecolheita, c.peso_saca "
                             + "FROM login l "

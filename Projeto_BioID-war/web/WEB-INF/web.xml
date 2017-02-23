@@ -19,6 +19,18 @@
             <description/>
             <url-pattern>/paginas/administrador/administrador.html</url-pattern>
             <url-pattern>/paginas/home.html</url-pattern>
+            <!--servicos cultivar-->
+            <url-pattern>/servico/cultivar/buscar</url-pattern>
+            <url-pattern>/servico/cultivar/listar</url-pattern>
+            <url-pattern>/servico/cultivar/inserir</url-pattern>
+            <!--servicos unidades-->
+            <url-pattern>/servico/unidade/buscar</url-pattern>
+            <url-pattern>/servico/unidade/listar</url-pattern>
+            <url-pattern>/servico/unidade/inserir</url-pattern>
+            <!--servicos usuarios-->
+            <url-pattern>/servico/usuario/buscar</url-pattern>
+            <url-pattern>/servico/usuario/listar</url-pattern>
+            <url-pattern>/servico/usuario/inserir</url-pattern>
         </web-resource-collection>
         <auth-constraint>
             <role-name>administrador-role</role-name>
@@ -31,21 +43,23 @@
             <description/>
             <url-pattern>/paginas/gerenciador/gerenciador.html</url-pattern>
             <url-pattern>/paginas/home.html</url-pattern>
+            <!--servicos usuarios membros equipe-->
+            <url-pattern>/servico/usuario/buscar</url-pattern>
+            <url-pattern>/servico/usuario/listar</url-pattern>
+            <url-pattern>/servico/usuario/inserir</url-pattern>
+            <!--servicos agricultores-->
+            <url-pattern>/servico/agricultor/buscar</url-pattern>
+            <url-pattern>/servico/agricultor/listar</url-pattern>
+            <url-pattern>/servico/agricultor/inserir</url-pattern>
+            <!--servicos estoque unidade-->
+            <url-pattern>/servico/estoque/buscar</url-pattern>
+            <url-pattern>/servico/estoque/listar</url-pattern>
+            <url-pattern>/servico/estoque/entradaestoque</url-pattern>
+            <url-pattern>/servico/estoque/saidaestoque</url-pattern>
+            
         </web-resource-collection>
         <auth-constraint>
             <role-name>gerenciador-role</role-name>
-        </auth-constraint>
-    </security-constraint>
-    <security-constraint>
-        <display-name>pagina agricultor</display-name>
-        <web-resource-collection>
-            <web-resource-name>paginas para agricultores</web-resource-name>
-            <description/>
-            <url-pattern>/paginas/agricultor/agricultor.html</url-pattern>
-            <url-pattern>/paginas/home.html</url-pattern>
-        </web-resource-collection>
-        <auth-constraint>
-            <role-name>agricultor-role</role-name>
         </auth-constraint>
     </security-constraint>
     <security-constraint>
@@ -60,6 +74,19 @@
             <role-name>entrevistador-role</role-name>
         </auth-constraint>
     </security-constraint>
+    <security-constraint>
+        <display-name>pagina agricultor</display-name>
+        <web-resource-collection>
+            <web-resource-name>paginas para agricultores</web-resource-name>
+            <description/>
+            <url-pattern>/paginas/agricultor/agricultor.html</url-pattern>
+            <url-pattern>/paginas/home.html</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>agricultor-role</role-name>
+        </auth-constraint>
+    </security-constraint>
+    
     <login-config>
         <auth-method>FORM</auth-method>
         <realm-name>bioid-realm</realm-name>

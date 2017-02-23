@@ -102,7 +102,7 @@ public class DAOPropriedade extends DAOBase{
 //            TOPessoa tp = ((TOPessoa)t);
             
             switch(metodo){
-                case "listarpropriedades":
+                case "NOME_E_ID":
                     sql = "SELECT pr.nomepropriedade, pr.idpropriedade FROM propriedade pr "
                         + "INNER JOIN relacaopa rpa ON(rpa.propriedade_idpropriedade = pr.idpropriedade) "
                         + "INNER JOIN agricultor a ON(a.pessoa_idpessoa = rpa.agricultor_pessoa_idpessoa) "

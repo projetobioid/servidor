@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
+
+
+
 <html>
+    
+    
     <head>
         <title>TODO supply a title</title>
         <meta charset="UTF-8">
@@ -12,15 +12,135 @@ and open the template in the editor.
         <script type="application/javascript" src="js/jquery.js"></script>
         <script type="text/javascript" src="js/login.js"></script>
         
+        
+        
+        <link rel="stylesheet" href="css/font-awesome.min.css">
+        <link href="css/bootstrap.min.css" rel="stylesheet">
+        
     </head>
-    <body>
-        <h1>Seja bem vindo!</h1>
-        <p><a href="paginas/administrador/administrador.html">Visualizar uma página protegida</a> - role: administrador</p>
-        <p><a href="paginas/gerenciador/gerenciador.html">Visualizar uma página protegida</a> - role: gerenciador</p>
-        <p><a href="paginas/entrevistador/entrevistador.html">Visualizar uma página protegida</a> - role: entrevistador</p>
-        <p><a href="paginas/agricultor/agricultor.html">Visualizar uma página protegida</a> - role: agricultor</p>
-        <p><a href="seguranca/logout.jsp">Logout</a></p>
-       
+    <body style="padding-top: 150px;">
+        
+        
+        
+            <!--<div id="pagCompleta">-->
+        <nav class="navbar navbar-default navbar-fixed-top">
+            <div class="container-fluid">
+              <div class="navbar-header">
+                <a class="navbar-brand" href="#">BioID</a>
+              </div>
+              
+                
+<!--                <div class="nha">
+                    <p>aisdjfasdh</p>
+                </div>-->
+
+
+
+
+
+
+
+
+            </div>
+          </nav>
+   
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <div class="container marketing">
+
+      <!-- Three columns of text below the carousel -->
+      <div class="row">
+          
+          
+          
+        <div class="col-lg-3" style="text-align: center;">
+          <!--<img class="img-circle" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Generic placeholder image" width="140" height="140">-->
+          <span  class="fa fa-user-circle" style="font-size: 80px;"></span>
+          <h2>Administrador</h2>
+          <p>Administrador, Responsável por toda a parte de cadastros de produtos biofortificados, unidades de distribuição, e gerenciamento de grupos!</p>
+          <p id="gAdministradores" hidden=""><a class="btn btn-secondary" href="paginas/administrador/administrador.html" role="button">Retomar <span class="fa fa-mail-forward" aria-hidden="true"></span></a></p>
+        </div><!-- /.col-lg-4 -->
+        
+        
+        
+        
+        
+        <div class="col-lg-3" style="text-align: center;">
+          <!--<img class="img-circle" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Generic placeholder image" width="140" height="140">-->
+          <span  class="fa fa-user-circle" style="font-size: 80px;"></span>
+          <h2>Gerenciador</h2>
+          <p>Gerenciador, Responsável poe sua unidade, capaz de gerenciar o estoque tal como o cadastro de sua equipe e novos agricultores!</p><br>
+          <p id="gGerenciadores" hidden=""><a class="btn btn-secondary" href="paginas/gerenciador/gerenciador.html" role="button">Retomar <span class="fa fa-mail-forward" aria-hidden="true"></span></a></p>
+        </div><!-- /.col-lg-4 -->
+        
+        
+        
+        
+        
+        <div class="col-lg-3" style="text-align: center;">
+          <!--<img class="img-circle" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Generic placeholder image" width="140" height="140">-->
+          <span  class="fa fa-user-circle" style="font-size: 80px;"></span>
+          <h2>Entrevistador</h2>
+          <p>Entrevistador, Papel responsável por cadastrar novos agricultores e gerenciamento de safras!</p><br><br>
+          <p id="gEntrevistadores" hidden=""><a class="btn btn-secondary" href="paginas/entrevistador/entrevistador.html" role="button">Retomar <span class="fa fa-mail-forward" aria-hidden="true"></span></a></p>
+        </div><!-- /.col-lg-4 -->
+        
+        
+        
+        <div class="col-lg-3" style="text-align: center;">
+          <!--<img class="img-circle" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Generic placeholder image" width="140" height="140">-->
+          <span class="fa fa-user-circle" style="font-size: 80px;"></span>
+          <h2>Agricultor</h2>
+          <p>Agricultor, Histórico, relatórios e relato de safras são algumas funções do agricultor!</p><br><br>
+          <p id="gAgricultores" hidden=""><a class="btn btn-secondary" href="paginas/agricultor/agricultor.html" role="button">Retomar <span class="fa fa-mail-forward" aria-hidden="true"></span></a></p>
+        </div><!-- /.col-lg-4 -->
+        
+        
+        
+        
+      </div><!-- /.row -->
+
+
+
+    </div>
+        
+        
+        
+        
+            <div class="panel-footer navbar-fixed-bottom text-center"><a href="seguranca/logout.jsp" style="color: #fff;"><span id="desliga" class="fa fa-power-off" aria-hidden="true"></span></a></div>
+        
+              
+        
+        <script>
+            var sessao = JSON.parse(localStorage.getItem("logSessao"));
+        
+            switch(sessao.grupo){
+                case "administradores":
+//                    $("#gAdministradores").removeClass('fa-user-circle').addClass('fa-user-circle-o');
+                    $("#gAdministradores").show();
+                    break;
+                case "gerenciadores":
+                    $("#gGerenciadores").show();
+                    break;
+                case "entrevistadores":
+                    $("#gEntrevistadores").show();
+                    break;
+                case "agricultores":
+                    $("#gAgricultores").show();
+                    break;
+            }
+        </script>
         
     </body>
 </html>

@@ -13,6 +13,7 @@ import fw.Criptografia;
 import java.math.BigInteger;
 import java.security.SecureRandom;
 import java.util.Date;
+import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.core.Context;
@@ -117,21 +118,18 @@ public class ServicosOutros {
         try{ 
             JSONArray ja = null;
             switch(k.getString("metodo")){
-                case "pais":
+                case "PAIS":
                     ja = BOFactory.listar(new DAOOutrosIDNome(), null, k.getString("metodo"));
                     break;
-                case "estados":
+                case "ESTADOS":
                     TOOutrosIDNome tp = new TOOutrosIDNome();
                     tp.setId(k.getLong("idpais"));
                     ja = BOFactory.listar(new DAOOutrosIDNome(), tp, k.getString("metodo"));
                     break;
-                case "cidades":
+                case "CIDADES":
                     TOOutrosIDNome te = new TOOutrosIDNome();
                     te.setId(k.getLong("idestado"));
                     ja = BOFactory.listar(new DAOOutrosIDNome(), te, k.getString("metodo"));
-                    break;
-                case "nome_id_unidades":
-                    ja = BOFactory.listar(new DAOOutrosIDNome(), null, k.getString("metodo"));
                     break;
             }
 
@@ -157,26 +155,98 @@ public class ServicosOutros {
    
 //   @RolesAllowed("agricultores")
    @GET
-   @Path("teste")  
+   @Path("testeget")  
 //   @Consumes(MediaType.APPLICATION_JSON)
    @Produces(MediaType.APPLICATION_JSON)
-   public String teste() throws Exception{
+   public String testeget() throws Exception{
         
 
         
         JSONArray  ja = new JSONArray();
 
-        ja.put("AppleScript");
-        ja.put("Asp");
-        ja.put("BASIC");
-        ja.put("ColdFusion");
-        ja.put("COBOL");
-        ja.put("Clojure");
-        ja.put("JavaScript");
-        ja.put("Python");
-        ja.put("daniel");
+        ja.put("GET");
+        ja.put("serviço");
+        ja.put("retorno");
+        ja.put("teste");
+        ja.put("bioid");
         
         return ja.toString();
+   }
+   
+   @POST
+   @Path("testepost")  
+   @Consumes(MediaType.APPLICATION_JSON)
+   @Produces(MediaType.APPLICATION_JSON)
+   public String testepost(String dataJson) throws Exception{
+        
+        JSONObject k = new JSONObject(dataJson);
+        
+
+        
+        JSONArray  ja = new JSONArray();
+
+        ja.put("POST");
+        ja.put("serviço");
+        ja.put("retorno");
+        ja.put(k.get("valores"));
+
+        
+        return ja.toString();
+   }
+   @POST
+   @Path("testevalidacao")  
+   @Consumes(MediaType.APPLICATION_JSON)
+   @Produces(MediaType.APPLICATION_JSON)
+   public String testevalidacao(String dataJson) throws Exception{
+        
+        //objeto de retorno da requisicao
+        JSONObject j = new JSONObject();
+        JSONObject k = new JSONObject(dataJson);
+        
+        try{
+            TOLogin to = new TOLogin();
+            
+           
+
+            to.setUsuario(k.getString("usuario"));
+            to.setSenha(k.getString("senha"));
+            
+            
+            to = (TOLogin) BOFactory.get(new DAOLogin(), to, k.getString("metodo"));
+            
+            if(to == null){
+                j.put("sucesso", false);
+                j.put("mensagem", "Usuário ou senha incorretos!");
+            }else{
+                //gera um idsessao e cria um novo registro
+                TOSessao ts = new TOSessao();
+                SecureRandom random = new SecureRandom();     
+        
+                ts.setLogin_usuario(to.getUsuario());
+                ts.setDatarequisicao(new Date().toString());
+                ts.setSessao(new BigInteger(130, random).toString(32));
+                
+                
+             
+                //salva uma nova sessao no banco de dados
+                BOFactory.inserir(new DAOSessao(), ts, k.getString("metodo"));
+                
+                //atribui o valor da nova sessao para o retorno
+                to.setSessao(ts.getSessao());
+                //retorna valores do login
+                j.put("data", to.getJson("VALIDACAO"));
+                j.put("sucesso", true);
+                //retorna a data de login que espirará em um tempo determinado
+                //j.put("logTempo", ((730 * Float.parseFloat(getData("M"))) - (730 - (Float.parseFloat(getData("d"))*24)))+168 );
+                
+                
+            }
+        }catch (Exception e){
+            j.put("sucesso", false);
+            j.put("mensagem", e.getMessage());
+        }
+        
+        return j.toString();
    }
 
 }

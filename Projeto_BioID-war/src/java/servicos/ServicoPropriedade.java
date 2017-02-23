@@ -135,7 +135,7 @@ public class ServicoPropriedade {
                 t.setIdunidade(k.getLong("idunidade"));
 
 
-                JSONArray ja = BOFactory.listar(new DAOPropriedade(), t, "listarpropriedades") ;
+                JSONArray ja = BOFactory.listar(new DAOPropriedade(), t, k.getString("metodo")) ;
 
                 if(ja.length() > 0){
                     j.put("data", ja);

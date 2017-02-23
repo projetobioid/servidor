@@ -27,6 +27,7 @@ import to.TOIOEstoque;
  *
  * @author daniel
  */
+
 @Path("cultivar")
 public class ServicosCultivar {
 
@@ -315,7 +316,7 @@ public class ServicosCultivar {
                     // zero igual a saida
                     tio.setOperacao(0);
                     tio.setQuantidade(k.getDouble("qtdrecebida"));
-                    tio.setLogin_idlogin(k.getLong("id"));
+                    tio.setLogin_usuario(k.getString("login_usuario"));
                     
                     BOFactory.inserir(new DAOIOEstoque(), tio, k.getString("metodo"));
                             

@@ -212,7 +212,7 @@ public class TOPessoa extends TOBase{
 public TOPessoa(ResultSet rs, String metodo) throws Exception{
         
         switch (metodo) {
-            case "get_agricultor":
+            case "GET_POR_ID":
                 this.agricultor = new TOAgricultor();
                 this.idpessoa = rs.getLong("idpessoa");
                 this.nome = rs.getString("nome");
@@ -231,7 +231,7 @@ public TOPessoa(ResultSet rs, String metodo) throws Exception{
                 this.estadocivil = rs.getString("estadocivil");
                 this.escolaridade = rs.getString("escolaridade");
                 break;
-            case "get_usuario":
+            case "GET_MEMBRO":
                 this.idpessoa = rs.getLong("idpessoa");
                 this.nome = rs.getString("nome");
                 this.sobrenome = rs.getString("sobrenome");
@@ -245,8 +245,10 @@ public TOPessoa(ResultSet rs, String metodo) throws Exception{
                 this.email = rs.getString("email");
                 this.estadocivil = rs.getString("estadocivil");
                 this.escolaridade = rs.getString("escolaridade");
+                this.grupo = rs.getString("grupo");
+                this.nomeunidade = rs.getString("nomeunidade");
                 break;
-            case "agricultores":
+            case "TODOS_DA_UNIDADE":
                 this.idpessoa = rs.getLong("idpessoa");
                 this.nome = rs.getString("nome");
                 this.sobrenome = rs.getString("sobrenome");
@@ -256,6 +258,7 @@ public TOPessoa(ResultSet rs, String metodo) throws Exception{
                 this.nomeunidade = rs.getString("nomeunidade");
                 break;
             case "usuarios":
+            case "EQUIPE":
                 this.idpessoa = rs.getLong("idpessoa");
                 this.nome = rs.getString("nome");
                 this.sobrenome = rs.getString("sobrenome");
@@ -265,7 +268,7 @@ public TOPessoa(ResultSet rs, String metodo) throws Exception{
                 this.nomeunidade = rs.getString("nomeunidade");
                 this.grupo = rs.getString("grupo");
                 break;
-            case "agricultor_select":
+            case "INPUT_SELECT":
                 this.idpessoa = rs.getLong("idpessoa");
                 this.nome = rs.getString("nome");
                 this.sobrenome = rs.getString("sobrenome");
@@ -305,7 +308,7 @@ public TOPessoa(ResultSet rs, String metodo) throws Exception{
         JSONObject j = new JSONObject();
         
         switch (metodo) {
-            case "agricultores":
+            case "TODOS_DA_UNIDADE":
                 //populando o objeto j
                 j.put("idpessoa", idpessoa);
                 j.put("nome", nome);
@@ -316,6 +319,7 @@ public TOPessoa(ResultSet rs, String metodo) throws Exception{
                 j.put("nomeunidade", nomeunidade);
                 break;
             case "usuarios":
+            case "EQUIPE":
                 //populando o objeto j
                 j.put("idpessoa", idpessoa);
                 j.put("nome", nome);
@@ -326,7 +330,7 @@ public TOPessoa(ResultSet rs, String metodo) throws Exception{
                 j.put("nomeunidade", nomeunidade);
                 j.put("grupo", grupo);
                 break;
-            case "get_agricultor":
+            case "GET_POR_ID":
                 //populando o objeto j
                 j.put("idpessoa", idpessoa);
                 j.put("nome", nome);
@@ -345,10 +349,10 @@ public TOPessoa(ResultSet rs, String metodo) throws Exception{
                 j.put("estadocivil", estadocivil);
                 j.put("escolaridade", escolaridade);
                 break;
-            case "get_usuario":
+            case "GET_MEMBRO":
                 //populando o objeto j
                 j.put("idpessoa", idpessoa);
-                j.put("endereco_idendereco", endereco_idendereco);
+//                j.put("endereco_idendereco", endereco_idendereco);
                 j.put("escolaridade", escolaridade);
                 j.put("nome", nome);
                 j.put("sobrenome", sobrenome);
@@ -360,11 +364,11 @@ public TOPessoa(ResultSet rs, String metodo) throws Exception{
                 j.put("telefone1", telefone1);
                 j.put("telefone2", telefone2);
                 j.put("email", email);
-                j.put("nomeunidade", nomeunidade);
                 j.put("estadocivil", estadocivil);
                 j.put("grupo", grupo);
+                j.put("nomeunidade", nomeunidade);
                 break;
-            case "agricultor_select":
+            case "INPUT_SELECT":
                 //populando o objeto j
                 j.put("idpessoa", idpessoa);
                 j.put("nome", nome);

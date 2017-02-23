@@ -8,12 +8,14 @@ package servicos;
 import bo.BOFactory;
 import dao.DAOAgricultor;
 import dao.DAOEndereco;
+import dao.DAOGrupos;
 import dao.DAOLogin;
 import dao.DAOPessoa;
 import dao.DAOPropriedade;
 import dao.DAORelacaopa;
 import fw.Criptografia;
 import fw.VerificarSessao;
+import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
@@ -25,6 +27,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import to.TOAgricultor;
 import to.TOEndereco;
+import to.TOGrupos;
 import to.TOLogin;
 import to.TOPessoa;
 import to.TOPropriedade;
@@ -35,7 +38,7 @@ import to.TORelacaopa;
  *
  * @author daniel
  */
-@Path("pessoa")
+@Path("agricultor")
 public class ServicosAgricultor {
 
     @Context
@@ -132,7 +135,7 @@ public class ServicosAgricultor {
                 TOPessoa to = new TOPessoa();
                 
                 
-                to.setNome(k.getString("valor"));
+//                to.setNome(k.getString("valor"));
                 to.setIdunidade(k.getLong("idunidade"));
                         
                 
@@ -144,7 +147,7 @@ public class ServicosAgricultor {
                     j.put("sessao", sessao);
                 }else{
                     j.put("sucesso", false);
-                    j.put("mensagem", "Sem "+ k.getString("metodo"));
+                    j.put("mensagem", "Sem agricultores cadastrados na unidade!");
                     j.put("sessao", sessao);
                 }
             }
@@ -417,12 +420,12 @@ public class ServicosAgricultor {
                 t.setCpf(k.getString("cpf"));
 
                 //se nao existe cpf cadastrado no banco, prosegue o cadastro
-                if(BOFactory.get(new DAOPessoa(), t, "get_pessoa_por_cpf") == null ){
+                if(BOFactory.get(new DAOPessoa(), t, "GET_POR_CPF") == null ){
                     TOLogin tl = new TOLogin();
 
-                    tl.setUsuario(k.getString("usuario"));
+                    tl.setUsuario(k.getString("usuario_login"));
                     //teste se existe o usuario cadastrado
-                    if(BOFactory.get(new DAOLogin(), tl, "get_usuario") == null ){
+                    if(BOFactory.get(new DAOLogin(), tl, "GET_POR_USUARIO") == null ){
                         long idGeradoPessoa;
                         long idGeradoEndereco;
                         TOEndereco te = new TOEndereco();
@@ -439,7 +442,7 @@ public class ServicosAgricultor {
                         te.setCep(k.getString("cep"));
                         te.setNumero(k.getInt("numero"));
                         //salva o endereco no banco de dados
-                        idGeradoEndereco = BOFactory.inserir(new DAOEndereco(), te, null);
+                        idGeradoEndereco = BOFactory.inserir(new DAOEndereco(), te, "DEFAULT");
 
                         //tabela pessoa
                         t.setEndereco_idendereco(idGeradoEndereco);
@@ -455,15 +458,15 @@ public class ServicosAgricultor {
                         t.setTelefone2(k.getString("telefone2"));
                         t.setEmail(k.getString("email"));
                         //grava informacoes no banco de dados
-                        idGeradoPessoa = BOFactory.inserir(new DAOPessoa(), t, null);
+                        idGeradoPessoa = BOFactory.inserir(new DAOPessoa(), t, "DEFAULT");
 
                         //tabela login
                         tl.setPessoa_idpessoa(idGeradoPessoa);
                         tl.setUnidade_idunidade(k.getLong("unidade_idunidade"));
-                        tl.setSenha(Criptografia.md5(k.getString("senha")));
+                        tl.setSenha(k.getString("senha"));
 //                        tl.setPapel("a");
                         //grava no banco de dados os dados da classe TOLogin
-                        BOFactory.inserir(new DAOLogin(), tl, null);
+                        BOFactory.inserirIDString(new DAOLogin(), tl);
 
                         //cadastro tabela de agricultor
                         
@@ -476,7 +479,7 @@ public class ServicosAgricultor {
                         ta.setQtdCriancas(k.getInt("qtdCriancas"));
                         ta.setQtdGravidas(k.getInt("qtdGravidas"));
 
-                        BOFactory.inserir(new DAOAgricultor(), ta, null);
+                        BOFactory.inserir(new DAOAgricultor(), ta, "DEFAULT");
 
                         //tabela propriedade
                         tp.setEndereco_idendereco(idGeradoEndereco);
@@ -488,10 +491,16 @@ public class ServicosAgricultor {
                         tp.setUnidadedemedidaau(k.getLong("unidadedemedidaau"));
 
                         //tabela relacao agricultor propriedade
-                        trpa.setPropriedade_idpropriedade(BOFactory.inserir(new DAOPropriedade(), tp, null));
+                        trpa.setPropriedade_idpropriedade(BOFactory.inserir(new DAOPropriedade(), tp, "DEFAULT"));
                         trpa.setAgricultor_pessoa_idpessoa(idGeradoPessoa);
                         //grava no banco de dados a propriedade e popula a classe Relacaopa
-                        BOFactory.inserir(new DAORelacaopa(), trpa, null);
+                        BOFactory.inserir(new DAORelacaopa(), trpa, "DEFAULT");
+                        
+                        TOGrupos tg = new TOGrupos();
+                        //tabela grupos
+                        tg.setLoginusuario(k.getString("usuario_login"));
+                        tg.setGrupo("agricultores");
+                        BOFactory.inserirIDString(new DAOGrupos(), tg);
 
                         
                         j.put("sucesso", true);

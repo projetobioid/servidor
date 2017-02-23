@@ -32,19 +32,16 @@ public class DAOOutrosIDNome extends DAOBase{
             List<Object> u = new ArrayList<Object>();
             
             switch(metodo){
-                case "pais":
+                case "PAIS":
                     sql = "SELECT idpais, nomepais FROM pais ORDER BY nomepais ASC";
                     break;
-                case "estados":
+                case "ESTADOS":
                     sql = "SELECT idestado, nomeestado FROM estado WHERE pais_idpais IN(?) ORDER BY nomeestado ASC";
                     u.add(((TOOutrosIDNome) t).getId());
                     break;
-                case "cidades":
+                case "CIDADES":
                      sql = "SELECT idcidade, nomecidade FROM cidade WHERE estado_idestado IN(?) ORDER BY nomecidade ASC";
                      u.add(((TOOutrosIDNome) t).getId());
-                    break;
-                case "nome_id_unidades":
-                     sql = "SELECT idunidade, nomeunidade FROM unidade ORDER BY nomeunidade ASC";
                     break;
                 
             }
