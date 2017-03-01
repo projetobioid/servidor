@@ -316,7 +316,7 @@ public class ServicosCultivar {
                     // zero igual a saida
                     tio.setOperacao(0);
                     tio.setQuantidade(k.getDouble("qtdrecebida"));
-                    tio.setLogin_usuario(k.getString("login_usuario"));
+                    tio.setLogin_usuario(k.getString("usuario"));
                     
                     BOFactory.inserir(new DAOIOEstoque(), tio, k.getString("metodo"));
                             

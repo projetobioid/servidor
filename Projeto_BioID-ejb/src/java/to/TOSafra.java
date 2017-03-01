@@ -5,6 +5,8 @@
  */
 package to;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.ResultSet;
 import org.json.JSONObject;
 
@@ -35,7 +37,7 @@ public class TOSafra extends TOBase {
     
     
     //campo de amostragem
-    private String grandeza_recebida;
+    private String grandeza;
     
     private String nomecultivar;
     
@@ -126,12 +128,12 @@ public class TOSafra extends TOBase {
         this.qtdcolhida = qtdcolhida;
     }
 
-    public String getGrandeza_recebida() {
-        return grandeza_recebida;
+    public String getGrandeza() {
+        return grandeza;
     }
 
-    public void setGrandeza_recebida(String grandeza_recebida) {
-        this.grandeza_recebida = grandeza_recebida;
+    public void setGrandeza(String grandeza) {
+        this.grandeza = grandeza;
     }
 
     public String getNomecultivar() {
@@ -213,8 +215,21 @@ public class TOSafra extends TOBase {
                 this.safra = rs.getString("safra");
                 this.nomecultivar = rs.getString("nomecultivar");
                 this.qtdrecebida = rs.getFloat("qtdrecebida");
-                this.grandeza_recebida = rs.getString("grandeza_recebida");
+                this.grandeza = rs.getString("grandeza_recebida");
                 this.datareceb = rs.getString("datareceb");
+                break;
+            case "NAO_RELATADAS":
+                this.idsafra = rs.getLong("idsafra");
+                this.cultivar_idcultivar = rs.getLong("cultivar_idcultivar");
+                this.nomecultivar = rs.getString("nomecultivar");
+                this.safra = rs.getString("safra");
+                this.datareceb = rs.getString("datareceb");
+                this.qtdrecebida = rs.getFloat("qtdrecebida");
+                this.status_entrevistador = rs.getLong("status_entrevistador");
+                this.grandeza = rs.getString("grandeza");
+
+                
+                
                 break;
             default:
                 this.idsafra = rs.getLong("idsafra");
@@ -224,7 +239,7 @@ public class TOSafra extends TOBase {
                 this.datareceb = rs.getString("datareceb");
                 this.qtdrecebida = rs.getFloat("qtdrecebida");
                 this.qtddestinada = rs.getFloat("qtddestinada");
-                this.grandeza_recebida = rs.getString("grandeza_recebida");
+                this.grandeza = rs.getString("grandeza_recebida");
                 this.qtdcolhida = rs.getFloat("qtdcolhida");
                 this.nomecultivar = rs.getString("nomecultivar");
                 this.nomepropriedade = rs.getString("nomepropriedade");
@@ -244,13 +259,27 @@ public class TOSafra extends TOBase {
 
         switch(metodo){
             case "backup_entrevista":
-                j.put("propriedade_idpropriedade", propriedade_idpropriedade);
-                j.put("idsafra", idsafra);
-                j.put("safra", safra);
+                j.put("idcultivar", cultivar_idcultivar);
                 j.put("nomecultivar", nomecultivar);
+                j.put("safra", safra);
+                
                 j.put("qtdrecebida", qtdrecebida);
-                j.put("grandeza_recebida", grandeza_recebida);
                 j.put("datareceb", datareceb);
+                j.put("grandeza_recebida", grandeza);
+                
+                break;
+            case "NAO_RELATADAS":
+                BigDecimal bd = new BigDecimal(qtdrecebida).setScale(2, RoundingMode.HALF_EVEN);
+                
+                j.put("idsafra", idsafra);
+                j.put("idcultivar", cultivar_idcultivar);
+                j.put("nomecultivar", nomecultivar);
+                j.put("safra", safra);
+                j.put("datareceb", datareceb);
+                j.put("qtdrecebida", bd.doubleValue());
+                j.put("status_entrevistador", status_entrevistador);
+                j.put("grandeza", grandeza);
+                
                 break;
             default:
         
@@ -262,7 +291,7 @@ public class TOSafra extends TOBase {
                 j.put("datareceb", datareceb);
                 j.put("qtddestinada", qtddestinada);
                 j.put("qtdrecebida", qtdrecebida);
-                j.put("grandeza_recebida", grandeza_recebida);
+                j.put("grandeza_recebida", grandeza);
                 j.put("qtdcolhida", qtdcolhida);
                 j.put("nomecultivar", nomecultivar);
                 j.put("nomepropriedade", nomepropriedade);

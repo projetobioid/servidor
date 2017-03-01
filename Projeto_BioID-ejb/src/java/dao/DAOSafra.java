@@ -118,6 +118,15 @@ public class DAOSafra extends DAOBase{
             String sql = null;
             
             switch(metodo){
+                case "NAO_RELATADAS":
+                    sql = "SELECT idsafra, cultivar_idcultivar, c.nomecultivar, u.grandeza, safra, datareceb, qtdrecebida, status_entrevistador "
+                            + "FROM public.safra "
+                            + "INNER JOIN cultivar c ON(idcultivar = cultivar_idcultivar) "
+                            + "INNER JOIN unidademedida u ON(idunidademedida = c.unidademedida_idunidademedida) "
+                            + "WHERE status_entrevistador IN(9) AND propriedade_idpropriedade IN(?)";
+
+                    u.add(((TOSafra) t).getPropriedade_idpropriedade());
+                    break;
                 default:
                     sql = "SELECT s.idsafra, s.statussafra_idstatussafra, s.safra, s.datareceb, s.qtdrecebida,"
                         + " (select SUM(d.qtddestinada) AS qtddestinada FROM destinacao d WHERE d.safra_idsafra IN(s.idsafra)),"
@@ -135,39 +144,40 @@ public class DAOSafra extends DAOBase{
             rs = Data.executeQuery(c, sql, u);
             
             while (rs.next()){
-//                TOSafra ts = new TOSafra(rs, metodo);
+                TOSafra ts = new TOSafra(rs, metodo);
 
-                switch ((int)((TOSafra)t).getStatussafra_idstatussafra()) {
-                    case 1:
-                    case 2:
-                    case 3:
-                        ((TOSafra)t).setPrazo_colheita(verificarPrazoColheita(((TOSafra)t), metodo));
-                        ((TOSafra)t).setPrazo_destinacao(verificarPrazoDestinacao(((TOSafra)t), metodo));
-                        break;
-                    case 4:
-                    case 5:
-                        ((TOSafra)t).setPrazo_colheita("relatada");
-                        ((TOSafra)t).setPrazo_destinacao(verificarPrazoDestinacao(((TOSafra)t), metodo));
-                        break;
-               
-                    case 6:
-               
-                        ((TOSafra)t).setPrazo_colheita("relatada");
-                        ((TOSafra)t).setPrazo_destinacao("relatada");
-                        break;
-                    case 7:
-                        ((TOSafra)t).setPrazo_colheita("relatada");
-                        ((TOSafra)t).setPrazo_destinacao("expirada");
-                        break;
-                    case 8:
-                        ((TOSafra)t).setPrazo_colheita("expirada");
-                        ((TOSafra)t).setPrazo_destinacao("expirada");
-                        break;
-                    
-                }
+//                switch ((int)((TOSafra)t).getStatussafra_idstatussafra()) {
+//                    case 1:
+//                    case 2:
+//                    case 3:
+//                        ((TOSafra)t).setPrazo_colheita(verificarPrazoColheita(((TOSafra)t), metodo));
+//                        ((TOSafra)t).setPrazo_destinacao(verificarPrazoDestinacao(((TOSafra)t), metodo));
+//                        break;
+//                    case 4:
+//                    case 5:
+//                        ((TOSafra)t).setPrazo_colheita("relatada");
+//                        ((TOSafra)t).setPrazo_destinacao(verificarPrazoDestinacao(((TOSafra)t), metodo));
+//                        break;
+//               
+//                    case 6:
+//               
+//                        ((TOSafra)t).setPrazo_colheita("relatada");
+//                        ((TOSafra)t).setPrazo_destinacao("relatada");
+//                        break;
+//                    case 7:
+//                        ((TOSafra)t).setPrazo_colheita("relatada");
+//                        ((TOSafra)t).setPrazo_destinacao("expirada");
+//                        break;
+//                    case 8:
+//                        ((TOSafra)t).setPrazo_colheita("expirada");
+//                        ((TOSafra)t).setPrazo_destinacao("expirada");
+//                        break;
+//                    
+//                }
                 
                 
-                ja.put(((TOSafra)t).getJson(metodo));
+//                ja.put(((TOSafra)t).getJson(metodo));
+                ja.put(ts.getJson(metodo));
             }
             
                         

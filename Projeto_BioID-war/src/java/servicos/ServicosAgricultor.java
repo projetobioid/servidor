@@ -13,9 +13,7 @@ import dao.DAOLogin;
 import dao.DAOPessoa;
 import dao.DAOPropriedade;
 import dao.DAORelacaopa;
-import fw.Criptografia;
 import fw.VerificarSessao;
-import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
@@ -135,9 +133,14 @@ public class ServicosAgricultor {
                 TOPessoa to = new TOPessoa();
                 
                 
-//                to.setNome(k.getString("valor"));
+        
                 to.setIdunidade(k.getLong("idunidade"));
                         
+                switch(k.getString("metodo")){
+                    case "INPUT_SELECT":
+                        to.setNome(k.getString("valor"));
+                        break;
+                }
                 
                 JSONArray ja = BOFactory.listar(new DAOPessoa(),to , k.getString("metodo")) ;
 
