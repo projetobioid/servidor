@@ -3,8 +3,8 @@
 /* button carregar page entrar*/
 $(document).on("click", "#goPagEntrar", function(evt)
 {
-    $("#username").val("");
-    $("#password").val("");
+    $("#username").val("admin");
+    $("#password").val("admin");
     $("#formLogin").validator();
     
     $("#page_inicial").fadeOut(100, function(evt){
@@ -20,7 +20,7 @@ $(document).on("click", "#goPagEntrar", function(evt)
 $(document).on("click", "#cadastrarSe", function(evt)
 {
     alert("Em construção!");
-//    alert($.sha256("agricultor"));;
+//    alert($.sha256("admin"));
 
     return false;
 });
