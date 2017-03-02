@@ -12,10 +12,8 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.Produces;
 import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
-import javax.ws.rs.PUT;
 import javax.ws.rs.core.MediaType;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -52,13 +50,13 @@ public class ServicosSafra {
         
         try{
              //verifica  a sessao
-            VerificarSessao vs = new VerificarSessao();
-            String sessao = vs.VerificarSessao(k.getString("usuario"), k.getString("sessao"));
-            
-            if( sessao == null){
-                j.put("sucesso", false);
-                j.put("mensagem", "Sessao não encontrada!");
-            }else{
+//            VerificarSessao vs = new VerificarSessao();
+//            String sessao = vs.VerificarSessao(k.getString("usuario"), k.getString("sessao"));
+//            
+//            if( sessao == null){
+//                j.put("sucesso", false);
+//                j.put("mensagem", "Sessao não encontrada!");
+//            }else{
                 //comeca a requisicao
                 
                 TOSafra to = new TOSafra();
@@ -78,13 +76,13 @@ public class ServicosSafra {
                 if(ja.length() > 0){
                     j.put("data", ja);
                     j.put("sucesso", true);
-                    j.put("sessao", sessao);
+//                    j.put("sessao", sessao);
                 }else{
                     j.put("sucesso", false);
                     j.put("mensagem", "Propriedade sem distribuição de cultivares!");
-                    j.put("sessao", sessao);
+//                    j.put("sessao", sessao);
                 }
-            }
+//            }
         }catch(Exception e){
             j.put("sucesso", false);
             j.put("mensagem", e.getMessage());

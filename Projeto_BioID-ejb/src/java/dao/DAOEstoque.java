@@ -127,7 +127,7 @@ public class DAOEstoque extends DAOBase{
                     sql = "SELECT e.unidade_idunidade, e.cultivar_idcultivar, u.grandeza, e.quantidade, c.nomecultivar FROM estoque e"
                         + " INNER JOIN cultivar c ON (c.idcultivar = e.cultivar_idcultivar)"
                         + " INNER JOIN unidademedida u ON (u.idunidademedida = c.unidademedida_idunidademedida)"
-                        + " WHERE unidade_idunidade IN(?)";
+                        + " WHERE unidade_idunidade IN(?) AND e.quantidade > 0";
 
                     u.add(((TOEstoque) t).getUnidade_idunidade());
                     break;

@@ -129,11 +129,11 @@ function verificaPagina(){
 //listar os cultivares em uma tabela
 function listarCultivares(){
     
-    var Sessao = getSessao();
+//    var Sessao = getSessao();
     var envio = {
-        metodo: "TODOS",
-        usuario: Sessao.usuario,
-        sessao: Sessao.sessao
+        metodo: "TODOS"
+//        usuario: Sessao.usuario,
+//        sessao: Sessao.sessao
     };
     
     //chama a requisicao do servidor, o resultado é listado em uma tabela
@@ -168,11 +168,11 @@ function listarCultivares(){
 
 //listar unidades em uma tabela
 function listarUnidades(){
-    var Sessao = getSessao();
+//    var Sessao = getSessao();
     var envio = {
-        metodo: "TODAS",
-        usuario: Sessao.usuario,
-        sessao: Sessao.sessao
+        metodo: "TODAS"
+//        usuario: Sessao.usuario,
+//        sessao: Sessao.sessao
     };
     
     //chama a requisicao do servidor, o resultado é listado em uma tabela
@@ -210,8 +210,8 @@ function listarUsuarios(){
     var Sessao = getSessao();
     var envio = {
         metodo: "usuarios",
-        usuario: Sessao.usuario,
-        sessao: Sessao.sessao,
+//        usuario: Sessao.usuario,
+//        sessao: Sessao.sessao,
         idunidade: Sessao.idunidade
     };
     //chama a requisicao do servidor, o resultado é listado em uma tabela
@@ -456,7 +456,7 @@ $(document).on("click", "#salvarNovoCultivar", function(){
 //funcao que salva o cultivar novo pegando os valores dos inputs
 function salvarNovoCultivar(){
     
-    var Sessao = getSessao();
+//    var Sessao = getSessao();
         
         var envio = {nomecultivar: $("#nomeCultivar").val(),
             imagem: $("#imgCultivarCarregada").prop("src"),
@@ -466,10 +466,10 @@ function salvarNovoCultivar(){
             valornutricional: $("#valorNutricional").val(),
             tempodecolheita: $("#tempoColheita").val(),
             tempodestinacao: $("#tempoDestinacao").val(),
-            pesoSaca: $("#pesoSaca").val(),
+            pesoSaca: $("#pesoSaca").val()
 //            metodo: "inserirCultivar",
-            usuario: Sessao.usuario,
-            sessao: Sessao.sessao
+//            usuario: Sessao.usuario,
+//            sessao: Sessao.sessao
         };
     
     //chama a requisicao do servidor, o resultado é listado em uma tabela
@@ -533,12 +533,12 @@ $(document).on("click", "#salvarNovaUnidade", function(){
 
 //manda a requisição para o servidor com os dados referentes a uma nova unidade
 function salvarNovaUnidade(){
-    var Sessao = getSessao();
+//    var Sessao = getSessao();
     
 
     var envio = {
-        usuario: Sessao.usuario,
-        sessao: Sessao.sessao,
+//        usuario: Sessao.usuario,
+//        sessao: Sessao.sessao,
         
         cidade_idcidade : $("#cidadeNovaUnidade").prop("value"),
         rua: $("#ruaNovaUnidade").val(),
@@ -895,13 +895,13 @@ $(document).on("click", "#salvarNovoUsuario", function(){
 //manda a requisição para o servidor com os dados referentes a uma novo usuario
 function salvarNovoUsuario(){
     
-    var Sessao = getSessao();
+//    var Sessao = getSessao();
     
 
     var envio = {
 //        metodo: "inserirusuario",
-        usuario: Sessao.usuario,
-        sessao: Sessao.sessao,
+//        usuario: Sessao.usuario,
+//        sessao: Sessao.sessao,
         metodo: "usuario",
         cidade_idcidade : $("#cidadeNovoUsuario").prop("value"),
         rua: $("#ruaNovoUsuario").val(),
@@ -950,12 +950,12 @@ function salvarNovoUsuario(){
 
 //manda a requisição para o servidor com os dados referentes a uma nova unidade
 function salvarNovaUnidade(){
-    var Sessao = getSessao();
+//    var Sessao = getSessao();
     
 
     var envio = {
-        usuario: Sessao.usuario,
-        sessao: Sessao.sessao,
+//        usuario: Sessao.usuario,
+//        sessao: Sessao.sessao,
         
         cidade_idcidade : $("#cidadeNovaUnidade").prop("value"),
         rua: $("#ruaNovaUnidade").val(),
@@ -1020,10 +1020,10 @@ function salvarNovaUnidade(){
 
 //carrega a lista de unidades do banco de dados e lista em um select
 $(document).one("focusin", ".carregaUnidades", function(){
-    var Sessao = getSessao();
+//    var Sessao = getSessao();
     var envio = {
-        usuario: Sessao.usuario,
-        sessao: Sessao.sessao,
+//        usuario: Sessao.usuario,
+//        sessao: Sessao.sessao,
         metodo: "ID_NOME_CIDADE"
         
     };
@@ -1899,12 +1899,12 @@ $(document).on("dblclick", "#divItens tr", function(evt)
 
 //busca no servidor dados da unidade para ser apresentado em um modal
 function carregaUnidade(idClicado, opcao){
-    var Sessao = getSessao();
+//    var Sessao = getSessao();
     var envio = {
         metodo: "get_unidade",
-        idunidade: idClicado,
-        usuario: Sessao.usuario,
-        sessao: Sessao.sessao
+        idunidade: idClicado
+//        usuario: Sessao.usuario,
+//        sessao: Sessao.sessao
     };
     
     //chama a requisicao do servidor, o resultado é listado em uma tabela
@@ -1933,12 +1933,12 @@ function carregaUnidade(idClicado, opcao){
 
 //busca no servidor dados do agricultor para ser apresentado em um modal
 function carregaMembro(idClicado, opcao){
-    var Sessao = getSessao();
+//    var Sessao = getSessao();
     var envio = {
         metodo: "GET_MEMBRO",
-        idpessoa: idClicado,
-        usuario: Sessao.usuario,
-        sessao: Sessao.sessao
+        idpessoa: idClicado
+//        usuario: Sessao.usuario,
+//        sessao: Sessao.sessao
     };
     
     //chama a requisicao do servidor, o resultado é listado em uma tabela

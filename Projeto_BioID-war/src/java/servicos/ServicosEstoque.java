@@ -51,13 +51,13 @@ public class ServicosEstoque {
         
         try{       
             
-            VerificarSessao vs = new VerificarSessao();
-            String sessao = vs.VerificarSessao(k.getString("usuario"), k.getString("sessao"));
-            
-            if( sessao == null){
-                j.put("sucesso", false);
-                j.put("mensagem", "Sessao não encontrada!");
-            }else{
+//            VerificarSessao vs = new VerificarSessao();
+//            String sessao = vs.VerificarSessao(k.getString("usuario"), k.getString("sessao"));
+//            
+//            if( sessao == null){
+//                j.put("sucesso", false);
+//                j.put("mensagem", "Sessao não encontrada!");
+//            }else{
                 //comeca a requisicao
     
                 TOEstoque te = new TOEstoque();
@@ -67,15 +67,15 @@ public class ServicosEstoque {
 
                 if(te == null){
                     j.put("sucesso", false);
-                    j.put("sessao", sessao);
+//                    j.put("sessao", sessao);
                     j.put("mensagem", "Cultivar não encontrado no estoque!");
                 }else{
                     j.put("data", te.getJson(k.getString("metodo")));
-                    j.put("sessao", sessao);
+//                    j.put("sessao", sessao);
                     j.put("sucesso", true);
                 }
       
-            }
+//            }
         }catch(Exception e){
             j.put("sucesso", false);
             j.put("mensagem", e.getMessage());
@@ -98,13 +98,13 @@ public class ServicosEstoque {
         try{
             
             //verificar sessao
-            VerificarSessao vs = new VerificarSessao();
-            String sessao = vs.VerificarSessao(k.getString("usuario"), k.getString("sessao"));
-            
-            if( sessao == null){
-                j.put("sucesso", false);
-                j.put("mensagem", "Sessao não encontrada!");
-            }else{
+//            VerificarSessao vs = new VerificarSessao();
+//            String sessao = vs.VerificarSessao(k.getString("usuario"), k.getString("sessao"));
+//            
+//            if( sessao == null){
+//                j.put("sucesso", false);
+//                j.put("mensagem", "Sessao não encontrada!");
+//            }else{
                 //comeca a requisicao  
                 JSONArray ja = null;
                 
@@ -117,14 +117,14 @@ public class ServicosEstoque {
                 if(ja.length() > 0){
                     j.put("data", ja);
                     j.put("sucesso", true);
-                    j.put("sessao", sessao);
+//                    j.put("sessao", sessao);
                 }else{
                     j.put("sucesso", false);
                     j.put("mensagem", "Estoque vazio!");
-                    j.put("sessao", sessao);
+//                    j.put("sessao", sessao);
                 }
                 
-            }
+//            }
             
         
         }catch(Exception e){
@@ -148,13 +148,13 @@ public class ServicosEstoque {
         
         try{    
              //verifica  a sessao
-            VerificarSessao vs = new VerificarSessao();
-            String sessao = vs.VerificarSessao(k.getString("usuario"), k.getString("sessao"));
-            
-            if( sessao == null){
-                j.put("sucesso", false);
-                j.put("mensagem", "Sessao não encontrada!");
-            }else{
+//            VerificarSessao vs = new VerificarSessao();
+//            String sessao = vs.VerificarSessao(k.getString("usuario"), k.getString("sessao"));
+//            
+//            if( sessao == null){
+//                j.put("sucesso", false);
+//                j.put("mensagem", "Sessao não encontrada!");
+//            }else{
                 //comeca a requisicao
                 
                 //cria um objeto          
@@ -179,11 +179,11 @@ public class ServicosEstoque {
                     if(historicoIOEstoque(k)){
                         j.put("sucesso", true);
                         j.put("mensagem", "Entrada do estoque com sucesso!");
-                        j.put("sessao", sessao);  
+//                        j.put("sessao", sessao);  
                     }else{
                         j.put("sucesso", false);
                         j.put("mensagem", "Erro histórico estoque! Entrada do estoque com sucesso!");
-                        j.put("sessao", sessao);
+//                        j.put("sessao", sessao);
                     }
 
 
@@ -198,14 +198,14 @@ public class ServicosEstoque {
                     if(historicoIOEstoque(k)){
                         j.put("sucesso", true);
                         j.put("mensagem", "Entrada do estoque com sucesso!");
-                        j.put("sessao", sessao);  
+//                        j.put("sessao", sessao);  
                     }else{
                         j.put("sucesso", false);
                         j.put("mensagem", "Erro histórico estoque! Entrada do estoque com sucesso!");
-                        j.put("sessao", sessao);
+//                        j.put("sessao", sessao);
                     }
                 }  
-            }
+//            }
         }catch(Exception e){
             j.put("sucesso", false);
             j.put("erro", "erro atualização estoque da unidade!");
@@ -227,13 +227,13 @@ public class ServicosEstoque {
         
         try{    
              //verifica  a sessao
-            VerificarSessao vs = new VerificarSessao();
-            String sessao = vs.VerificarSessao(k.getString("usuario"), k.getString("sessao"));
-            
-            if( sessao == null){
-                j.put("sucesso", false);
-                j.put("mensagem", "Sessao não encontrada!");
-            }else{
+//            VerificarSessao vs = new VerificarSessao();
+//            String sessao = vs.VerificarSessao(k.getString("usuario"), k.getString("sessao"));
+//            
+//            if( sessao == null){
+//                j.put("sucesso", false);
+//                j.put("mensagem", "Sessao não encontrada!");
+//            }else{
                 //comeca a requisicao
                 
                 //cria um objeto          
@@ -255,14 +255,14 @@ public class ServicosEstoque {
                 if(historicoIOEstoque(k)){
                     j.put("sucesso", true);
                     j.put("mensagem", "Saída do estoque com sucesso!");
-                    j.put("sessao", sessao);  
+//                    j.put("sessao", sessao);  
                 }else{
                     j.put("sucesso", false);
                     j.put("mensagem", "Erro histórico estoque! Saída do estoque com sucesso!");
-                    j.put("sessao", sessao);
+//                    j.put("sessao", sessao);
                 }
 
-            }
+//            }
                 
 
         }catch(Exception e){

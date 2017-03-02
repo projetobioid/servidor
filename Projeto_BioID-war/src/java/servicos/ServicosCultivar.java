@@ -51,28 +51,28 @@ public class ServicosCultivar {
         
         try{       
             //verifica  a sessao
-            VerificarSessao vs = new VerificarSessao();
-            String sessao = vs.VerificarSessao(k.getString("usuario"), k.getString("sessao"));
-            
-            if( sessao == null){
-                j.put("sucesso", false);
-                j.put("mensagem", "Sessao não encontrada!");
-            }else{
+//            VerificarSessao vs = new VerificarSessao();
+//            String sessao = vs.VerificarSessao(k.getString("usuario"), k.getString("sessao"));
+//            
+//            if( sessao == null){
+//                j.put("sucesso", false);
+//                j.put("mensagem", "Sessao não encontrada!");
+//            }else{
                 //comeca a requisicao
                 TOCultivar p = new TOCultivar();
                 p.setIdcultivar(k.getLong("idcultivar"));
                 p = (TOCultivar) BOFactory.get(new DAOCultivar(), p, k.getString("metodo"));
                 if(p == null){
                     j.put("sucesso", false);
-                    j.put("sessao", sessao);
+//                    j.put("sessao", sessao);
                     j.put("mensagem", "Cultivar não encontrado");
                 }else{
                     j.put("data", p.getJson(k.getString("metodo")));
-                    j.put("sessao", sessao);
+//                    j.put("sessao", sessao);
                     j.put("sucesso", true);
                 }           
                 
-            }
+//            }
         }catch(Exception e){
             j.put("sucesso", false);
             j.put("mensagem", e.getMessage());
@@ -95,13 +95,13 @@ public class ServicosCultivar {
         try{
             
             //verifica  a sessao
-            VerificarSessao vs = new VerificarSessao();
-            String sessao = vs.VerificarSessao(k.getString("usuario"), k.getString("sessao"));
-            
-            if( sessao == null){
-                j.put("sucesso", false);
-                j.put("mensagem", "Sessao não encontrada!");
-            }else{
+//            VerificarSessao vs = new VerificarSessao();
+//            String sessao = vs.VerificarSessao(k.getString("usuario"), k.getString("sessao"));
+//            
+//            if( sessao == null){
+//                j.put("sucesso", false);
+//                j.put("mensagem", "Sessao não encontrada!");
+//            }else{
                 //comeca a requisicao
                 JSONArray ja = null;
                 
@@ -111,14 +111,14 @@ public class ServicosCultivar {
                 if(ja.length() > 0){
                     j.put("data", ja);
                     j.put("sucesso", true);
-                    j.put("sessao", sessao);
+//                    j.put("sessao", sessao);
                 }else{
                     j.put("sucesso", false);
                     j.put("mensagem", "Sem "+ k.getString("metodo"));
-                    j.put("sessao", sessao);
+//                    j.put("sessao", sessao);
                 }
                 
-            }
+//            }
             
         
         }catch(Exception e){
@@ -144,13 +144,13 @@ public class ServicosCultivar {
         try{
             
              //verifica  a sessao
-            VerificarSessao vs = new VerificarSessao();
-            String sessao = vs.VerificarSessao(k.getString("usuario"), k.getString("sessao"));
-            
-            if( sessao == null){
-                j.put("sucesso", false);
-                j.put("mensagem", "Sessao não encontrada!");
-            }else{
+//            VerificarSessao vs = new VerificarSessao();
+//            String sessao = vs.VerificarSessao(k.getString("usuario"), k.getString("sessao"));
+//            
+//            if( sessao == null){
+//                j.put("sucesso", false);
+//                j.put("mensagem", "Sessao não encontrada!");
+//            }else{
                 //comeca a requisicao
             
             
@@ -173,15 +173,15 @@ public class ServicosCultivar {
 
                     j.put("sucesso", true);
                     j.put("mensagem", "Cultivar cadastrado com sucesso!");
-                    j.put("sessao", sessao);
+//                    j.put("sessao", sessao);
                 }else{
                    j.put("sucesso", false);
-                   j.put("sessao", sessao);
+//                   j.put("sessao", sessao);
                    j.put("mensagem", "Cultivar já cadastrado!");
                 }
             
             
-            }
+//            }
             
         }catch(Exception e){
             j.put("sucesso", false);
@@ -280,13 +280,13 @@ public class ServicosCultivar {
         try{
             
              //verifica  a sessao
-            VerificarSessao vs = new VerificarSessao();
-            String sessao = vs.VerificarSessao(k.getString("usuario"), k.getString("sessao"));
-            
-            if( sessao == null){
-                j.put("sucesso", false);
-                j.put("mensagem", "Sessao não encontrada!");
-            }else{
+//            VerificarSessao vs = new VerificarSessao();
+//            String sessao = vs.VerificarSessao(k.getString("usuario"), k.getString("sessao"));
+//            
+//            if( sessao == null){
+//                j.put("sucesso", false);
+//                j.put("mensagem", "Sessao não encontrada!");
+//            }else{
                 //comeca a requisicao
                 
                 TOEstoque te = new TOEstoque();
@@ -308,18 +308,27 @@ public class ServicosCultivar {
                     te.setQuantidade(bd.doubleValue() - k.getDouble("qtdrecebida"));
                     //atualiza o estoque
                     BOFactory.editar(new DAOEstoque(), te, k.getString("metodo"));
-                    //cria uma tabela de entrada e saida do estoque
-                    TOIOEstoque tio = new TOIOEstoque();
-                    tio.setCultivar_idcultivar(k.getLong("idcultivar"));
-                    tio.setUnidade_idunidade(k.getLong("idunidade"));
-                    tio.setData_io(k.getString("datareceb"));
-                    // zero igual a saida
-                    tio.setOperacao(0);
-                    tio.setQuantidade(k.getDouble("qtdrecebida"));
-                    tio.setLogin_usuario(k.getString("usuario"));
                     
-                    BOFactory.inserir(new DAOIOEstoque(), tio, k.getString("metodo"));
+                    
+                    
+                    
+                    
+                    //cria uma tabela de entrada e saida do estoque
+//                    TOIOEstoque tio = new TOIOEstoque();
+//                    tio.setCultivar_idcultivar(k.getLong("idcultivar"));
+//                    tio.setUnidade_idunidade(k.getLong("idunidade"));
+//                    tio.setData_io(k.getString("datareceb"));
+//                    // zero igual a saida
+//                    tio.setOperacao(0);
+//                    tio.setQuantidade(k.getDouble("qtdrecebida"));
+//                    tio.setLogin_usuario(k.getString("usuario"));
+//                    
+//                    BOFactory.inserir(new DAOIOEstoque(), tio, k.getString("metodo"));
                             
+
+
+
+
                    //cria um objeto
                     TOSafra tsf = new TOSafra();
 
@@ -340,15 +349,15 @@ public class ServicosCultivar {
 
                     j.put("sucesso", true);
                     j.put("mensagem", "Distribuição com sucesso!");
-                    j.put("sessao", sessao); 
+//                    j.put("sessao", sessao); 
                 }else{
                     j.put("sucesso", false);
-                    j.put("sessao", sessao); 
+//                    j.put("sessao", sessao); 
                     j.put("mensagem", "Quantidade não equivalente no estoque da unidade!");
                 }
                 
                    
-            }
+//            }
         }catch(Exception e){
             j.put("sucesso", false);
             j.put("mensagem", e.getMessage());

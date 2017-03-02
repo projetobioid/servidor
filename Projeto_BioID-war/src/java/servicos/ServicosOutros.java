@@ -9,11 +9,9 @@ import bo.BOFactory;
 import dao.DAOLogin;
 import dao.DAOOutrosIDNome;
 import dao.DAOSessao;
-import fw.Criptografia;
 import java.math.BigInteger;
 import java.security.SecureRandom;
 import java.util.Date;
-import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.core.Context;
@@ -73,20 +71,20 @@ public class ServicosOutros {
                 j.put("mensagem", "Usuário ou senha incorretos!");
             }else{
                 //gera um idsessao e cria um novo registro
-                TOSessao ts = new TOSessao();
-                SecureRandom random = new SecureRandom();     
-        
-                ts.setLogin_usuario(to.getUsuario());
-                ts.setDatarequisicao(new Date().toString());
-                ts.setSessao(new BigInteger(130, random).toString(32));
-                
-                
-             
-                //salva uma nova sessao no banco de dados
-                BOFactory.inserir(new DAOSessao(), ts, k.getString("metodo"));
+//                TOSessao ts = new TOSessao();
+//                SecureRandom random = new SecureRandom();     
+//        
+//                ts.setLogin_usuario(to.getUsuario());
+//                ts.setDatarequisicao(new Date().toString());
+//                ts.setSessao(new BigInteger(130, random).toString(32));
+//                
+//                
+//             
+//                //salva uma nova sessao no banco de dados
+//                BOFactory.inserir(new DAOSessao(), ts, k.getString("metodo"));
                 
                 //atribui o valor da nova sessao para o retorno
-                to.setSessao(ts.getSessao());
+//                to.setSessao(ts.getSessao());
                 //retorna valores do login
                 j.put("data", to.getJson("VALIDACAO"));
                 j.put("sucesso", true);

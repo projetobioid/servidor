@@ -53,13 +53,13 @@ public class ServicoUsuario {
         
         try{
              //verifica  a sessao
-            VerificarSessao vs = new VerificarSessao();
-            String sessao = vs.VerificarSessao(k.getString("usuario"), k.getString("sessao"));
-            
-            if( sessao == null){
-                j.put("sucesso", false);
-                j.put("mensagem", "Sessao não encontrada!");
-            }else{
+//            VerificarSessao vs = new VerificarSessao();
+//            String sessao = vs.VerificarSessao(k.getString("usuario"), k.getString("sessao"));
+//            
+//            if( sessao == null){
+//                j.put("sucesso", false);
+//                j.put("mensagem", "Sessao não encontrada!");
+//            }else{
                 //comeca a requisicao
                 
                 TOPessoa to = new TOPessoa();
@@ -73,13 +73,13 @@ public class ServicoUsuario {
                 if(ja.length() > 0){
                     j.put("data", ja);
                     j.put("sucesso", true);
-                    j.put("sessao", sessao);
+//                    j.put("sessao", sessao);
                 }else{
                     j.put("sucesso", false);
                     j.put("mensagem", "Sem "+ k.getString("metodo"));
-                    j.put("sessao", sessao);
+//                    j.put("sessao", sessao);
                 }
-            }
+//            }
         }catch(Exception e){
             j.put("sucesso", false);
             j.put("mensagem", e.getMessage());
@@ -101,13 +101,13 @@ public class ServicoUsuario {
         
         try{
              //verifica  a sessao
-            VerificarSessao vs = new VerificarSessao();
-            String sessao = vs.VerificarSessao(k.getString("usuario"), k.getString("sessao"));
-            
-            if( sessao == null){
-                j.put("sucesso", false);
-                j.put("mensagem", "Sessao não encontrada!");
-            }else{
+//            VerificarSessao vs = new VerificarSessao();
+//            String sessao = vs.VerificarSessao(k.getString("usuario"), k.getString("sessao"));
+//            
+//            if( sessao == null){
+//                j.put("sucesso", false);
+//                j.put("mensagem", "Sessao não encontrada!");
+//            }else{
                 //comeca a requisicao
                 
           
@@ -171,20 +171,20 @@ public class ServicoUsuario {
                         
                         j.put("sucesso", true);
                         j.put("mensagem", "Cadastro com sucesso!");
-                        j.put("sessao", sessao);
+//                        j.put("sessao", sessao);
                     //mensagen de usuario ja existente
                     }else{
                         j.put("sucesso", false);
                         j.put("mensagem", "Erro, usuário já cadastrado!");
-                        j.put("sessao", sessao);
+//                        j.put("sessao", sessao);
                     }  
                 //mensagen de usuario ja existente
                 }else{
                     j.put("sucesso", false);
                     j.put("mensagem", "Erro, cpf já cadastrado!");
-                    j.put("sessao", sessao);
+//                    j.put("sessao", sessao);
                 }
-            }
+//            }
         }catch(Exception e){
             j.put("sucesso", false);
             j.put("mensagem", e.getMessage());
@@ -205,13 +205,13 @@ public class ServicoUsuario {
         
         try{
              //verifica  a sessao
-            VerificarSessao vs = new VerificarSessao();
-            String sessao = vs.VerificarSessao(k.getString("usuario"), k.getString("sessao"));
-            
-            if( sessao == null){
-                j.put("sucesso", false);
-                j.put("mensagem", "Sessao não encontrada!");
-            }else{
+//            VerificarSessao vs = new VerificarSessao();
+//            String sessao = vs.VerificarSessao(k.getString("usuario"), k.getString("sessao"));
+//            
+//            if( sessao == null){
+//                j.put("sucesso", false);
+//                j.put("mensagem", "Sessao não encontrada!");
+//            }else{
                 //comeca a requisicao
                 
 
@@ -234,15 +234,15 @@ public class ServicoUsuario {
                 if(p == null){
                     j.put("sucesso", false);
                     j.put("mensagem", k.getString("metodo")+" não encontrado");
-                    j.put("sessao", sessao);
+//                    j.put("sessao", sessao);
                 }else{
                     j.put("data", p.getJson(k.getString("metodo")));
-                    j.put("sessao", sessao);
+//                    j.put("sessao", sessao);
                     j.put("sucesso", true);
                 }
       
                         
-            }
+//            }
         }catch(Exception e){
             j.put("sucesso", false);
             j.put("mensagem", e.getMessage());

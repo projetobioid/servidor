@@ -132,7 +132,7 @@ public class TOLogin extends TOBase{
                 j.put("usuario", usuario);
                 j.put("nome", nome);
                 j.put("idunidade", unidade_idunidade);
-                j.put("sessao", sessao);
+//                j.put("sessao", sessao);
                 j.put("grupo", grupo);
                 break;
             case "GET_POR_USUARIO":

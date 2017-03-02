@@ -3,8 +3,8 @@
 /* button carregar page entrar*/
 $(document).on("click", "#goPagEntrar", function(evt)
 {
-    $("#username").val("entrevistador");
-    $("#password").val("entrevistador");
+    $("#username").val("");
+    $("#password").val("");
     $("#formLogin").validator();
     
     $("#page_inicial").fadeOut(100, function(evt){

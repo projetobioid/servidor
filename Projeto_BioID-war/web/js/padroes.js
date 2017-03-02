@@ -125,12 +125,12 @@ $(document).on("click", "tbody > tr", function(evt)
 
 //busca no servidor dados do cultivar para ser apresentado em um modal
 function carregaCultivar(idClicado, opcao){
-    var Sessao = getSessao();
+//    var Sessao = getSessao();
     var envio = {
         metodo: "get_cultivar",
-        idcultivar: idClicado,
-        usuario: Sessao.usuario,
-        sessao: Sessao.sessao
+        idcultivar: idClicado
+//        usuario: Sessao.usuario,
+//        sessao: Sessao.sessao
     };
     
     //chama a requisicao do servidor, o resultado é listado em uma tabela
@@ -162,12 +162,12 @@ function carregaCultivar(idClicado, opcao){
 
 //busca no servidor dados do usuario para ser apresentado em um modal
 function carregaUsuario(idClicado, opcao){
-    var Sessao = getSessao();
+//    var Sessao = getSessao();
     var envio = {
         metodo: "get_usuario",
-        idpessoa: idClicado,
-        usuario: Sessao.usuario,
-        sessao: Sessao.sessao
+        idpessoa: idClicado
+//        usuario: Sessao.usuario,
+//        sessao: Sessao.sessao
     };
     
     //chama a requisicao do servidor, o resultado é listado em uma tabela
@@ -301,11 +301,11 @@ $(document).on("focusin", ".carregaCidade", function(){
 
 //carrega a lista de unidades do banco de dados e lista em um select
 $(document).on("focusin", ".carregaUnidades", function(){
-    var Sessao = getSessao();
+//    var Sessao = getSessao();
     var envio = {
-        metodo: "ID_NOME_CIDADE",
-        usuario: Sessao.usuario,
-        sessao: Sessao.sessao
+        metodo: "ID_NOME_CIDADE"
+//        usuario: Sessao.usuario,
+//        sessao: Sessao.sessao
     };
     
     var idSelect = $(this).prop("id");
@@ -337,3 +337,55 @@ $(document).on("focusin", ".carregaUnidades", function(){
  
     return false;
 });
+
+//chama a requisicao para salvar a saida de estoque
+$(document).on("click", "#deslogar", function(e){
+    alerta("Alerta!", 'Deseja realmente deslogar? <br><br><button type="button" id="botaoDeslogar" class="btn btn-warning" data-dismiss="modal">Sim</button>      <button type="button" class="btn btn-warning" data-dismiss="modal">Não</button>');
+    return false;
+});
+//chama a requisicao para salvar a saida de estoque
+$(document).on("click", "#botaoDeslogar", function(e){
+
+        
+    window.location = "../../seguranca/logout.jsp";
+
+    return false;
+});
+
+
+//chama a requisicao para salvar a saida de estoque
+$(document).on("submit", ".formProx", function(e){
+    if(!e.isDefaultPrevented()){
+        $("#qtdProgresso li").each(function(i){
+
+            var tabs = $('a[data-toggle="tab"]');
+
+            if($(this).hasClass("active")){
+  
+                tabs.eq(i+1).tab('show');
+                $(this).removeClass("active").next().removeClass("disabled").addClass("active");
+                
+                return false;
+            }
+        });
+        
+    }
+    
+
+    return false;
+});
+//
+//function continuarProgresso(){
+//    $("#qtdProgresso li").each(function(i){
+//
+//            var tabs = $('a[data-toggle="tab"]');
+//
+//            if($(this).hasClass("active")){
+//  
+//                tabs.eq(i+1).tab('show');
+//                $(this).removeClass("active").next().removeClass("disabled").addClass("active");
+//                
+//                return false;
+//            }
+//        });
+//}

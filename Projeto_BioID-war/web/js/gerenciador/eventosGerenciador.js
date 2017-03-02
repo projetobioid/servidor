@@ -74,11 +74,7 @@ function preEventosPaginaGerenciamento(itemSelecionado, icone, titulo){
 //                inputFocus = progDistCultivaresUn();
 //                break;
             case "Relatar safra":
-//                escolhaRelatarSafra();
-//                $("#divItens").empty().append('<div class="col-lg-5" style="text-align: center;"><span class="fa fa-cube" style="font-size: 80px;"></span><h2>Colheita</h2><p> Informacão da quantidade de colhida na propriedade através dos cultivares recebidos no programa biofort!</p></div>        <div class="col-lg-5" style="text-align: center;"><span class="fa fa-truck" style="font-size: 80px;"></span><h2>Destinação</h2><p>Informação sobre a destinação da safra colhida de cultivares biofortificados.</p><br><br><p id="gAgricultores" hidden=""><a class="btn btn-secondary" href="paginas/agricultor/agricultor.html" role="button">Retomar <span class="fa fa-mail-forward" aria-hidden="true"></span></a></p></div>');
                 $("#divItens").empty().append('<div id="iconRelatarColheita" class="col-lg-5 placeholder" style="text-align: center;"> <h1 class="laranja fontIcones"><span class="fa fa-cube"></span></h1><h2>Colheita</h2><h5> Informacão da quantidade de colhida na propriedade através dos cultivares recebidos no programa biofort!</h5></div>        <div  id="iconRelatarDestinacao" class="col-lg-5 placeholder" style="text-align: center;"><h1 class="amarelo fontIcones"><span class="fa fa-truck"></span></h1><h2>Destinação</h2><p>Informação sobre a destinação da safra colhida de cultivares biofortificados.</p><br><br><p id="gAgricultores" hidden=""><a class="btn btn-secondary" href="paginas/agricultor/agricultor.html" role="button">Retomar <span class="fa fa-mail-forward" aria-hidden="true"></span></a></p></div>');
-                
-                
                 $("#divItens").show();
                 break;
             case "Relatar colheita da safra":
@@ -92,10 +88,7 @@ function preEventosPaginaGerenciamento(itemSelecionado, icone, titulo){
                 break;
         }
         
-        
-//        $("#corpoPagina").show();
-//        $(pagina).show();
-        //$("#pageDistribuir").show();
+
         
         $(".a").css("background", "rgba(255,255,255,0.6)");
         $(".backgroundVerde").css("background", "#007A61");
@@ -118,9 +111,9 @@ function progEstoqueUnidade(){
         var Sessao = getSessao();
         var envio = {
             metodo: "TODOS",
-            idunidade: Sessao.idunidade,
-            usuario: Sessao.usuario,
-            sessao: Sessao.sessao
+            idunidade: Sessao.idunidade
+//            usuario: Sessao.usuario,
+//            sessao: Sessao.sessao
         };
         
     //chama a requisicao do servidor, o resultado é listado em uma tabela
@@ -293,9 +286,9 @@ function submeterEntradaCult(){
         idcultivar: valores.idcultivar,
         qtd: $('#qtdCultivarEnt').val(),
         operacao: 1, //ENTRADA
-        idunidade: Sessao.idunidade,
-        usuario: Sessao.usuario,
-        sessao: Sessao.sessao
+        idunidade: Sessao.idunidade
+//        usuario: Sessao.usuario,
+//        sessao: Sessao.sessao
     };
 
     
@@ -327,11 +320,11 @@ function submeterEntradaCult(){
 $(document).on("click", "#cultEntEstoque", function(e){
     
     if($(this).children('option').length < 1){
-        var Sessao = getSessao();
+//        var Sessao = getSessao();
         var envio = {
-            metodo: "TODOS",
-            usuario: Sessao.usuario,
-            sessao: Sessao.sessao
+            metodo: "TODOS"
+//            usuario: Sessao.usuario,
+//            sessao: Sessao.sessao
         };
 
         //chama a requisicao do servidor, o resultado é listado em uma tabela
@@ -464,36 +457,12 @@ $(document).on("click", "#saidaEstoque", function(e){
 });
 
 //chama a requisicao para salvar a saida de estoque
-$(document).on("submit", ".formProx", function(e){
-    if(!e.isDefaultPrevented()){
-        continuarProgresso();
-    }
-    
-
-    return false;
-});
-
-//chama a requisicao para salvar a saida de estoque
 $(document).on("click", "#salvarSaidaEstoque", function(e){
     alerta("Alerta","Em construcao");
 
     return false;
 });
 
-function continuarProgresso(){
-    $("#qtdProgresso li").each(function(i){
-
-            var tabs = $('a[data-toggle="tab"]');
-
-            if($(this).hasClass("active")){
-  
-                tabs.eq(i+1).tab('show');
-                $(this).removeClass("active").next().removeClass("disabled").addClass("active");
-                
-                return false;
-            }
-        });
-}
 
 //dois clicks tabela aparece modal com atributos referentes ao item selecionado
 $(document).on("dblclick", "#divItens tr", function(evt)
@@ -1045,12 +1014,12 @@ function carregaMembro(idClicado, opcao){
 
 //busca no servidor dados do agricultor para ser apresentado em um modal
 function carregaAgricultor(idClicado, opcao){
-    var Sessao = getSessao();
+//    var Sessao = getSessao();
     var envio = {
         metodo: "GET_POR_ID",
-        idpessoa: idClicado,
-        usuario: Sessao.usuario,
-        sessao: Sessao.sessao
+        idpessoa: idClicado
+//        usuario: Sessao.usuario,
+//        sessao: Sessao.sessao
     };
     
     
@@ -1160,9 +1129,9 @@ $(document).on("click", "#listaCultivares", function(){
         var Sessao = getSessao();
         var envio = {
             metodo: "TODOS",
-            idunidade: Sessao.idunidade,
-            usuario: Sessao.usuario,
-            sessao: Sessao.sessao
+            idunidade: Sessao.idunidade
+//            usuario: Sessao.usuario,
+//            sessao: Sessao.sessao
         };
 
         //chama a requisicao do servidor, o resultado é listado em uma tabela
@@ -1213,11 +1182,11 @@ $(document).on("click", "#distribuirCultivar", function(){
             idcultivar: dadosCultivar.idcultivar,
             qtdrecebida: $('#qtdCultivarDist').val(),
             safra: $('#safraDist').val(),
-            datareceb: $('#datarecebDist').val(),
+            datareceb: $('#datarecebDist').val()
             
-            
-            usuario: Sessao.usuario,
-            sessao: Sessao.sessao
+//            
+//            usuario: Sessao.usuario,
+//            sessao: Sessao.sessao
         };
     
     //chama a requisicao do servidor, o resultado é listado em uma tabela
@@ -1350,12 +1319,12 @@ $(document).on("click", "#listaCultivaresReceb", function(){
     if($(this).children('option').length < 1){
 
         //pesquisa a unidade do agricultor
-        var Sessao = getSessao();
+//        var Sessao = getSessao();
         var envio = {
             metodo: "NAO_RELATADAS",
-            idpropriedade: $("#listaPropriedades :selected").prop("value"),
-            usuario: Sessao.usuario,
-            sessao: Sessao.sessao
+            idpropriedade: $("#listaPropriedades :selected").prop("value")
+//            usuario: Sessao.usuario,
+//            sessao: Sessao.sessao
         };
 
         //chama a requisicao do servidor, o resultado é listado em uma tabela

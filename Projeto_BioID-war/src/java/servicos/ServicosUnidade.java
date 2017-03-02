@@ -51,13 +51,13 @@ public class ServicosUnidade {
         try{
             
              //verifica  a sessao
-            VerificarSessao vs = new VerificarSessao();
-            String sessao = vs.VerificarSessao(k.getString("usuario"), k.getString("sessao"));
-            
-            if( sessao == null){
-                j.put("sucesso", false);
-                j.put("mensagem", "Sessao não encontrada!");
-            }else{
+//            VerificarSessao vs = new VerificarSessao();
+//            String sessao = vs.VerificarSessao(k.getString("usuario"), k.getString("sessao"));
+//            
+//            if( sessao == null){
+//                j.put("sucesso", false);
+//                j.put("mensagem", "Sessao não encontrada!");
+//            }else{
                 //comeca a requisicao
                 TOUnidade p = new TOUnidade();
                 p.setIdunidade(k.getLong("idunidade"));
@@ -65,14 +65,14 @@ public class ServicosUnidade {
 
                 if(p == null){
                     j.put("sucesso", false);
-                    j.put("sessao", sessao);
+//                    j.put("sessao", sessao);
                     j.put("mensagem", "Unidade não encontrada");
                 }else{
                     j.put("data", p.getJson(k.getString("metodo")));
-                    j.put("sessao", sessao);
+//                    j.put("sessao", sessao);
                     j.put("sucesso", true);
                 }
-            }
+//            }
         }catch(Exception e){
             j.put("sucesso", false);
             j.put("mensagem", e.getMessage());
@@ -94,13 +94,13 @@ public class ServicosUnidade {
         
         try{
              //verifica  a sessao
-            VerificarSessao vs = new VerificarSessao();
-            String sessao = vs.VerificarSessao(k.getString("usuario"), k.getString("sessao"));
-            
-            if( sessao == null){
-                j.put("sucesso", false);
-                j.put("mensagem", "Sessao não encontrada!");
-            }else{
+//            VerificarSessao vs = new VerificarSessao();
+//            String sessao = vs.VerificarSessao(k.getString("usuario"), k.getString("sessao"));
+//            
+//            if( sessao == null){
+//                j.put("sucesso", false);
+//                j.put("mensagem", "Sessao não encontrada!");
+//            }else{
                 //comeca a requisicao  
                 //cria um objeto          
                 TOUnidade t = new TOUnidade();
@@ -131,13 +131,13 @@ public class ServicosUnidade {
 
                     j.put("sucesso", true);
                     j.put("mensagem", "Unidade cadastrada!");
-                    j.put("sessao", sessao);
+//                    j.put("sessao", sessao);
                 }else{
                    j.put("sucesso", false);
-                   j.put("sessao", sessao);
+//                   j.put("sessao", sessao);
                    j.put("mensagem", "Unidade já cadastrada!");
                 }
-            }
+//            }
         }catch(Exception e){
             j.put("sucesso", false);
             j.put("mensagem", e.getMessage());
@@ -158,13 +158,13 @@ public class ServicosUnidade {
         
         try{
              //verifica  a sessao
-            VerificarSessao vs = new VerificarSessao();
-            String sessao = vs.VerificarSessao(k.getString("usuario"), k.getString("sessao"));
-            
-            if( sessao == null){
-                j.put("sucesso", false);
-                j.put("mensagem", "Sessao não encontrada!");
-            }else{
+//            VerificarSessao vs = new VerificarSessao();
+//            String sessao = vs.VerificarSessao(k.getString("usuario"), k.getString("sessao"));
+//            
+//            if( sessao == null){
+//                j.put("sucesso", false);
+//                j.put("mensagem", "Sessao não encontrada!");
+//            }else{
                 //comeca a requisicao
                 TOUnidade t = new TOUnidade();
                
@@ -176,10 +176,10 @@ public class ServicosUnidade {
                 
         
                 j.put("data", ja);
-                j.put("sessao", sessao);
+//                j.put("sessao", sessao);
                 j.put("sucesso", true);
                 
-            }
+//            }
             
         
         }catch(Exception e){
