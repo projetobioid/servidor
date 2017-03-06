@@ -74,18 +74,6 @@ public class BOFactory {
         }
     }
     
-//    public static JSONArray listar(DAOBase d, String metodo) throws Exception{
-//        Connection c = null;
-//        
-//        try{
-//            c =  Data.openConnection();
-//            
-//            return d.listar(c, metodo);
-//        }finally{
-//            c.close();
-//        }
-//    }
-    
     
     public static JSONArray listar(DAOBase d, TOBase t, String metodo) throws Exception{
         Connection c = null;
