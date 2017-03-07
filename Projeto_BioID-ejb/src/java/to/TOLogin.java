@@ -131,7 +131,7 @@ public class TOLogin extends TOBase{
                 //populando o objeto j
                 j.put("usuario", usuario);
                 j.put("nome", nome);
-                j.put("idunidade", unidade_idunidade);
+                j.put("idunidade", String.valueOf(unidade_idunidade));
 //                j.put("sessao", sessao);
                 j.put("grupo", grupo);
                 break;

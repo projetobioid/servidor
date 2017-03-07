@@ -107,7 +107,6 @@ function preEventosPaginaGerenciamento(itemSelecionado, icone, titulo){
 //carrega o estoque da unidade
 function progEstoqueUnidade(){
    
-    //pesquisa a unidade do agricultor
         var Sessao = getSessao();
         var envio = {
             metodo: "TODOS",

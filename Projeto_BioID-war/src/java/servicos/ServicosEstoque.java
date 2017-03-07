@@ -8,7 +8,6 @@ package servicos;
 import bo.BOFactory;
 import dao.DAOEstoque;
 import dao.DAOIOEstoque;
-import fw.VerificarSessao;
 import java.util.Date;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;

@@ -58,6 +58,7 @@
             <url-pattern>/servico/estoque/saidaestoque</url-pattern>
             <!--servicos cultivares-->
             <url-pattern>/servico/cultivar/listar</url-pattern>
+            <url-pattern>/servico/cultivar/buscar</url-pattern>
             <url-pattern>/servico/cultivar/distribuir</url-pattern>
             
         </web-resource-collection>
