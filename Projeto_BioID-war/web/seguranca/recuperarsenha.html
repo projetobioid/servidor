@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="utf-8">
+<!--    <meta http-equiv="X-UA-Compatible" content="IE=edge">-->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="Daniel Defante">
+    <!--link rel="icon" href="../../favicon.ico"-->
+
+    
+    
+    <link rel="stylesheet" href="../css/font-awesome.min.css">
+
+    
+    
+    <title>BioID</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+
+  </head>
+
+  <body >
+
+
+     <!--pagina entrar-->  
+    <div id="page_entrar" >
+          
+        <nav class="navbar navbar-default">
+            
+            
+
+            <h4 style="color: #fff" class="text-center">RecuperarSenha</h4>
+            
+    
+            
+        </nav>
+        
+        <div class="container" >
+            <div class="row">
+                <!--<div class="col-xs-6 col-xs-offset-3 col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1">-->
+                    <div class="col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1 col-lg-4 col-lg-offset-4">
+                    <div class="panel panel-default painelInicial">
+                        <div class="panel-body">
+                            <form data-toggle="validator" role="form" method="post" id="formRecuperarSenha">
+                                <div class="form-group"><label for="username" class="control-label">Informe seu email:</label>
+                                    <input  type="email" class="form-control" id="email"  placeholder="Digite seu email..." data-error="Por favor, informe o seu email." required >
+                                    <div class="help-block with-errors"></div>
+                                </div>
+                                
+                                <div id="alerta" class="alert alert-danger alert-dismissable" hidden="">
+                                    
+                                </div>
+
+                                <button id="enviar" name="submit"  class="btn btn-lg btn-warning btn-block text-center">Enviar
+                                    <span class="fa fa-chevron-right pull-right" aria-hidden="true">
+                                    </span>
+                                </button>
+                            </form>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+          
+   
+
+
+        </div> <!-- /container -->
+        <div class="panel-footer navbar-fixed-bottom text-center"><a href="../login.html" style="color: #fff;"><span class="fa fa-sign-in" aria-hidden="true"></span></a></div>
+
+ 
+    
+  </body>
+</html>

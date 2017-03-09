@@ -57,9 +57,10 @@
             <url-pattern>/servico/estoque/entradaestoque</url-pattern>
             <url-pattern>/servico/estoque/saidaestoque</url-pattern>
             <!--servicos cultivares-->
-            <url-pattern>/servico/cultivar/listar</url-pattern>
             <url-pattern>/servico/cultivar/buscar</url-pattern>
             <url-pattern>/servico/cultivar/distribuir</url-pattern>
+            <!--servicos propriedades-->
+            <url-pattern>/servico/propriedade/listar</url-pattern>
             
         </web-resource-collection>
         <auth-constraint>
@@ -79,8 +80,12 @@
             <url-pattern>/servico/agricultor/inserir</url-pattern>
             <!--servicos estoque -->
             <url-pattern>/servico/estoque/listar</url-pattern>
+            <url-pattern>/servico/estoque/buscar</url-pattern>
             <!--servicos cultivares-->
             <url-pattern>/servico/cultivar/distribuir</url-pattern>
+            <url-pattern>/servico/cultivar/buscar</url-pattern>
+            <!--servicos propriedades-->
+            <url-pattern>/servico/propriedade/listar</url-pattern>
         </web-resource-collection>
         <auth-constraint>
             <role-name>entrevistador-role</role-name>
@@ -93,6 +98,8 @@
             <description/>
             <url-pattern>/paginas/agricultor/agricultor.html</url-pattern>
             <url-pattern>/paginas/home.html</url-pattern>
+            <!--servicos propriedades-->
+            <url-pattern>/servico/propriedade/listar</url-pattern>
         </web-resource-collection>
         <auth-constraint>
             <role-name>agricultor-role</role-name>

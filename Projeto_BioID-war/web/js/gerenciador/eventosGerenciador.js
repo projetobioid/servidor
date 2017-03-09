@@ -405,9 +405,9 @@ $(document).on("click", "#saidaEstoque", function(e){
     var envio = {
         metodo: "GET_CULTIVAR",
         idcultivar: $('#tabEstoqueUnidade').find('.warning').find('td:eq(0)').html(),
-        idunidade: Sessao.idunidade,
-        usuario: Sessao.usuario,
-        sessao: Sessao.sessao
+        idunidade: Sessao.idunidade
+//        usuario: Sessao.usuario,
+//        sessao: Sessao.sessao
     };
     //chama a requisicao do servidor, o resultado a quantidade de cultivar no estoque
         requisicao(true, "estoque/buscar", envio, function(dadosRetorno) {
@@ -529,8 +529,8 @@ function listarEquipe(){
     var Sessao = getSessao();
     var envio = {
         metodo: "EQUIPE",
-        usuario: Sessao.usuario,
-        sessao: Sessao.sessao,
+//        usuario: Sessao.usuario,
+//        sessao: Sessao.sessao,
         idunidade: Sessao.idunidade
     };
     //chama a requisicao do servidor, o resultado é listado em uma tabela
@@ -674,8 +674,8 @@ function listarAgricultores(){
     var Sessao = getSessao();
     var envio = {
         metodo: "TODOS_DA_UNIDADE",
-        usuario: Sessao.usuario,
-        sessao: Sessao.sessao,
+//        usuario: Sessao.usuario,
+//        sessao: Sessao.sessao,
         idunidade: Sessao.idunidade
     };
 
@@ -763,8 +763,8 @@ retornoProcuraAgricultores = function( request, response ) {
         valor: request.term +"%",
         metodo: "INPUT_SELECT",
         idunidade: Sessao.idunidade,
-        usuario: Sessao.usuario,
-        sessao: Sessao.sessao
+//        usuario: Sessao.usuario,
+//        sessao: Sessao.sessao
     };
 
 
@@ -800,9 +800,9 @@ $(document).on("blur", "#campoBuscaAgri", function(){
         var envio = {
             metodo: "NOME_E_ID",
             idpessoa: $('#campoBuscaAgri').attr('value'),
-            idunidade: Sessao.idunidade,
-            usuario: Sessao.usuario,
-            sessao: Sessao.sessao
+            idunidade: Sessao.idunidade
+//            usuario: Sessao.usuario,
+//            sessao: Sessao.sessao
         };
 
         //chama a requisicao do servidor, o resultado é listado em uma tabela
@@ -861,8 +861,8 @@ var Sessao = getSessao();
 
     var envio = {
 //        metodo: "inserirusuario",
-        usuario: Sessao.usuario,
-        sessao: Sessao.sessao,
+//        usuario: Sessao.usuario,
+//        sessao: Sessao.sessao,
         metodo: "NOVO_MEMBRO",
         cidade_idcidade : $("#cidadeNovoUsuario").prop("value"),
         rua: $("#ruaNovoUsuario").val(),
@@ -923,8 +923,8 @@ function salvarNovoAgricultor(){
 
     var envio = {
 //        metodo: "inseriragricultor",
-        usuario: Sessao.usuario,
-        sessao: Sessao.sessao,
+//        usuario: Sessao.usuario,
+//        sessao: Sessao.sessao,
         metodo: "agricultor",
         cidade_idcidade : $("#cidadeAgricultor").prop("value"),
         rua: $("#rua").val(),
@@ -959,7 +959,7 @@ function salvarNovoAgricultor(){
         unidadedemedidaau: $("#unidadedemedidaau").prop("value")
     };
     
-  alert(JSON.stringify(envio));
+
     //chama a requisicao do servidor, o resultado é listado em uma tabela
     requisicao(true, "agricultor/inserir", envio, function(dadosRetorno) {
         if(dadosRetorno.sucesso){
@@ -980,9 +980,9 @@ function carregaMembro(idClicado, opcao){
     var Sessao = getSessao();
     var envio = {
         metodo: "GET_MEMBRO",
-        idpessoa: idClicado,
-        usuario: Sessao.usuario,
-        sessao: Sessao.sessao
+        idpessoa: idClicado
+//        usuario: Sessao.usuario,
+//        sessao: Sessao.sessao
     };
     
     //chama a requisicao do servidor, o resultado é listado em uma tabela

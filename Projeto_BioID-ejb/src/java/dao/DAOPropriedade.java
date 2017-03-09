@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.json.JSONArray;
 import to.TOBase;
+import to.TOLogin;
 import to.TOPessoa;
 import to.TOPropriedade;
 
@@ -109,8 +110,18 @@ public class DAOPropriedade extends DAOBase{
                         + "INNER JOIN pessoa p ON(p.idpessoa = a.pessoa_idpessoa) "
                         + "INNER JOIN login l ON(l.pessoa_idpessoa = p.idpessoa) "
                         + "WHERE p.idpessoa IN(?) AND l.unidade_idunidade IN(?)";
-                    u.add(((TOPessoa)t).getIdpessoa());
-                    u.add(((TOPessoa)t).getIdunidade());
+                    u.add(((TOLogin)t).getPessoa_idpessoa());
+                    u.add(((TOLogin)t).getUnidade_idunidade());
+                    break;
+                case "POR_USUARIO_E_IDUNIDADE":
+                    sql = "SELECT pr.nomepropriedade, pr.idpropriedade FROM propriedade pr "
+                        + "INNER JOIN relacaopa rpa ON(rpa.propriedade_idpropriedade = pr.idpropriedade) "
+                        + "INNER JOIN agricultor a ON(a.pessoa_idpessoa = rpa.agricultor_pessoa_idpessoa) "
+                        + "INNER JOIN pessoa p ON(p.idpessoa = a.pessoa_idpessoa) "
+                        + "INNER JOIN login l ON(l.pessoa_idpessoa = p.idpessoa) "
+                        + "WHERE l.usuario IN(?) AND l.unidade_idunidade IN(?)";
+                    u.add(((TOLogin)t).getUsuario());
+                    u.add(((TOLogin)t).getUnidade_idunidade());
                     break;
                 default:
                     sql = "SELECT cdd.nomecidade, e.rua, e.numero, e.bairro, e.cep, e.complemento, e.gps_lat, e.gps_long, pr.nomepropriedade, pr.idpropriedade "

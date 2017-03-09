@@ -37,7 +37,37 @@ public class ServicosSafra {
     }
 
 
-    
+    @Path("buscar")
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public String buscar(String dataJson) throws Exception{
+        
+        JSONObject j = new JSONObject();
+        JSONObject k = new JSONObject(dataJson);
+        
+        try{      
+                //comeca a requisicao
+                TOSafra p = new TOSafra();
+                p.setIdsafra(k.getLong("idsafra"));
+                p = (TOSafra) BOFactory.get(new DAOSafra(), p, k.getString("metodo"));
+                if(p == null){
+                    j.put("sucesso", false);
+                    j.put("mensagem", "Safra não encontrado");
+                }else{
+                    j.put("data", p.getJson(k.getString("metodo")));
+                    j.put("sucesso", true);
+                }           
+                
+
+        }catch(Exception e){
+            j.put("sucesso", false);
+            j.put("mensagem", e.getMessage());
+        }
+        
+        return j.toString(); 
+        
+    }
     
     @Path("listar")
     @POST
@@ -65,24 +95,20 @@ public class ServicosSafra {
         
                 to.setPropriedade_idpropriedade(k.getLong("idpropriedade"));
                         
-//                switch(k.getString("metodo")){
-//                    case "INPUT_SELECT":
-//                        to.setNome(k.getString("valor"));
-//                        break;
-//                }
+
                 
                 JSONArray ja = BOFactory.listar(new DAOSafra(),to , k.getString("metodo")) ;
 
                 if(ja.length() > 0){
                     j.put("data", ja);
                     j.put("sucesso", true);
-//                    j.put("sessao", sessao);
+
                 }else{
                     j.put("sucesso", false);
-                    j.put("mensagem", "Propriedade sem distribuição de cultivares!");
-//                    j.put("sessao", sessao);
+                    j.put("mensagem", "Propriedade não contém distribuição de cultivares!");
+
                 }
-//            }
+
         }catch(Exception e){
             j.put("sucesso", false);
             j.put("mensagem", e.getMessage());

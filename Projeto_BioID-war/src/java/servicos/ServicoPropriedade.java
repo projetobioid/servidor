@@ -17,6 +17,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.core.MediaType;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import to.TOLogin;
 import to.TOPessoa;
 
 /**
@@ -119,20 +120,16 @@ public class ServicoPropriedade {
         JSONObject k = new JSONObject(dataJson);
         
         try{
-             //verifica  a sessao
-//            VerificarSessao vs = new VerificarSessao();
-//            String sessao = vs.VerificarSessao(k.getString("usuario"), k.getString("sessao"));
-//            
-//            if( sessao == null){
-//                j.put("sucesso", false);
-//                j.put("mensagem", "Sessao não encontrada!");
-//            }else{
-                //comeca a requisicao
+
+                TOLogin t = new TOLogin();
+                //se tem o item id pesso a eh atribuido a classe
+                if(k.has("idpessoa"))
+                    t.setPessoa_idpessoa(k.getLong("idpessoa"));
                 
-            
-                TOPessoa t = new TOPessoa();
-                t.setIdpessoa(k.getLong("idpessoa"));
-                t.setIdunidade(k.getLong("idunidade"));
+                if(k.has("usuario"))
+                    t.setUsuario(k.getString("usuario"));
+                
+                t.setUnidade_idunidade(k.getLong("idunidade"));
 
 
                 JSONArray ja = BOFactory.listar(new DAOPropriedade(), t, k.getString("metodo")) ;
@@ -140,13 +137,12 @@ public class ServicoPropriedade {
                 if(ja.length() > 0){
                     j.put("data", ja);
                     j.put("sucesso", true);
-//                    j.put("sessao", sessao);
                 }else{
                     j.put("sucesso", false);
                     j.put("mensagem", "Usuário não contém propriedade cadastrada!");
-//                    j.put("sessao", sessao);
+
                 }
-//            }
+
         }catch(Exception e){
             j.put("sucesso", false);
             j.put("mensagem", e.getMessage());

@@ -406,17 +406,7 @@ public class ServicosAgricultor {
         JSONObject k = new JSONObject(dataJson);
         
         try{
-             //verifica  a sessao
-//            VerificarSessao vs = new VerificarSessao();
-//            String sessao = vs.VerificarSessao(k.getString("usuario"), k.getString("sessao"));
-//            
-//            if( sessao == null){
-//                j.put("sucesso", false);
-//                j.put("mensagem", "Sessao não encontrada!");
-//            }else{
-                //comeca a requisicao
-                
-          
+
                 TOPessoa t = new TOPessoa();
 
                 //popula objetos e verifica se existe o cpf e usuario cadastrados no banco

@@ -43,18 +43,21 @@ public class TOSafra extends TOBase {
     
     private String nomepropriedade;
     
-    private int tempodecolheita;
+    private String imagem;
     
-    private int tempodestinacao;
+    private String descricao_status;
     
-    private String prazo_colheita;
-    
-    private String prazo_destinacao;
-    
-    private double qtddestinada; 
-    
-    private TOEndereco TOEndereco;
-    
+//    private int tempodecolheita;
+//    
+//    private int tempodestinacao;
+//    
+//    private String prazo_colheita;
+//    
+//    private String prazo_destinacao;
+//    
+//    private double qtddestinada; 
+//    
+//    private TOEndereco TOEndereco;
 
     public long getIdsafra() {
         return idsafra;
@@ -124,8 +127,16 @@ public class TOSafra extends TOBase {
         return qtdcolhida;
     }
 
-    public void setQtdcolhida(float qtdcolhida) {
+    public void setQtdcolhida(double qtdcolhida) {
         this.qtdcolhida = qtdcolhida;
+    }
+
+    public long getStatus_entrevistador() {
+        return status_entrevistador;
+    }
+
+    public void setStatus_entrevistador(long status_entrevistador) {
+        this.status_entrevistador = status_entrevistador;
     }
 
     public String getGrandeza() {
@@ -152,54 +163,24 @@ public class TOSafra extends TOBase {
         this.nomepropriedade = nomepropriedade;
     }
 
-    public int getTempodecolheita() {
-        return tempodecolheita;
+    public String getImagem() {
+        return imagem;
     }
 
-    public void setTempodecolheita(int tempodecolheita) {
-        this.tempodecolheita = tempodecolheita;
+    public void setImagem(String imagem) {
+        this.imagem = imagem;
     }
 
-    public int getTempodestinacao() {
-        return tempodestinacao;
+    public String getDescricao_status() {
+        return descricao_status;
     }
 
-    public void setTempodestinacao(int tempodestinacao) {
-        this.tempodestinacao = tempodestinacao;
+    public void setDescricao_status(String descricao_status) {
+        this.descricao_status = descricao_status;
     }
+    
 
-    public String getPrazo_colheita() {
-        return prazo_colheita;
-    }
-
-    public void setPrazo_colheita(String prazo_colheita) {
-        this.prazo_colheita = prazo_colheita;
-    }
-
-    public String getPrazo_destinacao() {
-        return prazo_destinacao;
-    }
-
-    public void setPrazo_destinacao(String prazo_destinacao) {
-        this.prazo_destinacao = prazo_destinacao;
-    }
-
-    public double getQtddestinada() {
-        return qtddestinada;
-    }
-
-    public void setQtddestinada(float qtddestinada) {
-        this.qtddestinada = qtddestinada;
-    }
-
-    public long getStatus_entrevistador() {
-        return status_entrevistador;
-    }
-
-    public void setStatus_entrevistador(long status_entrevistador) {
-        this.status_entrevistador = status_entrevistador;
-    }
-
+    
     
     
     public TOSafra() {
@@ -218,6 +199,26 @@ public class TOSafra extends TOBase {
                 this.grandeza = rs.getString("grandeza_recebida");
                 this.datareceb = rs.getString("datareceb");
                 break;
+            case "CULTIVARES_RECEBIDOS":
+                this.idsafra = rs.getLong("idsafra");
+                this.nomecultivar = rs.getString("nomecultivar");
+                this.safra = rs.getString("safra");
+                this.statussafra_idstatussafra = rs.getLong("statussafra_idstatussafra");
+
+                break;
+            case "GET_POR_IDSAFRA":
+                this.idsafra = rs.getLong("idsafra");
+                this.cultivar_idcultivar = rs.getLong("cultivar_idcultivar");
+                this.nomecultivar = rs.getString("nomecultivar");
+                this.safra = rs.getString("safra");
+                this.datareceb = rs.getString("datareceb");
+                this.qtdrecebida = rs.getFloat("qtdrecebida");
+                this.statussafra_idstatussafra = rs.getLong("statussafra_idstatussafra");
+                this.grandeza = rs.getString("grandeza");
+                this.imagem = rs.getString("imagem");
+                this.descricao_status = rs.getString("descricao_status");
+
+                break;
             case "NAO_RELATADAS":
                 this.idsafra = rs.getLong("idsafra");
                 this.cultivar_idcultivar = rs.getLong("cultivar_idcultivar");
@@ -228,8 +229,6 @@ public class TOSafra extends TOBase {
                 this.status_entrevistador = rs.getLong("status_entrevistador");
                 this.grandeza = rs.getString("grandeza");
 
-                
-                
                 break;
             default:
                 this.idsafra = rs.getLong("idsafra");
@@ -238,13 +237,13 @@ public class TOSafra extends TOBase {
                 this.safra = rs.getString("safra");
                 this.datareceb = rs.getString("datareceb");
                 this.qtdrecebida = rs.getFloat("qtdrecebida");
-                this.qtddestinada = rs.getFloat("qtddestinada");
+//                this.qtddestinada = rs.getFloat("qtddestinada");
                 this.grandeza = rs.getString("grandeza_recebida");
                 this.qtdcolhida = rs.getFloat("qtdcolhida");
                 this.nomecultivar = rs.getString("nomecultivar");
                 this.nomepropriedade = rs.getString("nomepropriedade");
-                this.tempodecolheita = rs.getInt("tempodecolheita");
-                this.tempodestinacao = rs.getInt("tempodestinacao");
+//                this.tempodecolheita = rs.getInt("tempodecolheita");
+//                this.tempodestinacao = rs.getInt("tempodestinacao");
                 break;
         }
         
@@ -268,6 +267,29 @@ public class TOSafra extends TOBase {
                 j.put("grandeza_recebida", grandeza);
                 
                 break;
+            case "GET_POR_IDSAFRA":
+                BigDecimal bc = new BigDecimal(qtdrecebida).setScale(2, RoundingMode.HALF_EVEN);
+                
+                j.put("idsafra", idsafra);
+                j.put("idcultivar", cultivar_idcultivar);
+                j.put("nomecultivar", nomecultivar);
+                j.put("safra", safra);
+                j.put("datareceb", datareceb);
+                j.put("qtdrecebida", bc.doubleValue());
+                j.put("statussafra", statussafra_idstatussafra);
+                j.put("grandeza", grandeza);
+                j.put("imagem", imagem);
+                j.put("descricao_status", descricao_status);
+                
+                break;
+            case "CULTIVARES_RECEBIDOS":
+                
+                j.put("idsafra", idsafra);
+                j.put("nomecultivar", nomecultivar);
+                j.put("safra", safra);
+                j.put("statussafra", statussafra_idstatussafra);
+                
+                break;
             case "NAO_RELATADAS":
                 BigDecimal bd = new BigDecimal(qtdrecebida).setScale(2, RoundingMode.HALF_EVEN);
                 
@@ -289,14 +311,14 @@ public class TOSafra extends TOBase {
                 j.put("propriedade_idpropriedade", propriedade_idpropriedade);
                 j.put("safra", safra);
                 j.put("datareceb", datareceb);
-                j.put("qtddestinada", qtddestinada);
+//                j.put("qtddestinada", qtddestinada);
                 j.put("qtdrecebida", qtdrecebida);
                 j.put("grandeza_recebida", grandeza);
                 j.put("qtdcolhida", qtdcolhida);
                 j.put("nomecultivar", nomecultivar);
                 j.put("nomepropriedade", nomepropriedade);
-                j.put("prazo_colheita", prazo_colheita);
-                j.put("prazo_destinacao", prazo_destinacao);
+//                j.put("prazo_colheita", prazo_colheita);
+//                j.put("prazo_destinacao", prazo_destinacao);
                 break;
         }
         return j;

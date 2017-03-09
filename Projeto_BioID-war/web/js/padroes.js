@@ -127,7 +127,7 @@ $(document).on("click", "tbody > tr", function(evt)
 function carregaCultivar(idClicado, opcao){
 //    var Sessao = getSessao();
     var envio = {
-        metodo: "get_cultivar",
+        metodo: "GET_CULTIVAR",
         idcultivar: idClicado
 //        usuario: Sessao.usuario,
 //        sessao: Sessao.sessao

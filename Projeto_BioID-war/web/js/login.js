@@ -121,3 +121,11 @@ $(document).on("submit", "#formLogin", function(e){
     }
     return false;
 });
+
+//esqueceu a senha
+$(document).on("click", "#esqueceuSenha", function(evt){
+
+//    $("#alerta").empty().append('<a href="#" id="fecharAlert" class="close">&times;</a><strong>Suporte!</strong> daniel@fundetec.org.br!').fadeIn();
+    location.href = ipServidor+'/seguranca/recuperarsenha.html';
+
+});

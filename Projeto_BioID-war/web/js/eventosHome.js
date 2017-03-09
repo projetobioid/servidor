@@ -1,4 +1,4 @@
-var ipServidor = 'localhost:8080'; //sistema em producao
+//var ipServidor = 'localhost:8080'; //sistema em producao
 //var ipServidor = "187.19.101.252:8082"; //sistema rodando fora
 //var ipServidor = "10.1.2.52:8080"; //sistema teste interno
 

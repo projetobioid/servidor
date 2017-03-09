@@ -82,18 +82,28 @@ public class DAOSafra extends DAOBase{
     @Override
     public TOBase get(Connection c, TOBase t, String metodo) throws Exception {
         String sql = null;
-        
+        List<Object> u = new ArrayList<Object>();
         ResultSet rs = null;
         
         try{
-//            TOSafra to = (TOSafra)t;
+
             
             switch(metodo){
+                case "GET_POR_IDSAFRA":
+                    sql = "SELECT idsafra, cultivar_idcultivar, c.nomecultivar, u.grandeza, safra, datareceb, qtdrecebida, s.descricao_status, statussafra_idstatussafra, c.imagem "
+                            + "FROM public.safra "
+                            + "INNER JOIN cultivar c ON(idcultivar = cultivar_idcultivar) "
+                            + "INNER JOIN unidademedida u ON(idunidademedida = c.unidademedida_idunidademedida) "
+                            + "INNER JOIN statussafra s ON(s.idstatussafra = statussafra_idstatussafra) "
+                            + "WHERE idsafra IN(?)";
+
+                    u.add(((TOSafra) t).getIdsafra());
+                    break;
                 default:
                     sql = "select * from safra where idsafra IN(?)";
                     break;
             }
-            rs = Data.executeQuery(c, sql, ((TOSafra)t).getIdsafra());
+            rs = Data.executeQuery(c, sql, u);
             
             if(rs.next()){
                 return new TOSafra(rs, metodo);
@@ -118,6 +128,15 @@ public class DAOSafra extends DAOBase{
             String sql = null;
             
             switch(metodo){
+                case "CULTIVARES_RECEBIDOS":
+                    sql = "SELECT idsafra, c.nomecultivar, safra, statussafra_idstatussafra "
+                            + "FROM public.safra "
+                            + "INNER JOIN cultivar c ON(idcultivar = cultivar_idcultivar) "
+                            + "INNER JOIN unidademedida u ON(idunidademedida = c.unidademedida_idunidademedida) "
+                            + "WHERE propriedade_idpropriedade IN(?)";
+
+                    u.add(((TOSafra) t).getPropriedade_idpropriedade());
+                    break;
                 case "NAO_RELATADAS":
                     sql = "SELECT idsafra, cultivar_idcultivar, c.nomecultivar, u.grandeza, safra, datareceb, qtdrecebida, status_entrevistador "
                             + "FROM public.safra "
@@ -188,81 +207,81 @@ public class DAOSafra extends DAOBase{
     }
 
 
-    private String verificarPrazoColheita(TOSafra ts, String metodo) {
-        String teste = null;
-        
-               
-        try{
-            SimpleDateFormat formatar = new SimpleDateFormat("dd/MM/yyyy");
-
-                Calendar datarecebimento = Calendar.getInstance();
-                Calendar diaAtual = Calendar.getInstance();
-
-                datarecebimento.setTime(formatar.parse(ts.getDatareceb()));
-
-                datarecebimento.add(Calendar.DATE, +ts.getTempodecolheita());
-
-
-                if(datarecebimento.getTimeInMillis() < diaAtual.getTimeInMillis()){
-                    teste = "expirada";
-                    //atualiza o status da safra
-                    if(ts.getStatussafra_idstatussafra() == 1){
-                        ts.setStatussafra_idstatussafra(8);  
-                    }else if(ts.getStatussafra_idstatussafra() == 2){
-                        ts.setStatussafra_idstatussafra(4);
-                    }else if(ts.getStatussafra_idstatussafra() == 3){
-                        ts.setStatussafra_idstatussafra(5);
-                    }
-
-                    BOFactory.editar(new DAOSafra(), ts, metodo);
-                   
-                }else{
-
-                    teste = formatar.format(datarecebimento.getTime()); 
-                }
-        }catch(Exception e){
-            teste = "Erro em verificar a safra colheita - "+ e;
-        }
-
-        return teste;  
-    }
-
-    private String verificarPrazoDestinacao(TOSafra ts, String metodo) {
-        String teste = null;
-
-        try{
-            SimpleDateFormat formatar = new SimpleDateFormat("dd/MM/yyyy");
-        
-            Calendar datarecebimento = Calendar.getInstance();
-            Calendar diaAtual = Calendar.getInstance();
-
-            datarecebimento.setTime(formatar.parse(ts.getDatareceb()));
-
-            datarecebimento.add(Calendar.DATE, +ts.getTempodestinacao());
-
-
-
-            if(datarecebimento.getTimeInMillis() < diaAtual.getTimeInMillis()){
-                teste = "expirada";
-                //atualiza o status da safra
-                        
-                if(ts.getStatussafra_idstatussafra() == 4){
-                    ts.setStatussafra_idstatussafra(7);
-                }else if(ts.getStatussafra_idstatussafra() == 5){
-                    ts.setStatussafra_idstatussafra(6);
-                }
-                BOFactory.editar(new DAOSafra(), ts, metodo);
-                ////
-            }else{
-
-                teste = formatar.format(datarecebimento.getTime());
-            }
-        }catch(Exception e){
-            teste = "Erro em verificar a safra destinacao - "+ e;
-        
-        }
-        return teste;
-    }
+//    private String verificarPrazoColheita(TOSafra ts, String metodo) {
+//        String teste = null;
+//        
+//               
+//        try{
+//            SimpleDateFormat formatar = new SimpleDateFormat("dd/MM/yyyy");
+//
+//                Calendar datarecebimento = Calendar.getInstance();
+//                Calendar diaAtual = Calendar.getInstance();
+//
+//                datarecebimento.setTime(formatar.parse(ts.getDatareceb()));
+//
+//                datarecebimento.add(Calendar.DATE, +ts.getTempodecolheita());
+//
+//
+//                if(datarecebimento.getTimeInMillis() < diaAtual.getTimeInMillis()){
+//                    teste = "expirada";
+//                    //atualiza o status da safra
+//                    if(ts.getStatussafra_idstatussafra() == 1){
+//                        ts.setStatussafra_idstatussafra(8);  
+//                    }else if(ts.getStatussafra_idstatussafra() == 2){
+//                        ts.setStatussafra_idstatussafra(4);
+//                    }else if(ts.getStatussafra_idstatussafra() == 3){
+//                        ts.setStatussafra_idstatussafra(5);
+//                    }
+//
+//                    BOFactory.editar(new DAOSafra(), ts, metodo);
+//                   
+//                }else{
+//
+//                    teste = formatar.format(datarecebimento.getTime()); 
+//                }
+//        }catch(Exception e){
+//            teste = "Erro em verificar a safra colheita - "+ e;
+//        }
+//
+//        return teste;  
+//    }
+//
+//    private String verificarPrazoDestinacao(TOSafra ts, String metodo) {
+//        String teste = null;
+//
+//        try{
+//            SimpleDateFormat formatar = new SimpleDateFormat("dd/MM/yyyy");
+//        
+//            Calendar datarecebimento = Calendar.getInstance();
+//            Calendar diaAtual = Calendar.getInstance();
+//
+//            datarecebimento.setTime(formatar.parse(ts.getDatareceb()));
+//
+//            datarecebimento.add(Calendar.DATE, +ts.getTempodestinacao());
+//
+//
+//
+//            if(datarecebimento.getTimeInMillis() < diaAtual.getTimeInMillis()){
+//                teste = "expirada";
+//                //atualiza o status da safra
+//                        
+//                if(ts.getStatussafra_idstatussafra() == 4){
+//                    ts.setStatussafra_idstatussafra(7);
+//                }else if(ts.getStatussafra_idstatussafra() == 5){
+//                    ts.setStatussafra_idstatussafra(6);
+//                }
+//                BOFactory.editar(new DAOSafra(), ts, metodo);
+//                ////
+//            }else{
+//
+//                teste = formatar.format(datarecebimento.getTime());
+//            }
+//        }catch(Exception e){
+//            teste = "Erro em verificar a safra destinacao - "+ e;
+//        
+//        }
+//        return teste;
+//    }
 
 //    @Override
 //    public JSONArray backupentrevista(Connection c, TOBase t) throws Exception {
