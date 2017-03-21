@@ -8,14 +8,6 @@ package servicos;
 import bo.BOFactory;
 import dao.DAOLogin;
 import dao.DAOOutrosIDNome;
-import dao.DAOSessao;
-import java.math.BigInteger;
-import java.security.SecureRandom;
-import java.util.AbstractList;
-import java.util.ArrayList;
-import static java.util.Collections.list;
-import java.util.Date;
-import java.util.List;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.core.Context;
@@ -28,7 +20,6 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import to.TOLogin;
 import to.TOOutrosIDNome;
-import to.TOSessao;
 
 /**
  * REST Web Service
@@ -68,34 +59,16 @@ public class ServicosOutros {
             to.setSenha(k.getString("senha"));
             
             
-            to = (TOLogin) BOFactory.get(new DAOLogin(), to, k.getString("metodo"));
+            to = (TOLogin) BOFactory.buscar(new DAOLogin(), to, k.getString("metodo"));
             
             if(to == null){
                 j.put("sucesso", false);
                 j.put("mensagem", "Usuário ou senha incorretos!");
             }else{
-                //gera um idsessao e cria um novo registro
-//                TOSessao ts = new TOSessao();
-//                SecureRandom random = new SecureRandom();     
-//        
-//                ts.setLogin_usuario(to.getUsuario());
-//                ts.setDatarequisicao(new Date().toString());
-//                ts.setSessao(new BigInteger(130, random).toString(32));
-//                
-//                
-//             
-//                //salva uma nova sessao no banco de dados
-//                BOFactory.inserir(new DAOSessao(), ts, k.getString("metodo"));
-                
-                //atribui o valor da nova sessao para o retorno
-//                to.setSessao(ts.getSessao());
-                //retorna valores do login
-                j.put("data", to.getJson("VALIDACAO"));
+
+                j.put("data", to.buscarJson("VALIDACAO"));
                 j.put("sucesso", true);
-                //retorna a data de login que espirará em um tempo determinado
-                //j.put("logTempo", ((730 * Float.parseFloat(getData("M"))) - (730 - (Float.parseFloat(getData("d"))*24)))+168 );
-                
-                
+
             }
         }catch (Exception e){
             j.put("sucesso", false);
@@ -155,7 +128,6 @@ public class ServicosOutros {
    
   
    
-//   @RolesAllowed("agricultores")
    @GET
    @Path("testeget")  
 //   @Consumes(MediaType.APPLICATION_JSON)

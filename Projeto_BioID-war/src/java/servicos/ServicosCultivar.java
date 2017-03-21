@@ -61,13 +61,13 @@ public class ServicosCultivar {
                 //comeca a requisicao
                 TOCultivar p = new TOCultivar();
                 p.setIdcultivar(k.getLong("idcultivar"));
-                p = (TOCultivar) BOFactory.get(new DAOCultivar(), p, k.getString("metodo"));
+                p = (TOCultivar) BOFactory.buscar(new DAOCultivar(), p, k.getString("metodo"));
                 if(p == null){
                     j.put("sucesso", false);
 //                    j.put("sessao", sessao);
                     j.put("mensagem", "Cultivar não encontrado");
                 }else{
-                    j.put("data", p.getJson(k.getString("metodo")));
+                    j.put("data", p.buscarJson(k.getString("metodo")));
 //                    j.put("sessao", sessao);
                     j.put("sucesso", true);
                 }           
@@ -160,7 +160,7 @@ public class ServicosCultivar {
                 t.setBiofortificado(k.getBoolean("biofortificado"));
 
                 //se nao existe o cultivar no sistema, pelo nome e por ser biofortificado
-                if(BOFactory.get(new DAOCultivar(), t, "GET_NOME") == null){
+                if(BOFactory.buscar(new DAOCultivar(), t, "GET_NOME") == null){
                     t.setImagem(k.getString("imagem"));
                     t.setDescricao(k.getString("descricao"));
                     t.setUnidademedida_idunidademedida(k.getLong("unidademedida_idunidademedida"));
@@ -295,7 +295,7 @@ public class ServicosCultivar {
                 te.setCultivar_idcultivar(k.getLong("idcultivar"));
                 
                 //verifica a quantidade e diminui quantidade do cultivar na unidade
-                te  = (TOEstoque) BOFactory.get(new DAOEstoque(), te, k.getString("metodo"));
+                te  = (TOEstoque) BOFactory.buscar(new DAOEstoque(), te, k.getString("metodo"));
                
                 //quantidade em precisao aredondada
                 BigDecimal bd = new BigDecimal(te.getQuantidade()).setScale(2, RoundingMode.HALF_EVEN);

@@ -82,7 +82,7 @@ public class ServicosAgricultor {
                 
 //                
                 
-                p = (TOPessoa) BOFactory.get(new DAOPessoa(), p, k.getString("metodo"));
+                p = (TOPessoa) BOFactory.buscar(new DAOPessoa(), p, k.getString("metodo"));
                 
                 
                 if(p == null){
@@ -90,7 +90,7 @@ public class ServicosAgricultor {
                     j.put("mensagem", k.getString("metodo")+" não encontrado");
 //                    j.put("sessao", sessao);
                 }else{
-                    j.put("data", p.getJson(k.getString("metodo")));
+                    j.put("data", p.buscarJson(k.getString("metodo")));
 //                    j.put("sessao", sessao);
                     j.put("sucesso", true);
                 }
@@ -413,12 +413,12 @@ public class ServicosAgricultor {
                 t.setCpf(k.getString("cpf"));
 
                 //se nao existe cpf cadastrado no banco, prosegue o cadastro
-                if(BOFactory.get(new DAOPessoa(), t, "GET_POR_CPF") == null ){
+                if(BOFactory.buscar(new DAOPessoa(), t, "GET_POR_CPF") == null ){
                     TOLogin tl = new TOLogin();
 
                     tl.setUsuario(k.getString("usuario_login"));
                     //teste se existe o usuario cadastrado
-                    if(BOFactory.get(new DAOLogin(), tl, "GET_POR_USUARIO") == null ){
+                    if(BOFactory.buscar(new DAOLogin(), tl, "GET_POR_USUARIO") == null ){
                         long idGeradoPessoa;
                         long idGeradoEndereco;
                         TOEndereco te = new TOEndereco();
@@ -544,7 +544,7 @@ public class ServicosAgricultor {
                 //comeca a requisicao
                 TOPessoa t = new TOPessoa();
 
-                t = (TOPessoa) BOFactory.get(new DAOPessoa(), t, k.getString("metodo"));
+                t = (TOPessoa) BOFactory.buscar(new DAOPessoa(), t, k.getString("metodo"));
                 if(t == null){
                     j.put("sucesso", false);
                     j.put("mensagem", "Usuário não encontrado");
@@ -592,7 +592,7 @@ public class ServicosAgricultor {
                 TOPessoa to = new TOPessoa();
                 //to.setId(id);
 
-                to = (TOPessoa) BOFactory.get(new DAOPessoa(), to, k.getString("metodo"));
+                to = (TOPessoa) BOFactory.buscar(new DAOPessoa(), to, k.getString("metodo"));
 
                 if(to == null){
                     j.put("sucesso", false);

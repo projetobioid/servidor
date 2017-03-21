@@ -84,8 +84,12 @@
             <!--servicos cultivares-->
             <url-pattern>/servico/cultivar/distribuir</url-pattern>
             <url-pattern>/servico/cultivar/buscar</url-pattern>
+            <!--servicos safra-->
+            <url-pattern>/servico/safra/listar</url-pattern>
             <!--servicos propriedades-->
             <url-pattern>/servico/propriedade/listar</url-pattern>
+            <url-pattern>/servico/propriedade/buscar</url-pattern>
+            <url-pattern>/servico/propriedade/backup</url-pattern>
         </web-resource-collection>
         <auth-constraint>
             <role-name>entrevistador-role</role-name>

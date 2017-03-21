@@ -7,7 +7,6 @@ package servicos;
 
 import bo.BOFactory;
 import dao.DAOSafra;
-import fw.VerificarSessao;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.Produces;
@@ -50,12 +49,12 @@ public class ServicosSafra {
                 //comeca a requisicao
                 TOSafra p = new TOSafra();
                 p.setIdsafra(k.getLong("idsafra"));
-                p = (TOSafra) BOFactory.get(new DAOSafra(), p, k.getString("metodo"));
+                p = (TOSafra) BOFactory.buscar(new DAOSafra(), p, k.getString("metodo"));
                 if(p == null){
                     j.put("sucesso", false);
                     j.put("mensagem", "Safra não encontrado");
                 }else{
-                    j.put("data", p.getJson(k.getString("metodo")));
+                    j.put("data", p.buscarJson(k.getString("metodo")));
                     j.put("sucesso", true);
                 }           
                 
@@ -117,10 +116,47 @@ public class ServicosSafra {
         return j.toString();
     } 
     
+  
     
     
     
     
+    
+     @Path("backupentrevista")
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public String backupentrevista(String dataJson) throws Exception{
+        
+        JSONObject j = new JSONObject();
+        JSONObject k = new JSONObject(dataJson);
+        
+        try{
+
+                
+                TOSafra to = new TOSafra();
+         
+                to.setPropriedade_idpropriedade(k.getLong("idpropriedade"));
+             
+                JSONArray ja = BOFactory.listar(new DAOSafra(),to , k.getString("metodo")) ;
+
+                if(ja.length() > 0){
+                    j.put("data", ja);
+                    j.put("sucesso", true);
+
+                }else{
+                    j.put("sucesso", false);
+                    j.put("mensagem", "Propriedade não contém distribuição de cultivares!");
+
+                }
+
+        }catch(Exception e){
+            j.put("sucesso", false);
+            j.put("mensagem", e.getMessage());
+        }
+        
+        return j.toString();
+    } 
     
     
     

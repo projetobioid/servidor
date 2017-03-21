@@ -61,14 +61,14 @@ public class ServicosUnidade {
                 //comeca a requisicao
                 TOUnidade p = new TOUnidade();
                 p.setIdunidade(k.getLong("idunidade"));
-                p = (TOUnidade) BOFactory.get(new DAOUnidade(), p, k.getString("metodo"));
+                p = (TOUnidade) BOFactory.buscar(new DAOUnidade(), p, k.getString("metodo"));
 
                 if(p == null){
                     j.put("sucesso", false);
 //                    j.put("sessao", sessao);
                     j.put("mensagem", "Unidade não encontrada");
                 }else{
-                    j.put("data", p.getJson(k.getString("metodo")));
+                    j.put("data", p.buscarJson(k.getString("metodo")));
 //                    j.put("sessao", sessao);
                     j.put("sucesso", true);
                 }
@@ -107,7 +107,7 @@ public class ServicosUnidade {
                 t.setCnpj(k.getString("cnpj"));
 
                 //teste se existe a unidade cadastrada, senao cadastra
-                if(BOFactory.get(new DAOUnidade(), t, "GET_POR_CNPJ")== null){
+                if(BOFactory.buscar(new DAOUnidade(), t, "GET_POR_CNPJ")== null){
                     //objeto TOEndereco
                     TOEndereco te = new TOEndereco();
                     te.setCidade_idcidade(k.getLong("cidade_idcidade"));

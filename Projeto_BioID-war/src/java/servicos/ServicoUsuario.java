@@ -117,12 +117,12 @@ public class ServicoUsuario {
                 t.setCpf(k.getString("cpf"));
 
                 //se nao existe cpf cadastrado no banco, prosegue o cadastro
-                if(BOFactory.get(new DAOPessoa(), t, "GET_POR_CPF") == null ){
+                if(BOFactory.buscar(new DAOPessoa(), t, "GET_POR_CPF") == null ){
                     TOLogin tl = new TOLogin();
 
                     tl.setUsuario(k.getString("usuario_login"));
                     //teste se existe o usuario cadastrado
-                    if(BOFactory.get(new DAOLogin(), tl, "DEFAULT") == null ){
+                    if(BOFactory.buscar(new DAOLogin(), tl, "DEFAULT") == null ){
                         long idGerado;
                         TOEndereco te = new TOEndereco();
                         
@@ -228,7 +228,7 @@ public class ServicoUsuario {
                 
 //                
                 
-                p = (TOPessoa) BOFactory.get(new DAOPessoa(), p, k.getString("metodo"));
+                p = (TOPessoa) BOFactory.buscar(new DAOPessoa(), p, k.getString("metodo"));
                 
                 
                 if(p == null){
@@ -236,7 +236,7 @@ public class ServicoUsuario {
                     j.put("mensagem", k.getString("metodo")+" não encontrado");
 //                    j.put("sessao", sessao);
                 }else{
-                    j.put("data", p.getJson(k.getString("metodo")));
+                    j.put("data", p.buscarJson(k.getString("metodo")));
 //                    j.put("sessao", sessao);
                     j.put("sucesso", true);
                 }

@@ -62,14 +62,14 @@ public class ServicosEstoque {
                 TOEstoque te = new TOEstoque();
                 te.setCultivar_idcultivar(k.getLong("idcultivar"));
                 te.setUnidade_idunidade(k.getLong("idunidade"));
-                te = (TOEstoque) BOFactory.get(new DAOEstoque(), te, k.getString("metodo"));
+                te = (TOEstoque) BOFactory.buscar(new DAOEstoque(), te, k.getString("metodo"));
 
                 if(te == null){
                     j.put("sucesso", false);
 //                    j.put("sessao", sessao);
                     j.put("mensagem", "Cultivar não encontrado no estoque!");
                 }else{
-                    j.put("data", te.getJson(k.getString("metodo")));
+                    j.put("data", te.buscarJson(k.getString("metodo")));
 //                    j.put("sessao", sessao);
                     j.put("sucesso", true);
                 }
@@ -164,7 +164,7 @@ public class ServicosEstoque {
                 //entrada de estoque
                     
                 //busca se existe o cultivar no estoque
-                te = (TOEstoque) BOFactory.get(new DAOEstoque(), te, "DEFAULT");
+                te = (TOEstoque) BOFactory.buscar(new DAOEstoque(), te, "DEFAULT");
 
                 //se nao existe cria uma nova entrada
                 if(te == null){
@@ -244,7 +244,7 @@ public class ServicosEstoque {
                 //saida de estoque
                 
                     
-                te = (TOEstoque) BOFactory.get(new DAOEstoque(), te, k.getString("metodo"));
+                te = (TOEstoque) BOFactory.buscar(new DAOEstoque(), te, k.getString("metodo"));
 
                 te.setQuantidade(te.getQuantidade() - k.getDouble("qtd"));
                 BOFactory.editar(new DAOEstoque(), te, "default");
