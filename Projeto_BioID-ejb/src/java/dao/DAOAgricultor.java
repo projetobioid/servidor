@@ -46,7 +46,7 @@ public class DAOAgricultor extends DAOBase{
     
     
     @Override
-    public TOBase get(Connection c, TOBase t, String metodo) throws Exception {
+    public TOBase buscar(Connection c, TOBase t, String metodo) throws Exception {
         String sql = "SELECT a.pessoa_idpessoa, a.qtdintegrantes, a.qtdcriancas, a.qtdgravidas, e.descricao as estadocivil, es.descricao as escolaridade, p.nome, p.sobrenome, p.apelido, p.cpf, p.rg, p.datanascimento, p.sexo, p.telefone1, p.telefone2, p.email "
                 + "FROM agricultor a "
                 + "INNER JOIN pessoa p ON(p.idpessoa = a.pessoa_idpessoa) "

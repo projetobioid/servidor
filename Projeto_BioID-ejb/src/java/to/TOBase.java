@@ -14,7 +14,7 @@ public class TOBase {
     //mas nescessario para as outras entidades retornarem
 
         
-    public JSONObject getJson(String metodo) throws Exception{
+    public JSONObject buscarJson(String metodo) throws Exception{
         return null;
     }
     

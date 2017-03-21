@@ -122,7 +122,7 @@ public class TOLogin extends TOBase{
     }
 
     @Override
-    public JSONObject getJson(String metodo) throws Exception {
+    public JSONObject buscarJson(String metodo) throws Exception {
         //variavel para retorno do json contendo as informacoes do login
         JSONObject j = new JSONObject();
         
@@ -132,7 +132,6 @@ public class TOLogin extends TOBase{
                 j.put("usuario", usuario);
                 j.put("nome", nome);
                 j.put("idunidade", String.valueOf(unidade_idunidade));
-//                j.put("sessao", sessao);
                 j.put("grupo", grupo);
                 break;
             case "GET_POR_USUARIO":

@@ -48,7 +48,7 @@ public class DAOUnidade extends DAOBase{
     }
 
     @Override
-    public TOBase get(Connection c, TOBase t, String metodo) throws Exception {
+    public TOBase buscar(Connection c, TOBase t, String metodo) throws Exception {
          
                 //+ "where LOWER(nomeunidade) = LOWER(?) OR cnpj = ?";
         
@@ -132,7 +132,7 @@ public class DAOUnidade extends DAOBase{
                 
                 TOUnidade tu = new TOUnidade(rs, metodo);
                 
-                ja.put(tu.getJson(metodo));
+                ja.put(tu.buscarJson(metodo));
             }
         }finally{
             rs.close();

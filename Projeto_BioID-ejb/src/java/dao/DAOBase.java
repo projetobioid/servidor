@@ -23,6 +23,9 @@ public class DAOBase {
     
     public long inserir(Connection c, TOBase t, String metodo) throws Exception{
         return this.idretorno;
+    }
+    
+    public void inserir(Connection c, TOBase t) throws Exception{
     }    
     
     public void inserirIDString(Connection c, TOBase t) throws Exception{
@@ -34,7 +37,7 @@ public class DAOBase {
     public void excluir(Connection c, TOBase t, String metodo) throws Exception{
     }
     
-    public TOBase get(Connection c, TOBase t, String metodo) throws Exception{
+    public TOBase buscar(Connection c, TOBase t, String metodo) throws Exception{
         return null;
     }
         

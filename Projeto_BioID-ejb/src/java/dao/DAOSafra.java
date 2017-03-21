@@ -6,12 +6,9 @@
 package dao;
 
 import fw.Data;
-import bo.BOFactory;
 import java.sql.Connection;
 import java.sql.ResultSet;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 import org.json.JSONArray;
 import to.TOBase;
@@ -80,7 +77,7 @@ public class DAOSafra extends DAOBase{
     }
 
     @Override
-    public TOBase get(Connection c, TOBase t, String metodo) throws Exception {
+    public TOBase buscar(Connection c, TOBase t, String metodo) throws Exception {
         String sql = null;
         List<Object> u = new ArrayList<Object>();
         ResultSet rs = null;
@@ -146,6 +143,13 @@ public class DAOSafra extends DAOBase{
 
                     u.add(((TOSafra) t).getPropriedade_idpropriedade());
                     break;
+                case "BACKUP_ENTREVISTA":
+                    sql = "SELECT s.idsafra, s.safra, c.nomecultivar, s.qtdrecebida, s.propriedade_idpropriedade, s.datareceb, um.grandeza FROM safra s "
+                            + "INNER JOIN cultivar c ON(c.idcultivar = s.cultivar_idcultivar) "
+                            + "INNER JOIN unidademedida um ON(um.idunidademedida = c.unidademedida_idunidademedida) "
+                            + "WHERE s.propriedade_idpropriedade IN(?) AND s.status_entrevistador IN(9)";
+                    u.add(((TOSafra)t).getPropriedade_idpropriedade());
+                    break;
                 default:
                     sql = "SELECT s.idsafra, s.statussafra_idstatussafra, s.safra, s.datareceb, s.qtdrecebida,"
                         + " (select SUM(d.qtddestinada) AS qtddestinada FROM destinacao d WHERE d.safra_idsafra IN(s.idsafra)),"
@@ -196,7 +200,7 @@ public class DAOSafra extends DAOBase{
                 
                 
 //                ja.put(((TOSafra)t).getJson(metodo));
-                ja.put(ts.getJson(metodo));
+                ja.put(ts.buscarJson(metodo));
             }
             
                         

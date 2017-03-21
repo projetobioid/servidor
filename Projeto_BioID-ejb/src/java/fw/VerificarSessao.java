@@ -23,7 +23,7 @@ public class VerificarSessao {
         ts.setLogin_usuario(usuario);
         ts.setSessao(sessao);
 
-        ts = (TOSessao) BOFactory.get(new DAOSessao(), ts, "get_sessao");
+        ts = (TOSessao) BOFactory.buscar(new DAOSessao(), ts, "get_sessao");
 
 
 

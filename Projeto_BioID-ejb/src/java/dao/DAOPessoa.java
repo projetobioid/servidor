@@ -98,7 +98,7 @@ public class DAOPessoa extends DAOBase{
     }
 
     @Override
-    public TOBase get(Connection c, TOBase t, String metodo) throws Exception {
+    public TOBase buscar(Connection c, TOBase t, String metodo) throws Exception {
         ResultSet rs = null;
         String sql = null;
 //        TOPessoa to = (TOPessoa)t;
@@ -250,7 +250,7 @@ public class DAOPessoa extends DAOBase{
             
             while (rs.next()){
                 TOPessoa ts = new TOPessoa(rs, metodo);
-                ja.put(ts.getJson(metodo));
+                ja.put(ts.buscarJson(metodo));
             }
             
                         

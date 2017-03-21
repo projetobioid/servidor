@@ -82,7 +82,7 @@ public class DAOCultivar extends DAOBase {
     } 
 
     @Override
-    public TOBase get(Connection c, TOBase t, String metodo) throws Exception {
+    public TOBase buscar(Connection c, TOBase t, String metodo) throws Exception {
         String sql = null;
                 
         ResultSet rs = null;
@@ -140,7 +140,7 @@ public class DAOCultivar extends DAOBase {
                     rs = Data.executeQuery(c, sql);
                     while (rs.next()){
                         TOCultivar tc = new TOCultivar(rs, metodo);
-                        ja.put(tc.getJson(metodo));
+                        ja.put(tc.buscarJson(metodo));
                     }
                     break;
 //                case "bio":
@@ -167,7 +167,7 @@ public class DAOCultivar extends DAOBase {
                     rs = Data.executeQuery(c, sql, u);
                     while (rs.next()){
                         TOCultivar tc = new TOCultivar(rs, metodo);
-                        ja.put(tc.getJson(metodo));
+                        ja.put(tc.buscarJson(metodo));
                     }   break;
                 case "estoqueunidade":
                     sql = "SELECT e.cultivar_idcultivar, c.nomecultivar, e.quantidade, u.grandeza FROM estoque e "
@@ -180,7 +180,7 @@ public class DAOCultivar extends DAOBase {
                     //popula uma lista com os resultados
                     while (rs.next()){
                         TOEstoque tc = new TOEstoque(rs, metodo);
-                        ja.put(tc.getJson(metodo));
+                        ja.put(tc.buscarJson(metodo));
                     }   break;
                 case "estoqueunidade_select":
                     sql = "SELECT e.cultivar_idcultivar, c.nomecultivar FROM estoque e "
@@ -192,7 +192,7 @@ public class DAOCultivar extends DAOBase {
                     //popula uma lista com os resultados
                     while (rs.next()){
                         TOEstoque tc = new TOEstoque(rs, metodo);
-                        ja.put(tc.getJson(metodo));
+                        ja.put(tc.buscarJson(metodo));
                     }   break;
                 default:
                     break;

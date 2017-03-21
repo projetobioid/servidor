@@ -22,7 +22,7 @@ public class DAOEstoque extends DAOBase{
 
     
     @Override
-    public TOBase get(Connection c, TOBase t, String metodo) throws Exception {
+    public TOBase buscar(Connection c, TOBase t, String metodo) throws Exception {
 
         
         ResultSet rs = null;
@@ -150,7 +150,7 @@ public class DAOEstoque extends DAOBase{
             
             while (rs.next()){
                 TOEstoque tc = new TOEstoque(rs, metodo);
-                ja.put(tc.getJson(metodo));
+                ja.put(tc.buscarJson(metodo));
             }
             
         }finally{

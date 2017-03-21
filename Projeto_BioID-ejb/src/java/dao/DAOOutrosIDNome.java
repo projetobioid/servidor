@@ -50,7 +50,7 @@ public class DAOOutrosIDNome extends DAOBase{
             
             while (rs.next()){
                 TOOutrosIDNome ts = new TOOutrosIDNome(rs, metodo);
-                ja.put(ts.getJson(metodo));
+                ja.put(ts.buscarJson(metodo));
             }
             
                         

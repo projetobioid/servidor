@@ -84,7 +84,7 @@ public class TODestinacao extends TOBase{
     }
     
     @Override
-    public JSONObject getJson(String metodo) throws Exception {
+    public JSONObject buscarJson(String metodo) throws Exception {
          //variavel para retorno do json contendo as informacoes do produto
         JSONObject j = new JSONObject();
         

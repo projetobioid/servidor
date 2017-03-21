@@ -77,7 +77,7 @@ public class DAOSessao extends DAOBase{
     
     
     @Override
-    public TOBase get(Connection c, TOBase t, String metodo) throws Exception {
+    public TOBase buscar(Connection c, TOBase t, String metodo) throws Exception {
          //string com o comando sql para editar o banco de dados
         String sql = null;
         

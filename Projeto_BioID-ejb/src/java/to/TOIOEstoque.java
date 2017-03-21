@@ -97,7 +97,7 @@ public class TOIOEstoque extends TOBase{
     }
 
     @Override
-    public JSONObject getJson(String metodo) throws Exception {
+    public JSONObject buscarJson(String metodo) throws Exception {
         JSONObject j = new JSONObject();
         
         switch(metodo){

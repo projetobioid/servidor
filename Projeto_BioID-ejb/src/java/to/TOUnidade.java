@@ -201,7 +201,7 @@ public class TOUnidade extends TOBase{
 
     //retorna um json
     @Override
-    public JSONObject getJson(String metodo) throws Exception {
+    public JSONObject buscarJson(String metodo) throws Exception {
         //variavel tipo json para retornar no metodo
         JSONObject j = new JSONObject();
         

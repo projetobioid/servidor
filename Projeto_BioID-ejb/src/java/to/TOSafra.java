@@ -190,13 +190,13 @@ public class TOSafra extends TOBase {
     public TOSafra(ResultSet rs, String metodo) throws Exception{
         
         switch(metodo){
-            case "backup_entrevista":
+            case "BACKUP_ENTREVISTA":
                 this.propriedade_idpropriedade = rs.getLong("propriedade_idpropriedade");
                 this.idsafra = rs.getLong("idsafra");
                 this.safra = rs.getString("safra");
                 this.nomecultivar = rs.getString("nomecultivar");
                 this.qtdrecebida = rs.getFloat("qtdrecebida");
-                this.grandeza = rs.getString("grandeza_recebida");
+                this.grandeza = rs.getString("grandeza");
                 this.datareceb = rs.getString("datareceb");
                 break;
             case "CULTIVARES_RECEBIDOS":
@@ -252,20 +252,21 @@ public class TOSafra extends TOBase {
 
     
     @Override
-    public JSONObject getJson(String metodo) throws Exception {
+    public JSONObject buscarJson(String metodo) throws Exception {
          //variavel para retorno do json contendo as informacoes do produto
         JSONObject j = new JSONObject();
 
         switch(metodo){
-            case "backup_entrevista":
+            case "BACKUP_ENTREVISTA":
+                BigDecimal be = new BigDecimal(qtdrecebida).setScale(2, RoundingMode.HALF_EVEN);
+                
                 j.put("idcultivar", cultivar_idcultivar);
                 j.put("nomecultivar", nomecultivar);
                 j.put("safra", safra);
-                
-                j.put("qtdrecebida", qtdrecebida);
+                j.put("qtdrecebida", be.doubleValue());
                 j.put("datareceb", datareceb);
-                j.put("grandeza_recebida", grandeza);
-                
+                j.put("grandeza", grandeza);
+                j.put("idpropriedade", propriedade_idpropriedade);
                 break;
             case "GET_POR_IDSAFRA":
                 BigDecimal bc = new BigDecimal(qtdrecebida).setScale(2, RoundingMode.HALF_EVEN);
@@ -292,6 +293,7 @@ public class TOSafra extends TOBase {
                 break;
             case "NAO_RELATADAS":
                 BigDecimal bd = new BigDecimal(qtdrecebida).setScale(2, RoundingMode.HALF_EVEN);
+                
                 
                 j.put("idsafra", idsafra);
                 j.put("idcultivar", cultivar_idcultivar);

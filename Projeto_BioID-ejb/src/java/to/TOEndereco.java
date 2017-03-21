@@ -152,7 +152,7 @@ public class TOEndereco extends TOBase{
 
     
     @Override
-    public JSONObject getJson(String metodo) throws Exception {
+    public JSONObject buscarJson(String metodo) throws Exception {
         //variavel tipo json para retornar no metodo
         JSONObject j = new JSONObject();
         

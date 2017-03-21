@@ -27,6 +27,17 @@ public class BOFactory {
         }
     }
     
+    public static void inserir(DAOBase d, TOBase t) throws Exception{
+        Connection c = null;
+        
+        try{
+            c =  Data.openConnection();
+            d.inserir(c, t);
+        }finally{
+            c.close();
+        }
+    }
+    
     public static void inserirIDString(DAOBase d, TOBase t) throws Exception{
         Connection c = null;
         
@@ -62,13 +73,13 @@ public class BOFactory {
     }
     
     
-    public static TOBase get(DAOBase d, TOBase t, String metodo) throws Exception{
+    public static TOBase buscar(DAOBase d, TOBase t, String metodo) throws Exception{
         Connection c = null;
         
         try{
             c =  Data.openConnection();
             
-            return d.get(c, t, metodo);
+            return d.buscar(c, t, metodo);
         }finally{
             c.close();
         }

@@ -70,7 +70,7 @@ public class DAOHistoricoColheita extends DAOBase{
             
             while (rs.next()){
                 TOHistoricoColheita ts = new TOHistoricoColheita(rs, metodo);
-                ja.put(ts.getJson(metodo));
+                ja.put(ts.buscarJson(metodo));
                 
             }
             
@@ -82,7 +82,7 @@ public class DAOHistoricoColheita extends DAOBase{
     }
 
     @Override
-    public TOBase get(Connection c, TOBase t, String metodo) throws Exception {
+    public TOBase buscar(Connection c, TOBase t, String metodo) throws Exception {
          //string com o comando sql para editar o banco de dados
         
         
