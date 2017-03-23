@@ -5,9 +5,6 @@
  */
 package to;
 
-import java.sql.ResultSet;
-import org.json.JSONObject;
-
 /**
  *
  * @author daniel
@@ -54,42 +51,8 @@ public class TOSessao extends TOBase{
         this.datarequisicao = datarequisicao;
     }
 
-
     public TOSessao() {
     }
 
-    
-    public TOSessao(ResultSet rs, String metodo) throws Exception{
-        
-        switch(metodo){
-            case "get_sessao":
-                //retorna sessao antiga
-                this.idsessao = rs.getLong("idsessao");
-                this.login_usuario = rs.getString("login_usuario");
-                this.sessao = rs.getString("sessao");
-                this.datarequisicao = rs.getString("datarequisicao");
-                
-                
-                break;
-        }
-        
-       
-    }
-    
-//    @Override
-//    public JSONObject getJson(String metodo) throws Exception {
-//         //variavel para retorno do json contendo as informacoes do login
-//        JSONObject j = new JSONObject();
-//        
-//        //populando o objeto j
-//        j.put("idsessao", idsessao);
-//        j.put("usuario", login_usuario);
-//        j.put("sessao", sessao);
-//        j.put("datarequisicao", datarequisicao);
-//        
-//        return j;
-//    }
-
-   
     
 }

@@ -5,30 +5,17 @@
  */
 package to;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-import java.sql.ResultSet;
-import org.json.JSONObject;
-
 /**
  *
  * @author daniel
  */
 public class TOEstoque extends TOBase{
+    
     private long unidade_idunidade;
     
     private long cultivar_idcultivar;
     
     private double quantidade;
-    
-    
-    //amostragem
-    private String grandeza;
-//    
-//    private String imagem;
-//    
-    private String nomecultivar;
-    
 
     public long getUnidade_idunidade() {
         return unidade_idunidade;
@@ -54,97 +41,7 @@ public class TOEstoque extends TOBase{
         this.quantidade = quantidade;
     }
 
-    public String getGrandeza() {
-        return grandeza;
-    }
-
-    public void setGrandeza(String grandeza) {
-        this.grandeza = grandeza;
-    }
-//
-//    public String getImagem() {
-//        return imagem;
-//    }
-//
-//    public void setImagem(String imagem) {
-//        this.imagem = imagem;
-//    }
-//
-    public String getNomecultivar() {
-        return nomecultivar;
-    }
-
-    public void setNomecultivar(String nomecultivar) {
-        this.nomecultivar = nomecultivar;
-    }
-
-    
-    
     public TOEstoque() {
-    }
-
-
-    public TOEstoque (ResultSet rs, String metodo) throws Exception{
-        switch (metodo) {
-            case "TODOS":
-            case "estoqueunidade_select":
-                this.quantidade = rs.getDouble("quantidade");
-                this.nomecultivar = rs.getString("nomecultivar");
-                this.cultivar_idcultivar = rs.getLong("cultivar_idcultivar");
-                this.grandeza = rs.getString("grandeza");
-                break;
-            //retorna toda a classe
-            case "GET_CULTIVAR":
-                this.unidade_idunidade = rs.getLong("unidade_idunidade");
-                this.cultivar_idcultivar = rs.getLong("cultivar_idcultivar");
-                this.quantidade = rs.getFloat("quantidade");
-                this.grandeza = rs.getString("grandeza");
-                break;
-            default:
-                this.unidade_idunidade = rs.getLong("unidade_idunidade");
-                this.cultivar_idcultivar = rs.getLong("cultivar_idcultivar");
-                this.quantidade = rs.getFloat("quantidade");
-                break;
-        }
-
-    }
-
-    
-    
-    @Override
-    public JSONObject buscarJson(String metodo) throws Exception {
-        JSONObject j = new JSONObject();
-        switch (metodo) {
-            case "TODOS":
-            case "estoqueunidade_select":
-                j.put("grandeza", grandeza);
-                BigDecimal bd = new BigDecimal(quantidade).setScale(2, RoundingMode.HALF_EVEN);
-                j.put("quantidade", bd.doubleValue());
-                j.put("nomecultivar", nomecultivar);
-                j.put("idcultivar", cultivar_idcultivar);
-                break;
-            case "distribuircultivar":
-                BigDecimal bd1 = new BigDecimal(quantidade).setScale(2, RoundingMode.HALF_EVEN);
-                j.put("quantidade", bd1.doubleValue());
-                break;
-            case "GET_CULTIVAR":
-                j.put("unidade_idunidade", unidade_idunidade);
-                j.put("cultivar_idcultivar", cultivar_idcultivar);
-                BigDecimal bd2 = new BigDecimal(quantidade).setScale(2, RoundingMode.HALF_EVEN);
-                j.put("quantidade", bd2.doubleValue());
-                j.put("grandeza", grandeza);
-                break;
-            default:
-                j.put("unidade_idunidade", unidade_idunidade);
-                j.put("cultivar_idcultivar", cultivar_idcultivar);
-                BigDecimal bd3 = new BigDecimal(quantidade).setScale(2, RoundingMode.HALF_EVEN);
-                j.put("quantidade", bd3.doubleValue());
-                break;
-        }
-        
-        return j;
-                
-    } 
-    
+    }    
     
 }

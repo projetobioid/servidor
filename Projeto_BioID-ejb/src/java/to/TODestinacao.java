@@ -5,14 +5,12 @@
  */
 package to;
 
-import java.sql.ResultSet;
-import org.json.JSONObject;
-
 /**
  *
  * @author Aimee
  */
 public class TODestinacao extends TOBase{
+    
     private long iddestinacao;
     
     private long safra_idsafra;
@@ -62,42 +60,8 @@ public class TODestinacao extends TOBase{
     public void setQtddestinada(double qtddestinada) {
         this.qtddestinada = qtddestinada;
     }
-
-   
     
     public TODestinacao() {
     }
 
-
-    public TODestinacao(ResultSet rs, String metodo)throws Exception{
-        switch(metodo){
-            default:
-                this.datadestinada = rs.getString("");
-                this.iddestinacao = rs.getLong("");
-                this.qtddestinada = rs.getDouble("");
-                this.safra_idsafra = rs.getLong("");
-                this.tipodestinacao_idtipodestinacao = rs.getLong("");
-                break;
-            
-        }
-        
-    }
-    
-    @Override
-    public JSONObject buscarJson(String metodo) throws Exception {
-         //variavel para retorno do json contendo as informacoes do produto
-        JSONObject j = new JSONObject();
-        
-        switch(metodo){
-            default:
-            //populando o objeto j
-            j.put("iddestinacao", iddestinacao);
-            j.put("safrarelatada_safra_idsafra", safra_idsafra);
-            j.put("tipodestinacao_idtipodestinacao", tipodestinacao_idtipodestinacao);
-            j.put("datadestinada", datadestinada);
-            j.put("qtddestinada", qtddestinada);
-            break;
-        }
-        return j;
-    }
 }

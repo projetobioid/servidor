@@ -49,12 +49,12 @@ public class ServicosSafra {
                 //comeca a requisicao
                 TOSafra p = new TOSafra();
                 p.setIdsafra(k.getLong("idsafra"));
-                p = (TOSafra) BOFactory.buscar(new DAOSafra(), p, k.getString("metodo"));
-                if(p == null){
+                JSONObject data = BOFactory.buscar(new DAOSafra(), p, k.getString("metodo"));
+                if(data == null){
                     j.put("sucesso", false);
                     j.put("mensagem", "Safra não encontrado");
                 }else{
-                    j.put("data", p.buscarJson(k.getString("metodo")));
+                    j.put("data", data);
                     j.put("sucesso", true);
                 }           
                 

@@ -13,7 +13,8 @@ import dao.DAOLogin;
 import dao.DAOPessoa;
 import dao.DAOPropriedade;
 import dao.DAORelacaopa;
-import fw.VerificarSessao;
+import java.util.ArrayList;
+import java.util.List;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
@@ -58,45 +59,21 @@ public class ServicosAgricultor {
         JSONObject k = new JSONObject(dataJson);
         
         try{
-             //verifica  a sessao
-//            VerificarSessao vs = new VerificarSessao();
-//            String sessao = vs.VerificarSessao(k.getString("usuario"), k.getString("sessao"));
-//            
-//            if( sessao == null){
-//                j.put("sucesso", false);
-//                j.put("mensagem", "Sessao não encontrada!");
-//            }else{
-                //comeca a requisicao
+            
+            TOPessoa p = new TOPessoa();
                 
+            p.setIdpessoa(k.getLong("idpessoa"));
 
-                TOPessoa p = new TOPessoa();
-                
-                //testa se a busca vai ser por id, ou cpf/nome/rg
-                //if(k.getString("metodo").equals("buscaragricultorid")){
-               p.setIdpessoa(k.getLong("idpessoa"));
-                //}else{
-                   // p.setNome(k.getString("campo"));
-                    //p.setCpf(k.getString("campo"));
-                   // p.setRg(k.getString("campo"));  
-               // }
-                
-//                
-                
-                p = (TOPessoa) BOFactory.buscar(new DAOPessoa(), p, k.getString("metodo"));
-                
-                
-                if(p == null){
-                    j.put("sucesso", false);
-                    j.put("mensagem", k.getString("metodo")+" não encontrado");
-//                    j.put("sessao", sessao);
-                }else{
-                    j.put("data", p.buscarJson(k.getString("metodo")));
-//                    j.put("sessao", sessao);
-                    j.put("sucesso", true);
-                }
-      
-                        
-//            }
+            JSONObject data = BOFactory.buscar(new DAOPessoa(), p, k.getString("metodo"));
+
+            if(data == null){
+                j.put("sucesso", false);
+                j.put("mensagem", k.getString("metodo")+" não encontrado");
+            }else{
+                j.put("data", data);
+                j.put("sucesso", true);
+            }
+
         }catch(Exception e){
             j.put("sucesso", false);
             j.put("mensagem", e.getMessage());
@@ -120,43 +97,31 @@ public class ServicosAgricultor {
         JSONObject k = new JSONObject(dataJson);
         
         try{
-             //verifica  a sessao
-//            VerificarSessao vs = new VerificarSessao();
-//            String sessao = vs.VerificarSessao(k.getString("usuario"), k.getString("sessao"));
-//            
-//            if( sessao == null){
-//                j.put("sucesso", false);
-//                j.put("mensagem", "Sessao não encontrada!");
-//            }else{
-                //comeca a requisicao
-                
-                TOPessoa to = new TOPessoa();
-                
-                
-        
-                to.setIdunidade(k.getLong("idunidade"));
-                        
-                switch(k.getString("metodo")){
-                    case "INPUT_SELECT":
-                        to.setNome(k.getString("valor"));
-                        break;
-                }
-                
-                JSONArray ja = BOFactory.listar(new DAOPessoa(),to , k.getString("metodo")) ;
+            List<Object> u = new ArrayList<Object>();
 
-                if(ja.length() > 0){
-                    j.put("data", ja);
-                    j.put("sucesso", true);
-//                    j.put("sessao", sessao);
-                }else{
-                    j.put("sucesso", false);
-                    j.put("mensagem", "Sem agricultores cadastrados na unidade!");
-//                    j.put("sessao", sessao);
-                }
-//            }
+            u.add(k.getLong("idunidade"));
+       
+            switch(k.getString("metodo")){
+                case "INPUT_SELECT":
+                    u.add(k.getString("valor"));
+                    break;
+            }
+
+            JSONArray ja = BOFactory.listar(new DAOPessoa(), u, k.getString("metodo")) ;
+
+            if(ja != null){
+                j.put("data", ja);
+                j.put("sucesso", true);
+
+            }else{
+                j.put("sucesso", false);
+                j.put("mensagem", "Sem agricultores cadastrados na unidade!");
+
+            }
+
         }catch(Exception e){
             j.put("sucesso", false);
-            j.put("mensagem", e.getMessage());
+            j.put("mensagem", e.toString());
         }
         
         return j.toString();
@@ -413,7 +378,7 @@ public class ServicosAgricultor {
                 t.setCpf(k.getString("cpf"));
 
                 //se nao existe cpf cadastrado no banco, prosegue o cadastro
-                if(BOFactory.buscar(new DAOPessoa(), t, "GET_POR_CPF") == null ){
+                if(BOFactory.buscar(new DAOPessoa(), t) == null ){
                     TOLogin tl = new TOLogin();
 
                     tl.setUsuario(k.getString("usuario_login"));
@@ -435,7 +400,7 @@ public class ServicosAgricultor {
                         te.setCep(k.getString("cep"));
                         te.setNumero(k.getInt("numero"));
                         //salva o endereco no banco de dados
-                        idGeradoEndereco = BOFactory.inserir(new DAOEndereco(), te, "DEFAULT");
+                        idGeradoEndereco = BOFactory.inserir(new DAOEndereco(), te);
 
                         //tabela pessoa
                         t.setEndereco_idendereco(idGeradoEndereco);
@@ -451,7 +416,7 @@ public class ServicosAgricultor {
                         t.setTelefone2(k.getString("telefone2"));
                         t.setEmail(k.getString("email"));
                         //grava informacoes no banco de dados
-                        idGeradoPessoa = BOFactory.inserir(new DAOPessoa(), t, "DEFAULT");
+                        idGeradoPessoa = BOFactory.inserir(new DAOPessoa(), t);
 
                         //tabela login
                         tl.setPessoa_idpessoa(idGeradoPessoa);
@@ -472,7 +437,7 @@ public class ServicosAgricultor {
                         ta.setQtdCriancas(k.getInt("qtdCriancas"));
                         ta.setQtdGravidas(k.getInt("qtdGravidas"));
 
-                        BOFactory.inserir(new DAOAgricultor(), ta, "DEFAULT");
+                        BOFactory.inserir(new DAOAgricultor(), ta);
 
                         //tabela propriedade
                         tp.setEndereco_idendereco(idGeradoEndereco);
@@ -484,10 +449,10 @@ public class ServicosAgricultor {
                         tp.setUnidadedemedidaau(k.getLong("unidadedemedidaau"));
 
                         //tabela relacao agricultor propriedade
-                        trpa.setPropriedade_idpropriedade(BOFactory.inserir(new DAOPropriedade(), tp, "DEFAULT"));
+                        trpa.setPropriedade_idpropriedade(BOFactory.inserir(new DAOPropriedade(), tp));
                         trpa.setAgricultor_pessoa_idpessoa(idGeradoPessoa);
                         //grava no banco de dados a propriedade e popula a classe Relacaopa
-                        BOFactory.inserir(new DAORelacaopa(), trpa, "DEFAULT");
+                        BOFactory.inserir(new DAORelacaopa(), trpa);
                         
                         TOGrupos tg = new TOGrupos();
                         //tabela grupos
@@ -544,8 +509,7 @@ public class ServicosAgricultor {
                 //comeca a requisicao
                 TOPessoa t = new TOPessoa();
 
-                t = (TOPessoa) BOFactory.buscar(new DAOPessoa(), t, k.getString("metodo"));
-                if(t == null){
+                if(BOFactory.buscar(new DAOPessoa(), t, k.getString("metodo")) == null){
                     j.put("sucesso", false);
                     j.put("mensagem", "Usuário não encontrado");
                 }else{
@@ -553,7 +517,7 @@ public class ServicosAgricultor {
                    // t.setSenha(senha);
                     //t.setEmail(email);
 
-                    BOFactory.editar(new DAOPessoa(), t, k.getString("metodo"));
+                    BOFactory.editar(new DAOPessoa(), t);
 
                     j.put("sucesso", true);
 //                    j.put("sessao", sessao);
@@ -592,14 +556,12 @@ public class ServicosAgricultor {
                 TOPessoa to = new TOPessoa();
                 //to.setId(id);
 
-                to = (TOPessoa) BOFactory.buscar(new DAOPessoa(), to, k.getString("metodo"));
-
-                if(to == null){
+                if(BOFactory.buscar(new DAOPessoa(), to, k.getString("metodo")) == null){
                     j.put("sucesso", false);
                     j.put("messangem", "Usuário não encontrado");
 //                    j.put("sessao", sessao);
                 }else{
-                    BOFactory.excluir(new DAOPessoa(), to, k.getString("metodo"));
+                    BOFactory.excluir(new DAOPessoa(), to);
                     
                     
 //                    j.put("sessao", sessao);
@@ -617,6 +579,60 @@ public class ServicosAgricultor {
     }
     
 
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     
 }

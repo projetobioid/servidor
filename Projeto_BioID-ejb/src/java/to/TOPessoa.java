@@ -5,9 +5,6 @@
  */
 package to;
 
-import java.sql.ResultSet;
-import org.json.JSONObject;
-
 /**
  *
  * @author daniel
@@ -27,16 +24,6 @@ public class TOPessoa extends TOBase{
     private String telefone1;
     private String telefone2;
     private String email;
-    
-    
-    private String usuario;
-    private String grupo;
-    private String nomeunidade;
-    private String escolaridade;
-    private String estadocivil;
-    private long idunidade;
-    private TOAgricultor agricultor;
-    
 
     public long getIdpessoa() {
         return idpessoa;
@@ -46,23 +33,6 @@ public class TOPessoa extends TOBase{
         this.idpessoa = idpessoa;
     }
 
-    public String getPapel() {
-        return grupo;
-    }
-
-    public void setPapel(String grupo) {
-        this.grupo = grupo;
-    }
-
-    public long getIdunidade() {
-        return idunidade;
-    }
-
-    public void setIdunidade(long idunidade) {
-        this.idunidade = idunidade;
-    }
-    
-    
     public long getEndereco_idendereco() {
         return endereco_idendereco;
     }
@@ -169,237 +139,7 @@ public class TOPessoa extends TOBase{
         this.email = email;
     }
 
-    public String getUsuario() {
-        return usuario;
-    }
-
-    public void setUsuario(String usuario) {
-        this.usuario = usuario;
-    }
-
-    public String getNomeunidade() {
-        return nomeunidade;
-    }
-
-    public void setNomeunidade(String nomeunidade) {
-        this.nomeunidade = nomeunidade;
-    }
-
-    public String getEscolaridade() {
-        return escolaridade;
-    }
-
-    public void setEscolaridade(String escolaridade) {
-        this.escolaridade = escolaridade;
-    }
-
-    public String getEstadocivil() {
-        return estadocivil;
-    }
-
-    public void setEstadocivil(String estadocivil) {
-        this.estadocivil = estadocivil;
-    }
-
-    
-
-    
-    
     public TOPessoa() {
     }
-
-   
-public TOPessoa(ResultSet rs, String metodo) throws Exception{
-        
-        switch (metodo) {
-            case "GET_POR_ID":
-                this.agricultor = new TOAgricultor();
-                this.idpessoa = rs.getLong("idpessoa");
-                this.nome = rs.getString("nome");
-                this.sobrenome = rs.getString("sobrenome");
-                this.apelido = rs.getString("apelido");
-                this.cpf = rs.getString("cpf");
-                this.rg = rs.getString("rg");
-                this.datanascimento = rs.getString("datanascimento");
-                this.sexo = rs.getString("sexo");
-                this.telefone1 = rs.getString("telefone1");
-                this.telefone2 = rs.getString("telefone2");
-                this.email = rs.getString("email");
-                this.agricultor.setQtdCriancas(rs.getInt("qtdcriancas"));
-                this.agricultor.setQtdIntegrantes(rs.getInt("qtdintegrantes"));
-                this.agricultor.setQtdGravidas(rs.getInt("qtdgravidas"));
-                this.estadocivil = rs.getString("estadocivil");
-                this.escolaridade = rs.getString("escolaridade");
-                break;
-            case "GET_MEMBRO":
-                this.idpessoa = rs.getLong("idpessoa");
-                this.nome = rs.getString("nome");
-                this.sobrenome = rs.getString("sobrenome");
-                this.apelido = rs.getString("apelido");
-                this.cpf = rs.getString("cpf");
-                this.rg = rs.getString("rg");
-                this.datanascimento = rs.getString("datanascimento");
-                this.sexo = rs.getString("sexo");
-                this.telefone1 = rs.getString("telefone1");
-                this.telefone2 = rs.getString("telefone2");
-                this.email = rs.getString("email");
-                this.estadocivil = rs.getString("estadocivil");
-                this.escolaridade = rs.getString("escolaridade");
-                this.grupo = rs.getString("grupo");
-                this.nomeunidade = rs.getString("nomeunidade");
-                break;
-            case "TODOS_DA_UNIDADE":
-                this.idpessoa = rs.getLong("idpessoa");
-                this.nome = rs.getString("nome");
-                this.sobrenome = rs.getString("sobrenome");
-                this.cpf = rs.getString("cpf");
-                this.rg = rs.getString("rg");
-                this.telefone1 = rs.getString("telefone1");
-                this.nomeunidade = rs.getString("nomeunidade");
-                break;
-            case "usuarios":
-            case "EQUIPE":
-                this.idpessoa = rs.getLong("idpessoa");
-                this.nome = rs.getString("nome");
-                this.sobrenome = rs.getString("sobrenome");
-                this.cpf = rs.getString("cpf");
-                this.rg = rs.getString("rg");
-                this.telefone1 = rs.getString("telefone1");
-                this.nomeunidade = rs.getString("nomeunidade");
-                this.grupo = rs.getString("grupo");
-                break;
-            case "INPUT_SELECT":
-                this.idpessoa = rs.getLong("idpessoa");
-                this.nome = rs.getString("nome");
-                this.sobrenome = rs.getString("sobrenome");
-                this.cpf = rs.getString("cpf");
-                this.rg = rs.getString("rg");
-//            this.idunidade = rs.getLong("idunidade");
-                break;
-            case "GET_POR_CPF":
-            default:
-                this.idpessoa = rs.getLong("idpessoa");
-                this.estadocivil_idestadocivil = rs.getLong("estadocivil_idestadocivil");
-                this.escolaridade_idescolaridade = rs.getLong("escolaridade_idescolaridade");
-                this.endereco_idendereco = rs.getLong("endereco_idendereco");
-                this.escolaridade_idescolaridade = rs.getLong("escolaridade_idescolaridade");
-                this.nome = rs.getString("nome");
-                this.sobrenome = rs.getString("sobrenome");
-                this.cpf = rs.getString("cpf");
-                this.rg = rs.getString("rg");
-                this.datanascimento = rs.getString("datanascimento");
-                this.sexo = rs.getString("sexo");
-                this.telefone1 = rs.getString("telefone1");
-                this.telefone2 = rs.getString("telefone2");
-                this.email = rs.getString("email");
-
-                
-                
-                
-                break;
-        }
-        
-    }
-    
-    //retorna um json
-    @Override
-    public JSONObject buscarJson(String metodo) throws Exception {
-        //variavel tipo json para retornar no metodo
-        JSONObject j = new JSONObject();
-        
-        switch (metodo) {
-            case "TODOS_DA_UNIDADE":
-                //populando o objeto j
-                j.put("idpessoa", idpessoa);
-                j.put("nome", nome);
-                j.put("sobrenome", sobrenome);
-                j.put("cpf", cpf);
-                j.put("rg", rg);
-                j.put("telefone1", telefone1);
-                j.put("nomeunidade", nomeunidade);
-                break;
-            case "usuarios":
-            case "EQUIPE":
-                //populando o objeto j
-                j.put("idpessoa", idpessoa);
-                j.put("nome", nome);
-                j.put("sobrenome", sobrenome);
-                j.put("cpf", cpf);
-                j.put("rg", rg);
-                j.put("telefone1", telefone1);
-                j.put("nomeunidade", nomeunidade);
-                j.put("grupo", grupo);
-                break;
-            case "GET_POR_ID":
-                //populando o objeto j
-                j.put("idpessoa", idpessoa);
-                j.put("nome", nome);
-                j.put("sobrenome", sobrenome);
-                j.put("apelido", apelido);
-                j.put("cpf", cpf);
-                j.put("rg", rg);
-                j.put("datanascimento", datanascimento);
-                j.put("sexo", sexo);
-                j.put("telefone1", telefone1);
-                j.put("telefone2", telefone2);
-                j.put("email", email);
-                j.put("qtdintegrantes", this.agricultor.getQtdIntegrantes());
-                j.put("qtdcriancas", this.agricultor.getQtdCriancas());
-                j.put("qtdgravidas", this.agricultor.getQtdGravidas());
-                j.put("estadocivil", estadocivil);
-                j.put("escolaridade", escolaridade);
-                break;
-            case "GET_MEMBRO":
-                //populando o objeto j
-                j.put("idpessoa", idpessoa);
-//                j.put("endereco_idendereco", endereco_idendereco);
-                j.put("escolaridade", escolaridade);
-                j.put("nome", nome);
-                j.put("sobrenome", sobrenome);
-                j.put("apelido", apelido);
-                j.put("cpf", cpf);
-                j.put("rg", rg);
-                j.put("datanascimento", datanascimento);
-                j.put("sexo", sexo);
-                j.put("telefone1", telefone1);
-                j.put("telefone2", telefone2);
-                j.put("email", email);
-                j.put("estadocivil", estadocivil);
-                j.put("grupo", grupo);
-                j.put("nomeunidade", nomeunidade);
-                break;
-            case "INPUT_SELECT":
-                //populando o objeto j
-                j.put("idpessoa", idpessoa);
-                j.put("nome", nome);
-                j.put("sobrenome", sobrenome);
-                j.put("cpf", cpf);
-                j.put("rg", rg);
-//            j.put("idunidade", idunidade);
-                break;
-            case "GET_POR_CPF":
-            default:
-                j.put("idpessoa", idpessoa);
-                j.put("endereco_idendereco", endereco_idendereco);
-                j.put("escolaridade_idescolaridade", escolaridade_idescolaridade);
-                j.put("estadocivil_idestadocivil", estadocivil_idestadocivil);
-                j.put("nome", nome);
-                j.put("sobrenome", sobrenome);
-                j.put("apelido", apelido);
-                j.put("cpf", cpf);
-                j.put("rg", rg);
-                j.put("datanascimento", datanascimento);
-                j.put("sexo", sexo);
-                j.put("telefone1", telefone1);
-                j.put("telefone2", telefone2);
-                j.put("email", email);
-                
-                break;
-        }
-        
-        return j;
-   
-    }
- 
     
 }

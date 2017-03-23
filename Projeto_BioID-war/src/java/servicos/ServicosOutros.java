@@ -7,7 +7,7 @@ package servicos;
 
 import bo.BOFactory;
 import dao.DAOLogin;
-import dao.DAOOutrosIDNome;
+import dao.DAOPaisEstadoCidade;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.core.Context;
@@ -19,7 +19,7 @@ import javax.ws.rs.core.MediaType;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import to.TOLogin;
-import to.TOOutrosIDNome;
+
 
 /**
  * REST Web Service
@@ -53,20 +53,17 @@ public class ServicosOutros {
         try{
             TOLogin to = new TOLogin();
             
-           
-
             to.setUsuario(k.getString("usuario"));
             to.setSenha(k.getString("senha"));
             
+            JSONObject data = BOFactory.buscar(new DAOLogin(), to, k.getString("metodo"));
             
-            to = (TOLogin) BOFactory.buscar(new DAOLogin(), to, k.getString("metodo"));
-            
-            if(to == null){
+            if(data == null){
                 j.put("sucesso", false);
                 j.put("mensagem", "Usuário ou senha incorretos!");
             }else{
 
-                j.put("data", to.buscarJson("VALIDACAO"));
+                j.put("data", data);
                 j.put("sucesso", true);
 
             }
@@ -92,21 +89,21 @@ public class ServicosOutros {
         
         try{ 
             JSONArray ja = null;
-            switch(k.getString("metodo")){
-                case "PAIS":
-                    ja = BOFactory.listar(new DAOOutrosIDNome(), null, k.getString("metodo"));
-                    break;
-                case "ESTADOS":
-                    TOOutrosIDNome tp = new TOOutrosIDNome();
-                    tp.setId(k.getLong("idpais"));
-                    ja = BOFactory.listar(new DAOOutrosIDNome(), tp, k.getString("metodo"));
-                    break;
-                case "CIDADES":
-                    TOOutrosIDNome te = new TOOutrosIDNome();
-                    te.setId(k.getLong("idestado"));
-                    ja = BOFactory.listar(new DAOOutrosIDNome(), te, k.getString("metodo"));
-                    break;
-            }
+//            switch(k.getString("metodo")){
+//                case "PAIS":
+//                    ja = BOFactory.listar(new DAOPaisEstadoCidade(), null, k.getString("metodo"));
+//                    break;
+//                case "ESTADOS":
+//                    TOOutrosIDNome tp = new TOOutrosIDNome();
+//                    tp.setId(k.getLong("idpais"));
+//                    ja = BOFactory.listar(new DAOPaisEstadoCidade(), tp, k.getString("metodo"));
+//                    break;
+//                case "CIDADES":
+//                    TOOutrosIDNome te = new TOOutrosIDNome();
+//                    te.setId(k.getLong("idestado"));
+//                    ja = BOFactory.listar(new DAOPaisEstadoCidade(), te, k.getString("metodo"));
+//                    break;
+//            }
 
              
                 if(ja.length() > 0){

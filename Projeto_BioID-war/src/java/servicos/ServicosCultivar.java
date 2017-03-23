@@ -4,8 +4,6 @@ import bo.BOFactory;
 import dao.DAOCultivar;
 import dao.DAOSafra;
 import dao.DAOEstoque;
-import dao.DAOIOEstoque;
-import fw.VerificarSessao;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import javax.ws.rs.Consumes;
@@ -20,7 +18,6 @@ import org.json.JSONObject;
 import to.TOCultivar;
 import to.TOSafra;
 import to.TOEstoque;
-import to.TOIOEstoque;
 
 /**
  * REST Web Service
@@ -50,29 +47,17 @@ public class ServicosCultivar {
         JSONObject k = new JSONObject(dataJson);
         
         try{       
-            //verifica  a sessao
-//            VerificarSessao vs = new VerificarSessao();
-//            String sessao = vs.VerificarSessao(k.getString("usuario"), k.getString("sessao"));
-//            
-//            if( sessao == null){
-//                j.put("sucesso", false);
-//                j.put("mensagem", "Sessao não encontrada!");
-//            }else{
-                //comeca a requisicao
-                TOCultivar p = new TOCultivar();
-                p.setIdcultivar(k.getLong("idcultivar"));
-                p = (TOCultivar) BOFactory.buscar(new DAOCultivar(), p, k.getString("metodo"));
-                if(p == null){
-                    j.put("sucesso", false);
-//                    j.put("sessao", sessao);
-                    j.put("mensagem", "Cultivar não encontrado");
-                }else{
-                    j.put("data", p.buscarJson(k.getString("metodo")));
-//                    j.put("sessao", sessao);
-                    j.put("sucesso", true);
-                }           
+            TOCultivar p = new TOCultivar();
+            p.setIdcultivar(k.getLong("idcultivar"));
+            JSONObject data = BOFactory.buscar(new DAOCultivar(), p, k.getString("metodo"));
+            if(BOFactory.buscar(new DAOCultivar(), p, k.getString("metodo")) == null){
+                j.put("sucesso", false);
+                j.put("mensagem", "Cultivar não encontrado");
+            }else{
+                j.put("data", data);
+                j.put("sucesso", true);
+            }           
                 
-//            }
         }catch(Exception e){
             j.put("sucesso", false);
             j.put("mensagem", e.getMessage());
@@ -93,32 +78,22 @@ public class ServicosCultivar {
         JSONObject k = new JSONObject(dataJson);
         
         try{
-            
-            //verifica  a sessao
-//            VerificarSessao vs = new VerificarSessao();
-//            String sessao = vs.VerificarSessao(k.getString("usuario"), k.getString("sessao"));
-//            
-//            if( sessao == null){
-//                j.put("sucesso", false);
-//                j.put("mensagem", "Sessao não encontrada!");
-//            }else{
+
                 //comeca a requisicao
                 JSONArray ja = null;
                 
-                        ja = BOFactory.listar(new DAOCultivar(), null, k.getString("metodo"));
+//                        ja = BOFactory.listar(new DAOCultivar(), null, k.getString("metodo"));
                    
                 
                 if(ja.length() > 0){
                     j.put("data", ja);
                     j.put("sucesso", true);
-//                    j.put("sessao", sessao);
                 }else{
                     j.put("sucesso", false);
                     j.put("mensagem", "Sem "+ k.getString("metodo"));
-//                    j.put("sessao", sessao);
+
                 }
-                
-//            }
+
             
         
         }catch(Exception e){
@@ -143,46 +118,34 @@ public class ServicosCultivar {
         
         try{
             
-             //verifica  a sessao
-//            VerificarSessao vs = new VerificarSessao();
-//            String sessao = vs.VerificarSessao(k.getString("usuario"), k.getString("sessao"));
-//            
-//            if( sessao == null){
-//                j.put("sucesso", false);
-//                j.put("mensagem", "Sessao não encontrada!");
-//            }else{
-                //comeca a requisicao
-            
-            
-                //cria um objeto
-                TOCultivar t = new TOCultivar();
-                t.setNomecultivar(k.getString("nomecultivar"));
-                t.setBiofortificado(k.getBoolean("biofortificado"));
+            //cria um objeto
+            TOCultivar t = new TOCultivar();
+            t.setNomecultivar(k.getString("nomecultivar"));
+            t.setBiofortificado(k.getBoolean("biofortificado"));
 
-                //se nao existe o cultivar no sistema, pelo nome e por ser biofortificado
-                if(BOFactory.buscar(new DAOCultivar(), t, "GET_NOME") == null){
-                    t.setImagem(k.getString("imagem"));
-                    t.setDescricao(k.getString("descricao"));
-                    t.setUnidademedida_idunidademedida(k.getLong("unidademedida_idunidademedida"));
-                    t.setValornutricional(k.getString("valornutricional"));
-                    t.setTempodecolheita(k.getInt("tempodecolheita"));
-                    t.setTempodestinacao(k.getInt("tempodestinacao"));
-                    t.setPeso_saca(k.getDouble("pesoSaca"));
+            //se nao existe o cultivar no sistema, pelo nome e por ser biofortificado
+            if(BOFactory.buscar(new DAOCultivar(), t, "GET_NOME") == null){
 
-                    BOFactory.inserir(new DAOCultivar(), t, "DEFAULT");
+                 //chama a classe que redimenciona a imagem antes de atribuir ao TOProduto
+                t.setString_imagem(k.getString("imagem"));
+                t.setDescricao(k.getString("descricao"));
+                t.setUnidademedida_idunidademedida(k.getLong("unidademedida_idunidademedida"));
+                t.setValornutricional(k.getString("valornutricional"));
+                t.setTempodecolheita(k.getInt("tempodecolheita"));
+                t.setTempodestinacao(k.getInt("tempodestinacao"));
+                t.setPeso_saca(k.getDouble("pesoSaca"));
 
-                    j.put("sucesso", true);
-                    j.put("mensagem", "Cultivar cadastrado com sucesso!");
-//                    j.put("sessao", sessao);
-                }else{
-                   j.put("sucesso", false);
-//                   j.put("sessao", sessao);
-                   j.put("mensagem", "Cultivar já cadastrado!");
-                }
-            
-            
-//            }
-            
+                BOFactory.inserir(new DAOCultivar(), t);
+
+                j.put("sucesso", true);
+                j.put("mensagem", "Cultivar cadastrado com sucesso!");
+
+            }else{
+               j.put("sucesso", false);
+
+               j.put("mensagem", "Cultivar já cadastrado!");
+            }
+                        
         }catch(Exception e){
             j.put("sucesso", false);
             j.put("mensagem", e.getMessage());
@@ -295,7 +258,7 @@ public class ServicosCultivar {
                 te.setCultivar_idcultivar(k.getLong("idcultivar"));
                 
                 //verifica a quantidade e diminui quantidade do cultivar na unidade
-                te  = (TOEstoque) BOFactory.buscar(new DAOEstoque(), te, k.getString("metodo"));
+                te  = (TOEstoque) BOFactory.buscarObj(new DAOEstoque(), te, k.getString("metodo"));
                
                 //quantidade em precisao aredondada
                 BigDecimal bd = new BigDecimal(te.getQuantidade()).setScale(2, RoundingMode.HALF_EVEN);
@@ -307,7 +270,7 @@ public class ServicosCultivar {
                     te.setCultivar_idcultivar(k.getLong("idcultivar"));
                     te.setQuantidade(bd.doubleValue() - k.getDouble("qtdrecebida"));
                     //atualiza o estoque
-                    BOFactory.editar(new DAOEstoque(), te, k.getString("metodo"));
+                    BOFactory.editar(new DAOEstoque(), te);
                     
                     
                     
@@ -343,7 +306,7 @@ public class ServicosCultivar {
 
 
 
-                    BOFactory.inserir(new DAOSafra(), tsf, k.getString("metodo"));
+                    BOFactory.inserir(new DAOSafra(), tsf);
                     
                     
 

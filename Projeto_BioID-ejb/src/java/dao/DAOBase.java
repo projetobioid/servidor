@@ -6,53 +6,75 @@
 package dao;
 
 import java.sql.Connection;
+import java.util.List;
 import javax.ejb.Stateless;
 import org.json.JSONArray;
+import org.json.JSONObject;
 import to.TOBase;
 
 /**
  *
- * @author daniel
+ * @author Daniel
  */
 
 
 @Stateless
 public class DAOBase {
     
-    protected long idretorno;
 
-    
-    public long inserir(Connection c, TOBase t, String metodo) throws Exception{
-        return this.idretorno;
+    //INSERIR//////////////
+    public long inserir(Connection c, TOBase t) throws Exception{
+        return 0;
     }
-    
-    public void inserir(Connection c, TOBase t) throws Exception{
-    }    
     
     public void inserirIDString(Connection c, TOBase t) throws Exception{
-    }    
+    }  
+
     
-    public void editar(Connection c, TOBase t, String metodo) throws Exception{
+    
+    //EDITAR///////////////
+    public void editar(Connection c, TOBase t) throws Exception{
     }
     
-    public void excluir(Connection c, TOBase t, String metodo) throws Exception{
+    
+    
+    //EXCLUIR//////////////
+    public void excluir(Connection c, TOBase t) throws Exception{
     }
     
-    public TOBase buscar(Connection c, TOBase t, String metodo) throws Exception{
+    
+    
+    //BUSCAR///////////////
+    public JSONObject buscar(Connection c, TOBase t) throws Exception{
         return null;
     }
-        
-//    public JSONArray listar(Connection c, String metodo) throws Exception{
-//        return null;
-//    }
-
+    
+    public JSONObject buscar(Connection c, List<Object> t, String metodo) throws Exception{
+        return null;
+    }
+    
+    public JSONObject buscar(Connection c, TOBase t, String metodo) throws Exception{
+        return null;
+    }
+    
+    public TOBase buscarObj(Connection c, TOBase t, String metodo) throws Exception{
+        return null;
+    }
+    
+    
+    //LISTAR//////////////////
+    public JSONArray listar(Connection c, String metodo) throws Exception{
+        return null;
+    }
+    
     public JSONArray listar(Connection c, TOBase t, String metodo) throws Exception{
         return null;
     }
+    
+    public JSONArray listar(Connection c, List<Object> t, String metodo) throws Exception{
+        return null;
+    }
 
-//    public JSONArray listar(Connection c) throws Exception{
-//        return null;
-//    }
     
     
     

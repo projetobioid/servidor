@@ -5,12 +5,9 @@
  */
 package to;
 
-import java.sql.ResultSet;
-import org.json.JSONObject;
-
 /**
  *
- * @author daniel
+ * @author Daniel
  */
 public class TOIOEstoque extends TOBase{
     
@@ -25,6 +22,7 @@ public class TOIOEstoque extends TOBase{
     private int operacao;
     
     private String login_usuario;
+    
 
     public long getUnidade_idunidade() {
         return unidade_idunidade;
@@ -77,45 +75,7 @@ public class TOIOEstoque extends TOBase{
     
     
     public TOIOEstoque() {
-    }
-
-    
-
-    
-    public TOIOEstoque (ResultSet rs, String metodo) throws Exception{
-        
-        switch(metodo){
-            default:
-                this.unidade_idunidade = rs.getLong("unidade_idunidade");
-                this.cultivar_idcultivar = rs.getLong("cultivar_idcultivar");
-                this.quantidade = rs.getFloat("quantidade");
-                this.data_io = rs.getString("data_io");
-                this.operacao = rs.getInt("operacao");
-                this.login_usuario = rs.getString("login_idlogin");
-                break;
-        }
-    }
-
-    @Override
-    public JSONObject buscarJson(String metodo) throws Exception {
-        JSONObject j = new JSONObject();
-        
-        switch(metodo){
-            default:
-                j.put("unidade_idunidade", unidade_idunidade);
-                j.put("cultivar_idcultivar", cultivar_idcultivar);
-                j.put("quantidade", quantidade);
-                j.put("data_io", data_io);
-                j.put("operacao", operacao);
-                j.put("login_idlogin", login_usuario);
-                break;
-        }
-        
-        
-        return j;
-                
-    }
-    
+    }    
     
 }
 

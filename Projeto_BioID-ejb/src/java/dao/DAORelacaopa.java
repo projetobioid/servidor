@@ -14,28 +14,20 @@ import to.TORelacaopa;
 
 /**
  *
- * @author Aimee
+ * @author Daniel
  */
 public class DAORelacaopa extends DAOBase{
 
     @Override
-    public long inserir(Connection c, TOBase t, String metodo) throws Exception {
+    public long inserir(Connection c, TOBase t) throws Exception {
         String sql = null;
 
-//        TORelacaopa to = ((TORelacaopa)t);
-        
         List<Object> p = new ArrayList<Object>();
-        
-        switch(metodo){
-            default:
-                sql = "INSERT INTO relacaopa(agricultor_pessoa_idpessoa, propriedade_idpropriedade) VALUES (?, ?)";
-                p.add(((TORelacaopa)t).getAgricultor_pessoa_idpessoa());
-                p.add(((TORelacaopa)t).getPropriedade_idpropriedade());
-                break;
-        }
-        
-        
-        
+
+        sql = "INSERT INTO relacaopa(agricultor_pessoa_idpessoa, propriedade_idpropriedade) VALUES (?, ?)";
+        p.add(((TORelacaopa)t).getAgricultor_pessoa_idpessoa());
+        p.add(((TORelacaopa)t).getPropriedade_idpropriedade());
+       
         //passa por parametros a conexao e a lista de objetos da insercao de um novo produto
         return Data.executeUpdate(c, sql, p);
     }

@@ -8,22 +8,27 @@ import java.util.List;
 
 /**
  *
- * @author Inovação02
+ * @author Daniel
  */
 public class Data {
     
+
     //abre uma conexao banco de dados
-    public static Connection openConnection () throws Exception{
-//        return openConnectionPostgre("localhost", "bioid", "postgres", "78917072"); //sistema rodando fora
-        return openConnectionPostgre("10.1.2.52", "bioid", "postgres", "78917072"); //sistema em producao e testes internos
-    }
+    
+    private static String server = "localhost";
+//    private static String server = "10.1.2.52";
+    private static String database = "bioid";
+    private static String user = "postgres";
+    private static String password = "Fundetec123*";
+    private static String porta = "5432";
+    
 
     //abrir a conexao banco de dados
-    public static Connection openConnectionPostgre(String server, String database, String user, String password) throws Exception {
+    public static Connection openConnection() throws Exception {
         Connection conn = null;
         Class.forName("org.postgresql.Driver");
         conn = DriverManager.getConnection("jdbc:postgresql://" + server
-                + ":5432/" + database, user, password);
+                + ":"+porta+"/" + database, user, password);
         return conn;
     }
     
@@ -51,16 +56,25 @@ public class Data {
         return rs;
     }
     
-    //executa update passando objeto
-    public static int executeUpdate(Connection conn, String query, Object[] parametros) throws SQLException{
-        PreparedStatement pstmt = conn.prepareStatement(query);
+    //executa update passando vetor de objeto
+    public static long executeUpdate(Connection conn, String query, Object[] parametros) throws SQLException{
+        PreparedStatement pstmt = conn.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS);
         //recebe os parametros da query
         for (int i = 1; i<= parametros.length; i++){
             pstmt.setObject(i, retiraInject(parametros[i - 1]));
         }
-        return pstmt.executeUpdate();
+        pstmt.executeUpdate();
+        
+        ResultSet rs = pstmt.getGeneratedKeys();
+
+        long idGerado = 0;
+
+        if(rs.next()) {
+            idGerado = rs.getLong(1);
+        }		
+	
+        return idGerado;
     }
-    
     
     //executa update passando lista
     public static long executeUpdate(Connection conn, String query, List<Object> p) throws SQLException{
@@ -81,10 +95,10 @@ public class Data {
             idGerado = rs.getLong(1);
         }		
 	
-
         return idGerado;
     }
-        //executa update passando lista
+    
+    //executa update passando lista
     public static void executeUpdateString(Connection conn, String query, List<Object> p) throws SQLException{
         PreparedStatement pstmt = conn.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS);
         //recebe os parametros da query
@@ -94,18 +108,8 @@ public class Data {
         }
         
         pstmt.executeUpdate();
-        
-//        ResultSet rs = pstmt.getGeneratedKeys();
-//
-//        String idGerado = "";
-//
-//        if(rs.next()) {
-//            idGerado = rs.getString(1);
-//        }		
-	
-
-//        return idGerado;
     }
+    
     //executa update passando conexao e sql
     public static int executeUptade(Connection conn, String query) throws SQLException{
         Statement stm = conn.createStatement();

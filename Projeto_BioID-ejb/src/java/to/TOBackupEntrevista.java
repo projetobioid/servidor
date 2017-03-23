@@ -1,9 +1,6 @@
 
 package to;
 
-import java.sql.ResultSet;
-import org.json.JSONObject;
-
 /**
  *
  * @author Daniel
@@ -19,7 +16,6 @@ public class TOBackupEntrevista extends TOBase{
     
     private boolean status_backup;
     
-   
 
     public long getPropriedade_idpropriedade() {
         return propriedade_idpropriedade;
@@ -53,38 +49,7 @@ public class TOBackupEntrevista extends TOBase{
         this.status_backup = status_backup;
     }
 
-
-    //construtor vazio
     public TOBackupEntrevista() {
     }
-
- 
-    
-    //retorna consulta do banco de dados tipo resultset
-    public TOBackupEntrevista (ResultSet rs , String metodo) throws Exception{
-        switch(metodo){
-            case "POR_IDPROPRIEDADE_BACKUP":
-                this.status_backup = rs.getBoolean("status_backup");
-                break;
-        }
-    }
-    //classe sobrescrita de tobase
-    @Override
-    public JSONObject buscarJson(String metodo) throws Exception {
-        //variavel para retorno do json contendo as informacoes do produto
-        JSONObject j = new JSONObject();
-        
-        switch(metodo){
-            default:
-                j.put("propriedade_idpropriedade", propriedade_idpropriedade);
-                j.put("login_usuario", login_usuario);
-                j.put("data_backup", data_backup);
-                j.put("status_backup", status_backup);
-                break;
-        }
-        
-        return j;
-    }    
-    
 
 }

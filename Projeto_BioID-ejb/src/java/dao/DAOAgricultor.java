@@ -6,62 +6,57 @@
 package dao;
 
 import fw.Data;
+import static fw.Mapeamento.*;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
+import org.json.JSONObject;
 import to.TOBase;
 import to.TOAgricultor;
-
 /**
  *
- * @author Aimee
+ * @author Daniel
  */
 public class DAOAgricultor extends DAOBase{
 
     @Override
-    public long inserir(Connection c, TOBase t, String metodo) throws Exception {
+    public long inserir(Connection c, TOBase t) throws Exception {
+        
         String sql = null;
         
+        List<Object> u = new ArrayList<Object>();
         
+        sql = "INSERT INTO agricultor(pessoa_idpessoa, qtdintegrantes, qtdcriancas, qtdgravidas)VALUES (?, ?, ?, ?)";
         
-//        TOAgricultor to = ((TOAgricultor)t);
-        
-        List<Object> p = new ArrayList<Object>();
-        switch(metodo){
-            default:
-                sql = "INSERT INTO agricultor(pessoa_idpessoa, qtdintegrantes, qtdcriancas, qtdgravidas)VALUES (?, ?, ?, ?)";
-                p.add(((TOAgricultor)t).getPessoa_idpessoa());
-                p.add(((TOAgricultor)t).getQtdIntegrantes());
-                p.add(((TOAgricultor)t).getQtdCriancas());
-                p.add(((TOAgricultor)t).getQtdGravidas());
-                break;
-        }
-        
-        
-        
+        u.add(((TOAgricultor)t).getPessoa_idpessoa());
+        u.add(((TOAgricultor)t).getQtdIntegrantes());
+        u.add(((TOAgricultor)t).getQtdCriancas());
+        u.add(((TOAgricultor)t).getQtdGravidas());
+ 
         //passa por parametros a conexao e a lista de objetos da insercao de um novo produto
-        return Data.executeUpdate(c, sql, p);
+        return Data.executeUpdate(c, sql, u);
     }
     
     
     @Override
-    public TOBase buscar(Connection c, TOBase t, String metodo) throws Exception {
-        String sql = "SELECT a.pessoa_idpessoa, a.qtdintegrantes, a.qtdcriancas, a.qtdgravidas, e.descricao as estadocivil, es.descricao as escolaridade, p.nome, p.sobrenome, p.apelido, p.cpf, p.rg, p.datanascimento, p.sexo, p.telefone1, p.telefone2, p.email "
-                + "FROM agricultor a "
-                + "INNER JOIN pessoa p ON(p.idpessoa = a.pessoa_idpessoa) "
-                + "INNER JOIN estadocivil e ON(e.idestadocivil = p.estadocivil_idestadocivil) "
-                + "INNER JOIN escolaridade es ON(es.idescolaridade = p.escolaridade_idescolaridade) "
-                + "WHERE a.pessoa_idpessoa IN(?)";
-        
+    public JSONObject buscar(Connection c, TOBase t, String metodo) throws Exception {
+       
         ResultSet rs = null;
         
         try{
-//            TOAgricultor to = (TOAgricultor)t;
+            
+            String sql = "SELECT a.pessoa_idpessoa, a.qtdintegrantes, a.qtdcriancas, a.qtdgravidas, e.descricao as estadocivil, es.descricao as escolaridade, p.nome, p.sobrenome, p.apelido, p.cpf, p.rg, p.datanascimento, p.sexo, p.telefone1, p.telefone2, p.email "
+            + "FROM agricultor a "
+            + "INNER JOIN pessoa p ON(p.idpessoa = a.pessoa_idpessoa) "
+            + "INNER JOIN estadocivil e ON(e.idestadocivil = p.estadocivil_idestadocivil) "
+            + "INNER JOIN escolaridade es ON(es.idescolaridade = p.escolaridade_idescolaridade) "
+            + "WHERE a.pessoa_idpessoa IN(?)";
+            
             rs = Data.executeQuery(c, sql, ((TOAgricultor)t).getPessoa_idpessoa());
             
             if(rs.next()){
-                return null;//new TOAgricultor(rs);
+                return MapeamentoJson(rs);
             }else{
                 return null;
             }

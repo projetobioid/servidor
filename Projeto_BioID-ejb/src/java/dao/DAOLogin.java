@@ -6,16 +6,18 @@
 package dao;
 
 import fw.Data;
+import static fw.Mapeamento.*;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
+import org.json.JSONObject;
 import to.TOBase;
 import to.TOLogin;
 
 /**
  *
- * @author daniel
+ * @author Daniel
  */
 public class DAOLogin extends DAOBase{
 
@@ -24,12 +26,8 @@ public class DAOLogin extends DAOBase{
         //string com o comando sql para editar o banco de dados
         String sql = null;
         
-        
-        //variavel sendo convertida para toUsuarios
-//        TOLogin to = ((TOLogin)t);
         //variavel com lista dos parametros
         List<Object> u = new ArrayList<Object>();
-        
         
         sql = "INSERT INTO login(pessoa_idpessoa, unidade_idunidade, usuario, senha) VALUES (?, ?, ?, ?)";
         u.add(((TOLogin)t).getPessoa_idpessoa());
@@ -37,22 +35,18 @@ public class DAOLogin extends DAOBase{
         u.add(((TOLogin)t).getUsuario());
         u.add(((TOLogin)t).getSenha());
    
-        
-        
         //passa por parametros a conexao e a lista de objetos da insercao de um novo produto
         Data.executeUpdateString(c, sql, u);
     }
 
    
     @Override
-    public TOBase buscar(Connection c, TOBase t, String metodo) throws Exception {
+    public JSONObject buscar(Connection c, TOBase t, String metodo) throws Exception {
          //string com o comando sql para editar o banco de dados
         String sql = null;
         ResultSet rs = null;
         
         try{
-            //variavel sendo convertida para tologin
-//            TOLogin to = (TOLogin)t;
             //variavel com lista dos parametros
             List<Object> u = new ArrayList<Object>();
             
@@ -78,16 +72,14 @@ public class DAOLogin extends DAOBase{
                     break;
             }
             
-            
-            
             rs = Data.executeQuery(c, sql, u);
             
-            
             if(rs.next()){
-                return new TOLogin(rs, metodo);
+                return MapeamentoJson(rs);
             }else{
                 return null;
             }
+            
         }finally{
             rs.close();
         }
@@ -95,23 +87,15 @@ public class DAOLogin extends DAOBase{
     }
 
     @Override
-    public void editar(Connection c, TOBase t, String metodo) throws Exception {
+    public void editar(Connection c, TOBase t) throws Exception {
         String sql = null;
-                
-        
-//        TOLogin to = (TOLogin)t;
         
         List<Object> u = new ArrayList<Object>();
-        
-        switch(metodo){
-            default:
-                sql = "update login set sessao = ? where idlogin = ? ";
-                u.add(((TOLogin)t).getUsuario());
-                u.add(((TOLogin)t).getSenha());
-            break;
-        }
-        
-
+       
+        sql = "update login set sessao = ? where idlogin = ? ";
+        u.add(((TOLogin)t).getUsuario());
+        u.add(((TOLogin)t).getSenha());
+    
         //passa por parametros a conexao e a lista de objetos da insercao de um novo produto        
         Data.executeUpdate(c, sql, u);
     }

@@ -12,104 +12,6 @@
         <error-code>403</error-code>
         <location>/seguranca/erro.html</location>
     </error-page>
-    <security-constraint>
-        <display-name>pagina administrador</display-name>
-        <web-resource-collection>
-            <web-resource-name>paginas administrador</web-resource-name>
-            <description/>
-            <url-pattern>/paginas/administrador/administrador.html</url-pattern>
-            <url-pattern>/paginas/home.html</url-pattern>
-            <!--servicos cultivar-->
-            <url-pattern>/servico/cultivar/buscar</url-pattern>
-            <url-pattern>/servico/cultivar/listar</url-pattern>
-            <url-pattern>/servico/cultivar/inserir</url-pattern>
-            <!--servicos unidades-->
-            <url-pattern>/servico/unidade/buscar</url-pattern>
-            <url-pattern>/servico/unidade/listar</url-pattern>
-            <url-pattern>/servico/unidade/inserir</url-pattern>
-            <!--servicos usuarios-->
-            <url-pattern>/servico/usuario/buscar</url-pattern>
-            <url-pattern>/servico/usuario/listar</url-pattern>
-            <url-pattern>/servico/usuario/inserir</url-pattern>
-        </web-resource-collection>
-        <auth-constraint>
-            <role-name>administrador-role</role-name>
-        </auth-constraint>
-    </security-constraint>
-    <security-constraint>
-        <display-name>pagina gerenciador</display-name>
-        <web-resource-collection>
-            <web-resource-name>paginas para gerenciador</web-resource-name>
-            <description/>
-            <url-pattern>/paginas/gerenciador/gerenciador.html</url-pattern>
-            <url-pattern>/paginas/home.html</url-pattern>
-            <!--servicos usuarios membros equipe-->
-            <url-pattern>/servico/usuario/buscar</url-pattern>
-            <url-pattern>/servico/usuario/listar</url-pattern>
-            <url-pattern>/servico/usuario/inserir</url-pattern>
-            <!--servicos agricultores-->
-            <url-pattern>/servico/agricultor/buscar</url-pattern>
-            <url-pattern>/servico/agricultor/listar</url-pattern>
-            <url-pattern>/servico/agricultor/inserir</url-pattern>
-            <!--servicos estoque -->
-            <url-pattern>/servico/estoque/buscar</url-pattern>
-            <url-pattern>/servico/estoque/listar</url-pattern>
-            <url-pattern>/servico/estoque/entradaestoque</url-pattern>
-            <url-pattern>/servico/estoque/saidaestoque</url-pattern>
-            <!--servicos cultivares-->
-            <url-pattern>/servico/cultivar/buscar</url-pattern>
-            <url-pattern>/servico/cultivar/distribuir</url-pattern>
-            <!--servicos propriedades-->
-            <url-pattern>/servico/propriedade/listar</url-pattern>
-            
-        </web-resource-collection>
-        <auth-constraint>
-            <role-name>gerenciador-role</role-name>
-        </auth-constraint>
-    </security-constraint>
-    <security-constraint>
-        <display-name>pagina entrevistador</display-name>
-        <web-resource-collection>
-            <web-resource-name>pagina entrevistador</web-resource-name>
-            <description/>
-            <url-pattern>/paginas/entrevistador/entrevistador.html</url-pattern>
-            <url-pattern>/paginas/home.html</url-pattern>
-            <!--servicos agricultores-->
-            <url-pattern>/servico/agricultor/buscar</url-pattern>
-            <url-pattern>/servico/agricultor/listar</url-pattern>
-            <url-pattern>/servico/agricultor/inserir</url-pattern>
-            <!--servicos estoque -->
-            <url-pattern>/servico/estoque/listar</url-pattern>
-            <url-pattern>/servico/estoque/buscar</url-pattern>
-            <!--servicos cultivares-->
-            <url-pattern>/servico/cultivar/distribuir</url-pattern>
-            <url-pattern>/servico/cultivar/buscar</url-pattern>
-            <!--servicos safra-->
-            <url-pattern>/servico/safra/listar</url-pattern>
-            <!--servicos propriedades-->
-            <url-pattern>/servico/propriedade/listar</url-pattern>
-            <url-pattern>/servico/propriedade/buscar</url-pattern>
-            <url-pattern>/servico/propriedade/backup</url-pattern>
-        </web-resource-collection>
-        <auth-constraint>
-            <role-name>entrevistador-role</role-name>
-        </auth-constraint>
-    </security-constraint>
-    <security-constraint>
-        <display-name>pagina agricultor</display-name>
-        <web-resource-collection>
-            <web-resource-name>paginas para agricultores</web-resource-name>
-            <description/>
-            <url-pattern>/paginas/agricultor/agricultor.html</url-pattern>
-            <url-pattern>/paginas/home.html</url-pattern>
-            <!--servicos propriedades-->
-            <url-pattern>/servico/propriedade/listar</url-pattern>
-        </web-resource-collection>
-        <auth-constraint>
-            <role-name>agricultor-role</role-name>
-        </auth-constraint>
-    </security-constraint>
-    
     <login-config>
         <auth-method>FORM</auth-method>
         <realm-name>bioid-realm</realm-name>
@@ -118,4 +20,20 @@
             <form-error-page>/login.html</form-error-page>
         </form-login-config>
     </login-config>
+    <security-role>
+        <description/>
+        <role-name>administrador-role</role-name>
+    </security-role>
+    <security-role>
+        <description/>
+        <role-name>agricultor-role</role-name>
+    </security-role>
+    <security-role>
+        <description/>
+        <role-name>entrevistador-role</role-name>
+    </security-role>
+    <security-role>
+        <description/>
+        <role-name>gerenciador-role</role-name>
+    </security-role>
 </web-app>

@@ -6,59 +6,52 @@
 package dao;
 
 import fw.Data;
+import static fw.Mapeamento.*;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 import org.json.JSONArray;
+import org.json.JSONObject;
 import to.TOBase;
 import to.TOLogin;
 import to.TOPropriedade;
 
 /**
  *
- * @author Aimee
+ * @author Daniel
  */
 public class DAOPropriedade extends DAOBase{
 
     @Override
-    public long inserir(Connection c, TOBase t, String metodo) throws Exception {
-        String sql = null;
-//        TOPropriedade to = ((TOPropriedade)t);
+    public long inserir(Connection c, TOBase t) throws Exception {
+
         List<Object> p = new ArrayList<Object>();
-        
-        switch(metodo){
-            default:
-                
-                sql = "INSERT INTO propriedade(endereco_idendereco, unidade_idunidade, nomepropriedade, area, "
-                    + "unidadedemedida, areautilizavel, unidadedemedidaau) VALUES (?, ?, ?, ?, ?, ?, ?)";
-                
-                p.add(((TOPropriedade)t).getEndereco_idendereco());
-                p.add(((TOPropriedade)t).getUnidade_idunidade());
-                p.add(((TOPropriedade)t).getNomepropriedade());
-                p.add(((TOPropriedade)t).getArea());
-                p.add(((TOPropriedade)t).getUnidadedemedida());
-                p.add(((TOPropriedade)t).getAreautilizavel());
-                p.add(((TOPropriedade)t).getUnidadedemedidaau()); 
-                break;
-        }
-        
-        
-        
+      
+        String sql = "INSERT INTO propriedade(endereco_idendereco, unidade_idunidade, nomepropriedade, area, "
+             + "unidadedemedida, areautilizavel, unidadedemedidaau) VALUES (?, ?, ?, ?, ?, ?, ?)";
+
+         p.add(((TOPropriedade)t).getEndereco_idendereco());
+         p.add(((TOPropriedade)t).getUnidade_idunidade());
+         p.add(((TOPropriedade)t).getNomepropriedade());
+         p.add(((TOPropriedade)t).getArea());
+         p.add(((TOPropriedade)t).getUnidadedemedida());
+         p.add(((TOPropriedade)t).getAreautilizavel());
+         p.add(((TOPropriedade)t).getUnidadedemedidaau());
+         
         //passa por parametros a conexao e a lista de objetos da insercao de um novo produto
         return Data.executeUpdate(c, sql, p);    
     }
 
 
     @Override
-    public TOBase buscar(Connection c, TOBase t, String metodo) throws Exception {
+    public JSONObject buscar(Connection c, TOBase t, String metodo) throws Exception {
 
         ResultSet rs = null;
         List<Object> p = new ArrayList<Object>();
         
         try{
             String sql = null;
-//            TOPropriedade to = (TOPropriedade)t;
             
             switch(metodo){
                 case "POR_IDPROPRIEDADE_BACKUP":
@@ -82,15 +75,15 @@ public class DAOPropriedade extends DAOBase{
                     p.add(((TOPropriedade)t).getCpf());
                     break;
             }
-            
-            
+                        
             rs = Data.executeQuery(c, sql, p);
             
             if(rs.next()){
-                return new TOPropriedade(rs, metodo);
+                return MapeamentoJson(rs);
             }else{
                 return null;
             }
+            
         }finally{
             rs.close();
         }
@@ -99,10 +92,7 @@ public class DAOPropriedade extends DAOBase{
 
     @Override
     public JSONArray listar(Connection c, TOBase t, String metodo) throws Exception {
-        JSONArray  ja = new JSONArray();
-               
-        
-        
+ 
         ResultSet rs = null;
         
         try{
@@ -110,7 +100,6 @@ public class DAOPropriedade extends DAOBase{
             String sql = null;
             //variavel com lista dos parametros
             List<Object> u = new ArrayList<Object>();
-//            TOPessoa tp = ((TOPessoa)t);
             
             switch(metodo){
                 case "NOME_E_ID":
@@ -158,14 +147,15 @@ public class DAOPropriedade extends DAOBase{
             
             rs = Data.executeQuery(c, sql, u);
             
-            while (rs.next()){
-                TOPropriedade ts = new TOPropriedade(rs, metodo);
-                ja.put(ts.buscarJson(metodo));
+            if(rs.next()){
+                return MapeamentoJsonArray(rs);
+            }else{
+                return null;
             }
+            
         }finally{
             rs.close();
         }
-        return ja;
     }
 
     

@@ -6,93 +6,75 @@
 package dao;
 
 import fw.Data;
+import static fw.Mapeamento.*;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 import org.json.JSONArray;
+import org.json.JSONObject;
 import to.TOBase;
 import to.TOSafra;
 import to.TOLogin;
 
 /**
  *
- * @author Aimee
+ * @author Daniel
  */
 public class DAOSafra extends DAOBase{
 
     @Override
-    public long inserir(Connection c, TOBase t, String metodo) throws Exception {
-        String sql = null;
-        
-        
-        
-//        TOSafra to = ((TOSafra)t);
+    public long inserir(Connection c, TOBase t) throws Exception {
+
         List<Object> p = new ArrayList<Object>();
-        
-        switch(metodo){
-            default:
-                sql = "INSERT INTO safra(statussafra_idstatussafra, propriedade_idpropriedade, cultivar_idcultivar, safra,"
-                + " datareceb, qtdrecebida, status_entrevistador) VALUES (?, ?, ?, ?, ?, ?, ?)";
-                
-                p.add(((TOSafra)t).getStatussafra_idstatussafra());
-                p.add(((TOSafra)t).getPropriedade_idpropriedade());
-                p.add(((TOSafra)t).getCultivar_idcultivar());
-                p.add(((TOSafra)t).getSafra());
-                p.add(((TOSafra)t).getDatareceb());
-                p.add(((TOSafra)t).getQtdrecebida());
-                p.add(9);
-                break;
-        }
-        
+
+        String sql = "INSERT INTO safra(statussafra_idstatussafra, propriedade_idpropriedade, cultivar_idcultivar, safra,"
+            + " datareceb, qtdrecebida, status_entrevistador) VALUES (?, ?, ?, ?, ?, ?, ?)";
+
+        p.add(((TOSafra)t).getStatussafra_idstatussafra());
+        p.add(((TOSafra)t).getPropriedade_idpropriedade());
+        p.add(((TOSafra)t).getCultivar_idcultivar());
+        p.add(((TOSafra)t).getSafra());
+        p.add(((TOSafra)t).getDatareceb());
+        p.add(((TOSafra)t).getQtdrecebida());
+        p.add(9);
+    
         //passa por parametros a conexao e a lista de objetos da insercao de um novo produto
         return Data.executeUpdate(c, sql, p);
     }
 
     @Override
-    public void editar(Connection c, TOBase t, String metodo) throws Exception {
-        String sql = null;
-                
-
-        
-//        TOSafra to = (TOSafra)t;
-        
+    public void editar(Connection c, TOBase t) throws Exception {
+ 
         List<Object> p = new ArrayList<Object>();
-        
-        switch(metodo){
-            default:
-                sql = "UPDATE safra SET qtdcolhida=?, ultimadatacolheita=?, statussafra_idstatussafra=? WHERE idsafra = ?";
-                p.add(((TOSafra)t).getQtdcolhida());
-                p.add(((TOSafra)t).getUltimadatacolheita());
-                p.add(((TOSafra)t).getStatussafra_idstatussafra());
-                p.add(((TOSafra)t).getIdsafra());
-        
-                break;
-        }
-        
-        
+
+        String sql = "UPDATE safra SET qtdcolhida=?, ultimadatacolheita=?, statussafra_idstatussafra=? WHERE idsafra = ?";
+        p.add(((TOSafra)t).getQtdcolhida());
+        p.add(((TOSafra)t).getUltimadatacolheita());
+        p.add(((TOSafra)t).getStatussafra_idstatussafra());
+        p.add(((TOSafra)t).getIdsafra());
+
         //passa por parametros a conexao e a lista de objetos da insercao de um novo produto        
         Data.executeUpdate(c, sql, p);
         
     }
 
     @Override
-    public TOBase buscar(Connection c, TOBase t, String metodo) throws Exception {
+    public JSONObject buscar(Connection c, TOBase t, String metodo) throws Exception {
         String sql = null;
         List<Object> u = new ArrayList<Object>();
         ResultSet rs = null;
         
         try{
 
-            
             switch(metodo){
                 case "GET_POR_IDSAFRA":
                     sql = "SELECT idsafra, cultivar_idcultivar, c.nomecultivar, u.grandeza, safra, datareceb, qtdrecebida, s.descricao_status, statussafra_idstatussafra, c.imagem "
-                            + "FROM public.safra "
-                            + "INNER JOIN cultivar c ON(idcultivar = cultivar_idcultivar) "
-                            + "INNER JOIN unidademedida u ON(idunidademedida = c.unidademedida_idunidademedida) "
-                            + "INNER JOIN statussafra s ON(s.idstatussafra = statussafra_idstatussafra) "
-                            + "WHERE idsafra IN(?)";
+                        + "FROM public.safra "
+                        + "INNER JOIN cultivar c ON(idcultivar = cultivar_idcultivar) "
+                        + "INNER JOIN unidademedida u ON(idunidademedida = c.unidademedida_idunidademedida) "
+                        + "INNER JOIN statussafra s ON(s.idstatussafra = statussafra_idstatussafra) "
+                        + "WHERE idsafra IN(?)";
 
                     u.add(((TOSafra) t).getIdsafra());
                     break;
@@ -100,13 +82,15 @@ public class DAOSafra extends DAOBase{
                     sql = "select * from safra where idsafra IN(?)";
                     break;
             }
+            
             rs = Data.executeQuery(c, sql, u);
             
             if(rs.next()){
-                return new TOSafra(rs, metodo);
+                return MapeamentoJson(rs);
             }else{
                 return null;
             }
+            
         }finally{
             rs.close();
         }
@@ -115,9 +99,9 @@ public class DAOSafra extends DAOBase{
 
     @Override
     public JSONArray listar(Connection c, TOBase t, String metodo) throws Exception {
-        JSONArray  ja = new JSONArray();
   
         ResultSet rs = null;
+        
         try{
             //variavel com lista dos parametros
             List<Object> u = new ArrayList<Object>();
@@ -166,8 +150,7 @@ public class DAOSafra extends DAOBase{
             }
             rs = Data.executeQuery(c, sql, u);
             
-            while (rs.next()){
-                TOSafra ts = new TOSafra(rs, metodo);
+           
 
 //                switch ((int)((TOSafra)t).getStatussafra_idstatussafra()) {
 //                    case 1:
@@ -200,14 +183,18 @@ public class DAOSafra extends DAOBase{
                 
                 
 //                ja.put(((TOSafra)t).getJson(metodo));
-                ja.put(ts.buscarJson(metodo));
+                
+
+            if(rs.next()){
+                return MapeamentoJsonArray(rs);
+            }else{
+                return null;
             }
-            
                         
         }finally{
             rs.close();
         }
-        return ja;
+        
     }
 
 
@@ -287,30 +274,6 @@ public class DAOSafra extends DAOBase{
 //        return teste;
 //    }
 
-//    @Override
-//    public JSONArray backupentrevista(Connection c, TOBase t) throws Exception {
-//        JSONArray  ja = new JSONArray();
-//        
-//        
-//        String sql = "SELECT s.idsafra, s.safra, c.nomecultivar, s.qtdrecebida, s.propriedade_idpropriedade, um.grandeza as grandeza_recebida, s.datareceb FROM safra s INNER JOIN cultivar c ON(c.idcultivar = s.cultivar_idcultivar) INNER JOIN unidademedida um ON(um.idunidademedida = s.unidademedida_idunidademedida) WHERE s.propriedade_idpropriedade IN(?) AND s.status_entrevistador IN(9);";
-//        ResultSet rs = null;
-//        
-//        try{
-//            //variavel com lista dos parametros
-//            List<Object> u = new ArrayList<Object>();
-//            TOSafra to = (TOSafra)t;
-//            u.add(to.getPropriedade_idpropriedade());
-//            
-//            rs = Data.executeQuery(c, sql, u);
-//            while (rs.next()){
-//                TOSafra ts = new TOSafra().backupentrevista(rs);
-//                ja.put(ts.getJsonConsulta());
-//            }
-//        }finally{
-//            rs.close();
-//        }
-//        return ja;
-//    }
 }
 
 

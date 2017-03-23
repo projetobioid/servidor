@@ -174,9 +174,9 @@ public class ServicoPropriedade {
             TOPropriedade t = new TOPropriedade();
             t.setIdpropriedade(k.getLong("idpropriedade"));
             
-            t = (TOPropriedade) BOFactory.buscar(new DAOPropriedade(), t, k.getString("metodo"));
+            JSONObject data = BOFactory.buscar(new DAOPropriedade(), t, k.getString("metodo"));
             
-            j.put("data", t.buscarJson(k.getString("metodo")));
+            j.put("data", data);
             j.put("sucesso", true);
             
         }catch(Exception e){
@@ -200,10 +200,8 @@ public class ServicoPropriedade {
             
             TOBackupEntrevista t = new TOBackupEntrevista();
             t.setPropriedade_idpropriedade(k.getLong("idpropriedade"));
-            
-            t = (TOBackupEntrevista) BOFactory.buscar(new DAOBackupEntrevista(), t, k.getString("metodo"));
-            
-            if(t == null){
+           
+            if(BOFactory.buscar(new DAOBackupEntrevista(), t, k.getString("metodo")) == null){
                 TOSafra to = new TOSafra();
                 to.setPropriedade_idpropriedade(k.getLong("idpropriedade"));
                 
@@ -212,7 +210,7 @@ public class ServicoPropriedade {
                     TOPropriedade tp = new TOPropriedade();
                     tp.setIdpropriedade(k.getLong("idpropriedade"));
 
-                    tp = (TOPropriedade) BOFactory.buscar(new DAOPropriedade(), tp, k.getString("metodo"));
+                    JSONObject data = BOFactory.buscar(new DAOPropriedade(), tp, k.getString("metodo"));
 
     
                     
@@ -225,7 +223,7 @@ public class ServicoPropriedade {
                     BOFactory.inserir(new DAOBackupEntrevista(), t);
                     
                     //lista de propriedades
-                    j.put("data", tp.buscarJson(k.getString("metodo")));
+                    j.put("data", data);
                     //lista de safra
                     j.put("data_safra", ja);
                     j.put("sucesso", true); 

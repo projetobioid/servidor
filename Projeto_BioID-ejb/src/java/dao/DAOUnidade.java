@@ -6,61 +6,54 @@
 package dao;
 
 import fw.Data;
+import fw.Mapeamento;
+import static fw.Mapeamento.*;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 import org.json.JSONArray;
+import org.json.JSONObject;
 import to.TOBase;
 import to.TOUnidade;
 
 /**
  *
- * @author daniel
+ * @author Daniel
  */
 public class DAOUnidade extends DAOBase{
 
     @Override
-    public long inserir(Connection c, TOBase t, String metodo) throws Exception {
+    public long inserir(Connection c, TOBase t) throws Exception {
         String sql = null;
-     
-//        TOUnidade to = ((TOUnidade)t);
         
         List<Object> p = new ArrayList<Object>();
         
-        switch(metodo){
-            default:
-                sql = "INSERT INTO unidade(endereco_idendereco, nomeunidade, telefone1, telefone2, email, cnpj, razao_social, nome_fanta) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-                p.add(((TOUnidade)t).getEndereco_idendereco());
-                p.add(((TOUnidade)t).getNomeunidade());
-                p.add(((TOUnidade)t).getTelefone1());
-                p.add(((TOUnidade)t).getTelefone2());
-                p.add(((TOUnidade)t).getEmail());
-                p.add(((TOUnidade)t).getCnpj());
-                p.add(((TOUnidade)t).getRazao_social());
-                p.add(((TOUnidade)t).getNome_fanta());
-                break;
-        }
-        
-        
+        sql = "INSERT INTO unidade(endereco_idendereco, nomeunidade, telefone1, telefone2, email, cnpj, razao_social, nome_fanta) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        p.add(((TOUnidade)t).getEndereco_idendereco());
+        p.add(((TOUnidade)t).getNomeunidade());
+        p.add(((TOUnidade)t).getTelefone1());
+        p.add(((TOUnidade)t).getTelefone2());
+        p.add(((TOUnidade)t).getEmail());
+        p.add(((TOUnidade)t).getCnpj());
+        p.add(((TOUnidade)t).getRazao_social());
+        p.add(((TOUnidade)t).getNome_fanta());
+
         //passa por parametros a conexao e a lista de objetos da insercao de um novo produto
         return Data.executeUpdate(c, sql, p);
     }
 
     @Override
-    public TOBase buscar(Connection c, TOBase t, String metodo) throws Exception {
+    public JSONObject buscar(Connection c, TOBase t, String metodo) throws Exception {
          
-                //+ "where LOWER(nomeunidade) = LOWER(?) OR cnpj = ?";
-        
         ResultSet rs = null;
         List<Object> u = new ArrayList<Object>();
         
         try{
-//            TOUnidade to = (TOUnidade)t;
-             String sql = null;
+            String sql = null;
              
             switch(metodo){
-                case "get_unidade":
+                case "GET_POR_ID":
                     sql = "SELECT u.idunidade, c.nomecidade, u.nomeunidade, e.rua, e.bairro, e.numero, e.complemento, e.gps_lat, e.gps_long, es.nomeestado, p.nomepais, u.telefone1, u.telefone2, u.email, u.cnpj, u.razao_social, u.nome_fanta "
                         + "FROM unidade u "
                         + "INNER JOIN endereco e ON (e.idendereco = u.endereco_idendereco) "
@@ -75,19 +68,20 @@ public class DAOUnidade extends DAOBase{
                     u.add(((TOUnidade)t).getCnpj());
                     break;
                 default:
-                    sql = "SELECT * FROM unidade";
+                    sql = "SELECT * FROM unidade WHERE idunidade IN(?)";
+                    u.add(((TOUnidade)t).getIdunidade());
                     break;
                 
             }
-            
-            
+                        
             rs = Data.executeQuery(c, sql, u);
             
             if(rs.next()){
-                return new TOUnidade(rs, metodo);
+                return MapeamentoJson(rs);
             }else{
                 return null;
             }
+            
         }finally{
             rs.close();
         }
@@ -97,8 +91,7 @@ public class DAOUnidade extends DAOBase{
 
     @Override
     public JSONArray listar(Connection c, TOBase t, String metodo) throws Exception {
-        JSONArray  ja = new JSONArray();
-  
+        
         ResultSet rs = null;
         
         try{
@@ -128,16 +121,15 @@ public class DAOUnidade extends DAOBase{
             }
             rs = Data.executeQuery(c, sql);
             
-            while (rs.next()){
-                
-                TOUnidade tu = new TOUnidade(rs, metodo);
-                
-                ja.put(tu.buscarJson(metodo));
+            if(rs.next()){
+                return Mapeamento.MapeamentoJsonArray(rs);
+            }else{
+                return null;
             }
+            
         }finally{
             rs.close();
         }
-        return ja;
     }
 
     

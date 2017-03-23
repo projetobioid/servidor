@@ -14,7 +14,7 @@ import to.TOGrupos;
 
 /**
  *
- * @author daniel
+ * @author Daniel
  */
 public class DAOGrupos extends DAOBase{
         
@@ -24,9 +24,6 @@ public class DAOGrupos extends DAOBase{
         //string com o comando sql para editar o banco de dados
         String sql = null;
         
-        
-        //variavel sendo convertida para toUsuarios
-//        TOLogin to = ((TOLogin)t);
         //variavel com lista dos parametros
         List<Object> u = new ArrayList<Object>();
         
@@ -35,8 +32,6 @@ public class DAOGrupos extends DAOBase{
         u.add(((TOGrupos)t).getLoginusuario());
         u.add(((TOGrupos)t).getGrupo());
 
-    
-        
         //passa por parametros a conexao e a lista de objetos da insercao de um novo produto
         Data.executeUpdateString(c, sql, u);
     }
