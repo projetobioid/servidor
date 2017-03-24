@@ -64,7 +64,7 @@ public class ServicosAgricultor {
                 
             p.setIdpessoa(k.getLong("idpessoa"));
 
-            JSONObject data = BOFactory.buscar(new DAOPessoa(), p, k.getString("metodo"));
+            JSONObject data = BOFactory.buscar(new DAOPessoa(), u, k.getString("metodo"));
 
             if(data == null){
                 j.put("sucesso", false);
