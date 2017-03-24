@@ -188,7 +188,7 @@ public class ServicoUsuario {
                 
 //                
                 
-                JSONObject data = BOFactory.buscar(new DAOPessoa(), p, k.getString("metodo"));
+                JSONObject data = BOFactory.buscar(new DAOPessoa(), u, k.getString("metodo"));
                 
                 
                 if(data == null){
