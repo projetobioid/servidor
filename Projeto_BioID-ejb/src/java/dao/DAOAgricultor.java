@@ -9,11 +9,8 @@ import fw.Data;
 import static fw.Mapeamento.*;
 import java.sql.Connection;
 import java.sql.ResultSet;
-import java.util.ArrayList;
 import java.util.List;
 import org.json.JSONObject;
-import to.TOBase;
-import to.TOAgricultor;
 /**
  *
  * @author Daniel
@@ -21,18 +18,13 @@ import to.TOAgricultor;
 public class DAOAgricultor extends DAOBase{
 
     @Override
-    public long inserir(Connection c, TOBase t) throws Exception {
+    public long inserir(Connection c, List<Object> u) throws Exception {
         
         String sql = null;
         
-        List<Object> u = new ArrayList<Object>();
         
         sql = "INSERT INTO agricultor(pessoa_idpessoa, qtdintegrantes, qtdcriancas, qtdgravidas)VALUES (?, ?, ?, ?)";
-        
-        u.add(((TOAgricultor)t).getPessoa_idpessoa());
-        u.add(((TOAgricultor)t).getQtdIntegrantes());
-        u.add(((TOAgricultor)t).getQtdCriancas());
-        u.add(((TOAgricultor)t).getQtdGravidas());
+
  
         //passa por parametros a conexao e a lista de objetos da insercao de um novo produto
         return Data.executeUpdate(c, sql, u);
@@ -40,7 +32,7 @@ public class DAOAgricultor extends DAOBase{
     
     
     @Override
-    public JSONObject buscar(Connection c, TOBase t, String metodo) throws Exception {
+    public JSONObject buscar(Connection c, List<Object> u, String metodo) throws Exception {
        
         ResultSet rs = null;
         
@@ -53,7 +45,7 @@ public class DAOAgricultor extends DAOBase{
             + "INNER JOIN escolaridade es ON(es.idescolaridade = p.escolaridade_idescolaridade) "
             + "WHERE a.pessoa_idpessoa IN(?)";
             
-            rs = Data.executeQuery(c, sql, ((TOAgricultor)t).getPessoa_idpessoa());
+            rs = Data.executeQuery(c, sql, u);
             
             if(rs.next()){
                 return MapeamentoJson(rs);

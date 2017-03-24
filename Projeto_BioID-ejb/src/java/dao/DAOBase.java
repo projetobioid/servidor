@@ -23,51 +23,51 @@ public class DAOBase {
     
 
     //INSERIR//////////////
-    public long inserir(Connection c, TOBase t) throws Exception{
+    public long inserir(Connection c, List<Object> u) throws Exception{
         return 0;
     }
     
-    public void inserirIDString(Connection c, TOBase t) throws Exception{
+    public void inserirIDString(Connection c, List<Object> u) throws Exception{
     }  
 
     
     
     //EDITAR///////////////
-    public void editar(Connection c, TOBase t) throws Exception{
+    public void editar(Connection c, List<Object> u) throws Exception{
     }
     
     
     
     //EXCLUIR//////////////
-    public void excluir(Connection c, TOBase t) throws Exception{
+    public void excluir(Connection c, List<Object> u) throws Exception{
     }
     
     
     
     //BUSCAR///////////////
-    public JSONObject buscar(Connection c, TOBase t) throws Exception{
+    public JSONObject buscar(Connection c, List<Object> u) throws Exception{
         return null;
     }
     
-    public JSONObject buscar(Connection c, List<Object> t, String metodo) throws Exception{
+    public JSONObject buscar(Connection c, List<Object> u, String metodo) throws Exception{
         return null;
     }
     
-    public JSONObject buscar(Connection c, TOBase t, String metodo) throws Exception{
-        return null;
-    }
-    
-    public TOBase buscarObj(Connection c, TOBase t, String metodo) throws Exception{
+    public TOBase buscarObj(Connection c, List<Object> u, String metodo) throws Exception{
         return null;
     }
     
     
     //LISTAR//////////////////
+    public JSONArray listar(Connection c) throws Exception{
+        return null;
+    }
+    
     public JSONArray listar(Connection c, String metodo) throws Exception{
         return null;
     }
     
-    public JSONArray listar(Connection c, TOBase t, String metodo) throws Exception{
+    public JSONArray listar(Connection c, List<Object> t) throws Exception{
         return null;
     }
     

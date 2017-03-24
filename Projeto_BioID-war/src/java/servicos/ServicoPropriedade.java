@@ -9,7 +9,9 @@ import bo.BOFactory;
 import dao.DAOBackupEntrevista;
 import dao.DAOPropriedade;
 import dao.DAOSafra;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.Produces;
@@ -21,7 +23,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import to.TOBackupEntrevista;
-import to.TOLogin;
 import to.TOPropriedade;
 import to.TOSafra;
 
@@ -46,67 +47,31 @@ public class ServicoPropriedade {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public String inserirPropriedade(String dataJson) throws Exception{
+    public String inserir(String dataJson) throws Exception{
         
         JSONObject j = new JSONObject();
         JSONObject k = new JSONObject(dataJson);
-        
+        List<Object> u = new ArrayList<Object>();
         try{
-             //verifica  a sessao
-//            VerificarSessao vs = new VerificarSessao();
-//            String sessao = vs.VerificarSessao(k.getString("usuario"), k.getString("sessao"));
-//            
-//            if( sessao == null){
-//                j.put("sucesso", false);
-//                j.put("mensagem", "Sessao não encontrada!");
-//            }else{
-                //comeca a requisicao
-            
-//                //objeto TOEndereco
-//                TOEndereco te = new TOEndereco();
-//                TOPropriedade tpd = new TOPropriedade();
-//
-//                tpd.setNomepropriedade(nomepropriedade);
-//                tpd.setCpf(cpf);
-//
-//                if(BOFactory.get(new DAOPropriedade(), tpd, "") == null ){
-//                    te.setCidade_idcidade(cidade_idcidade);
-//                    te.setRua(rua);
-//                    te.setGps_lat(gps_lat);
-//                    te.setGps_long(gps_long);
-//                    te.setBairro(bairro);
-//                    te.setComplemento(complemento);
-//                    te.setCep(cep);
-//                    te.setNumero(numero);
-//
-//                    tpd.setEndereco_idendereco(BOFactory.inserir(new DAOEndereco(), te));
-//                    tpd.setUnidade_idunidade(unidade_idunidade);
-//
-//                    tpd.setArea(area);
-//                    tpd.setUnidadedemedida(unidadedemedida);
-//                    tpd.setAreautilizavel(areautilizavel);
-//                    tpd.setUnidadedemedidaau(unidadedemedidaau);
-//
-//                    TORelacaopa tr = new TORelacaopa();
-//
-//                    TOPessoa tp = new TOPessoa();
-//                    tp.setCpf(cpf);
-//                    tr.setPropriedade_idpropriedade(BOFactory.inserir(new DAOPropriedade(), tpd));
-//                    ((TOPessoa) BOFactory.get(new DAOPessoa(), tp, "")).getIdpessoa();
-//
-//                    tr.setAgricultor_pessoa_idpessoa(((TOPessoa) BOFactory.get(new DAOPessoa(), tp, "")).getIdpessoa());
-//
-//                    BOFactory.inserir(new DAORelacaopa(), tr);
-//
-//                    j.put("sucesso", true);
-//                    j.put("sessao", novaSessao);
-//                    j.put("messangem", "Propriedade cadastrada");
-//                }else{
-//                    j.put("sucesso", false);
-//                    j.put("sessao", novaSessao);
-//                    j.put("mensagem", "Propriedade ja existe no sistema!");
-//                }
-//            }
+             
+            u.add(k.getString("nomepropriedade"));
+
+            if(BOFactory.buscar(new DAOPropriedade(), u, "BUSCAR_POR_CPF_OU_NOME") == null ){
+
+               //add componentes endereco e salvar
+               
+               //add componentes propriedade e salvar
+               
+               //add componentes relacaopa e salvar
+   
+
+                    j.put("sucesso", true);
+                    j.put("messangem", "Propriedade cadastrada");
+                }else{
+                    j.put("sucesso", false);
+                    j.put("mensagem", "Propriedade já existe no sistema!");
+                }
+
         }catch(Exception e){
             j.put("sucesso", false);
             j.put("messangem", e.getMessage());
@@ -119,35 +84,34 @@ public class ServicoPropriedade {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public String listarPropriedades(String dataJson) throws Exception{
+    public String listar(String dataJson) throws Exception{
         
         JSONObject j = new JSONObject();
         JSONObject k = new JSONObject(dataJson);
+        List<Object> u = new ArrayList<Object>();
         
         try{
 
-                TOLogin t = new TOLogin();
-                //se tem o item id pesso a eh atribuido a classe
-                if(k.has("idpessoa"))
-                    t.setPessoa_idpessoa(k.getLong("idpessoa"));
-                
-                if(k.has("usuario"))
-                    t.setUsuario(k.getString("usuario"));
-                
-                if(k.has("idunidade"))
-                    t.setUnidade_idunidade(k.getLong("idunidade"));
+            //se tem o item id pesso a eh atribuido a classe
+            if(k.has("idpessoa"))
+                u.add(k.getLong("idpessoa"));
 
+            if(k.has("usuario"))
+                u.add(k.getString("usuario"));
 
-                JSONArray ja = BOFactory.listar(new DAOPropriedade(), t, k.getString("metodo"));
+            if(k.has("idunidade"))
+                u.add(k.getLong("idunidade"));
 
-                if(ja.length() > 0){
-                    j.put("data", ja);
-                    j.put("sucesso", true);
-                }else{
-                    j.put("sucesso", false);
-                    j.put("mensagem", "Usuário não contém propriedade cadastrada!");
+            JSONArray data = BOFactory.listar(new DAOPropriedade(), u, k.getString("metodo"));
 
-                }
+            if(data != null){
+                j.put("data", data);
+                j.put("sucesso", true);
+            }else{
+                j.put("sucesso", false);
+                j.put("mensagem", "Usuário não contém propriedade(s) cadastrada(s)!");
+
+            }
 
         }catch(Exception e){
             j.put("sucesso", false);
@@ -168,19 +132,19 @@ public class ServicoPropriedade {
         
         JSONObject j = new JSONObject();
         JSONObject k = new JSONObject(dataJSON);
-        
+        List<Object> u = new ArrayList<Object>();
+         
         try{
             
-            TOPropriedade t = new TOPropriedade();
-            t.setIdpropriedade(k.getLong("idpropriedade"));
+            u.add(k.getLong("idpropriedade"));
             
-            JSONObject data = BOFactory.buscar(new DAOPropriedade(), t, k.getString("metodo"));
+            JSONObject data = BOFactory.buscar(new DAOPropriedade(), u, k.getString("metodo"));
             
             j.put("data", data);
             j.put("sucesso", true);
             
         }catch(Exception e){
-            j.put("mensagem", e.getMessage());
+            j.put("mensagem", e.toString());
             j.put("sucesso", false);
         }
         
@@ -195,37 +159,28 @@ public class ServicoPropriedade {
         
         JSONObject j = new JSONObject();
         JSONObject k = new JSONObject(dataJSON);
-        
+        List<Object> u = new ArrayList<Object>();
         try{
             
-            TOBackupEntrevista t = new TOBackupEntrevista();
-            t.setPropriedade_idpropriedade(k.getLong("idpropriedade"));
+            u.add(k.getLong("idpropriedade"));
            
-            if(BOFactory.buscar(new DAOBackupEntrevista(), t, k.getString("metodo")) == null){
-                TOSafra to = new TOSafra();
-                to.setPropriedade_idpropriedade(k.getLong("idpropriedade"));
+            if(BOFactory.buscar(new DAOBackupEntrevista(), u, k.getString("metodo")) == null){
                 
-                JSONArray ja = BOFactory.listar(new DAOSafra(),to , "BACKUP_ENTREVISTA");
-                if(ja.length() > 0){
-                    TOPropriedade tp = new TOPropriedade();
-                    tp.setIdpropriedade(k.getLong("idpropriedade"));
-
-                    JSONObject data = BOFactory.buscar(new DAOPropriedade(), tp, k.getString("metodo"));
-
-    
+                JSONObject data = BOFactory.buscar(new DAOPropriedade(), u, k.getString("metodo"));
+                
+                if(data != null){
+                    JSONArray data_safra = BOFactory.listar(new DAOSafra(), u, "BACKUP_ENTREVISTA");
                     
                     ///cria um novo registro de download para entrevista
-                    t = new TOBackupEntrevista();
-                    t.setLogin_usuario(k.getString("usuario"));
-                    t.setPropriedade_idpropriedade(tp.getIdpropriedade());
-                    t.setStatus_backup(true);
-                    t.setData_backup(getDataAtual());
-                    BOFactory.inserir(new DAOBackupEntrevista(), t);
+                    u.add(k.getString("usuario"));
+                    u.add(getDataAtual());
+                    u.add(true);
+                    BOFactory.inserir(new DAOBackupEntrevista(), u);
                     
                     //lista de propriedades
                     j.put("data", data);
                     //lista de safra
-                    j.put("data_safra", ja);
+                    j.put("data_safra", data_safra);
                     j.put("sucesso", true); 
                     
                 }else{

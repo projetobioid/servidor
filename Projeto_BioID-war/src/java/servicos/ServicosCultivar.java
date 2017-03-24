@@ -241,16 +241,6 @@ public class ServicosCultivar {
         JSONObject k = new JSONObject(dataJson);
         
         try{
-            
-             //verifica  a sessao
-//            VerificarSessao vs = new VerificarSessao();
-//            String sessao = vs.VerificarSessao(k.getString("usuario"), k.getString("sessao"));
-//            
-//            if( sessao == null){
-//                j.put("sucesso", false);
-//                j.put("mensagem", "Sessao não encontrada!");
-//            }else{
-                //comeca a requisicao
                 
                 TOEstoque te = new TOEstoque();
                 

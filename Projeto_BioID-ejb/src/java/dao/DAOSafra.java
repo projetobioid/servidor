@@ -9,13 +9,9 @@ import fw.Data;
 import static fw.Mapeamento.*;
 import java.sql.Connection;
 import java.sql.ResultSet;
-import java.util.ArrayList;
 import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import to.TOBase;
-import to.TOSafra;
-import to.TOLogin;
 
 /**
  *
@@ -24,45 +20,28 @@ import to.TOLogin;
 public class DAOSafra extends DAOBase{
 
     @Override
-    public long inserir(Connection c, TOBase t) throws Exception {
-
-        List<Object> p = new ArrayList<Object>();
+    public long inserir(Connection c, List<Object> u) throws Exception {
 
         String sql = "INSERT INTO safra(statussafra_idstatussafra, propriedade_idpropriedade, cultivar_idcultivar, safra,"
             + " datareceb, qtdrecebida, status_entrevistador) VALUES (?, ?, ?, ?, ?, ?, ?)";
-
-        p.add(((TOSafra)t).getStatussafra_idstatussafra());
-        p.add(((TOSafra)t).getPropriedade_idpropriedade());
-        p.add(((TOSafra)t).getCultivar_idcultivar());
-        p.add(((TOSafra)t).getSafra());
-        p.add(((TOSafra)t).getDatareceb());
-        p.add(((TOSafra)t).getQtdrecebida());
-        p.add(9);
     
         //passa por parametros a conexao e a lista de objetos da insercao de um novo produto
-        return Data.executeUpdate(c, sql, p);
+        return Data.executeUpdate(c, sql, u);
     }
 
     @Override
-    public void editar(Connection c, TOBase t) throws Exception {
- 
-        List<Object> p = new ArrayList<Object>();
+    public void editar(Connection c, List<Object> u) throws Exception {
 
         String sql = "UPDATE safra SET qtdcolhida=?, ultimadatacolheita=?, statussafra_idstatussafra=? WHERE idsafra = ?";
-        p.add(((TOSafra)t).getQtdcolhida());
-        p.add(((TOSafra)t).getUltimadatacolheita());
-        p.add(((TOSafra)t).getStatussafra_idstatussafra());
-        p.add(((TOSafra)t).getIdsafra());
 
         //passa por parametros a conexao e a lista de objetos da insercao de um novo produto        
-        Data.executeUpdate(c, sql, p);
+        Data.executeUpdate(c, sql, u);
         
     }
 
     @Override
-    public JSONObject buscar(Connection c, TOBase t, String metodo) throws Exception {
+    public JSONObject buscar(Connection c, List<Object> u, String metodo) throws Exception {
         String sql = null;
-        List<Object> u = new ArrayList<Object>();
         ResultSet rs = null;
         
         try{
@@ -76,7 +55,6 @@ public class DAOSafra extends DAOBase{
                         + "INNER JOIN statussafra s ON(s.idstatussafra = statussafra_idstatussafra) "
                         + "WHERE idsafra IN(?)";
 
-                    u.add(((TOSafra) t).getIdsafra());
                     break;
                 default:
                     sql = "select * from safra where idsafra IN(?)";
@@ -98,41 +76,37 @@ public class DAOSafra extends DAOBase{
 
 
     @Override
-    public JSONArray listar(Connection c, TOBase t, String metodo) throws Exception {
+    public JSONArray listar(Connection c, List<Object> u, String metodo) throws Exception {
   
         ResultSet rs = null;
         
         try{
-            //variavel com lista dos parametros
-            List<Object> u = new ArrayList<Object>();
             
             String sql = null;
             
             switch(metodo){
                 case "CULTIVARES_RECEBIDOS":
                     sql = "SELECT idsafra, c.nomecultivar, safra, statussafra_idstatussafra "
-                            + "FROM public.safra "
-                            + "INNER JOIN cultivar c ON(idcultivar = cultivar_idcultivar) "
-                            + "INNER JOIN unidademedida u ON(idunidademedida = c.unidademedida_idunidademedida) "
-                            + "WHERE propriedade_idpropriedade IN(?)";
+                        + "FROM public.safra "
+                        + "INNER JOIN cultivar c ON(idcultivar = cultivar_idcultivar) "
+                        + "INNER JOIN unidademedida u ON(idunidademedida = c.unidademedida_idunidademedida) "
+                        + "WHERE propriedade_idpropriedade IN(?)";
 
-                    u.add(((TOSafra) t).getPropriedade_idpropriedade());
                     break;
                 case "NAO_RELATADAS":
                     sql = "SELECT idsafra, cultivar_idcultivar, c.nomecultivar, u.grandeza, safra, datareceb, qtdrecebida, status_entrevistador "
-                            + "FROM public.safra "
-                            + "INNER JOIN cultivar c ON(idcultivar = cultivar_idcultivar) "
-                            + "INNER JOIN unidademedida u ON(idunidademedida = c.unidademedida_idunidademedida) "
-                            + "WHERE status_entrevistador IN(9) AND propriedade_idpropriedade IN(?)";
+                        + "FROM public.safra "
+                        + "INNER JOIN cultivar c ON(idcultivar = cultivar_idcultivar) "
+                        + "INNER JOIN unidademedida u ON(idunidademedida = c.unidademedida_idunidademedida) "
+                        + "WHERE status_entrevistador IN(9) AND propriedade_idpropriedade IN(?)";
 
-                    u.add(((TOSafra) t).getPropriedade_idpropriedade());
                     break;
                 case "BACKUP_ENTREVISTA":
                     sql = "SELECT s.idsafra, s.safra, c.nomecultivar, s.qtdrecebida, s.propriedade_idpropriedade, s.datareceb, um.grandeza FROM safra s "
-                            + "INNER JOIN cultivar c ON(c.idcultivar = s.cultivar_idcultivar) "
-                            + "INNER JOIN unidademedida um ON(um.idunidademedida = c.unidademedida_idunidademedida) "
-                            + "WHERE s.propriedade_idpropriedade IN(?) AND s.status_entrevistador IN(9)";
-                    u.add(((TOSafra)t).getPropriedade_idpropriedade());
+                        + "INNER JOIN cultivar c ON(c.idcultivar = s.cultivar_idcultivar) "
+                        + "INNER JOIN unidademedida um ON(um.idunidademedida = c.unidademedida_idunidademedida) "
+                        + "WHERE s.propriedade_idpropriedade IN(?) AND s.status_entrevistador IN(9)";
+  
                     break;
                 default:
                     sql = "SELECT s.idsafra, s.statussafra_idstatussafra, s.safra, s.datareceb, s.qtdrecebida,"
@@ -145,7 +119,6 @@ public class DAOSafra extends DAOBase{
                         + " INNER JOIN cultivar c ON (c.idcultivar = s.cultivar_idcultivar)"
                         + " INNER JOIN unidademedida um ON(um.idunidademedida = s.unidademedida_idunidademedida) where l.pessoa_idpessoa IN(?) ORDER BY s.safra DESC";
 
-                    u.add(((TOLogin) t).getPessoa_idpessoa());
                     break;
             }
             rs = Data.executeQuery(c, sql, u);

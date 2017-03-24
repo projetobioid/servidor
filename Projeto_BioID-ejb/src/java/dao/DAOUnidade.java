@@ -10,12 +10,9 @@ import fw.Mapeamento;
 import static fw.Mapeamento.*;
 import java.sql.Connection;
 import java.sql.ResultSet;
-import java.util.ArrayList;
 import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import to.TOBase;
-import to.TOUnidade;
 
 /**
  *
@@ -24,30 +21,19 @@ import to.TOUnidade;
 public class DAOUnidade extends DAOBase{
 
     @Override
-    public long inserir(Connection c, TOBase t) throws Exception {
+    public long inserir(Connection c, List<Object> u) throws Exception {
         String sql = null;
         
-        List<Object> p = new ArrayList<Object>();
-        
         sql = "INSERT INTO unidade(endereco_idendereco, nomeunidade, telefone1, telefone2, email, cnpj, razao_social, nome_fanta) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-        p.add(((TOUnidade)t).getEndereco_idendereco());
-        p.add(((TOUnidade)t).getNomeunidade());
-        p.add(((TOUnidade)t).getTelefone1());
-        p.add(((TOUnidade)t).getTelefone2());
-        p.add(((TOUnidade)t).getEmail());
-        p.add(((TOUnidade)t).getCnpj());
-        p.add(((TOUnidade)t).getRazao_social());
-        p.add(((TOUnidade)t).getNome_fanta());
 
         //passa por parametros a conexao e a lista de objetos da insercao de um novo produto
-        return Data.executeUpdate(c, sql, p);
+        return Data.executeUpdate(c, sql, u);
     }
 
     @Override
-    public JSONObject buscar(Connection c, TOBase t, String metodo) throws Exception {
+    public JSONObject buscar(Connection c, List<Object> u, String metodo) throws Exception {
          
         ResultSet rs = null;
-        List<Object> u = new ArrayList<Object>();
         
         try{
             String sql = null;
@@ -61,15 +47,12 @@ public class DAOUnidade extends DAOBase{
                         + "INNER JOIN estado es ON (es.idestado = c.estado_idestado) "
                         + "INNER JOIN pais p ON (p.idpais= es.pais_idpais) "
                         + "WHERE idunidade IN(?)";
-                    u.add(((TOUnidade)t).getIdunidade());
                     break;
                 case "GET_POR_CNPJ":
                     sql = "SELECT * FROM unidade where cnpj IN(?)";
-                    u.add(((TOUnidade)t).getCnpj());
                     break;
                 default:
                     sql = "SELECT * FROM unidade WHERE idunidade IN(?)";
-                    u.add(((TOUnidade)t).getIdunidade());
                     break;
                 
             }
@@ -90,7 +73,7 @@ public class DAOUnidade extends DAOBase{
 
 
     @Override
-    public JSONArray listar(Connection c, TOBase t, String metodo) throws Exception {
+    public JSONArray listar(Connection c, String metodo) throws Exception {
         
         ResultSet rs = null;
         

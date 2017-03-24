@@ -13,8 +13,6 @@ import java.util.ArrayList;
 import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import to.TOBase;
-import to.TOEstoque;
 
 /**
  *
@@ -24,30 +22,25 @@ public class DAOEstoque extends DAOBase{
 
     
     @Override
-    public JSONObject buscar(Connection c, TOBase t, String metodo) throws Exception {
+    public JSONObject buscar(Connection c, List<Object> u, String metodo) throws Exception {
 
         ResultSet rs = null;
         
         try{
             String sql = null;
             
-            //variavel com lista dos parametros
-            List<Object> u = new ArrayList<Object>();
             
             switch(metodo){
                 case "GET_CULTIVAR":
                     sql = "SELECT e.unidade_idunidade, e.cultivar_idcultivar, e.quantidade, um.grandeza FROM estoque e "
-                            + "INNER JOIN cultivar c ON(c.idcultivar = e.cultivar_idcultivar) "
-                            + "INNER JOIN unidademedida um ON(um.idunidademedida = c.unidademedida_idunidademedida) "
-                            + "WHERE cultivar_idcultivar IN(?) AND unidade_idunidade IN(?)";
-                    u.add(((TOEstoque)t).getCultivar_idcultivar()); 
-                    u.add(((TOEstoque)t).getUnidade_idunidade());
+                        + "INNER JOIN cultivar c ON(c.idcultivar = e.cultivar_idcultivar) "
+                        + "INNER JOIN unidademedida um ON(um.idunidademedida = c.unidademedida_idunidademedida) "
+                        + "WHERE cultivar_idcultivar IN(?) AND unidade_idunidade IN(?)";
+
                     break;
                 default:
                     sql = "SELECT * FROM estoque "
-                            + "WHERE cultivar_idcultivar IN(?) AND unidade_idunidade IN(?)";
-                    u.add(((TOEstoque)t).getCultivar_idcultivar()); 
-                    u.add(((TOEstoque)t).getUnidade_idunidade());
+                        + "WHERE cultivar_idcultivar IN(?) AND unidade_idunidade IN(?)";
                     break;
             }
             
@@ -66,43 +59,33 @@ public class DAOEstoque extends DAOBase{
     }
 
     @Override
-    public long inserir(Connection c, TOBase t) throws Exception {
+    public long inserir(Connection c, List<Object> u) throws Exception {
         //string com o comando sql para editar o banco de dados
         String sql = null;
   
-        //variavel com lista dos parametros
-        List<Object> u = new ArrayList<Object>();
            
         sql = "INSERT INTO estoque(unidade_idunidade, cultivar_idcultivar, quantidade) VALUES (?, ?, ?)";
-        u.add(((TOEstoque)t).getUnidade_idunidade());
-        u.add(((TOEstoque)t).getCultivar_idcultivar());
-        u.add(((TOEstoque)t).getQuantidade());
         
         //passa por parametros a conexao e a lista de objetos da insercao
         return Data.executeUpdate(c, sql, u);
     }
 
     @Override
-    public void editar(Connection c, TOBase t) throws Exception {
+    public void editar(Connection c, List<Object> u) throws Exception {
     
         List<Object> p = new ArrayList<Object>();
         
         String sql = "UPDATE estoque set quantidade = ? WHERE unidade_idunidade IN(?) AND cultivar_idcultivar IN(?)";
-                
-        p.add(((TOEstoque)t).getQuantidade());
-        p.add(((TOEstoque)t).getUnidade_idunidade());
-        p.add(((TOEstoque)t).getCultivar_idcultivar());
        
         Data.executeUpdate(c, sql, p);
     }
 
     @Override
-    public JSONArray listar(Connection c, TOBase t, String metodo) throws Exception {
+    public JSONArray listar(Connection c, List<Object> u, String metodo) throws Exception {
         
         ResultSet rs = null;
         try{
-            //variavel com lista dos parametros
-            List<Object> u = new ArrayList<Object>();
+            
             
             String sql = null;
             
@@ -112,8 +95,7 @@ public class DAOEstoque extends DAOBase{
                         + " INNER JOIN cultivar c ON (c.idcultivar = e.cultivar_idcultivar)"
                         + " INNER JOIN unidademedida u ON (u.idunidademedida = c.unidademedida_idunidademedida)"
                         + " WHERE unidade_idunidade IN(?) AND e.quantidade > 0";
-
-                    u.add(((TOEstoque) t).getUnidade_idunidade());
+                    
                     break;
                 case "estoqueunidade_select":
                     sql = "SELECT e.unidade_idunidade, e.cultivar_idcultivar, u.grandeza, e.quantidade, c.nomecultivar FROM estoque e"
@@ -121,15 +103,13 @@ public class DAOEstoque extends DAOBase{
                         + " INNER JOIN unidademedida u ON (u.idunidademedida = c.unidademedida_idunidademedida)"
                         + " WHERE unidade_idunidade IN(?) AND e.quantidade > 0";
 
-                    u.add(((TOEstoque) t).getUnidade_idunidade());
                     break;
                 default:
                     sql = "SELECT * FROM estoque";
                     break;
             
             }
-            
-            
+                        
             rs = Data.executeQuery(c, sql, u);
             
             if(rs.next()){

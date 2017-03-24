@@ -463,20 +463,20 @@ public class ServicosAgricultor {
                         
                         j.put("sucesso", true);
                         j.put("mensagem", "Agricultor cadastrado com sucesso!");
-//                        j.put("sessao", sessao);
+
                     //mensagen de usuario ja existente
                     }else{
                         j.put("sucesso", false);
                         j.put("mensagem", "Erro, usuário já cadastrado!");
-//                        j.put("sessao", sessao);
+
                     }  
                 //mensagen de usuario ja existente
                 }else{
                     j.put("sucesso", false);
                     j.put("mensagem", "Erro, cpf já cadastrado!");
-//                    j.put("sessao", sessao);
+
                 }
-//            }
+
         }catch(Exception e){
             j.put("sucesso", false);
             j.put("mensagem", e.getMessage());
@@ -498,14 +498,7 @@ public class ServicosAgricultor {
         JSONObject k = new JSONObject(dataJson);
         
         try{
-             //verifica  a sessao
-//            VerificarSessao vs = new VerificarSessao();
-//            String sessao = vs.VerificarSessao(k.getString("usuario"), k.getString("sessao"));
-//            
-//            if( sessao == null){
-//                j.put("sucesso", false);
-//                j.put("mensagem", "Sessao não encontrada!");
-//            }else{
+
                 //comeca a requisicao
                 TOPessoa t = new TOPessoa();
 
@@ -520,9 +513,9 @@ public class ServicosAgricultor {
                     BOFactory.editar(new DAOPessoa(), t);
 
                     j.put("sucesso", true);
-//                    j.put("sessao", sessao);
+
                 }
-//            }
+
         }catch(Exception e){
             j.put("suceso", false);
             j.put("mensagem", e.getMessage());
@@ -542,32 +535,20 @@ public class ServicosAgricultor {
         JSONObject k = new JSONObject(dataJson);
         
         try{
-            
-            //verifica  a sessao
-//            VerificarSessao vs = new VerificarSessao();
-//            String sessao = vs.VerificarSessao(k.getString("usuario"), k.getString("sessao"));
-//            
-//            if( sessao == null){
-//                j.put("sucesso", false);
-//                j.put("mensagem", "Sessao não encontrada!");
-//            }else{
-                
-                //comeca a requisicao
+
                 TOPessoa to = new TOPessoa();
                 //to.setId(id);
 
                 if(BOFactory.buscar(new DAOPessoa(), to, k.getString("metodo")) == null){
                     j.put("sucesso", false);
                     j.put("messangem", "Usuário não encontrado");
-//                    j.put("sessao", sessao);
+
                 }else{
                     BOFactory.excluir(new DAOPessoa(), to);
                     
-                    
-//                    j.put("sessao", sessao);
                     j.put("sucesso", true);
                 }
-//            }
+
         }catch (Exception e){
             j.put("sucesso", false);
             j.put("messangem", e.getMessage());

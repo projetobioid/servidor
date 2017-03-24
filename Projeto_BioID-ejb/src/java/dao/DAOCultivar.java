@@ -5,17 +5,11 @@ package dao;
 
 import fw.Data;
 import static fw.Mapeamento.*;
-import fw.RedimencionarImage;
 import java.sql.Connection;
 import java.sql.ResultSet;
-import java.util.ArrayList;
 import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import to.TOBase;
-import to.TOCultivar;
-import to.TOEstoque;
-import to.TOLogin;
 
 /**
  *
@@ -25,57 +19,38 @@ import to.TOLogin;
 public class DAOCultivar extends DAOBase {
 
     @Override
-    public long inserir(Connection c, TOBase t) throws Exception {
+    public long inserir(Connection c, List<Object> u) throws Exception {
         String sql = "INSERT INTO cultivar(imagem, nomecultivar, descricao, biofortificado, unidademedida_idunidademedida, valornutricional, tempodecolheita, tempodestinacao, peso_saca) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-       
-        List<Object> u = new ArrayList<Object>();
-        
+
          //chama a classe que redimenciona a imagem antes de atribuir ao TOProduto
-        RedimencionarImage r = new RedimencionarImage();      
-        u.add(r.redimensionaImg(((TOCultivar)t).getString_imagem()));
-        u.add(((TOCultivar)t).getNomecultivar());
-        u.add(((TOCultivar)t).getDescricao());
-        u.add(((TOCultivar)t).isBiofortificado());
-        u.add(((TOCultivar)t).getUnidademedida_idunidademedida());
-        u.add(((TOCultivar)t).getValornutricional());
-        u.add(((TOCultivar)t).getTempodecolheita());
-        u.add(((TOCultivar)t).getTempodestinacao());
-        u.add(((TOCultivar)t).getPeso_saca());
-       
+//        RedimencionarImage r = new RedimencionarImage();      
+//        u.add(r.redimensionaImg(((TOCultivar)t).getString_imagem()));
         //passa por parametros a conexao e a lista de objetos da insercao de um novo produto
         return Data.executeUpdate(c, sql, u);
     }
     
     @Override
-    public void editar(Connection c, TOBase t) throws Exception {
+    public void editar(Connection c, List<Object> u) throws Exception {
         String sql = "update cultivar set nome = ?, descricao = ?, biofortificado = ?, tipo = ? where id = ? ";
-        
-        List<Object> p = new ArrayList<Object>();
-        
-        p.add(((TOCultivar)t).getNomecultivar());
-        p.add(((TOCultivar)t).getDescricao());
-       
+
         //passa por parametros a conexao e a lista de objetos da insercao de um novo produto        
-        Data.executeUpdate(c, sql, p);
+        Data.executeUpdate(c, sql, u);
     }
     
     @Override
-    public void excluir(Connection c, TOBase t) throws Exception {
+    public void excluir(Connection c, List<Object> u) throws Exception {
         String sql = "delete from cultivar where id = ? ";
 
-        List<Object> p = new ArrayList<Object>();
-        
-        Data.executeUpdate(c, sql, p);
+        Data.executeUpdate(c, sql, u);
     } 
 
     @Override
-    public JSONObject buscar(Connection c, TOBase t, String metodo) throws Exception {
+    public JSONObject buscar(Connection c, List<Object> u, String metodo) throws Exception {
         
         String sql = null;
                 
         ResultSet rs = null;
         
-        List<Object> u = new ArrayList<Object>();
         
         try{
             
@@ -84,15 +59,15 @@ public class DAOCultivar extends DAOBase {
                     sql = "SELECT c.idcultivar, um.grandeza, c.nomecultivar, c.imagem, c.descricao, c.biofortificado, c.valornutricional, c.tempodecolheita, c.tempodestinacao, c.peso_saca "
                         + "FROM cultivar c INNER JOIN unidademedida um ON(um.idunidademedida = c.unidademedida_idunidademedida)"
                         + " WHERE c.idcultivar IN(?)";
-                    u.add(((TOCultivar)t).getIdcultivar());
+                    
                 break;
                 case "GET_NOME":
                     sql = "SELECT * FROM cultivar where LOWER(nomecultivar) IN(?)";
-                    u.add(((TOCultivar)t).getNomecultivar());
+                  
                     break;
                 default:
                     sql = "SELECT * FROM cultivar where idcultivar IN(?)";
-                    u.add(((TOCultivar)t).getIdcultivar());
+              
                 break;
                 
             }
@@ -112,12 +87,10 @@ public class DAOCultivar extends DAOBase {
     
 
     @Override
-    public JSONArray listar(Connection c, TOBase t, String metodo) throws Exception {         
+    public JSONArray listar(Connection c, List<Object> u, String metodo) throws Exception {         
         ResultSet rs = null;
         
         try{
-            //variavel com lista dos parametros
-            List<Object> u = new ArrayList<Object>();
             String sql = null;
             
             switch (metodo) {
@@ -147,26 +120,23 @@ public class DAOCultivar extends DAOBase {
                         + "INNER JOIN cultivar c ON (idcultivar = cultivar_idcultivar) "
                         + "INNER JOIN unidademedida um ON (idunidademedida = c.unidademedida_idunidademedida) "
                         + "where l.pessoa_idpessoa = ?";
-                    u.add(((TOLogin) t).getPessoa_idpessoa());
                     break;
                 case "estoqueunidade":
                     sql = "SELECT e.cultivar_idcultivar, c.nomecultivar, e.quantidade, u.grandeza FROM estoque e "
                         + "INNER JOIN cultivar c ON (c.idcultivar = e.cultivar_idcultivar) "
                         + " INNER JOIN unidademedida u ON (u.idunidademedida = e.unidademedida_idunidademedida)"
                         + "WHERE e.unidade_idunidade IN(?)";
-                    u.add(((TOEstoque) t).getUnidade_idunidade());
                     break;
                 case "estoqueunidade_select":
                     sql = "SELECT e.cultivar_idcultivar, c.nomecultivar FROM estoque e "
                         + "INNER JOIN cultivar c ON (c.idcultivar = e.cultivar_idcultivar) "
                         + "WHERE e.unidade_idunidade IN(?)";
-                    u.add(((TOEstoque) t).getUnidade_idunidade());
                     break;
                 default:
                     break;
             }
             
-            rs = Data.executeQuery(c, sql);
+            rs = Data.executeQuery(c, sql, u);
             
             if(rs.next()){
                 return MapeamentoJsonArray(rs);

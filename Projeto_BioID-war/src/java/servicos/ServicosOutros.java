@@ -6,6 +6,7 @@ lista cidade
 package servicos;
 
 import bo.BOFactory;
+import dao.DAOCidade;
 import dao.DAOLogin;
 import dao.DAOPaisEstadoCidade;
 import javax.ws.rs.Consumes;
@@ -75,11 +76,10 @@ public class ServicosOutros {
         return j.toString();
     }
     
-    @POST
-    @Path("listar")
-    @Consumes(MediaType.APPLICATION_JSON)
+    @GET
+    @Path("listarpais")
     @Produces(MediaType.APPLICATION_JSON)
-    public String listar(String dataJson) throws Exception{
+    public String listarPais() throws Exception{
         
         JSONObject j = new JSONObject();
         
@@ -105,6 +105,8 @@ public class ServicosOutros {
 //                    break;
 //            }
 
+        try{ 
+            JSONArray ja = BOFactory.listar(new DAOPais());
              
                 if(ja.length() > 0){
                     j.put("sucesso", true);
@@ -112,7 +114,66 @@ public class ServicosOutros {
 
                 }else{
                     j.put("sucesso", false);
-                    j.put("mensagem", "Sem dados na tabela" + k.getString("metodo"));
+                    j.put("mensagem", "Tabela país vazia!");
+                }
+            
+        }catch(Exception e){
+            j.put("sucesso", false);
+            j.put("mensagem", e.getMessage());
+        }
+        
+        return j.toString();
+    }
+    
+    @POST
+    @Path("listarestados")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public String listarEstados(String dataJson) throws Exception{
+        
+        JSONObject j = new JSONObject();
+         
+        
+        try{
+                JSONArray ja = BOFactory.listar(new DAOEstado(), dataJson);
+                  
+             
+                if(ja.length() > 0){
+                    j.put("sucesso", true);
+                    j.put("data", ja);
+
+                }else{
+                    j.put("sucesso", false);
+                    j.put("mensagem", "Tabela estado vazia!");
+                }
+            
+        }catch(Exception e){
+            j.put("sucesso", false);
+            j.put("mensagem", e.getMessage());
+        }
+        
+        return j.toString();
+    }
+    
+    @POST
+    @Path("listarcidades")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public String listarcidades(String dataJson) throws Exception{
+        
+        JSONObject j = new JSONObject();
+         
+        try{
+                JSONArray ja = BOFactory.listar(new DAOCidade(), dataJson);
+                  
+             
+                if(ja.length() > 0){
+                    j.put("sucesso", true);
+                    j.put("data", ja);
+
+                }else{
+                    j.put("sucesso", false);
+                    j.put("mensagem", "Tabela cidade vazia!");
                 }
             
         }catch(Exception e){
@@ -122,7 +183,7 @@ public class ServicosOutros {
         
         return j.toString();
    }
-   
+    
   
    
    @GET

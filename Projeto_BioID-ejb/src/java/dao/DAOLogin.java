@@ -9,11 +9,8 @@ import fw.Data;
 import static fw.Mapeamento.*;
 import java.sql.Connection;
 import java.sql.ResultSet;
-import java.util.ArrayList;
 import java.util.List;
 import org.json.JSONObject;
-import to.TOBase;
-import to.TOLogin;
 
 /**
  *
@@ -22,18 +19,12 @@ import to.TOLogin;
 public class DAOLogin extends DAOBase{
 
     @Override
-    public void inserirIDString(Connection c, TOBase t) throws Exception {
+    public void inserirIDString(Connection c, List<Object> u) throws Exception {
         //string com o comando sql para editar o banco de dados
         String sql = null;
         
-        //variavel com lista dos parametros
-        List<Object> u = new ArrayList<Object>();
-        
         sql = "INSERT INTO login(pessoa_idpessoa, unidade_idunidade, usuario, senha) VALUES (?, ?, ?, ?)";
-        u.add(((TOLogin)t).getPessoa_idpessoa());
-        u.add(((TOLogin)t).getUnidade_idunidade());
-        u.add(((TOLogin)t).getUsuario());
-        u.add(((TOLogin)t).getSenha());
+
    
         //passa por parametros a conexao e a lista de objetos da insercao de um novo produto
         Data.executeUpdateString(c, sql, u);
@@ -41,14 +32,12 @@ public class DAOLogin extends DAOBase{
 
    
     @Override
-    public JSONObject buscar(Connection c, TOBase t, String metodo) throws Exception {
+    public JSONObject buscar(Connection c, List<Object> u, String metodo) throws Exception {
          //string com o comando sql para editar o banco de dados
         String sql = null;
         ResultSet rs = null;
         
         try{
-            //variavel com lista dos parametros
-            List<Object> u = new ArrayList<Object>();
             
             //testa o metodo a ser executado
             switch(metodo){
@@ -59,13 +48,10 @@ public class DAOLogin extends DAOBase{
                     + "INNER JOIN grupos g ON(g.loginusuario = l.usuario) "
                     + "WHERE usuario IN(?) AND senha IN(?)";
                 
-                u.add(((TOLogin)t).getUsuario());
-                u.add(((TOLogin)t).getSenha());
                 break;
                 case "GET_POR_USUARIO" :
                     sql = "SELECT * FROM login WHERE usuario IN(?)";
                 
-                    u.add(((TOLogin)t).getUsuario());
                     break;
                 default:
                     sql = "SELECT * FROM login";
@@ -87,15 +73,12 @@ public class DAOLogin extends DAOBase{
     }
 
     @Override
-    public void editar(Connection c, TOBase t) throws Exception {
-        String sql = null;
+    public void editar(Connection c, List<Object> u) throws Exception {
         
-        List<Object> u = new ArrayList<Object>();
+        String sql = null;
        
         sql = "update login set sessao = ? where idlogin = ? ";
-        u.add(((TOLogin)t).getUsuario());
-        u.add(((TOLogin)t).getSenha());
-    
+
         //passa por parametros a conexao e a lista de objetos da insercao de um novo produto        
         Data.executeUpdate(c, sql, u);
     }

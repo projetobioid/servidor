@@ -174,16 +174,6 @@ public class ServicoUsuario {
         JSONObject k = new JSONObject(dataJson);
         
         try{
-             //verifica  a sessao
-//            VerificarSessao vs = new VerificarSessao();
-//            String sessao = vs.VerificarSessao(k.getString("usuario"), k.getString("sessao"));
-//            
-//            if( sessao == null){
-//                j.put("sucesso", false);
-//                j.put("mensagem", "Sessao não encontrada!");
-//            }else{
-                //comeca a requisicao
-                
 
                 TOPessoa p = new TOPessoa();
                 
@@ -204,15 +194,14 @@ public class ServicoUsuario {
                 if(data == null){
                     j.put("sucesso", false);
                     j.put("mensagem", k.getString("metodo")+" não encontrado");
-//                    j.put("sessao", sessao);
+
                 }else{
                     j.put("data", data);
 //                    j.put("sessao", sessao);
                     j.put("sucesso", true);
                 }
       
-                        
-//            }
+
         }catch(Exception e){
             j.put("sucesso", false);
             j.put("mensagem", e.getMessage());

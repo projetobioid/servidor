@@ -20,17 +20,11 @@ public class DAOGrupos extends DAOBase{
         
     
     @Override
-    public void inserirIDString(Connection c, TOBase t) throws Exception {
+    public void inserirIDString(Connection c, List<Object> u) throws Exception {
         //string com o comando sql para editar o banco de dados
-        String sql = null;
-        
-        //variavel com lista dos parametros
-        List<Object> u = new ArrayList<Object>();
-        
+        String sql = null;       
 
         sql = "INSERT INTO grupos(loginusuario, grupo) VALUES (?, ?)";
-        u.add(((TOGrupos)t).getLoginusuario());
-        u.add(((TOGrupos)t).getGrupo());
 
         //passa por parametros a conexao e a lista de objetos da insercao de um novo produto
         Data.executeUpdateString(c, sql, u);
