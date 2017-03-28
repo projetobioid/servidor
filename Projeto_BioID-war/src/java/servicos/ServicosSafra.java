@@ -7,6 +7,8 @@ package servicos;
 
 import bo.BOFactory;
 import dao.DAOSafra;
+import java.util.ArrayList;
+import java.util.List;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.Produces;
@@ -16,7 +18,6 @@ import javax.ws.rs.Path;
 import javax.ws.rs.core.MediaType;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import to.TOSafra;
 
 /**
  * REST Web Service
@@ -44,19 +45,21 @@ public class ServicosSafra {
         
         JSONObject j = new JSONObject();
         JSONObject k = new JSONObject(dataJson);
+        List<Object> u = new ArrayList<Object>();
         
         try{      
-                //comeca a requisicao
-                TOSafra p = new TOSafra();
-                p.setIdsafra(k.getLong("idsafra"));
-                JSONObject data = BOFactory.buscar(new DAOSafra(), p, k.getString("metodo"));
-                if(data == null){
-                    j.put("sucesso", false);
-                    j.put("mensagem", "Safra não encontrado");
-                }else{
-                    j.put("data", data);
-                    j.put("sucesso", true);
-                }           
+            
+            u.add(k.getLong("idsafra"));
+            
+            JSONObject data = BOFactory.buscar(new DAOSafra(), u, k.getString("metodo"));
+            
+            if(data == null){
+                j.put("sucesso", false);
+                j.put("mensagem", "Safra não encontrado");
+            }else{
+                j.put("data", data);
+                j.put("sucesso", true);
+            }           
                 
 
         }catch(Exception e){
@@ -76,37 +79,22 @@ public class ServicosSafra {
         
         JSONObject j = new JSONObject();
         JSONObject k = new JSONObject(dataJson);
+        List<Object> u = new ArrayList<Object>();
         
         try{
-             //verifica  a sessao
-//            VerificarSessao vs = new VerificarSessao();
-//            String sessao = vs.VerificarSessao(k.getString("usuario"), k.getString("sessao"));
-//            
-//            if( sessao == null){
-//                j.put("sucesso", false);
-//                j.put("mensagem", "Sessao não encontrada!");
-//            }else{
-                //comeca a requisicao
                 
-                TOSafra to = new TOSafra();
-                
-                
-        
-                to.setPropriedade_idpropriedade(k.getLong("idpropriedade"));
-                        
+            u.add(k.getLong("idpropriedade"));
+             
+            JSONArray data = BOFactory.listar(new DAOSafra(), u, k.getString("metodo")) ;
 
-                
-                JSONArray ja = BOFactory.listar(new DAOSafra(),to , k.getString("metodo")) ;
-
-                if(ja.length() > 0){
-                    j.put("data", ja);
-                    j.put("sucesso", true);
-
-                }else{
-                    j.put("sucesso", false);
-                    j.put("mensagem", "Propriedade não contém distribuição de cultivares!");
-
-                }
+            if(data == null){
+                j.put("sucesso", false);
+                j.put("mensagem", "Propriedade não contém distribuição de cultivares!");
+            }else{
+                j.put("data", data);
+                j.put("sucesso", true);
+            }  
+            
 
         }catch(Exception e){
             j.put("sucesso", false);
@@ -122,7 +110,7 @@ public class ServicosSafra {
     
     
     
-     @Path("backupentrevista")
+    @Path("backupentrevista")
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
@@ -130,25 +118,21 @@ public class ServicosSafra {
         
         JSONObject j = new JSONObject();
         JSONObject k = new JSONObject(dataJson);
+        List<Object> u = new ArrayList<Object>();
         
         try{
 
-                
-                TOSafra to = new TOSafra();
-         
-                to.setPropriedade_idpropriedade(k.getLong("idpropriedade"));
+            u.add(k.getLong("idpropriedade"));
              
-                JSONArray ja = BOFactory.listar(new DAOSafra(),to , k.getString("metodo")) ;
+            JSONArray data = BOFactory.listar(new DAOSafra(), u, k.getString("metodo")) ;
 
-                if(ja.length() > 0){
-                    j.put("data", ja);
-                    j.put("sucesso", true);
-
-                }else{
-                    j.put("sucesso", false);
-                    j.put("mensagem", "Propriedade não contém distribuição de cultivares!");
-
-                }
+            if(data == null){
+                j.put("sucesso", false);
+                j.put("mensagem", "Propriedade não contém distribuição de cultivares!");
+            }else{
+                j.put("data", data);
+                j.put("sucesso", true);
+            }  
 
         }catch(Exception e){
             j.put("sucesso", false);

@@ -27,7 +27,7 @@ public class DAOEstado extends DAOBase{
         
         try{
             
-            sql = "SELECT idcidade, nomecidade FROM cidade WHERE estado_idestado IN(?) ORDER BY nomecidade ASC";
+            sql = "SELECT idestado, nomeestado FROM estado WHERE pais_idpais IN(?) ORDER BY nomeestado ASC";
 
     
             rs = Data.executeQuery(c, sql, u);

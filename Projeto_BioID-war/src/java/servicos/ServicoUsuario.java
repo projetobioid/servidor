@@ -10,6 +10,8 @@ import dao.DAOEndereco;
 import dao.DAOGrupos;
 import dao.DAOLogin;
 import dao.DAOPessoa;
+import java.util.ArrayList;
+import java.util.List;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.Produces;
@@ -19,11 +21,6 @@ import javax.ws.rs.Path;
 import javax.ws.rs.core.MediaType;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import to.TOEndereco;
-import to.TOGrupos;
-import to.TOLogin;
-import to.TOPessoa;
-import to.TOPropriedade;
 
 /**
  * REST Web Service
@@ -50,21 +47,35 @@ public class ServicoUsuario {
         
         JSONObject j = new JSONObject();
         JSONObject k = new JSONObject(dataJson);
+        List<Object> u = new ArrayList<Object>();
         
         try{
+            JSONArray data = null;
             
-            TOPropriedade to = new TOPropriedade();
+            switch(k.getString("metodo")){
+                case "TODOS_DA_UNIDADE":
+                case "EQUIPE":
+                    u.add(k.getLong("idunidade"));
+                    data = BOFactory.listar(new DAOPessoa(), u, k.getString("metodo")) ; 
+                    break;
+                case "USUARIOS":
+                    data = BOFactory.listar(new DAOPessoa(), k.getString("metodo")) ; 
+                    break;
+                default:
+                    data = null;
+                    break;
+            }
+            
 
-            to.setUnidade_idunidade(k.getLong("idunidade"));
+            
 
-            JSONArray ja = BOFactory.listar(new DAOPessoa(), to, k.getString("metodo")) ;
-
-            if(ja.length() > 0){
-                j.put("data", ja);
-                j.put("sucesso", true);
-            }else{
+            if(data == null){
                 j.put("sucesso", false);
                 j.put("mensagem", "Sem usuários cadastrados!");
+
+            }else{
+                j.put("data", data);
+                j.put("sucesso", true);
             }
         }catch(Exception e){
             j.put("sucesso", false);
@@ -82,66 +93,68 @@ public class ServicoUsuario {
         
         JSONObject j = new JSONObject();
         JSONObject k = new JSONObject(dataJson);
+        List<Object> u = new ArrayList<Object>();
         
         try{
-          
-            TOPessoa t = new TOPessoa();
 
             //popula objetos e verifica se existe o cpf e usuario cadastrados no banco
-            t.setCpf(k.getString("cpf"));
+            u.add(k.getString("cpf"));
 
             //se nao existe cpf cadastrado no banco, prosegue o cadastro
-            if(BOFactory.buscar(new DAOPessoa(), t, "GET_POR_CPF") == null ){
-                TOLogin tl = new TOLogin();
-                tl.setUsuario(k.getString("usuario_login"));
+            if(BOFactory.buscar(new DAOPessoa(), u, "BUSCA_POR_CPF") == null ){
+                u.clear();
+                u.add(k.getString("usuario_login"));
                 
                 //teste se existe o usuario cadastrado
-                if(BOFactory.buscar(new DAOLogin(), tl) == null ){
+                if(BOFactory.buscar(new DAOLogin(), u) == null ){
+                    
                     long idGerado;
-                    TOEndereco te = new TOEndereco();
-
-
+                    
                     //tabela endereco
-
-                    te.setCidade_idcidade(k.getLong("cidade_idcidade"));
-                    te.setRua(k.getString("rua"));
-                    te.setGps_lat(k.getInt("gps_lat"));
-                    te.setGps_long(k.getInt("gps_long"));
-                    te.setBairro(k.getString("bairro"));
-                    te.setComplemento(k.getString("complemento"));
-                    te.setCep(k.getString("cep"));
-                    te.setNumero(k.getInt("numero"));
+                    u.clear();
+                    u.add(k.getLong("cidade_idcidade"));
+                    u.add(k.getString("rua"));
+                    u.add(k.getInt("gps_lat"));
+                    u.add(k.getInt("gps_long"));
+                    u.add(k.getString("bairro"));
+                    u.add(k.getString("complemento"));
+                    u.add(k.getString("cep"));
+                    u.add(k.getInt("numero"));
+                    
                     //salva o endereco no banco de dados
-                    idGerado = BOFactory.inserir(new DAOEndereco(), te);
-
+                    idGerado = BOFactory.inserir(new DAOEndereco(), u);
+                    
                     //tabela pessoa
-                    t.setEndereco_idendereco(idGerado);
-                    t.setEscolaridade_idescolaridade(k.getLong("escolaridade_idescolaridade"));
-                    t.setEstadocivil_idestadocivil(k.getLong("estadocivil_idestadocivil"));
-                    t.setNome(k.getString("nome"));
-                    t.setSobrenome(k.getString("sobrenome"));
-                    t.setApelido(k.getString("apelido"));
-                    t.setRg(k.getString("rg"));
-                    t.setDatanascimento(k.getString("datanascimento"));
-                    t.setSexo(k.getString("sexo"));
-                    t.setTelefone1(k.getString("telefone1"));
-                    t.setTelefone2(k.getString("telefone2"));
-                    t.setEmail(k.getString("email"));
+                    u.clear();
+                    u.add(k.getLong("estadocivil_idestadocivil"));
+                    u.add(k.getLong("escolaridade_idescolaridade"));
+                    u.add(idGerado);
+                    u.add(k.getString("nome"));
+                    u.add(k.getString("sobrenome"));
+                    u.add(k.getString("apelido"));
+                    u.add(k.getString("cpf"));
+                    u.add(k.getString("rg"));
+                    u.add(k.getString("datanascimento"));
+                    u.add(k.getString("sexo"));
+                    u.add(k.getString("telefone1"));
+                    u.add(k.getString("telefone2"));
+                    u.add(k.getString("email"));
                     //grava informacoes no banco de dados
-                    idGerado = BOFactory.inserir(new DAOPessoa(), t);
-
+                    idGerado = BOFactory.inserir(new DAOPessoa(), u);
                     //tabela login
-                    tl.setPessoa_idpessoa(idGerado);
-                    tl.setUnidade_idunidade(k.getLong("unidade_idunidade"));
-                    tl.setSenha(k.getString("senha"));
+                    u.clear();
+                    u.add(idGerado);
+                    u.add(k.getLong("unidade_idunidade"));
+                    u.add(k.getString("usuario_login"));
+                    u.add(k.getString("senha"));
                     //grava no banco de dados os dados da classe TOLogin
-                    BOFactory.inserirIDString(new DAOLogin(), tl);
+                    BOFactory.inserirIDString(new DAOLogin(), u);
 
-                    TOGrupos tg = new TOGrupos();
                     //tabela grupos
-                    tg.setLoginusuario(k.getString("usuario_login"));
-                    tg.setGrupo(k.getString("grupo"));
-                    BOFactory.inserirIDString(new DAOGrupos(), tg);
+                    u.clear();
+                    u.add(k.getString("usuario_login"));
+                    u.add(k.getString("grupo"));
+                    BOFactory.inserirIDString(new DAOGrupos(), u);
 
                     j.put("sucesso", true);
                     j.put("mensagem", "Cadastro com sucesso!");
@@ -172,34 +185,23 @@ public class ServicoUsuario {
         
         JSONObject j = new JSONObject();
         JSONObject k = new JSONObject(dataJson);
+        List<Object> u = new ArrayList<Object>();
         
         try{
 
-                TOPessoa p = new TOPessoa();
-                
-                //testa se a busca vai ser por id, ou cpf/nome/rg
-                //if(k.getString("metodo").equals("buscaragricultorid")){
-               p.setIdpessoa(k.getLong("idpessoa"));
-                //}else{
-                   // p.setNome(k.getString("campo"));
-                    //p.setCpf(k.getString("campo"));
-                   // p.setRg(k.getString("campo"));  
-               // }
-                
-//                
-                
-                JSONObject data = BOFactory.buscar(new DAOPessoa(), u, k.getString("metodo"));
+            u.add(k.getLong("idpessoa"));
+          
+            JSONObject data = BOFactory.buscar(new DAOPessoa(), u, k.getString("metodo"));
                 
                 
-                if(data == null){
-                    j.put("sucesso", false);
-                    j.put("mensagem", k.getString("metodo")+" não encontrado");
+            if(data == null){
+                j.put("sucesso", false);
+                j.put("mensagem", " Usuário não encontrado!");
 
-                }else{
-                    j.put("data", data);
-//                    j.put("sessao", sessao);
-                    j.put("sucesso", true);
-                }
+            }else{
+                j.put("data", data);
+                j.put("sucesso", true);
+            }
       
 
         }catch(Exception e){

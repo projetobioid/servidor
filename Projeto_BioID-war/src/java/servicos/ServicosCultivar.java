@@ -4,8 +4,11 @@ import bo.BOFactory;
 import dao.DAOCultivar;
 import dao.DAOSafra;
 import dao.DAOEstoque;
+import fw.RedimencionarImage;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.ArrayList;
+import java.util.List;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
@@ -15,14 +18,12 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import to.TOCultivar;
-import to.TOSafra;
 import to.TOEstoque;
 
 /**
  * REST Web Service
  *
- * @author daniel
+ * @author Daniel
  */
 
 @Path("cultivar")
@@ -45,12 +46,14 @@ public class ServicosCultivar {
         
         JSONObject j = new JSONObject();
         JSONObject k = new JSONObject(dataJson);
+        List<Object> u = new ArrayList<Object>();
         
         try{       
-            TOCultivar p = new TOCultivar();
-            p.setIdcultivar(k.getLong("idcultivar"));
-            JSONObject data = BOFactory.buscar(new DAOCultivar(), p, k.getString("metodo"));
-            if(BOFactory.buscar(new DAOCultivar(), p, k.getString("metodo")) == null){
+            
+            u.add(k.getLong("idcultivar"));
+            JSONObject data = BOFactory.buscar(new DAOCultivar(), u, k.getString("metodo"));
+            
+            if(data == null){
                 j.put("sucesso", false);
                 j.put("mensagem", "Cultivar não encontrado");
             }else{
@@ -76,24 +79,19 @@ public class ServicosCultivar {
         
         JSONObject j = new JSONObject();
         JSONObject k = new JSONObject(dataJson);
+        List<Object> u = new ArrayList<Object>();
         
         try{
+            
+            JSONArray data = BOFactory.listar(new DAOCultivar(), k.getString("metodo"));
 
-                //comeca a requisicao
-                JSONArray ja = null;
-                
-//                        ja = BOFactory.listar(new DAOCultivar(), null, k.getString("metodo"));
-                   
-                
-                if(ja.length() > 0){
-                    j.put("data", ja);
-                    j.put("sucesso", true);
-                }else{
-                    j.put("sucesso", false);
-                    j.put("mensagem", "Sem "+ k.getString("metodo"));
-
-                }
-
+            if(data == null){
+                j.put("sucesso", false);
+                j.put("mensagem", "Cultivar não encontrado");
+            }else{
+                j.put("data", data);
+                j.put("sucesso", true);
+            } 
             
         
         }catch(Exception e){
@@ -110,32 +108,34 @@ public class ServicosCultivar {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public String inserir(String dataJson) throws Exception{
-        
-       
-                
+      
         JSONObject j = new JSONObject();
         JSONObject k = new JSONObject(dataJson);
+        List<Object> u = new ArrayList<Object>();
         
         try{
             
             //cria um objeto
-            TOCultivar t = new TOCultivar();
-            t.setNomecultivar(k.getString("nomecultivar"));
-            t.setBiofortificado(k.getBoolean("biofortificado"));
+            u.add(k.getString("nomecultivar"));
+//            u.add(k.getBoolean("biofortificado"));
 
             //se nao existe o cultivar no sistema, pelo nome e por ser biofortificado
-            if(BOFactory.buscar(new DAOCultivar(), t, "GET_NOME") == null){
-
+            if(BOFactory.buscar(new DAOCultivar(), u, "GET_NOME") == null){
+                
                  //chama a classe que redimenciona a imagem antes de atribuir ao TOProduto
-                t.setString_imagem(k.getString("imagem"));
-                t.setDescricao(k.getString("descricao"));
-                t.setUnidademedida_idunidademedida(k.getLong("unidademedida_idunidademedida"));
-                t.setValornutricional(k.getString("valornutricional"));
-                t.setTempodecolheita(k.getInt("tempodecolheita"));
-                t.setTempodestinacao(k.getInt("tempodestinacao"));
-                t.setPeso_saca(k.getDouble("pesoSaca"));
+                u.clear();
+                RedimencionarImage r = new RedimencionarImage();   
+                u.add(r.redimensionaImg(k.getString("imagem")));
+                u.add(k.getString("nomecultivar"));
+                u.add(k.getString("descricao"));
+                u.add(k.getBoolean("biofortificado"));
+                u.add(k.getLong("unidademedida_idunidademedida"));
+                u.add(k.getString("valornutricional"));
+                u.add(k.getInt("tempodecolheita"));
+                u.add(k.getInt("tempodestinacao"));
+                u.add(k.getDouble("pesoSaca"));
 
-                BOFactory.inserir(new DAOCultivar(), t);
+                BOFactory.inserir(new DAOCultivar(), u);
 
                 j.put("sucesso", true);
                 j.put("mensagem", "Cultivar cadastrado com sucesso!");
@@ -239,16 +239,17 @@ public class ServicosCultivar {
         
         JSONObject j = new JSONObject();
         JSONObject k = new JSONObject(dataJson);
+        List<Object> u = new ArrayList<Object>();
         
         try{
                 
                 TOEstoque te = new TOEstoque();
                 
-                te.setUnidade_idunidade(k.getLong("idunidade"));
-                te.setCultivar_idcultivar(k.getLong("idcultivar"));
+                u.add(k.getLong("idcultivar"));
+                u.add(k.getLong("idunidade"));
                 
                 //verifica a quantidade e diminui quantidade do cultivar na unidade
-                te  = (TOEstoque) BOFactory.buscarObj(new DAOEstoque(), te, k.getString("metodo"));
+                te  = (TOEstoque) BOFactory.buscarObj(new DAOEstoque(), u, k.getString("metodo"));
                
                 //quantidade em precisao aredondada
                 BigDecimal bd = new BigDecimal(te.getQuantidade()).setScale(2, RoundingMode.HALF_EVEN);
@@ -256,13 +257,14 @@ public class ServicosCultivar {
                 //verifica se tem a quantidade menor ou igual de cultivares no estoque
                 if(bd.doubleValue() >= k.getDouble("qtdrecebida")){
                     
-                    te.setUnidade_idunidade(k.getLong("idunidade"));
-                    te.setCultivar_idcultivar(k.getLong("idcultivar"));
-                    te.setQuantidade(bd.doubleValue() - k.getDouble("qtdrecebida"));
+                    u.clear();
+                    
+                    u.add(bd.doubleValue() - k.getDouble("qtdrecebida"));
+                    u.add(k.getLong("idunidade"));
+                    u.add(k.getLong("idcultivar"));
+                    
                     //atualiza o estoque
-                    BOFactory.editar(new DAOEstoque(), te);
-                    
-                    
+                    BOFactory.editar(new DAOEstoque(), u);
                     
                     
                     
@@ -283,20 +285,17 @@ public class ServicosCultivar {
 
 
                    //cria um objeto
-                    TOSafra tsf = new TOSafra();
 
     //                popula a classe para armazenar no banco de dados
-                    tsf.setStatussafra_idstatussafra(1);
-                    tsf.setPropriedade_idpropriedade(k.getLong("idpropriedade"));
-                    tsf.setCultivar_idcultivar(k.getLong("idcultivar"));
-                    tsf.setSafra(k.getString("safra"));
-                    tsf.setDatareceb(k.getString("datareceb"));
-                    tsf.setQtdrecebida(k.getDouble("qtdrecebida"));
-                    tsf.setStatus_entrevistador(9);
-
-
-
-                    BOFactory.inserir(new DAOSafra(), tsf);
+                    u.add(1);
+                    u.add(k.getLong("idpropriedade"));
+                    u.add(k.getLong("idcultivar"));
+                    u.add(k.getString("safra"));
+                    u.add(k.getString("datareceb"));
+                    u.add(k.getDouble("qtdrecebida"));
+                    u.add(9);
+                    
+                    BOFactory.inserir(new DAOSafra(), u);
                     
                     
 

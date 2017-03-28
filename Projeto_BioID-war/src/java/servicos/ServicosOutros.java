@@ -7,8 +7,11 @@ package servicos;
 
 import bo.BOFactory;
 import dao.DAOCidade;
+import dao.DAOEstado;
 import dao.DAOLogin;
-import dao.DAOPaisEstadoCidade;
+import dao.DAOPais;
+import java.util.ArrayList;
+import java.util.List;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.core.Context;
@@ -19,7 +22,6 @@ import javax.ws.rs.Path;
 import javax.ws.rs.core.MediaType;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import to.TOLogin;
 
 
 /**
@@ -34,9 +36,6 @@ public class ServicosOutros {
     @Context
     private UriInfo context;
 
-//    @Inject
-//    private OutletService outletService;
-   
     public ServicosOutros() {
     }
 
@@ -50,14 +49,13 @@ public class ServicosOutros {
         //objeto de retorno da requisicao
         JSONObject j = new JSONObject();
         JSONObject k = new JSONObject(dataJson);
+        List<Object> u = new ArrayList<Object>();
         
         try{
-            TOLogin to = new TOLogin();
             
-            to.setUsuario(k.getString("usuario"));
-            to.setSenha(k.getString("senha"));
-            
-            JSONObject data = BOFactory.buscar(new DAOLogin(), to, k.getString("metodo"));
+            u.add(k.getString("usuario"));
+            u.add(k.getString("senha"));
+            JSONObject data = BOFactory.buscar(new DAOLogin(), u, k.getString("metodo"));
             
             if(data == null){
                 j.put("sucesso", false);
@@ -76,46 +74,26 @@ public class ServicosOutros {
         return j.toString();
     }
     
-    @GET
+    @POST
     @Path("listarpais")
     @Produces(MediaType.APPLICATION_JSON)
     public String listarPais() throws Exception{
         
         JSONObject j = new JSONObject();
         
-        JSONObject k = new JSONObject(dataJson);
-        
-         
-        
         try{ 
-            JSONArray ja = null;
-//            switch(k.getString("metodo")){
-//                case "PAIS":
-//                    ja = BOFactory.listar(new DAOPaisEstadoCidade(), null, k.getString("metodo"));
-//                    break;
-//                case "ESTADOS":
-//                    TOOutrosIDNome tp = new TOOutrosIDNome();
-//                    tp.setId(k.getLong("idpais"));
-//                    ja = BOFactory.listar(new DAOPaisEstadoCidade(), tp, k.getString("metodo"));
-//                    break;
-//                case "CIDADES":
-//                    TOOutrosIDNome te = new TOOutrosIDNome();
-//                    te.setId(k.getLong("idestado"));
-//                    ja = BOFactory.listar(new DAOPaisEstadoCidade(), te, k.getString("metodo"));
-//                    break;
-//            }
+            
+            JSONArray data = BOFactory.listar(new DAOPais());
+            
+            if(data == null){
+                j.put("sucesso", false);
+                j.put("mensagem", "Tabela país vazia!");
+            }else{
 
-        try{ 
-            JSONArray ja = BOFactory.listar(new DAOPais());
-             
-                if(ja.length() > 0){
-                    j.put("sucesso", true);
-                    j.put("data", ja);
+                j.put("data", data);
+                j.put("sucesso", true);
 
-                }else{
-                    j.put("sucesso", false);
-                    j.put("mensagem", "Tabela país vazia!");
-                }
+            }
             
         }catch(Exception e){
             j.put("sucesso", false);
@@ -132,19 +110,22 @@ public class ServicosOutros {
     public String listarEstados(String dataJson) throws Exception{
         
         JSONObject j = new JSONObject();
-         
+        JSONObject k = new JSONObject(dataJson);
+        List<Object> u = new ArrayList<Object>();
         
         try{
-                JSONArray ja = BOFactory.listar(new DAOEstado(), dataJson);
-                  
-             
-                if(ja.length() > 0){
-                    j.put("sucesso", true);
-                    j.put("data", ja);
+                
+            u.add(k.getLong("idpais"));
+            JSONArray data = BOFactory.listar(new DAOEstado(), u);
 
-                }else{
-                    j.put("sucesso", false);
-                    j.put("mensagem", "Tabela estado vazia!");
+            if(data == null){
+                j.put("sucesso", false);
+                j.put("mensagem", "Tabela estado vazia!");
+            }else{
+
+                j.put("data", data);
+                j.put("sucesso", true);
+
                 }
             
         }catch(Exception e){
@@ -160,20 +141,24 @@ public class ServicosOutros {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public String listarcidades(String dataJson) throws Exception{
-        
+           
         JSONObject j = new JSONObject();
-         
+        JSONObject k = new JSONObject(dataJson);
+        List<Object> u = new ArrayList<Object>();
+        
         try{
-                JSONArray ja = BOFactory.listar(new DAOCidade(), dataJson);
-                  
-             
-                if(ja.length() > 0){
-                    j.put("sucesso", true);
-                    j.put("data", ja);
+                
+            u.add(k.getLong("idestado"));
+            JSONArray data = BOFactory.listar(new DAOCidade(), u);
 
-                }else{
-                    j.put("sucesso", false);
-                    j.put("mensagem", "Tabela cidade vazia!");
+            if(data == null){
+                j.put("sucesso", false);
+                j.put("mensagem", "Tabela cidade vazia!");
+            }else{
+
+                j.put("data", data);
+                j.put("sucesso", true);
+
                 }
             
         }catch(Exception e){

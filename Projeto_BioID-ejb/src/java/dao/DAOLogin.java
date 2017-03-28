@@ -49,10 +49,6 @@ public class DAOLogin extends DAOBase{
                     + "WHERE usuario IN(?) AND senha IN(?)";
                 
                 break;
-                case "GET_POR_USUARIO" :
-                    sql = "SELECT * FROM login WHERE usuario IN(?)";
-                
-                    break;
                 default:
                     sql = "SELECT * FROM login";
                     break;
@@ -70,6 +66,28 @@ public class DAOLogin extends DAOBase{
             rs.close();
         }
         
+    }
+
+    @Override
+    public JSONObject buscar(Connection c, List<Object> u) throws Exception {
+         //string com o comando sql para editar o banco de dados
+        
+        ResultSet rs = null;
+        
+        try{
+            String sql = "SELECT * FROM login WHERE usuario IN(?)";
+            
+            rs = Data.executeQuery(c, sql, u);
+            
+            if(rs.next()){
+                return MapeamentoJson(rs);
+            }else{
+                return null;
+            }
+            
+        }finally{
+            rs.close();
+        }
     }
 
     @Override

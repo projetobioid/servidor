@@ -8,7 +8,6 @@ import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.sql.Blob;
 import java.util.Base64;
 import javax.imageio.ImageIO;
 
@@ -20,11 +19,11 @@ public class RedimencionarImage {
 
     public RedimencionarImage() {
     }
-
-    public Blob redimensionaImg(String data) throws Exception {
+    
+    public byte[] redimensionaImg(String data) throws Exception {
         try {
            
-            Blob blob = null;
+            byte[] blob = null;
             
             //retira as virgulas da imageBAse64
             String partSeparator = ",";
@@ -42,7 +41,7 @@ public class RedimencionarImage {
                 //Sobrescreve a imagem em cima da nova
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
                 ImageIO.write( new_img, "png", baos );
-                blob = new javax.sql.rowset.serial.SerialBlob(baos.toByteArray());
+                blob = baos.toByteArray();
                 baos.flush();
                 baos.close();
             }
@@ -52,5 +51,6 @@ public class RedimencionarImage {
             throw new RuntimeException(ex);
         }
     }
+    
     
 }

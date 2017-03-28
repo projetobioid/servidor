@@ -6,7 +6,6 @@
 package dao;
 
 import fw.Data;
-import fw.Mapeamento;
 import static fw.Mapeamento.*;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -105,7 +104,7 @@ public class DAOUnidade extends DAOBase{
             rs = Data.executeQuery(c, sql);
             
             if(rs.next()){
-                return Mapeamento.MapeamentoJsonArray(rs);
+                return MapeamentoJsonArray(rs);
             }else{
                 return null;
             }

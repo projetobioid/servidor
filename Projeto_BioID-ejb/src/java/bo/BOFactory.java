@@ -124,6 +124,17 @@ public class BOFactory {
         }
     }   
     
+    public static JSONArray listar(DAOBase d, List<Object> u) throws Exception{
+        Connection c = null;
+        
+        try{
+            c =  Data.openConnection();
+            return d.listar(c, u);
+        }finally{
+            c.close();
+        }
+    }
+    
     public static JSONArray listar(DAOBase d, List<Object> u, String metodo) throws Exception{
         Connection c = null;
         

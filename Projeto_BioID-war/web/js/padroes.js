@@ -116,7 +116,7 @@ $(document).on("click", "tbody > tr", function(evt)
             }
         });
         $(this).addClass("warning");
-        
+        $("#Alertar").fadeOut(400);
     }
 
      return false;
@@ -199,13 +199,12 @@ function carregaUsuario(idClicado, opcao){
 //carrega a lista de pais do banco de dados e lista em um select
 $(document).on("focusin", ".carregaPais", function(){
     var envio = {
-        metodo: "PAIS"
     };
     
     var idSelect = $(this).prop("id");
 
     //chama a requisicao do servidor, o resultado é listado em um select
-    requisicao(true, "outros/listar", envio, function(dadosRetorno) {
+    requisicao(true, "outros/listarpais", envio, function(dadosRetorno) {
         if(dadosRetorno.sucesso){
 
             $("#"+idSelect).empty();
@@ -234,19 +233,19 @@ $(document).on("focusin", ".carregaPais", function(){
 //carrega do banco de dados os estados
 $(document).on("focusin", ".carregaEstado", function(){
     var envio = {
-        metodo: "ESTADOS",
         idpais: $(".carregaPais").prop("value")
     };
     
     var idSelect = $(this).prop("id");
 //    alert(idSelect);
     //chama a requisicao do servidor, o resultado é listado em uma tabela
-    requisicao(true, "outros/listar", envio, function(dadosRetorno) {
+    requisicao(true, "outros/listarestados", envio, function(dadosRetorno) {
         if(dadosRetorno.sucesso){
             //
             //alerta("Alerta!", dadosRetorno.mensagem);
             $("#"+idSelect).empty();
             $.each(dadosRetorno.data, function(i, value){
+                console.log(value);
                 $("#"+idSelect).append('<option value="'+value.idestado+'">'+value.nomeestado+'</option>');
             });
             
@@ -270,14 +269,13 @@ $(document).on("focusin", ".carregaEstado", function(){
 //carrega do banco de dados as cidades
 $(document).on("focusin", ".carregaCidade", function(){
     var envio = {
-        metodo: "CIDADES",
         idestado: $(".carregaEstado").prop("value")
     };
     
     var idSelect = $(this).prop("id");
 //    alert(idSelect);
     //chama a requisicao do servidor, o resultado é listado em uma tabela
-    requisicao(true, "outros/listar", envio, function(dadosRetorno) {
+    requisicao(true, "outros/listarcidades", envio, function(dadosRetorno) {
         if(dadosRetorno.sucesso){
             //
             //alerta("Alerta!", dadosRetorno.mensagem);
@@ -303,9 +301,6 @@ $(document).on("focusin", ".carregaCidade", function(){
 $(document).on("focusin", ".carregaUnidades", function(){
 //    var Sessao = getSessao();
     var envio = {
-        metodo: "ID_NOME_CIDADE"
-//        usuario: Sessao.usuario,
-//        sessao: Sessao.sessao
     };
     
     var idSelect = $(this).prop("id");

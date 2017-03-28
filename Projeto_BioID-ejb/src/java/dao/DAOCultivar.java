@@ -22,9 +22,6 @@ public class DAOCultivar extends DAOBase {
     public long inserir(Connection c, List<Object> u) throws Exception {
         String sql = "INSERT INTO cultivar(imagem, nomecultivar, descricao, biofortificado, unidademedida_idunidademedida, valornutricional, tempodecolheita, tempodestinacao, peso_saca) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-         //chama a classe que redimenciona a imagem antes de atribuir ao TOProduto
-//        RedimencionarImage r = new RedimencionarImage();      
-//        u.add(r.redimensionaImg(((TOCultivar)t).getString_imagem()));
         //passa por parametros a conexao e a lista de objetos da insercao de um novo produto
         return Data.executeUpdate(c, sql, u);
     }
@@ -62,7 +59,7 @@ public class DAOCultivar extends DAOBase {
                     
                 break;
                 case "GET_NOME":
-                    sql = "SELECT * FROM cultivar where LOWER(nomecultivar) IN(?)";
+                    sql = "SELECT * FROM cultivar where LOWER(nomecultivar) IN(LOWER(?))";
                   
                     break;
                 default:
@@ -94,22 +91,6 @@ public class DAOCultivar extends DAOBase {
             String sql = null;
             
             switch (metodo) {
-                case "TODOS":
-                    sql = "select c.idcultivar, c.nomecultivar, um.grandeza from cultivar c "
-                        + "INNER JOIN unidademedida um ON (um.idunidademedida = c.unidademedida_idunidademedida) "
-                        + "order by c.nomecultivar";
-                    
-                    break;
-//                case "bio":
-//                    sql = "select c.idcultivar, c.nomecultivar, um.grandeza from cultivar c "
-//                        + "INNER JOIN unidademedida um ON (um.idunidademedida = c.unidademedida_idunidademedida) "
-//                        + "WHERE c.biofortificado IN(true) order by c.nomecultivar";
-//                    rs = Data.executeQuery(c, sql);
-//                    while (rs.next()){
-//                        TOCultivar tc = new TOCultivar(rs, metodo);
-//                        ja.put(tc.getJson(metodo));
-//                    }
-//                    break;
                 case "x":
                     sql = "SELECT DISTINCT c.idcultivar, c.nomecultivar, c.imagem, c.descricao, c.biofortificado, um.grandeza, c.valornutricional, c.tempodecolheita, c.peso_saca "
                         + "FROM login l "
@@ -137,6 +118,38 @@ public class DAOCultivar extends DAOBase {
             }
             
             rs = Data.executeQuery(c, sql, u);
+            
+            if(rs.next()){
+                return MapeamentoJsonArray(rs);
+            }else{
+                return null;
+            }
+            
+        }finally{
+            rs.close();
+        }
+    }
+    
+    @Override
+    public JSONArray listar(Connection c, String metodo) throws Exception {         
+        ResultSet rs = null;
+        
+        try{
+            String sql = null;
+            
+            switch (metodo) {
+                case "TODOS":
+                    sql = "select c.idcultivar, c.nomecultivar, um.grandeza from cultivar c "
+                        + "INNER JOIN unidademedida um ON (um.idunidademedida = c.unidademedida_idunidademedida) "
+                        + "order by c.nomecultivar";
+                    
+                    break;
+                
+                default:
+                    break;
+            }
+            
+            rs = Data.executeQuery(c, sql);
             
             if(rs.next()){
                 return MapeamentoJsonArray(rs);

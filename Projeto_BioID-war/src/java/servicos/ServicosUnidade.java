@@ -8,6 +8,8 @@ package servicos;
 import bo.BOFactory;
 import dao.DAOEndereco;
 import dao.DAOUnidade;
+import java.util.ArrayList;
+import java.util.List;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.Consumes;
@@ -17,8 +19,6 @@ import javax.ws.rs.Path;
 import javax.ws.rs.core.MediaType;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import to.TOEndereco;
-import to.TOUnidade;
 
 /**
  * REST Web Service
@@ -46,14 +46,13 @@ public class ServicosUnidade {
         
         JSONObject j = new JSONObject();
         JSONObject k = new JSONObject(dataJson);
+        List<Object> u = new ArrayList<Object>();
         
         try{
-
-            //comeca a requisicao
-            TOUnidade p = new TOUnidade();
-            p.setIdunidade(k.getLong("idunidade"));
             
-            JSONObject data = BOFactory.buscar(new DAOUnidade(), p, k.getString("metodo"));
+            u.add(k.getLong("idunidade"));
+            
+            JSONObject data = BOFactory.buscar(new DAOUnidade(), u, k.getString("metodo"));
 
             if(data == null){
                 j.put("sucesso", false);
@@ -81,34 +80,39 @@ public class ServicosUnidade {
         
         JSONObject j = new JSONObject();
         JSONObject k = new JSONObject(dataJson);
+        List<Object> u = new ArrayList<Object>();
+        
         
         try{ 
-            //cria um objeto          
-            TOUnidade t = new TOUnidade();
-            t.setCnpj(k.getString("cnpj"));
+             
+            u.add(k.getString("cnpj"));
 
             //teste se existe a unidade cadastrada, senao cadastra
-            if(BOFactory.buscar(new DAOUnidade(), t, "GET_POR_CNPJ")== null){
-                //objeto TOEndereco
-                TOEndereco te = new TOEndereco();
-                te.setCidade_idcidade(k.getLong("cidade_idcidade"));
-                te.setRua(k.getString("rua"));
-                te.setGps_lat(k.getInt("gps_lat"));
-                te.setGps_long(k.getInt("gps_long"));
-                te.setBairro(k.getString("bairro"));
-                te.setComplemento(k.getString("complemento"));
-                te.setCep(k.getString("cep"));
-                te.setNumero(k.getInt("numero"));
+            if(BOFactory.buscar(new DAOUnidade(), u, "GET_POR_CNPJ")== null){
+                long idGerado; 
+                
+                //tabela endereco
+                u.add(k.getLong("cidade_idcidade"));
+                u.add(k.getString("rua"));
+                u.add(k.getInt("gps_lat"));
+                u.add(k.getInt("gps_long"));
+                u.add(k.getString("bairro"));
+                u.add(k.getString("complemento"));
+                u.add(k.getString("cep"));
+                u.add(k.getInt("numero"));
+                idGerado = BOFactory.inserir(new DAOEndereco(), u);
+                
                 //grava no banco de dados os dados da classe TOLogin e retorna o id gerado
-                t.setEndereco_idendereco(BOFactory.inserir(new DAOEndereco(), te));
-                t.setNomeunidade(k.getString("nomeunidade"));
-                t.setTelefone1(k.getString("telefone1"));
-                t.setTelefone2(k.getString("telefone2"));
-                t.setEmail(k.getString("email"));
-                t.setRazao_social(k.getString("razao_social"));
-                t.setNome_fanta(k.getString("nome_fanta"));
+                u.clear();
+                u.add(idGerado);
+                u.add(k.getString("nomeunidade"));
+                u.add(k.getString("telefone1"));
+                u.add(k.getString("telefone2"));
+                u.add(k.getString("email"));
+                u.add(k.getString("razao_social"));
+                u.add(k.getString("nome_fanta"));
 
-                BOFactory.inserir(new DAOUnidade(), t);
+                BOFactory.inserir(new DAOUnidade(), u);
 
                 j.put("sucesso", true);
                 j.put("mensagem", "Unidade cadastrada!");
@@ -136,31 +140,17 @@ public class ServicosUnidade {
         JSONObject k = new JSONObject(dadosJson);
         
         try{
-             //verifica  a sessao
-//            VerificarSessao vs = new VerificarSessao();
-//            String sessao = vs.VerificarSessao(k.getString("usuario"), k.getString("sessao"));
-//            
-//            if( sessao == null){
-//                j.put("sucesso", false);
-//                j.put("mensagem", "Sessao não encontrada!");
-//            }else{
-                //comeca a requisicao
-                TOUnidade t = new TOUnidade();
-               
-                JSONArray ja = null;
-                
-                
-                ja = BOFactory.listar(new DAOUnidade(), t, k.getString("metodo"));
-                        
-                
-        
-                j.put("data", ja);
-//                j.put("sessao", sessao);
+
+            JSONArray data = BOFactory.listar(new DAOUnidade(), k.getString("metodo"));
+
+            if(data == null){
+                j.put("sucesso", false);
+                j.put("mensagem", "Sem unidades cadastradas!");
+            }else{
+                j.put("data", data);
                 j.put("sucesso", true);
-                
-//            }
-            
-        
+            }
+
         }catch(Exception e){
             j.put("sucesso", false);
             j.put("mensagem", e.getMessage());

@@ -31,9 +31,6 @@ function chamarMenu(escolha){
         case "Distribuir cultivares":
             preEventosPaginaGerenciamento(escolha, "fa-cart-arrow-down", "Distribuir cultivares");
             break;
-//        case "Distribuir cultivares/Unidade":
-//            preEventosPaginaGerenciamento(escolha, "fa-cart-arrow-down", "Distribuir cultivares/Unidade");
-//            break;
         case "Relatar safra":
             preEventosPaginaGerenciamento(escolha, "fa-commenting", "Relatar safra");
             break;
@@ -70,9 +67,6 @@ function preEventosPaginaGerenciamento(itemSelecionado, icone, titulo){
             case "Distribuir cultivares":
                 inputFocus = progDistCultivares();
                 break;
-//            case "Distribuir cultivares/Unidade":
-//                inputFocus = progDistCultivaresUn();
-//                break;
             case "Relatar safra":
                 $("#divItens").empty().append('<div id="iconRelatarColheita" class="col-lg-5 placeholder" style="text-align: center;"> <h1 class="laranja fontIcones"><span class="fa fa-cube"></span></h1><h2>Colheita</h2><h5> Informacão da quantidade de colhida na propriedade através dos cultivares recebidos no programa biofort!</h5></div>        <div  id="iconRelatarDestinacao" class="col-lg-5 placeholder" style="text-align: center;"><h1 class="amarelo fontIcones"><span class="fa fa-truck"></span></h1><h2>Destinação</h2><p>Informação sobre a destinação da safra colhida de cultivares biofortificados.</p><br><br><p id="gAgricultores" hidden=""><a class="btn btn-secondary" href="paginas/agricultor/agricultor.html" role="button">Retomar <span class="fa fa-mail-forward" aria-hidden="true"></span></a></p></div>');
                 $("#divItens").show();
@@ -101,8 +95,6 @@ function preEventosPaginaGerenciamento(itemSelecionado, icone, titulo){
      
 }
     
-    
-
 
 //carrega o estoque da unidade
 function progEstoqueUnidade(){
@@ -110,9 +102,7 @@ function progEstoqueUnidade(){
         var Sessao = getSessao();
         var envio = {
             metodo: "TODOS",
-            idunidade: Sessao.idunidade
-//            usuario: Sessao.usuario,
-//            sessao: Sessao.sessao
+            idunidade: Sessao.unidade_idunidade
         };
         
     //chama a requisicao do servidor, o resultado é listado em uma tabela
@@ -285,9 +275,7 @@ function submeterEntradaCult(){
         idcultivar: valores.idcultivar,
         qtd: $('#qtdCultivarEnt').val(),
         operacao: 1, //ENTRADA
-        idunidade: Sessao.idunidade
-//        usuario: Sessao.usuario,
-//        sessao: Sessao.sessao
+        idunidade: Sessao.unidade_idunidade
     };
 
     
@@ -319,11 +307,8 @@ function submeterEntradaCult(){
 $(document).on("click", "#cultEntEstoque", function(e){
     
     if($(this).children('option').length < 1){
-//        var Sessao = getSessao();
         var envio = {
             metodo: "TODOS"
-//            usuario: Sessao.usuario,
-//            sessao: Sessao.sessao
         };
 
         //chama a requisicao do servidor, o resultado é listado em uma tabela
@@ -336,7 +321,6 @@ $(document).on("click", "#cultEntEstoque", function(e){
                     valores = JSON.stringify({ idcultivar:valor.idcultivar,
                           grandeza: valor.grandeza
                     });
-//                    item += '<option value="{"id":"'+valor.idcultivar+'", "um": "teste"}" >'+valor.nomecultivar+'</option>';
                     item += "<option value="+valores+">"+valor.nomecultivar+"</option>";
 
                 });
@@ -405,7 +389,7 @@ $(document).on("click", "#saidaEstoque", function(e){
     var envio = {
         metodo: "GET_CULTIVAR",
         idcultivar: $('#tabEstoqueUnidade').find('.warning').find('td:eq(0)').html(),
-        idunidade: Sessao.idunidade
+        idunidade: Sessao.unidade_idunidade
 //        usuario: Sessao.usuario,
 //        sessao: Sessao.sessao
     };
@@ -529,9 +513,7 @@ function listarEquipe(){
     var Sessao = getSessao();
     var envio = {
         metodo: "EQUIPE",
-//        usuario: Sessao.usuario,
-//        sessao: Sessao.sessao,
-        idunidade: Sessao.idunidade
+        idunidade: Sessao.unidade_idunidade
     };
     //chama a requisicao do servidor, o resultado é listado em uma tabela
     requisicao(true, "usuario/listar", envio, function(dadosRetorno) {
@@ -674,9 +656,7 @@ function listarAgricultores(){
     var Sessao = getSessao();
     var envio = {
         metodo: "TODOS_DA_UNIDADE",
-//        usuario: Sessao.usuario,
-//        sessao: Sessao.sessao,
-        idunidade: Sessao.idunidade
+        idunidade: Sessao.unidade_idunidade
     };
 
     //chama a requisicao do servidor, o resultado é listado em uma tabela
@@ -762,7 +742,7 @@ retornoProcuraAgricultores = function( request, response ) {
     var envio = {
         valor: request.term +"%",
         metodo: "INPUT_SELECT",
-        idunidade: Sessao.idunidade,
+        idunidade: Sessao.unidade_idunidade,
 //        usuario: Sessao.usuario,
 //        sessao: Sessao.sessao
     };
@@ -800,7 +780,7 @@ $(document).on("blur", "#campoBuscaAgri", function(){
         var envio = {
             metodo: "NOME_E_ID",
             idpessoa: $('#campoBuscaAgri').attr('value'),
-            idunidade: Sessao.idunidade
+            idunidade: Sessao.unidade_idunidade
 //            usuario: Sessao.usuario,
 //            sessao: Sessao.sessao
         };
@@ -860,10 +840,6 @@ var Sessao = getSessao();
     
 
     var envio = {
-//        metodo: "inserirusuario",
-//        usuario: Sessao.usuario,
-//        sessao: Sessao.sessao,
-        metodo: "NOVO_MEMBRO",
         cidade_idcidade : $("#cidadeNovoUsuario").prop("value"),
         rua: $("#ruaNovoUsuario").val(),
         gps_lat: $("#gps_latNovoUsuario").val(),
@@ -887,7 +863,7 @@ var Sessao = getSessao();
         usuario_login: $("#usuarioNovoUsuario").val(),
         senha: $.sha256($("#senhaNovoUsuario").val()),
         grupo: $("#grupoNovoMembro").prop("value"),
-        unidade_idunidade: Sessao.idunidade
+        idunidade: Sessao.unidade_idunidade
     };
     
     alert(JSON.stringify(envio));
@@ -951,7 +927,7 @@ function salvarNovoAgricultor(){
         qtdGravidas: $("#qtdGravidas").val(),
         usuario_login: $("#usuarioAgricultor").val(),
         senha: $.sha256($("#senhaAgricultor").val()),
-        unidade_idunidade: Sessao.idunidade,
+        idunidade: Sessao.unidade_idunidade,
         nomepropriedade: $("#nomePropriedade").val(),
         area: $("#area").val(),
         unidadedemedida: $("#unidademedida").prop("value"),
@@ -1128,7 +1104,7 @@ $(document).on("click", "#listaCultivares", function(){
         var Sessao = getSessao();
         var envio = {
             metodo: "TODOS",
-            idunidade: Sessao.idunidade
+            idunidade: Sessao.unidade_idunidade
 //            usuario: Sessao.usuario,
 //            sessao: Sessao.sessao
         };
@@ -1176,7 +1152,7 @@ $(document).on("click", "#distribuirCultivar", function(){
         var dadosCultivar = JSON.parse($('#listaCultivares :selected').prop('value'));
         var envio = {
             metodo: "distribuir",
-            idunidade: Sessao.idunidade,
+            idunidade: Sessao.unidade_idunidade,
             idpropriedade: $('#listaPropriedades :selected').prop('value'),
             idcultivar: dadosCultivar.idcultivar,
             qtdrecebida: $('#qtdCultivarDist').val(),

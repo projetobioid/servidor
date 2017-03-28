@@ -174,7 +174,7 @@ retornoProcuraAgricultores = function( request, response ) {
     var envio = {
         valor: request.term +"%",
         metodo: "INPUT_SELECT",
-        idunidade: Sessao.idunidade
+        idunidade: Sessao.unidade_idunidade
 //        usuario: Sessao.usuario,
 //        sessao: Sessao.sessao
     };
@@ -212,7 +212,7 @@ $(document).on("blur", "#campoBuscaAgri", function(){
         var envio = {
             metodo: "NOME_E_ID",
             idpessoa: $('#campoBuscaAgri').attr('value'),
-            idunidade: Sessao.idunidade
+            idunidade: Sessao.unidade_idunidade
 //            usuario: Sessao.usuario,
 //            sessao: Sessao.sessao
         };
@@ -263,7 +263,7 @@ $(document).on("click", "#listaCultivares", function(){
         var Sessao = getSessao();
         var envio = {
             metodo: "TODOS",
-            idunidade: Sessao.idunidade
+            idunidade: Sessao.unidade_idunidade
 //            usuario: Sessao.usuario,
 //            sessao: Sessao.sessao
         };
@@ -347,7 +347,7 @@ $(document).on("click", "#distribuirCultivar", function(){
         var dadosCultivar = JSON.parse($('#listaCultivares :selected').prop('value'));
         var envio = {
             metodo: "distribuir",
-            idunidade: Sessao.idunidade,
+            idunidade: Sessao.unidade_idunidade,
             idpropriedade: $('#listaPropriedades :selected').prop('value'),
             idcultivar: dadosCultivar.idcultivar,
             qtdrecebida: $('#qtdCultivarDist').val(),
@@ -403,7 +403,7 @@ $(document).on("click", "#listar", function(evt)
         metodo: "TODOS_DA_UNIDADE",
 //        usuario: Sessao.usuario,
 //        sessao: Sessao.sessao,
-        idunidade: Sessao.idunidade
+        idunidade: Sessao.unidade_idunidade
     };
 
     //chama a requisicao do servidor, o resultado é listado em uma tabela

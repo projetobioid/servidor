@@ -24,13 +24,6 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import to.TOAgricultor;
-import to.TOEndereco;
-import to.TOGrupos;
-import to.TOLogin;
-import to.TOPessoa;
-import to.TOPropriedade;
-import to.TORelacaopa;
 
 /**
  * REST Web Service
@@ -57,18 +50,17 @@ public class ServicosAgricultor {
         
         JSONObject j = new JSONObject();
         JSONObject k = new JSONObject(dataJson);
+        List<Object> u = new ArrayList<Object>();
         
         try{
-            
-            TOPessoa p = new TOPessoa();
                 
-            p.setIdpessoa(k.getLong("idpessoa"));
+            u.add(k.getLong("idpessoa"));
 
             JSONObject data = BOFactory.buscar(new DAOPessoa(), u, k.getString("metodo"));
 
             if(data == null){
                 j.put("sucesso", false);
-                j.put("mensagem", k.getString("metodo")+" não encontrado");
+                j.put("mensagem", "Agricultor não encontrado");
             }else{
                 j.put("data", data);
                 j.put("sucesso", true);
@@ -95,9 +87,9 @@ public class ServicosAgricultor {
         
         JSONObject j = new JSONObject();
         JSONObject k = new JSONObject(dataJson);
+        List<Object> u = new ArrayList<Object>();
         
         try{
-            List<Object> u = new ArrayList<Object>();
 
             u.add(k.getLong("idunidade"));
        
@@ -107,16 +99,14 @@ public class ServicosAgricultor {
                     break;
             }
 
-            JSONArray ja = BOFactory.listar(new DAOPessoa(), u, k.getString("metodo")) ;
+            JSONArray data = BOFactory.listar(new DAOPessoa(), u, k.getString("metodo")) ;
 
-            if(ja != null){
-                j.put("data", ja);
-                j.put("sucesso", true);
-
-            }else{
+            if(data == null){
                 j.put("sucesso", false);
                 j.put("mensagem", "Sem agricultores cadastrados na unidade!");
-
+            }else{
+                j.put("data", data);
+                j.put("sucesso", true);
             }
 
         }catch(Exception e){
@@ -365,100 +355,102 @@ public class ServicosAgricultor {
     @Produces(MediaType.APPLICATION_JSON)
     public String inserirAgricultor(String dataJson) throws Exception{
 
-        
-
         JSONObject j = new JSONObject();
         JSONObject k = new JSONObject(dataJson);
+        List<Object> u = new ArrayList<Object>();
         
         try{
 
-                TOPessoa t = new TOPessoa();
 
-                //popula objetos e verifica se existe o cpf e usuario cadastrados no banco
-                t.setCpf(k.getString("cpf"));
+            //popula objetos e verifica se existe o cpf e usuario cadastrados no banco
+            u.add(k.getString("cpf"));
 
                 //se nao existe cpf cadastrado no banco, prosegue o cadastro
-                if(BOFactory.buscar(new DAOPessoa(), t) == null ){
-                    TOLogin tl = new TOLogin();
-
-                    tl.setUsuario(k.getString("usuario_login"));
+                if(BOFactory.buscar(new DAOPessoa(), u) == null ){
+                    u.clear();
+                    u.add(k.getString("usuario_login"));
                     //teste se existe o usuario cadastrado
-                    if(BOFactory.buscar(new DAOLogin(), tl, "GET_POR_USUARIO") == null ){
+                    if(BOFactory.buscar(new DAOLogin(), u, "GET_POR_USUARIO") == null ){
+                        long idGerado;
                         long idGeradoPessoa;
-                        long idGeradoEndereco;
-                        TOEndereco te = new TOEndereco();
-                        
 
                         //tabela endereco
-
-                        te.setCidade_idcidade(k.getLong("cidade_idcidade"));
-                        te.setRua(k.getString("rua"));
-                        te.setGps_lat(k.getInt("gps_lat"));
-                        te.setGps_long(k.getInt("gps_long"));
-                        te.setBairro(k.getString("bairro"));
-                        te.setComplemento(k.getString("complemento"));
-                        te.setCep(k.getString("cep"));
-                        te.setNumero(k.getInt("numero"));
+                        u.clear();
+                        u.add(k.getLong("cidade_idcidade"));
+                        u.add(k.getString("rua"));
+                        u.add(k.getInt("gps_lat"));
+                        u.add(k.getInt("gps_long"));
+                        u.add(k.getString("bairro"));
+                        u.add(k.getString("complemento"));
+                        u.add(k.getString("cep"));
+                        u.add(k.getInt("numero"));
                         //salva o endereco no banco de dados
-                        idGeradoEndereco = BOFactory.inserir(new DAOEndereco(), te);
+                        idGerado = BOFactory.inserir(new DAOEndereco(), u);
 
                         //tabela pessoa
-                        t.setEndereco_idendereco(idGeradoEndereco);
-                        t.setEscolaridade_idescolaridade(k.getLong("escolaridade_idescolaridade"));
-                        t.setEstadocivil_idestadocivil(k.getLong("estadocivil_idestadocivil"));
-                        t.setNome(k.getString("nome"));
-                        t.setSobrenome(k.getString("sobrenome"));
-                        t.setApelido(k.getString("apelido"));
-                        t.setRg(k.getString("rg"));
-                        t.setDatanascimento(k.getString("datanascimento"));
-                        t.setSexo(k.getString("sexo"));
-                        t.setTelefone1(k.getString("telefone1"));
-                        t.setTelefone2(k.getString("telefone2"));
-                        t.setEmail(k.getString("email"));
-                        //grava informacoes no banco de dados
-                        idGeradoPessoa = BOFactory.inserir(new DAOPessoa(), t);
-
-                        //tabela login
-                        tl.setPessoa_idpessoa(idGeradoPessoa);
-                        tl.setUnidade_idunidade(k.getLong("unidade_idunidade"));
-                        tl.setSenha(k.getString("senha"));
-//                        tl.setPapel("a");
-                        //grava no banco de dados os dados da classe TOLogin
-                        BOFactory.inserirIDString(new DAOLogin(), tl);
-
-                        //cadastro tabela de agricultor
+                        u.clear();
+                        u.add(idGerado);
+                        u.add(k.getLong("estadocivil_idestadocivil"));
+                        u.add(k.getLong("escolaridade_idescolaridade"));
+                        u.add(k.getLong("endereco_idendereco"));
+                        u.add(k.getString("nome"));
+                        u.add(k.getString("sobrenome"));
+                        u.add(k.getString("apelido"));
+                        u.add(k.getString("cpf"));
+                        u.add(k.getString("rg"));
+                        u.add(k.getString("datanascimento"));
+                        u.add(k.getString("sexo"));
+                        u.add(k.getString("telefone1"));
+                        u.add(k.getString("telefone2"));
+                        u.add(k.getString("email"));
                         
-                        TORelacaopa trpa = new TORelacaopa();
-                        TOPropriedade tp = new TOPropriedade();
-                        TOAgricultor ta = new TOAgricultor();
-                        //tabela agricultores
-                        ta.setPessoa_idpessoa(idGeradoPessoa);
-                        ta.setQtdIntegrantes(k.getInt("qtdIntegrantes"));
-                        ta.setQtdCriancas(k.getInt("qtdCriancas"));
-                        ta.setQtdGravidas(k.getInt("qtdGravidas"));
+                        //grava informacoes no banco de dados
+                        idGeradoPessoa = BOFactory.inserir(new DAOPessoa(), u);
+                        
+                        //tabela login
+                        u.clear();
+                        u.add(idGeradoPessoa);
+                        u.add(k.getLong("unidade_idunidade"));
+                        u.add(k.getString("usuario_login"));
+                        u.add(k.getString("senha"));
+                        
+                        //grava no banco de dados os dados da classe TOLogin
+                        BOFactory.inserirIDString(new DAOLogin(), u);
 
-                        BOFactory.inserir(new DAOAgricultor(), ta);
+                        
+                        //tabela agricultores
+                        u.clear();
+                        u.add(idGeradoPessoa);
+                        u.add(k.getInt("qtdintegrantes"));
+                        u.add(k.getInt("qtdcriancas"));
+                        u.add(k.getInt("qtdgravidas"));
+                        
+                        BOFactory.inserir(new DAOAgricultor(), u);
 
                         //tabela propriedade
-                        tp.setEndereco_idendereco(idGeradoEndereco);
-                        tp.setUnidade_idunidade(k.getLong("unidade_idunidade"));
-                        tp.setNomepropriedade(k.getString("nomepropriedade"));
-                        tp.setArea(k.getDouble("area"));
-                        tp.setUnidadedemedida(k.getLong("unidadedemedida"));
-                        tp.setAreautilizavel(k.getDouble("areautilizavel"));
-                        tp.setUnidadedemedidaau(k.getLong("unidadedemedidaau"));
-
-                        //tabela relacao agricultor propriedade
-                        trpa.setPropriedade_idpropriedade(BOFactory.inserir(new DAOPropriedade(), tp));
-                        trpa.setAgricultor_pessoa_idpessoa(idGeradoPessoa);
-                        //grava no banco de dados a propriedade e popula a classe Relacaopa
-                        BOFactory.inserir(new DAORelacaopa(), trpa);
+                        u.clear();
+                        u.add(idGerado);
+                        u.add(k.getLong("unidade_idunidade"));
+                        u.add(k.getString("nomepropriedade"));
+                        u.add(k.getDouble("area"));
+                        u.add(k.getLong("unidadedemedida"));
+                        u.add(k.getDouble("areautilizavel"));
+                        u.add(k.getLong("unidadedemedidaau"));
                         
-                        TOGrupos tg = new TOGrupos();
+                        idGerado = BOFactory.inserir(new DAOPropriedade(), u);
+                        //tabela relacao agricultor propriedade
+                        u.clear();
+                        u.add(idGeradoPessoa);
+                        u.add(idGerado);
+                        
+                        //grava no banco de dados a propriedade e popula a classe Relacaopa
+                        BOFactory.inserir(new DAORelacaopa(), u);
+                    
                         //tabela grupos
-                        tg.setLoginusuario(k.getString("usuario_login"));
-                        tg.setGrupo("agricultores");
-                        BOFactory.inserirIDString(new DAOGrupos(), tg);
+                        u.clear();
+                        u.add(k.getString("usuario_login"));
+                        u.add("agricultores");
+                        BOFactory.inserirIDString(new DAOGrupos(), u);
 
                         
                         j.put("sucesso", true);
@@ -496,25 +488,22 @@ public class ServicosAgricultor {
         
         JSONObject j = new JSONObject();
         JSONObject k = new JSONObject(dataJson);
+        List<Object> u = new ArrayList<Object>();
         
         try{
 
-                //comeca a requisicao
-                TOPessoa t = new TOPessoa();
+            u.add(k.getLong("idPessoa"));
+            
+            if(BOFactory.buscar(new DAOPessoa(), u, k.getString("metodo")) == null){
+                j.put("sucesso", false);
+                j.put("mensagem", "Usuário não encontrado");
+            }else{
 
-                if(BOFactory.buscar(new DAOPessoa(), t, k.getString("metodo")) == null){
-                    j.put("sucesso", false);
-                    j.put("mensagem", "Usuário não encontrado");
-                }else{
-                    //t.setUsuario(usuario);
-                   // t.setSenha(senha);
-                    //t.setEmail(email);
+                BOFactory.editar(new DAOPessoa(), u);
 
-                    BOFactory.editar(new DAOPessoa(), t);
+                j.put("sucesso", true);
 
-                    j.put("sucesso", true);
-
-                }
+            }
 
         }catch(Exception e){
             j.put("suceso", false);
@@ -533,21 +522,21 @@ public class ServicosAgricultor {
         //objeto de retorno da requisicao
         JSONObject j = new JSONObject();
         JSONObject k = new JSONObject(dataJson);
+        List<Object> u = new ArrayList<Object>();
         
         try{
 
-                TOPessoa to = new TOPessoa();
-                //to.setId(id);
+            u.add(k.getLong("idPessoa"));
+            
+            if(BOFactory.buscar(new DAOPessoa(), u, k.getString("metodo")) == null){
+                j.put("sucesso", false);
+                j.put("messangem", "Usuário não encontrado");
 
-                if(BOFactory.buscar(new DAOPessoa(), to, k.getString("metodo")) == null){
-                    j.put("sucesso", false);
-                    j.put("messangem", "Usuário não encontrado");
+            }else{
+                BOFactory.excluir(new DAOPessoa(), u);
 
-                }else{
-                    BOFactory.excluir(new DAOPessoa(), to);
-                    
-                    j.put("sucesso", true);
-                }
+                j.put("sucesso", true);
+            }
 
         }catch (Exception e){
             j.put("sucesso", false);
@@ -558,61 +547,6 @@ public class ServicosAgricultor {
         return j.toString();
         
     }
-    
-
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     
     
     

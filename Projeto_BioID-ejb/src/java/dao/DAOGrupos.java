@@ -7,10 +7,7 @@ package dao;
 
 import fw.Data;
 import java.sql.Connection;
-import java.util.ArrayList;
 import java.util.List;
-import to.TOBase;
-import to.TOGrupos;
 
 /**
  *

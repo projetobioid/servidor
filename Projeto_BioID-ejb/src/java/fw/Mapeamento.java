@@ -8,6 +8,7 @@ package fw;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.util.Base64;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -44,9 +45,23 @@ public class Mapeamento {
         for (int i = 1; i <= numColumns; ++i) 			
         {
                 String column_name = metadata.getColumnName(i);
-                obj.put(column_name, resultSet.getObject(column_name));
+                if(metadata.getColumnType(i) == java.sql.Types.BINARY){
+                    obj.put(column_name, binaryToBase64(resultSet.getBytes(column_name)));
+                }else{
+                    obj.put(column_name, resultSet.getObject(column_name));  
+                }
+                
         }
 
         return obj;
     }
+
+    private static String binaryToBase64(byte[] img_bytes) {
+
+        String img_string = "data:image/png;base64,"+Base64.getEncoder().encodeToString(img_bytes);
+
+        return img_string;
+    }
+ 
+    
 }
