@@ -49,6 +49,11 @@ public class DAOLogin extends DAOBase{
                     + "WHERE usuario IN(?) AND senha IN(?)";
                 
                 break;
+                case "BUSCAR_POR_USUARIO" :
+                sql = "SELECT * FROM login "
+                    + "WHERE usuario IN(?)";
+                
+                break;
                 default:
                     sql = "SELECT * FROM login";
                     break;

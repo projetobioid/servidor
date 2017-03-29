@@ -534,3 +534,65 @@ $("#datarecebDist").datepicker();
 
     return "#campoBuscaAgri";
 }
+
+$(document).on("click", "#salvarNovoAgricultor", function(){
+    salvarNovoAgricultor();
+    
+    return false;
+});
+
+
+function salvarNovoAgricultor(){
+    
+    var Sessao = getSessao();
+    
+
+    var envio = {
+        cidade_idcidade : $("#cidadeAgricultor").prop("value"),
+        rua: $("#rua").val(),
+        gps_lat: $("#gps_lat").val(),
+        gps_long: $("#gps_long").val(),
+        bairro: $("#bairro").val(),
+        complemento: $("#complemento").val(),
+        cep: $("#cep").val(),
+        numero: $("#numero").val(),
+        escolaridade_idescolaridade: $("#escolaridadeAgricultor")[0].selectedIndex,
+        estadocivil_idestadocivil: $("#estadocivilAgricultor")[0].selectedIndex,
+        nome: $("#nomeAgricultor").val(),
+        sobrenome: $("#sobrenomeAgricultor").val(),
+        apelido: $("#apelidoAgricultor").val(),
+        cpf: $("#cpfAgricultor").val(),
+        rg: $("#rgAgricultor").val(),
+        datanascimento: $("#dataNascAgricultor").val(),
+        sexo: $("#genero input:checked").prop("value"),
+        telefone1: $("#telefone1Agricultor").val(),
+        telefone2: $("#telefone2Agricultor").val(),
+        email: $("#emailAgricultor").val(),
+        qtdIntegrantes: $("#qtdIntegrantes").val(),
+        qtdCriancas: $("#qtdCriancas").val(),
+        qtdGravidas: $("#qtdGravidas").val(),
+        usuario_login: $("#usuarioAgricultor").val(),
+        senha: $.sha256($("#senhaAgricultor").val()),
+        idunidade: Sessao.unidade_idunidade,
+        nomepropriedade: $("#nomePropriedade").val(),
+        area: $("#area").val(),
+        unidadedemedida: $("#unidademedida").prop("value"),
+        areautilizavel: $("#areautilizavel").val(),
+        unidadedemedidaau: $("#unidadedemedidaau").prop("value")
+    };
+    
+
+    //chama a requisicao do servidor, o resultado é listado em uma tabela
+    requisicao(true, "agricultor/inserir", envio, function(dadosRetorno) {
+        if(dadosRetorno.sucesso){
+            $(".painelCarregando").fadeOut(400);
+            alerta("Alerta!", dadosRetorno.mensagem);
+            preEventosPaginaCadastros($(this), "fa-users", "Agricultores", "Listar todos os agricultores", "Adicionar um novo agricultor", "Editar informações de um agricultor", "Excluir um agricultor");
+        }else{
+            $(".painelCarregando").fadeOut(400);
+            alerta("Alerta!", dadosRetorno.mensagem);
+        }
+        //atualiza a sessao
+        updateSessao(dadosRetorno.sessao);
+    });
+}

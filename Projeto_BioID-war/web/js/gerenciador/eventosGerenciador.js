@@ -898,10 +898,6 @@ function salvarNovoAgricultor(){
     
 
     var envio = {
-//        metodo: "inseriragricultor",
-//        usuario: Sessao.usuario,
-//        sessao: Sessao.sessao,
-        metodo: "agricultor",
         cidade_idcidade : $("#cidadeAgricultor").prop("value"),
         rua: $("#rua").val(),
         gps_lat: $("#gps_lat").val(),
@@ -953,12 +949,9 @@ function salvarNovoAgricultor(){
 
 //busca no servidor dados do agricultor para ser apresentado em um modal
 function carregaMembro(idClicado, opcao){
-    var Sessao = getSessao();
     var envio = {
         metodo: "GET_MEMBRO",
         idpessoa: idClicado
-//        usuario: Sessao.usuario,
-//        sessao: Sessao.sessao
     };
     
     //chama a requisicao do servidor, o resultado é listado em uma tabela

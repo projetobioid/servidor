@@ -366,11 +366,11 @@ public class ServicosAgricultor {
             u.add(k.getString("cpf"));
 
                 //se nao existe cpf cadastrado no banco, prosegue o cadastro
-                if(BOFactory.buscar(new DAOPessoa(), u) == null ){
+                if(BOFactory.buscar(new DAOPessoa(), u, "BUSCA_POR_CPF") == null ){
                     u.clear();
                     u.add(k.getString("usuario_login"));
                     //teste se existe o usuario cadastrado
-                    if(BOFactory.buscar(new DAOLogin(), u, "GET_POR_USUARIO") == null ){
+                    if(BOFactory.buscar(new DAOLogin(), u, "BUSCAR_POR_USUARIO") == null ){
                         long idGerado;
                         long idGeradoPessoa;
 
@@ -389,10 +389,9 @@ public class ServicosAgricultor {
 
                         //tabela pessoa
                         u.clear();
-                        u.add(idGerado);
                         u.add(k.getLong("estadocivil_idestadocivil"));
                         u.add(k.getLong("escolaridade_idescolaridade"));
-                        u.add(k.getLong("endereco_idendereco"));
+                        u.add(idGerado);
                         u.add(k.getString("nome"));
                         u.add(k.getString("sobrenome"));
                         u.add(k.getString("apelido"));
@@ -410,7 +409,7 @@ public class ServicosAgricultor {
                         //tabela login
                         u.clear();
                         u.add(idGeradoPessoa);
-                        u.add(k.getLong("unidade_idunidade"));
+                        u.add(k.getLong("idunidade"));
                         u.add(k.getString("usuario_login"));
                         u.add(k.getString("senha"));
                         
@@ -421,16 +420,16 @@ public class ServicosAgricultor {
                         //tabela agricultores
                         u.clear();
                         u.add(idGeradoPessoa);
-                        u.add(k.getInt("qtdintegrantes"));
-                        u.add(k.getInt("qtdcriancas"));
-                        u.add(k.getInt("qtdgravidas"));
+                        u.add(k.getInt("qtdIntegrantes"));
+                        u.add(k.getInt("qtdCriancas"));
+                        u.add(k.getInt("qtdGravidas"));
                         
                         BOFactory.inserir(new DAOAgricultor(), u);
 
                         //tabela propriedade
                         u.clear();
                         u.add(idGerado);
-                        u.add(k.getLong("unidade_idunidade"));
+                        u.add(k.getLong("idunidade"));
                         u.add(k.getString("nomepropriedade"));
                         u.add(k.getDouble("area"));
                         u.add(k.getLong("unidadedemedida"));
@@ -440,8 +439,8 @@ public class ServicosAgricultor {
                         idGerado = BOFactory.inserir(new DAOPropriedade(), u);
                         //tabela relacao agricultor propriedade
                         u.clear();
-                        u.add(idGeradoPessoa);
                         u.add(idGerado);
+                        u.add(idGeradoPessoa);
                         
                         //grava no banco de dados a propriedade e popula a classe Relacaopa
                         BOFactory.inserir(new DAORelacaopa(), u);
