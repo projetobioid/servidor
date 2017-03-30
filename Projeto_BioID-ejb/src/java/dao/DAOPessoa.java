@@ -157,6 +157,16 @@ public class DAOPessoa extends DAOBase{
                             + "WHERE p.cpf IN(?)";
                     
                     break;
+                case "BUSCA_POR_ID_AGRICULTOR":
+                    sql = "SELECT p.nome, p.sobrenome, p.cpf, p.rg, p.datanascimento, p.apelido, p.sexo, p.telefone1, p.telefone2, p.email, e.descricao as estadocivil, es.descricao as escolaridade, u.nomeunidade, ag.qtdintegrantes, ag.qtdcriancas, qtdgravidas FROM pessoa p "
+                            + "INNER JOIN login l ON (l.pessoa_idpessoa = p.idpessoa) "
+                            + "INNER JOIN estadocivil e ON (e.idestadocivil = p.estadocivil_idestadocivil) "
+                            + "INNER JOIN unidade u ON (u.idunidade = l.unidade_idunidade) "
+                            + "INNER JOIN escolaridade es ON (es.idescolaridade = p.escolaridade_idescolaridade) "
+                            + "INNER JOIN agricultor ag ON (ag.pessoa_idpessoa = p.idpessoa) "
+                            + "WHERE p.idpessoa IN(?)";
+                    
+                    break;
                 default:
                     sql = "SELECT * FROM pessoa WHERE idpessoa IN(?)";
                     break;
